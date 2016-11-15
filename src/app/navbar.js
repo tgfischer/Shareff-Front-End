@@ -10,7 +10,7 @@ export class NavBar extends Component {
     const {activeItem} = this.state;
 
     return (
-      <Menu size="huge">
+      <Menu size="huge" className="no-shadow">
         <Container>
           <Menu.Item header>Shareff</Menu.Item>
           <Menu.Menu position="right">
@@ -21,10 +21,10 @@ export class NavBar extends Component {
               Rental Listings
             </Menu.Item>
             <Menu.Item>
-              <Button>Log In</Button>
+              <Button color="green">Log In</Button>
             </Menu.Item>
             <Menu.Item>
-              <Button>Sign Up</Button>
+              <Button basic>Sign Up</Button>
             </Menu.Item>
           </Menu.Menu>
         </Container>
