@@ -12,7 +12,7 @@ export class NavBar extends Component {
     return (
       <Menu size="huge" className="no-shadow">
         <Container>
-          <Menu.Item header>Shareff</Menu.Item>
+          <Menu.Item className="bold" header>Shareff</Menu.Item>
           <Menu.Menu position="right">
             <Menu.Item name="home" active={activeItem === "home"} onClick={this.handleItemClick}>
               Home

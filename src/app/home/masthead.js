@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Container, Form, Grid, Header, Segment} from 'semantic-ui-react';
+import {CalendarRange} from '../calendarRange';
+import {Accordion, Container, Form, Grid, Header, Icon, Segment} from 'semantic-ui-react';
 
 const styles = {
   masthead: {
-    "padding-top": "8em"
+    paddingTop: "8em"
   }
 };
 
@@ -12,25 +13,43 @@ export class Masthead extends Component {
     return (
       <Segment style={styles.masthead} vertical>
         <Container text>
-          <Grid verticalAlign="middle" columns={1}>
-            <Grid.Row centered>
-              <Grid.Column>
-                <Header as="h1" size="huge">
-                  Shareff
-                  <Header.Subheader>
-                    Helping you find the things you need
-                  </Header.Subheader>
-                </Header>
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Column>
-                <Form size="huge">
+          <Form size="huge">
+            <Grid verticalAlign="middle" columns={1}>
+              <Grid.Row centered>
+                <Grid.Column>
+                  <Header as="h1" size="huge" className="bold">
+                    Shareff
+                    <Header.Subheader>
+                      Helping you find the things you need
+                    </Header.Subheader>
+                  </Header>
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column>
                   <Form.Input label="Search" type="text"/>
-                </Form>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column>
+                  <CalendarRange/>
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column>
+                  <Accordion fluid styled>
+                    <Accordion.Title>
+                      <Icon name="dropdown"/>
+                      Advanced Settings
+                    </Accordion.Title>
+                    <Accordion.Content>
+
+                    </Accordion.Content>
+                  </Accordion>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Form>
         </Container>
       </Segment>
     );

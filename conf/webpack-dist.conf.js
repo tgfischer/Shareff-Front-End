@@ -12,7 +12,10 @@ module.exports = {
     preLoaders: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: [
+          path.resolve(__dirname, "node_modules"),
+          path.resolve(__dirname, "app/semantic")
+        ],
         loader: 'eslint'
       }
     ],

@@ -7,6 +7,7 @@ import {Router, Route, browserHistory} from 'react-router';
 import {Home} from './app/home/home';
 
 import './index.scss';
+import '../node_modules/semantic-ui-calendar/dist/calendar.min.css';
 
 ReactDOM.render(
   <Router history={browserHistory}>
