@@ -4,13 +4,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, Route, browserHistory} from 'react-router';
 
-import {Main} from './app/main';
+import {Home} from './app/home/home';
 
 import './index.scss';
 
 ReactDOM.render(
   <Router history={browserHistory}>
-    <Route path="/" component={Main}/>
+    <Route path="/" component={Home}/>
   </Router>,
   document.getElementById('root')
 );
