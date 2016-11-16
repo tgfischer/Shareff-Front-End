@@ -5,6 +5,12 @@ import {Accordion, Container, Form, Grid, Header, Icon, Segment} from 'semantic-
 const styles = {
   masthead: {
     paddingTop: "8em"
+  },
+  header: {
+    fontSize: "3em"
+  },
+  subHeader: {
+    fontSize: "0.5em"
   }
 };
 
@@ -17,9 +23,9 @@ export class Masthead extends Component {
             <Grid verticalAlign="middle" columns={1}>
               <Grid.Row centered>
                 <Grid.Column>
-                  <Header as="h1" size="huge" className="bold">
+                  <Header as="h1" size="huge" className="bold" style={styles.header}>
                     Shareff
-                    <Header.Subheader>
+                    <Header.Subheader style={styles.subHeader}>
                       Helping you find the things you need
                     </Header.Subheader>
                   </Header>
@@ -27,7 +33,7 @@ export class Masthead extends Component {
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column>
-                  <Form.Input label="Search" type="text"/>
+                  <Form.Input action={{color: "blue", labelPosition: "right", icon: "search", content: "Search", size: "huge"}} label="Search" type="text"/>
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>
@@ -39,7 +45,7 @@ export class Masthead extends Component {
                 <Grid.Column>
                   <Accordion fluid styled>
                     <Accordion.Title>
-                      <Icon name="dropdown"/>
+                      <Icon name="options"/>
                       Advanced Settings
                     </Accordion.Title>
                     <Accordion.Content>

@@ -21,10 +21,10 @@ export class NavBar extends Component {
               Rental Listings
             </Menu.Item>
             <Menu.Item>
-              <Button color="green">Log In</Button>
+              <Button basic>Log In</Button>
             </Menu.Item>
             <Menu.Item>
-              <Button basic>Sign Up</Button>
+              <Button color="blue">Sign Up</Button>
             </Menu.Item>
           </Menu.Menu>
         </Container>
