@@ -7,7 +7,7 @@ const styles = {
     height: 'calc(100% - 2.85714286em)'
   },
   grid: {
-    height: '100%'
+    minHeight: '100%'
   }
 };
 
