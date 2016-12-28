@@ -33,7 +33,7 @@ export class Masthead extends Component {
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column>
-                  <Form.Input action={{color: "blue", labelPosition: "right", icon: "search", content: "Search", size: "huge"}} label="Search" type="text"/>
+                  <Form.Input action={{color: "blue", labelPosition: "right", icon: "search", content: "Search", size: "huge"}} name="search" label="Search" type="text"/>
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>
@@ -49,7 +49,7 @@ export class Masthead extends Component {
                       Advanced Settings
                     </Accordion.Title>
                     <Accordion.Content>
-
+                      <Form.Input name="location" label="Location" type="text"/>
                     </Accordion.Content>
                   </Accordion>
                 </Grid.Column>
