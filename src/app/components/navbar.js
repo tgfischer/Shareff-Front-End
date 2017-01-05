@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router';
+import {Link, withRouter} from 'react-router';
 import {Container, Button, Menu} from 'semantic-ui-react';
 import {logOut} from '../actions/actions';
 
@@ -10,10 +10,8 @@ class NavBar extends Component {
     this.handleLogOut = this.handleLogOut.bind(this);
   }
   handleLogOut() {
-    this.props.dispatch(logOut()).then(() => {
-      // Render the log in route
-      this.props.router.push('/login');
-    });
+    this.props.dispatch(logOut());
+    this.props.router.replace('/login');
   }
   render() {
     return (
@@ -67,4 +65,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(NavBar);
+export default connect(mapStateToProps)(withRouter(NavBar));

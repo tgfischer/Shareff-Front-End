@@ -86,7 +86,7 @@ const logoutFailure = message => ({
 const BASE_URL = '//localhost:4000';
 
 // Calls the API to get a token and dispatches actions along the way
-export function login(creds) {
+export const login = creds => {
   const config = {
     method: 'POST',
     headers: {
@@ -119,10 +119,10 @@ export function login(creds) {
       return dispatch(loginFailure(err));
     });
   };
-}
+};
 
 // Calls the API to get a token and dispatches actions along the way
-export function signup(info) {
+export const signup = info => {
   const config = {
     method: 'POST',
     headers: {
@@ -145,24 +145,22 @@ export function signup(info) {
         localStorage.setItem('token', user.token);
 
         // Dispatch the success action
-        dispatch(signupSuccess(user));
-      } else {
-        // If there was a problem, we want to dispatch the error condition
-        dispatch(signupFailure(err));
-        return Promise.reject(err);
+        return dispatch(signupSuccess(user));
       }
+      // If there was a problem, we want to dispatch the error condition
+      return dispatch(signupFailure(err));
     }).catch(err => {
-      dispatch(signupFailure(err));
       console.log(err);
+      return dispatch(signupFailure(err));
     });
   };
-}
+};
 
 // Logs the user out
 export const logOut = () => {
   return dispatch => {
     dispatch(logoutRequest());
     localStorage.removeItem('token');
-    dispatch(logoutSuccess());
+    return dispatch(logoutSuccess());
   };
 };
