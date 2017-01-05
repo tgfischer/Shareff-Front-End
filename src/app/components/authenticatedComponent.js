@@ -19,7 +19,7 @@ export function requireAuthentication(Component, required) {
     render() {
       return (
         <div>
-          {this.props.isAuthenticated ?
+          {!this.props.isAuthenticated && !required || this.props.isAuthenticated && required ?
             <Component {...this.props}/> :
             null}
         </div>
@@ -29,14 +29,17 @@ export function requireAuthentication(Component, required) {
 
   AuthenticatedComponent.propTypes = {
     isAuthenticated: React.PropTypes.bool,
+    user: React.PropTypes.object,
     router: React.PropTypes.object
   };
 
   const mapStateToProps = state => {
+    const {auth} = state;
+    const {isAuthenticated, user} = auth;
+
     return {
-      token: state.auth.token,
-      user: state.auth.user,
-      isAuthenticated: state.auth.isAuthenticated
+      isAuthenticated,
+      user
     };
   };
 

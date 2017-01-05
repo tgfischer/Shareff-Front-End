@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {NavBar} from '../navbar';
+import NavBar from '../navbar';
 import StripeCheckout from 'react-stripe-checkout';
 
 const styles = {

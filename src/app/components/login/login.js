@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Button, Container, Form, Grid, Header, Message, Segment} from 'semantic-ui-react';
-import {NavBar} from '../navbar';
+import NavBar from '../navbar';
 import {login} from '../../actions/actions';
 
 const styles = {
@@ -26,9 +26,8 @@ class Login extends Component {
       email: formData.email.trim(),
       password: formData.password
     })).then(() => {
-      if (this.props.isAuthenticated) {
-        this.props.router.push('/');
-      }
+      // Reload this route
+      this.props.router.replace(window.location);
     });
   }
   render() {

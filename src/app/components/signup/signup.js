@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Button, Container, Form, Grid, Header, Message, Segment} from 'semantic-ui-react';
-import {NavBar} from '../navbar';
+import NavBar from '../navbar';
 import {Calendar} from '../calendar';
 import {signup} from '../../actions/actions';
 
@@ -37,10 +37,13 @@ class SignUp extends Component {
       delete formData.confirmPassword;
     }
 
-    this.props.dispatch(signup(formData));
+    this.props.dispatch(signup(formData)).then(() => {
+      // Reload this route
+      this.props.router.replace(window.location);
+    });
   }
   render() {
-    const {errorMessage} = this.props;
+    const {err} = this.props;
 
     const provinces = [{
       text: 'AB', value: 'AB'
@@ -105,12 +108,12 @@ class SignUp extends Component {
                 </Form>
               </Segment>
 
-              {errorMessage &&
+              {err &&
                 <Message error>
                   <Message.Header>
                     Error
                   </Message.Header>
-                  <p style={errorMessage}></p>
+                  <p style={err}></p>
                 </Message>
               }
 
@@ -131,17 +134,19 @@ class SignUp extends Component {
 }
 
 SignUp.propTypes = {
+  router: React.PropTypes.object,
   dispatch: React.PropTypes.func.isRequired,
-  errorMessage: React.PropTypes.string
+  errorMessage: React.PropTypes.string,
+  err: React.PropTypes.object
 };
 
 const mapStateToProps = state => {
   const {auth} = state;
-  const {isAuthenticated, errorMessage} = auth;
+  const {isAuthenticated, err} = auth;
 
   return {
     isAuthenticated,
-    errorMessage
+    err
   };
 };
 

@@ -30,7 +30,6 @@ const loginSuccess = user => ({
   type: LOGIN_SUCCESS,
   isFetching: false,
   isAuthenticated: true,
-  token: user.token,
   user
 });
 
@@ -52,7 +51,6 @@ const signupSuccess = user => ({
   type: SIGNUP_SUCCESS,
   isFetching: false,
   isAuthenticated: true,
-  token: user.token,
   user
 });
 
@@ -106,20 +104,19 @@ export function login(creds) {
       // Get the user object
       const {user, err} = json;
 
-      if (user) {
+      if (user && user.token) {
         // If login was successful, set the token in local storage
         localStorage.setItem('token', user.token);
 
         // Dispatch the success action
-        dispatch(loginSuccess(user));
-      } else {
-        // If there was a problem, we want to dispatch the error condition
-        dispatch(loginFailure(err));
-        return Promise.reject(err);
+        return dispatch(loginSuccess(user));
       }
+
+      // If there was a problem, we want to dispatch the error condition
+      return dispatch(loginFailure(err));
     }).catch(err => {
-      dispatch(loginFailure(err));
       console.log(err);
+      return dispatch(loginFailure(err));
     });
   };
 }
@@ -143,7 +140,7 @@ export function signup(info) {
       // Get the user object
       const {user, err} = json;
 
-      if (user) {
+      if (user && user.token) {
         // If login was successful, set the token in local storage
         localStorage.setItem('token', user.token);
 
@@ -162,7 +159,7 @@ export function signup(info) {
 }
 
 // Logs the user out
-export const logout = () => {
+export const logOut = () => {
   return dispatch => {
     dispatch(logoutRequest());
     localStorage.removeItem('token');
