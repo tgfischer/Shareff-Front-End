@@ -25,7 +25,11 @@ class Login extends Component {
     this.props.dispatch(login({
       email: formData.email.trim(),
       password: formData.password
-    }));
+    })).then(() => {
+      if (this.props.isAuthenticated) {
+        this.props.router.push('/');
+      }
+    });
   }
   render() {
     const {err} = this.props;
@@ -72,6 +76,8 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  isAuthenticated: React.PropTypes.bool,
+  router: React.PropTypes.object,
   dispatch: React.PropTypes.func.isRequired,
   err: React.PropTypes.object
 };
