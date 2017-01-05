@@ -8,7 +8,7 @@ import thunkMiddleware from 'redux-thunk';
 import {Provider} from 'react-redux';
 
 import {Home} from './app/components/home/home';
-import {Login} from './app/components/login/login';
+import Login from './app/components/login/login';
 import {SignUp} from './app/components/signup/signup';
 import {Payment} from './app/components/payment/payment';
 import reducers from './app/reducers/reducers';
