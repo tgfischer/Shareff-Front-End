@@ -24,11 +24,11 @@ class Login extends Component {
 
     this.props.dispatch(login({
       email: formData.email.trim(),
-      password: formData.password.trim()
+      password: formData.password
     }));
   }
   render() {
-    const {errorMessage} = this.props;
+    const {err} = this.props;
 
     return (
       <div style={styles.container}>
@@ -46,12 +46,12 @@ class Login extends Component {
                 </Form>
               </Segment>
 
-              {errorMessage &&
+              {err &&
                 <Message error>
                   <Message.Header>
                     Error
                   </Message.Header>
-                  <p style={errorMessage}></p>
+                  <p style={err}></p>
                 </Message>
               }
 
@@ -73,19 +73,17 @@ class Login extends Component {
 
 Login.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
-  errorMessage: React.PropTypes.string
+  err: React.PropTypes.object
 };
 
-/*
 const mapStateToProps = state => {
   const {auth} = state;
-  const {isAuthenticated, errorMessage} = auth;
+  const {isAuthenticated, err} = auth;
 
   return {
     isAuthenticated,
-    errorMessage
+    err
   };
 };
-*/
 
-export default connect()(Login);
+export default connect(mapStateToProps)(Login);

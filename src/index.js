@@ -9,7 +9,7 @@ import {Provider} from 'react-redux';
 
 import {Home} from './app/components/home/home';
 import Login from './app/components/login/login';
-import {SignUp} from './app/components/signup/signup';
+import SignUp from './app/components/signup/signup';
 import reducers from './app/reducers/reducers';
 import api from './app/middleware/api';
 

@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Button, Container, Form, Grid, Header, Message, Segment} from 'semantic-ui-react';
 import {NavBar} from '../navbar';
 import {Calendar} from '../calendar';
-import {Button, Container, Form, Grid, Header, Message, Segment} from 'semantic-ui-react';
+import {signup} from '../../actions/actions';
 
 const styles = {
   container: {
@@ -12,8 +14,34 @@ const styles = {
   }
 };
 
-export class SignUp extends Component {
+class SignUp extends Component {
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(e, {formData}) {
+    // Prevent the default form action
+    e.preventDefault();
+
+    // Trim the whitespace off of all of the properties
+    for (const key in formData) {
+      // First check to see if the property has the trim function
+      // We don't want to trim the password though!
+      if (key !== 'password' && formData[key].trim) {
+        formData[key] = formData[key].trim();
+      }
+    }
+
+    // If the confirmPassword properties exists in the object, delete it
+    if (formData.confirmPassword) {
+      delete formData.confirmPassword;
+    }
+
+    this.props.dispatch(signup(formData));
+  }
   render() {
+    const {errorMessage} = this.props;
+
     const provinces = [{
       text: 'AB', value: 'AB'
     }, {
@@ -51,7 +79,7 @@ export class SignUp extends Component {
               <Header as="h1">Sign Up</Header>
 
               <Segment basic>
-                <Form size="huge">
+                <Form size="huge" onSubmit={this.handleSubmit}>
                   <Form.Group widths="equal">
                     <Form.Input label="First Name" name="firstName" placeholder="First Name" type="text"/>
                     <Form.Input label="Last Name" name="lastName" placeholder="Last Name" type="text"/>
@@ -73,9 +101,18 @@ export class SignUp extends Component {
                     <Calendar label="Expiry Date" name="expiryDate" placeholder="Expiry Date" type="month"/>
                   </Form.Group>
 
-                  <Button size="huge" type="submit" primary>Log In</Button>
+                  <Button size="huge" type="submit" primary>Sign Up</Button>
                 </Form>
               </Segment>
+
+              {errorMessage &&
+                <Message error>
+                  <Message.Header>
+                    Error
+                  </Message.Header>
+                  <p style={errorMessage}></p>
+                </Message>
+              }
 
               <Message info>
                 <Message.Header>
@@ -92,3 +129,20 @@ export class SignUp extends Component {
     );
   }
 }
+
+SignUp.propTypes = {
+  dispatch: React.PropTypes.func.isRequired,
+  errorMessage: React.PropTypes.string
+};
+
+const mapStateToProps = state => {
+  const {auth} = state;
+  const {isAuthenticated, errorMessage} = auth;
+
+  return {
+    isAuthenticated,
+    errorMessage
+  };
+};
+
+export default connect(mapStateToProps)(SignUp);
