@@ -11,6 +11,7 @@ import {syncHistoryWithStore} from 'react-router-redux';
 import {Home} from './app/components/home/home';
 import Login from './app/components/login/login';
 import SignUp from './app/components/signup/signup';
+import {Payment} from './app/components/payment/payment';
 import {requireAuthentication} from './app/components/authenticatedComponent';
 import reducers from './app/reducers/reducers';
 
@@ -28,6 +29,7 @@ ReactDOM.render(
       <Route path="/" component={Home}/>
       <Route path="/login" component={requireAuthentication(Login, false)}/>
       <Route path="/signup" component={requireAuthentication(SignUp, false)}/>
+      <Route path="/payment" component={Payment}/>
     </Router>
   </Provider>,
   document.getElementById('root')

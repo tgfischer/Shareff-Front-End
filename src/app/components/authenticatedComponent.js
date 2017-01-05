@@ -32,11 +32,13 @@ export function requireAuthentication(Component, required) {
     router: React.PropTypes.object
   };
 
-  const mapStateToProps = state => ({
-    token: state.auth.token,
-    user: state.auth.user,
-    isAuthenticated: state.auth.isAuthenticated
-  });
+  const mapStateToProps = state => {
+    return {
+      token: state.auth.token,
+      user: state.auth.user,
+      isAuthenticated: state.auth.isAuthenticated
+    };
+  };
 
   return connect(mapStateToProps)(AuthenticatedComponent);
 }

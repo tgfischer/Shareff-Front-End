@@ -30,7 +30,8 @@ const loginSuccess = user => ({
   type: LOGIN_SUCCESS,
   isFetching: false,
   isAuthenticated: true,
-  token: user.token
+  token: user.token,
+  user
 });
 
 const loginFailure = message => ({
@@ -51,7 +52,8 @@ const signupSuccess = user => ({
   type: SIGNUP_SUCCESS,
   isFetching: false,
   isAuthenticated: true,
-  token: user.token
+  token: user.token,
+  user
 });
 
 const signupFailure = message => ({

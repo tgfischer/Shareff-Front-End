@@ -1,0 +1,43 @@
+import 'babel-polyfill';
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Router, Route, browserHistory} from 'react-router';
+import {createStore, applyMiddleware} from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import {Provider} from 'react-redux';
+
+import {Home} from './app/components/home/home';
+import Login from './app/components/login/login';
+import {SignUp} from './app/components/signup/signup';
+<<<<<<< HEAD
+import {Payment} from './app/components/payment/payment';
+=======
+import reducers from './app/reducers/reducers';
+import api from './app/middleware/api';
+>>>>>>> bfcb8d04db8b489976a113acc92041cdcd443665
+
+import './index.scss';
+
+const createStoreWithMiddleware = applyMiddleware(thunkMiddleware, api)(createStore);
+const store = createStoreWithMiddleware(reducers);
+
+ReactDOM.render(
+<<<<<<< HEAD
+  <Router history={browserHistory}>
+    <Route path="/" component={Home}/>
+    <Route path="/login" component={Login}/>
+    <Route path="/signup" component={SignUp}/>
+    <Route path="/payment" component={Payment}/>
+  </Router>,
+=======
+  <Provider store={store}>
+    <Router history={browserHistory}>
+      <Route path="/" component={Home}/>
+      <Route path="/login" component={Login}/>
+      <Route path="/signup" component={SignUp}/>
+    </Router>
+  </Provider>,
+>>>>>>> bfcb8d04db8b489976a113acc92041cdcd443665
+  document.getElementById('root')
+);
