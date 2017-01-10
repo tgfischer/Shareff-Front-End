@@ -1,6 +1,10 @@
 import {combineReducers} from 'redux';
 import {routerReducer} from 'react-router-redux';
-import {LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE, LOGOUT_SUCCESS} from '../actions/actions';
+import {
+  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_REQUEST,
+  SIGNUP_SUCCESS, SIGNUP_FAILURE, LOGOUT_SUCCESS, GET_USER_REQUEST,
+  GET_USER_SUCCESS, GET_USER_FAILURE
+} from '../actions/actions';
 
 // The auth reducer. The starting state sets authentication
 // based on a token being in local storage.
@@ -48,6 +52,22 @@ function auth(state = {
       return Object.assign({}, state, {
         isFetching: true,
         isAuthenticated: false
+      });
+    case GET_USER_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case GET_USER_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isAuthenticated: true,
+        user: action.user
+      });
+    case GET_USER_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isAuthenticated: false,
+        err: action.message
       });
     default:
       return state;

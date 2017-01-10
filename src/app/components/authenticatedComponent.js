@@ -1,5 +1,12 @@
 import React from 'react';
+import {getUser} from '../actions/actions';
 import {connect} from 'react-redux';
+
+const styles = {
+  container: {
+    minHeight: '100%'
+  }
+};
 
 export function requireAuthentication(Component, required) {
   class AuthenticatedComponent extends React.Component {
@@ -13,12 +20,16 @@ export function requireAuthentication(Component, required) {
       if (!this.props.isAuthenticated && required) {
         this.props.router.push('/login');
       } else if (this.props.isAuthenticated && !required) {
-        this.props.router.push('/');
+        const token = localStorage.getItem('token');
+
+        this.props.dispatch(getUser(token)).then(() => {
+          this.props.router.push('/');
+        });
       }
     }
     render() {
       return (
-        <div>
+        <div style={styles.container}>
           {!this.props.isAuthenticated && !required || this.props.isAuthenticated && required ?
             <Component {...this.props}/> :
             null}
@@ -30,17 +41,20 @@ export function requireAuthentication(Component, required) {
   AuthenticatedComponent.propTypes = {
     isAuthenticated: React.PropTypes.bool,
     user: React.PropTypes.object,
-    router: React.PropTypes.object
+    router: React.PropTypes.object,
+    dispatch: React.PropTypes.func.isRequired
   };
 
   const mapStateToProps = state => {
     const {auth} = state;
     const {isAuthenticated, user} = auth;
 
-    return {
-      isAuthenticated,
-      user
-    };
+    if (user || !required) {
+      return {
+        isAuthenticated,
+        user
+      };
+    }
   };
 
   return connect(mapStateToProps)(AuthenticatedComponent);

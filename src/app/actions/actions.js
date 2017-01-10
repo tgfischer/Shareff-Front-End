@@ -17,7 +17,13 @@ export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
  */
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
+
+/**
+ * Actions for retreiving the user information from the database
+ */
+export const GET_USER_REQUEST = 'GET_USER_REQUEST';
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+export const GET_USER_FAILURE = 'GET_USER_FAILURE';
 
 const loginRequest = creds => ({
   type: LOGIN_REQUEST,
@@ -73,19 +79,34 @@ const logoutSuccess = () => ({
   isAuthenticated: false
 });
 
-/*
-const logoutFailure = message => ({
-  type: LOGOUT_FAILURE,
-  isFetching: false,
+const getUserRequest = token => ({
+  type: GET_USER_REQUEST,
+  isFetching: true,
+  token
+});
+
+const getUserSuccess = user => ({
+  type: GET_USER_SUCCESS,
   isAuthenticated: true,
+  isFetching: false,
+  user
+});
+
+const getUserFailure = message => ({
+  type: GET_USER_FAILURE,
+  isAuthenticated: false,
+  isFetching: false,
   message
 });
-*/
 
-// The base URL for the server
+/**
+ * The base URL for the backend of the application
+ */
 const BASE_URL = '//localhost:4000';
 
-// Calls the API to get a token and dispatches actions along the way
+/**
+ * Log the user into their account
+ */
 export const login = creds => {
   const config = {
     method: 'POST',
@@ -121,7 +142,10 @@ export const login = creds => {
   };
 };
 
-// Calls the API to get a token and dispatches actions along the way
+/**
+ * Sign the user up for a new account using the information they submitted in the
+ * form
+ */
 export const signup = info => {
   const config = {
     method: 'POST',
@@ -156,11 +180,53 @@ export const signup = info => {
   };
 };
 
-// Logs the user out
+/**
+ * Log the user out
+ */
 export const logOut = () => {
   return dispatch => {
     dispatch(logoutRequest());
     localStorage.removeItem('token');
     return dispatch(logoutSuccess());
+  };
+};
+
+/**
+ * Get the user from the JSON Web Token
+ */
+export const getUser = token => {
+  const config = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    // Note the quotes for the templating
+    body: `token=${token}`
+  };
+
+  return dispatch => {
+    // We dispatch loginRequest to kickoff the call to the API
+    dispatch(getUserRequest(token));
+
+    return fetch(`${BASE_URL}/get_user`, config).then(res => res.json()).then(json => {
+      // Get the user object
+      const {user, err} = json;
+
+      if (user) {
+        // Dispatch the success action
+        return dispatch(getUserSuccess(user));
+      }
+      // If there was a problem, we want to dispatch the error condition
+      dispatch(getUserFailure(err));
+
+      // Log the user out
+      return logOut();
+    }).catch(err => {
+      console.log(err);
+      dispatch(getUserFailure(err));
+
+      // Log the user out
+      return logOut();
+    });
   };
 };

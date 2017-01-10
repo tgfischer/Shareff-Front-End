@@ -54,7 +54,7 @@ class Login extends Component {
                   <Message.Header>
                     Error
                   </Message.Header>
-                  <p style={err}></p>
+                  <p>{err.message ? err.message : 'Something went wrong while trying to fulfill your request. Please try again later'}</p>
                 </Message>
               }
 
