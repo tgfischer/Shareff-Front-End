@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 const styles = {
   container: {
-    minHeight: '100%'
+    height: '100%'
   }
 };
 

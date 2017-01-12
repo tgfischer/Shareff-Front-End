@@ -29,6 +29,8 @@ const loginRequest = creds => ({
   type: LOGIN_REQUEST,
   isFetching: true,
   isAuthenticated: false,
+  message: undefined,
+  user: undefined,
   creds
 });
 
@@ -36,6 +38,7 @@ const loginSuccess = user => ({
   type: LOGIN_SUCCESS,
   isFetching: false,
   isAuthenticated: true,
+  message: undefined,
   user
 });
 
@@ -50,6 +53,8 @@ const signupRequest = creds => ({
   type: SIGNUP_REQUEST,
   isFetching: true,
   isAuthenticated: false,
+  message: undefined,
+  user: undefined,
   creds
 });
 
@@ -57,6 +62,7 @@ const signupSuccess = user => ({
   type: SIGNUP_SUCCESS,
   isFetching: false,
   isAuthenticated: true,
+  message: undefined,
   user
 });
 
@@ -70,18 +76,24 @@ const signupFailure = message => ({
 const logoutRequest = () => ({
   type: LOGOUT_REQUEST,
   isFetching: true,
-  isAuthenticated: true
+  isAuthenticated: true,
+  message: undefined,
+  user: undefined
 });
 
 const logoutSuccess = () => ({
   type: LOGOUT_SUCCESS,
   isFetching: false,
-  isAuthenticated: false
+  isAuthenticated: false,
+  message: undefined,
+  user: undefined
 });
 
 const getUserRequest = token => ({
   type: GET_USER_REQUEST,
   isFetching: true,
+  message: undefined,
+  user: undefined,
   token
 });
 
@@ -89,6 +101,7 @@ const getUserSuccess = user => ({
   type: GET_USER_SUCCESS,
   isAuthenticated: true,
   isFetching: false,
+  message: undefined,
   user
 });
 

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Button, Container, Form, Grid, Header, Message, Segment} from 'semantic-ui-react';
+import {
+  Button, Container, Dimmer, Form, Grid, Header, Loader, Message, Segment
+} from 'semantic-ui-react';
 import NavBar from '../navbar';
 import {login} from '../../actions/actions';
 
@@ -25,9 +27,11 @@ class Login extends Component {
     this.props.dispatch(login({
       email: formData.email.trim(),
       password: formData.password
-    })).then(() => {
-      // Reload this route
-      this.props.router.replace(window.location);
+    })).then(({isAuthenticated}) => {
+      if (isAuthenticated) {
+        // Reload this route
+        this.props.router.push('/');
+      }
     });
   }
   render() {
@@ -42,6 +46,10 @@ class Login extends Component {
               <Header as="h1">Log in</Header>
 
               <Segment basic>
+                <Dimmer active={this.props.isFetching} inverted>
+                  <Loader size="huge" inverted/>
+                </Dimmer>
+
                 <Form size="huge" onSubmit={this.handleSubmit}>
                   <Form.Input name="email" label="Email" type="text"/>
                   <Form.Input name="password" label="Password" type="password"/>
@@ -76,6 +84,7 @@ class Login extends Component {
 
 Login.propTypes = {
   isAuthenticated: React.PropTypes.bool,
+  isFetching: React.PropTypes.bool,
   router: React.PropTypes.object,
   dispatch: React.PropTypes.func.isRequired,
   err: React.PropTypes.object
@@ -83,10 +92,11 @@ Login.propTypes = {
 
 const mapStateToProps = state => {
   const {auth} = state;
-  const {isAuthenticated, err} = auth;
+  const {isAuthenticated, isFetching, err} = auth;
 
   return {
     isAuthenticated,
+    isFetching,
     err
   };
 };

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Button, Container, Form, Grid, Header, Message, Segment} from 'semantic-ui-react';
+import {
+  Button, Container, Dimmer, Form, Grid, Header, Loader, Message, Segment
+} from 'semantic-ui-react';
 import NavBar from '../navbar';
 import {Calendar} from '../calendar';
 import {signup} from '../../actions/actions';
@@ -37,9 +39,11 @@ class SignUp extends Component {
       delete formData.confirmPassword;
     }
 
-    this.props.dispatch(signup(formData)).then(() => {
-      // Reload this route
-      this.props.router.replace(window.location);
+    this.props.dispatch(signup(formData)).then(({isAuthenticated}) => {
+      if (isAuthenticated) {
+        // Reload this route
+        this.props.router.push('/');
+      }
     });
   }
   render() {
@@ -82,6 +86,10 @@ class SignUp extends Component {
               <Header as="h1">Sign Up</Header>
 
               <Segment basic>
+                <Dimmer active={this.props.isFetching} inverted>
+                  <Loader size="huge" inverted/>
+                </Dimmer>
+
                 <Form size="huge" onSubmit={this.handleSubmit}>
                   <Form.Group widths="equal">
                     <Form.Input label="First Name" name="firstName" placeholder="First Name" type="text"/>
@@ -113,7 +121,7 @@ class SignUp extends Component {
                   <Message.Header>
                     Error
                   </Message.Header>
-                  <p style={err}></p>
+                  <p>{err.message ? err.message : 'Something went wrong while trying to fulfill your request. Please try again later'}</p>
                 </Message>
               }
 
@@ -135,6 +143,7 @@ class SignUp extends Component {
 
 SignUp.propTypes = {
   router: React.PropTypes.object,
+  isFetching: React.PropTypes.bool,
   dispatch: React.PropTypes.func.isRequired,
   errorMessage: React.PropTypes.string,
   err: React.PropTypes.object
@@ -142,10 +151,11 @@ SignUp.propTypes = {
 
 const mapStateToProps = state => {
   const {auth} = state;
-  const {isAuthenticated, err} = auth;
+  const {isAuthenticated, isFetching, err} = auth;
 
   return {
     isAuthenticated,
+    isFetching,
     err
   };
 };

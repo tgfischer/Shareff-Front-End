@@ -11,7 +11,7 @@ class NavBar extends Component {
   }
   handleLogOut() {
     this.props.dispatch(logOut());
-    this.props.router.replace('/login');
+    this.props.router.push('/login');
   }
   render() {
     return (
@@ -56,10 +56,11 @@ NavBar.propTypes = {
 
 const mapStateToProps = state => {
   const {auth} = state;
-  const {isAuthenticated, user, err} = auth;
+  const {isAuthenticated, isFetching, user, err} = auth;
 
   return {
     isAuthenticated,
+    isFetching,
     user,
     err
   };
