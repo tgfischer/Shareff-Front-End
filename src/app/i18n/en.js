@@ -33,6 +33,22 @@ const en = {
     search: 'Search',
     advancedSettings: 'Advanced Settings',
     location: 'Location'
+  },
+
+  /**
+   * Login messages
+   */
+  login: {
+    title: 'Login',
+    emailLabel: 'Email',
+    passwordLabel: 'Password',
+    loginButton: 'Login',
+    infoMessageTitle: 'New to Shareff?',
+    infoMessageContent: 'Sign up for a Shareff account today!'
+  },
+
+  error: {
+    general: 'Something went wrong while trying to fulfill your request. Please try again later'
   }
 };
 

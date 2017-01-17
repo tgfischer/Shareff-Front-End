@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {
   Button, Container, Form, Grid, Header, Message, Segment
 } from 'semantic-ui-react';
+import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../navbar';
 import {login} from '../../actions/auth';
 
@@ -35,7 +36,8 @@ class Login extends Component {
     });
   }
   render() {
-    const {err} = this.props;
+    const {err, intl} = this.props;
+    const {formatMessage} = intl;
 
     return (
       <div style={styles.container}>
@@ -43,13 +45,38 @@ class Login extends Component {
         <Container style={styles.container} text>
           <Grid verticalAlign="middle" style={styles.grid}>
             <Grid.Column>
-              <Header as="h1">Log in</Header>
+              <Header as="h1">
+                <FormattedMessage id="login.title"/>
+              </Header>
 
               <Segment basic>
                 <Form size="huge" onSubmit={this.handleSubmit} loading={this.props.isFetching}>
-                  <Form.Input name="email" label="Email" type="text" icon="user" iconPosition="left" required/>
-                  <Form.Input name="password" label="Password" type="password" icon="lock" iconPosition="left" required/>
-                  <Button content="Log in" size="huge" type="submit" icon="chevron right" labelPosition="right" primary/>
+                  <Form.Input
+                    name="email"
+                    label={formatMessage({id: 'login.emailLabel'})}
+                    type="text"
+                    icon="user"
+                    iconPosition="left"
+                    required
+                    />
+
+                  <Form.Input
+                    name="password"
+                    label={formatMessage({id: 'login.passwordLabel'})}
+                    type="password"
+                    icon="lock"
+                    iconPosition="left"
+                    required
+                    />
+
+                  <Button
+                    content={formatMessage({id: 'login.loginButton'})}
+                    size="huge"
+                    type="submit"
+                    icon="chevron right"
+                    labelPosition="right"
+                    primary
+                    />
                 </Form>
               </Segment>
 
@@ -57,7 +84,7 @@ class Login extends Component {
                 <Message
                   header="Error"
                   content={
-                    err.message ? err.message : 'Something went wrong while trying to fulfill your request. Please try again later'
+                    err.message ? err.message : formatMessage({id: 'error.general'})
                   }
                   error
                   />
@@ -65,10 +92,10 @@ class Login extends Component {
 
               <Message info>
                 <Message.Header>
-                  New to Shareff?
+                  <FormattedMessage id="login.infoMessageTitle"/>
                 </Message.Header>
                 <p>
-                  Sign up for a Shareff account today!
+                  <FormattedMessage id="login.infoMessageContent"/>
                 </p>
               </Message>
             </Grid.Column>
@@ -80,6 +107,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  intl: intlShape.isRequired,
   isAuthenticated: React.PropTypes.bool,
   isFetching: React.PropTypes.bool,
   router: React.PropTypes.object,
@@ -98,4 +126,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(injectIntl(Login));
