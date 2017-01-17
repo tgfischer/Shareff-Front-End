@@ -15,7 +15,7 @@ const en = {
   /**
    * Nav Bar messages
    */
-  navbar: {
+  navBar: {
     title: 'Shareff',
     home: 'Home',
     rentalListings: 'Rental Listings',
@@ -40,14 +40,34 @@ const en = {
    */
   login: {
     title: 'Login',
-    emailLabel: 'Email',
-    passwordLabel: 'Password',
+    email: 'Email',
+    password: 'Password',
     loginButton: 'Login',
     infoMessageTitle: 'New to Shareff?',
     infoMessageContent: 'Sign up for a Shareff account today!'
   },
 
+  signUp: {
+    title: 'Sign Up',
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    address: 'Address',
+    city: 'City',
+    province: 'Province',
+    postalCode: 'Postal Code',
+    email: 'Email',
+    password: 'Password',
+    confirmPassword: 'Confirm Password',
+    ccn: 'Credit Card Number',
+    cvn: 'CVN',
+    expiryDate: 'Expiry Date',
+    signUpButton: 'Sign Up',
+    infoMessageTitle: 'Already have an account?',
+    infoMessageContent: 'Log into your Shareff account instead!'
+  },
+
   error: {
+    error: 'Error',
     general: 'Something went wrong while trying to fulfill your request. Please try again later'
   }
 };

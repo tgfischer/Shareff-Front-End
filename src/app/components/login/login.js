@@ -53,7 +53,7 @@ class Login extends Component {
                 <Form size="huge" onSubmit={this.handleSubmit} loading={this.props.isFetching}>
                   <Form.Input
                     name="email"
-                    label={formatMessage({id: 'login.emailLabel'})}
+                    label={formatMessage({id: 'login.email'})}
                     type="text"
                     icon="user"
                     iconPosition="left"
@@ -62,7 +62,7 @@ class Login extends Component {
 
                   <Form.Input
                     name="password"
-                    label={formatMessage({id: 'login.passwordLabel'})}
+                    label={formatMessage({id: 'login.password'})}
                     type="password"
                     icon="lock"
                     iconPosition="left"
@@ -82,7 +82,7 @@ class Login extends Component {
 
               {err &&
                 <Message
-                  header="Error"
+                  header={formatMessage({id: 'error.error'})}
                   content={
                     err.message ? err.message : formatMessage({id: 'error.general'})
                   }

@@ -19,33 +19,33 @@ class NavBar extends Component {
       <Menu size="huge" className="no-shadow">
         <Container>
           <Menu.Item className="bold" header>
-            <FormattedMessage id="navbar.title"/>
+            <FormattedMessage id="navBar.title"/>
           </Menu.Item>
           <Menu.Menu position="right">
             <Menu.Item as={Link} to="/" activeClassName="active">
-              <FormattedMessage id="navbar.home"/>
+              <FormattedMessage id="navBar.home"/>
             </Menu.Item>
             <Menu.Item as={Link} to="/listings" activeClassName="active">
-              <FormattedMessage id="navbar.rentalListings"/>
+              <FormattedMessage id="navBar.rentalListings"/>
             </Menu.Item>
             {!this.props.isAuthenticated &&
               <Menu.Item>
                 <Button basic as={Link} to="/login">
-                  <FormattedMessage id="navbar.login"/>
+                  <FormattedMessage id="navBar.login"/>
                 </Button>
               </Menu.Item>
             }
             {!this.props.isAuthenticated &&
               <Menu.Item>
                 <Button color="blue" as={Link} to="/signup">
-                  <FormattedMessage id="navbar.signUp"/>
+                  <FormattedMessage id="navBar.signUp"/>
                 </Button>
               </Menu.Item>
             }
             {this.props.isAuthenticated &&
               <Menu.Item>
                 <Button basic onClick={this.handleLogOut}>
-                  <FormattedMessage id="navbar.logOut"/>
+                  <FormattedMessage id="navBar.logOut"/>
                 </Button>
               </Menu.Item>
             }
