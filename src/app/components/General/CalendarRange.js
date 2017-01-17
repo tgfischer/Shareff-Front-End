@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {Icon} from 'semantic-ui-react';
 import $ from 'jquery';
-import '../../semantic-ui/components/popup.min.js';
-import '../../semantic-ui/components/transition.min.js';
-import '../../../node_modules/semantic-ui-calendar/dist/calendar.min.js';
+import '../../../semantic-ui/components/popup.min.js';
+import '../../../semantic-ui/components/transition.min.js';
+import '../../../../node_modules/semantic-ui-calendar/dist/calendar.min.js';
 
-import '../../../node_modules/semantic-ui-calendar/dist/calendar.min.css';
+import '../../../../node_modules/semantic-ui-calendar/dist/calendar.min.css';
 
 class CalendarRange extends Component {
   componentDidMount() {

@@ -11,10 +11,10 @@ import {IntlProvider, intlReducer} from 'react-intl-redux';
 import {addLocaleData} from 'react-intl';
 import en from 'react-intl/locale-data/en';
 
-import {Home} from './app/components/home/home';
-import Login from './app/components/login/login';
-import SignUp from './app/components/signup/signup';
-import {requireAuthentication} from './app/components/authenticatedComponent';
+import {Home} from './app/components/Home/Home';
+import Login from './app/components/Login/Login';
+import SignUp from './app/components/Signup/Signup';
+import {requireAuthentication} from './app/components/General/AuthenticatedComponent';
 import {auth} from './app/reducers/reducers';
 import {i18n} from './app/i18n/i18n';
 

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router';
 import {Container, Button, Menu} from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import {logOut} from '../actions/auth';
+import {logOut} from '../../actions/auth';
 
 class NavBar extends Component {
   constructor(props) {

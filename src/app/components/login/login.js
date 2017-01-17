@@ -4,7 +4,7 @@ import {
   Button, Container, Form, Grid, Header, Message, Segment
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import NavBar from '../navbar';
+import NavBar from '../General/NavBar';
 import {login} from '../../actions/auth';
 
 const styles = {

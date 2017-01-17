@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {Accordion, Container, Form, Grid, Header, Icon, Segment} from 'semantic-ui-react';
-import CalendarRange from '../calendarRange';
+import CalendarRange from '../General/CalendarRange';
 
 const styles = {
   masthead: {

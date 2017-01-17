@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {Icon} from 'semantic-ui-react';
 import $ from 'jquery';
-import '../../semantic-ui/components/popup.min.js';
-import '../../semantic-ui/components/transition.min.js';
-import '../../../node_modules/semantic-ui-calendar/dist/calendar.min.js';
-import '../../../node_modules/semantic-ui-calendar/dist/calendar.min.css';
+import '../../../semantic-ui/components/popup.min.js';
+import '../../../semantic-ui/components/transition.min.js';
+import '../../../../node_modules/semantic-ui-calendar/dist/calendar.min.js';
+import '../../../../node_modules/semantic-ui-calendar/dist/calendar.min.css';
 
 export class Calendar extends Component {
   componentDidMount() {

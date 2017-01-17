@@ -4,8 +4,8 @@ import {
   Button, Container, Form, Grid, Header, Message, Segment
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import NavBar from '../navbar';
-import {Calendar} from '../calendar';
+import NavBar from '../General/NavBar';
+import {Calendar} from '../General/Calendar';
 import {signup} from '../../actions/auth';
 
 const styles = {
