@@ -2,7 +2,7 @@ import {
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_REQUEST,
   SIGNUP_SUCCESS, SIGNUP_FAILURE, LOGOUT_REQUEST, LOGOUT_SUCCESS,
   GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILURE
-} from '../actions/auth';
+} from '../constants/constants';
 
 // The auth reducer. The starting state sets authentication
 // based on a token being in local storage.
