@@ -1,5 +1,5 @@
 import React from 'react';
-import {getUser} from '../actions/actions';
+import {getUser} from '../actions/auth';
 import {connect} from 'react-redux';
 
 const styles = {

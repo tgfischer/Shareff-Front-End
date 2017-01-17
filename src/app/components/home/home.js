@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Masthead} from './masthead';
+import Masthead from './masthead';
 import NavBar from '../navbar';
 
 const styles = {

@@ -1,3 +1,5 @@
+import {BASE_URL} from '../constants/constants';
+
 /**
  * Actions for logging into the application
  */
@@ -111,11 +113,6 @@ const getUserFailure = message => ({
   isFetching: false,
   message
 });
-
-/**
- * The base URL for the backend of the application
- */
-const BASE_URL = '//localhost:4000';
 
 /**
  * Log the user into their account

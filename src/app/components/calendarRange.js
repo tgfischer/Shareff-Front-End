@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {Icon} from 'semantic-ui-react';
 import $ from 'jquery';
 import '../../semantic-ui/components/popup.min.js';
@@ -7,7 +8,7 @@ import '../../../node_modules/semantic-ui-calendar/dist/calendar.min.js';
 
 import '../../../node_modules/semantic-ui-calendar/dist/calendar.min.css';
 
-export class CalendarRange extends Component {
+class CalendarRange extends Component {
   componentDidMount() {
     $(".ui.calendar").calendar({
       endCalendar: $('#rangeend')
@@ -17,23 +18,37 @@ export class CalendarRange extends Component {
     });
   }
   render() {
+    const {formatMessage} = this.props.intl;
+
     return (
       <div className="two fields">
         <div className="field">
-          <label>Start date</label>
+          <label>
+            <FormattedMessage id="calendarRange.startLabel"/>
+          </label>
           <div className="ui calendar" id="rangestart">
             <div className="ui input left icon">
               <Icon name="calendar"/>
-              <input name="start" type="text" placeholder="Start"/>
+              <input
+                name="start"
+                type="text"
+                placeholder={formatMessage({id: 'calendarRange.startPlaceholder'})}
+                />
             </div>
           </div>
         </div>
         <div className="field">
-          <label>End date</label>
+          <label>
+            <FormattedMessage id="calendarRange.endLabel"/>
+          </label>
           <div className="ui calendar" id="rangeend">
             <div className="ui input left icon">
               <Icon name="calendar"/>
-              <input name="end" type="text" placeholder="End"/>
+              <input
+                name="end"
+                type="text"
+                placeholder={formatMessage({id: 'calendarRange.endPlaceholder'})}
+                />
             </div>
           </div>
         </div>
@@ -41,3 +56,9 @@ export class CalendarRange extends Component {
     );
   }
 }
+
+CalendarRange.propTypes = {
+  intl: intlShape.isRequired
+};
+
+export default injectIntl(CalendarRange);

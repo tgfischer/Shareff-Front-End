@@ -5,7 +5,7 @@ import {
 } from 'semantic-ui-react';
 import NavBar from '../navbar';
 import {Calendar} from '../calendar';
-import {signup} from '../../actions/actions';
+import {signup} from '../../actions/auth';
 
 const styles = {
   container: {
