@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Button, Container, Form, Grid, Header, Message, Segment} from 'semantic-ui-react';
-import {NavBar} from '../navbar';
+import {
+  Button, Container, Dimmer, Form, Grid, Header, Loader, Message, Segment
+} from 'semantic-ui-react';
+import NavBar from '../navbar';
 import {login} from '../../actions/actions';
 
 const styles = {
@@ -24,11 +26,16 @@ class Login extends Component {
 
     this.props.dispatch(login({
       email: formData.email.trim(),
-      password: formData.password.trim()
-    }));
+      password: formData.password
+    })).then(({isAuthenticated}) => {
+      if (isAuthenticated) {
+        // Reload this route
+        this.props.router.push('/');
+      }
+    });
   }
   render() {
-    const {errorMessage} = this.props;
+    const {err} = this.props;
 
     return (
       <div style={styles.container}>
@@ -39,6 +46,10 @@ class Login extends Component {
               <Header as="h1">Log in</Header>
 
               <Segment basic>
+                <Dimmer active={this.props.isFetching} inverted>
+                  <Loader size="huge" inverted/>
+                </Dimmer>
+
                 <Form size="huge" onSubmit={this.handleSubmit}>
                   <Form.Input name="email" label="Email" type="text"/>
                   <Form.Input name="password" label="Password" type="password"/>
@@ -46,12 +57,12 @@ class Login extends Component {
                 </Form>
               </Segment>
 
-              {errorMessage &&
+              {err &&
                 <Message error>
                   <Message.Header>
                     Error
                   </Message.Header>
-                  <p style={errorMessage}></p>
+                  <p>{err.message ? err.message : 'Something went wrong while trying to fulfill your request. Please try again later'}</p>
                 </Message>
               }
 
@@ -72,20 +83,22 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  isAuthenticated: React.PropTypes.bool,
+  isFetching: React.PropTypes.bool,
+  router: React.PropTypes.object,
   dispatch: React.PropTypes.func.isRequired,
-  errorMessage: React.PropTypes.string
+  err: React.PropTypes.object
 };
 
-/*
 const mapStateToProps = state => {
   const {auth} = state;
-  const {isAuthenticated, errorMessage} = auth;
+  const {isAuthenticated, isFetching, err} = auth;
 
   return {
     isAuthenticated,
-    errorMessage
+    isFetching,
+    err
   };
 };
-*/
 
-export default connect()(Login);
+export default connect(mapStateToProps)(Login);
