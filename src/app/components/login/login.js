@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
-  Button, Container, Dimmer, Form, Grid, Header, Loader, Message, Segment
+  Button, Container, Form, Grid, Header, Message, Segment
 } from 'semantic-ui-react';
 import NavBar from '../navbar';
 import {login} from '../../actions/actions';
@@ -46,24 +46,21 @@ class Login extends Component {
               <Header as="h1">Log in</Header>
 
               <Segment basic>
-                <Dimmer active={this.props.isFetching} inverted>
-                  <Loader size="huge" inverted/>
-                </Dimmer>
-
-                <Form size="huge" onSubmit={this.handleSubmit}>
-                  <Form.Input name="email" label="Email" type="text"/>
-                  <Form.Input name="password" label="Password" type="password"/>
-                  <Button size="huge" type="submit" primary>Log In</Button>
+                <Form size="huge" onSubmit={this.handleSubmit} loading={this.props.isFetching}>
+                  <Form.Input name="email" label="Email" type="text" icon="user" iconPosition="left" required/>
+                  <Form.Input name="password" label="Password" type="password" icon="lock" iconPosition="left" required/>
+                  <Button content="Log in" size="huge" type="submit" icon="chevron right" labelPosition="right" primary/>
                 </Form>
               </Segment>
 
               {err &&
-                <Message error>
-                  <Message.Header>
-                    Error
-                  </Message.Header>
-                  <p>{err.message ? err.message : 'Something went wrong while trying to fulfill your request. Please try again later'}</p>
-                </Message>
+                <Message
+                  header="Error"
+                  content={
+                    err.message ? err.message : 'Something went wrong while trying to fulfill your request. Please try again later'
+                  }
+                  error
+                  />
               }
 
               <Message info>

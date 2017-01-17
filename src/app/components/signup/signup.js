@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
-  Button, Container, Dimmer, Form, Grid, Header, Loader, Message, Segment
+  Button, Container, Form, Grid, Header, Message, Segment
 } from 'semantic-ui-react';
 import NavBar from '../navbar';
 import {Calendar} from '../calendar';
@@ -86,30 +86,26 @@ class SignUp extends Component {
               <Header as="h1">Sign Up</Header>
 
               <Segment basic>
-                <Dimmer active={this.props.isFetching} inverted>
-                  <Loader size="huge" inverted/>
-                </Dimmer>
-
-                <Form size="huge" onSubmit={this.handleSubmit}>
+                <Form size="huge" onSubmit={this.handleSubmit} loading={this.props.isFetching}>
                   <Form.Group widths="equal">
-                    <Form.Input label="First Name" name="firstName" placeholder="First Name" type="text"/>
-                    <Form.Input label="Last Name" name="lastName" placeholder="Last Name" type="text"/>
+                    <Form.Input label="First Name" name="firstName" placeholder="First Name" type="text" required/>
+                    <Form.Input label="Last Name" name="lastName" placeholder="Last Name" type="text" required/>
                   </Form.Group>
-                  <Form.Input label="Address" name="address" placeholder="Address" type="text"/>
+                  <Form.Input label="Address" name="address" placeholder="Address" type="text" required/>
                   <Form.Group widths="equal">
-                    <Form.Input label="City" name="city" placeholder="City" type="text"/>
-                    <Form.Select label="Province" name="province" placeholder="Province" options={provinces}/>
-                    <Form.Input label="Postal Code" name="postalCode" placeholder="Postal Code" type="text"/>
+                    <Form.Input label="City" name="city" placeholder="City" type="text" required/>
+                    <Form.Select label="Province" name="province" placeholder="Province" options={provinces} required/>
+                    <Form.Input label="Postal Code" name="postalCode" placeholder="Postal Code" type="text" required/>
                   </Form.Group>
                   <Form.Group widths="equal">
-                    <Form.Input label="Email" name="email" placeholder="Email" type="text"/>
-                    <Form.Input label="Password" name="password" placeholder="Password" type="password"/>
-                    <Form.Input label="Confirm Password" name="confirmPassword" placeholder="Confirm Password" type="password"/>
+                    <Form.Input label="Email" name="email" placeholder="Email" type="text" required/>
+                    <Form.Input label="Password" name="password" placeholder="Password" type="password" required/>
+                    <Form.Input label="Confirm Password" name="confirmPassword" placeholder="Confirm Password" type="password" required/>
                   </Form.Group>
                   <Form.Group widths="equal">
-                    <Form.Input label="Credit Card Number" name="ccn" placeholder="Credit Card Number" type="number"/>
-                    <Form.Input label="CVN" name="cvn" placeholder="CVN" type="number"/>
-                    <Calendar label="Expiry Date" name="expiryDate" placeholder="Expiry Date" type="month"/>
+                    <Form.Input label="Credit Card Number" name="ccn" placeholder="Credit Card Number" type="number" required/>
+                    <Form.Input label="CVN" name="cvn" placeholder="CVN" type="number" required/>
+                    <Calendar label="Expiry Date" name="expiryDate" placeholder="Expiry Date" type="month" required/>
                   </Form.Group>
 
                   <Button size="huge" type="submit" primary>Sign Up</Button>
@@ -117,12 +113,13 @@ class SignUp extends Component {
               </Segment>
 
               {err &&
-                <Message error>
-                  <Message.Header>
-                    Error
-                  </Message.Header>
-                  <p>{err.message ? err.message : 'Something went wrong while trying to fulfill your request. Please try again later'}</p>
-                </Message>
+                <Message
+                  header="Error"
+                  content={
+                    err.message ? err.message : 'Something went wrong while trying to fulfill your request. Please try again later'
+                  }
+                  error
+                  />
               }
 
               <Message info>
