@@ -1,5 +1,7 @@
+import {flatten} from './i18n';
+
 /**
- * Define any text that will be used in the application
+ * Define any English text that will be used in the application
  */
 const en = {
   /**
@@ -47,11 +49,15 @@ const en = {
     infoMessageContent: 'Sign up for a Shareff account today!'
   },
 
+  /**
+   * Sign Up Messages
+   */
   signUp: {
     title: 'Sign Up',
     firstName: 'First Name',
     lastName: 'Last Name',
-    address: 'Address',
+    addressOne: 'Address Line 1',
+    addressTwo: 'Address Line 2',
     city: 'City',
     province: 'Province',
     postalCode: 'Postal Code',
@@ -66,29 +72,13 @@ const en = {
     infoMessageContent: 'Log into your Shareff account instead!'
   },
 
+  /**
+   * Error messages
+   */
   error: {
     error: 'Error',
     general: 'Something went wrong while trying to fulfill your request. Please try again later'
   }
-};
-
-/**
- * React-Intl v2 does not support nested objects; it expects a flat structure.
- * Therefore we need to flatten the object before passing it on
- */
-const flatten = (nestedMessages, prefix = '') => {
-  return Object.keys(nestedMessages).reduce((messages, key) => {
-    const value = nestedMessages[key];
-    const prefixedKey = prefix ? `${prefix}.${key}` : key;
-
-    if (typeof value === 'string') {
-      messages[prefixedKey] = value;
-    } else {
-      Object.assign(messages, flatten(value, prefixedKey));
-    }
-
-    return messages;
-  }, {});
 };
 
 export default flatten(en);

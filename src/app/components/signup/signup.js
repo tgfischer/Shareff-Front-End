@@ -90,7 +90,7 @@ class SignUp extends Component {
               </Header>
 
               <Segment basic>
-                <Form size="huge" onSubmit={this.handleSubmit} loading={this.props.isFetching}>
+                <Form size="huge" onSubmit={this.handleSubmit} loading={this.props.isFetching} error={Boolean(err)}>
                   <Form.Group widths="equal">
                     <Form.Input
                       label={formatMessage({id: 'signUp.firstName'})}
@@ -109,11 +109,17 @@ class SignUp extends Component {
                       />
                   </Form.Group>
                   <Form.Input
-                    label={formatMessage({id: 'signUp.address'})}
-                    name="address"
-                    placeholder={formatMessage({id: 'signUp.address'})}
+                    label={formatMessage({id: 'signUp.addressOne'})}
+                    name="addressOne"
+                    placeholder={formatMessage({id: 'signUp.addressOne'})}
                     type="text"
                     required
+                    />
+                  <Form.Input
+                    label={formatMessage({id: 'signUp.addressTwo'})}
+                    name="addressTwo"
+                    placeholder={formatMessage({id: 'signUp.addressTwo'})}
+                    type="text"
                     />
                   <Form.Group widths="equal">
                     <Form.Input
@@ -191,21 +197,21 @@ class SignUp extends Component {
                       />
                   </Form.Group>
 
+                  {err &&
+                    <Message
+                      header={formatMessage({id: 'error.error'})}
+                      content={
+                        err.message ? err.message : formatMessage({id: 'error.general'})
+                      }
+                      error
+                      />
+                  }
+
                   <Button size="huge" type="submit" primary>
                     <FormattedMessage id="signUp.signUpButton"/>
                   </Button>
                 </Form>
               </Segment>
-
-              {err &&
-                <Message
-                  header={formatMessage({id: 'error.error'})}
-                  content={
-                    err.message ? err.message : formatMessage({id: 'error.general'})
-                  }
-                  error
-                  />
-              }
 
               <Message info>
                 <Message.Header>

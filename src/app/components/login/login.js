@@ -50,7 +50,7 @@ class Login extends Component {
               </Header>
 
               <Segment basic>
-                <Form size="huge" onSubmit={this.handleSubmit} loading={this.props.isFetching}>
+                <Form size="huge" onSubmit={this.handleSubmit} loading={this.props.isFetching} error={Boolean(err)}>
                   <Form.Input
                     name="email"
                     label={formatMessage({id: 'login.email'})}
@@ -69,6 +69,16 @@ class Login extends Component {
                     required
                     />
 
+                  {err &&
+                    <Message
+                      header={formatMessage({id: 'error.error'})}
+                      content={
+                        err.message ? err.message : formatMessage({id: 'error.general'})
+                      }
+                      error
+                      />
+                  }
+
                   <Button
                     content={formatMessage({id: 'login.loginButton'})}
                     size="huge"
@@ -79,16 +89,6 @@ class Login extends Component {
                     />
                 </Form>
               </Segment>
-
-              {err &&
-                <Message
-                  header={formatMessage({id: 'error.error'})}
-                  content={
-                    err.message ? err.message : formatMessage({id: 'error.general'})
-                  }
-                  error
-                  />
-              }
 
               <Message info>
                 <Message.Header>

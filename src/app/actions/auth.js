@@ -134,13 +134,25 @@ export const login = creds => {
  * form
  */
 export const signup = info => {
+  let body = '';
+
+  // Iterate over all of the properties, adding them to the body
+  for (const key in info) {
+    if (info.hasOwnProperty(key)) {
+      body += `${key}=${info[key]}&`;
+    }
+  }
+
+  // Remove the trailing &
+  body = body.substring(0, body.length - 1);
+
   const config = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     // Note the quotes for the templating
-    body: `email=${info.email}&password=${info.password}`
+    body
   };
 
   return dispatch => {

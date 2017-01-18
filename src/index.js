@@ -36,7 +36,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
   <Provider store={store}>
-    <IntlProvider>
+    <IntlProvider locale="en" defaultLocale="en">
       <Router history={history}>
         <Route path="/" component={Home}/>
         <Route path="/login" component={requireAuthentication(Login, false)}/>
