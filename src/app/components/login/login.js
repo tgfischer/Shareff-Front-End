@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
-  Button, Container, Dimmer, Form, Grid, Header, Loader, Message, Segment
+  Button, Container, Form, Grid, Header, Message, Segment
 } from 'semantic-ui-react';
-import NavBar from '../navbar';
-import {login} from '../../actions/actions';
+import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
+import NavBar from '../General/NavBar';
+import {login} from '../../actions/auth';
 
 const styles = {
   container: {
@@ -35,7 +36,8 @@ class Login extends Component {
     });
   }
   render() {
-    const {err} = this.props;
+    const {err, intl} = this.props;
+    const {formatMessage} = intl;
 
     return (
       <div style={styles.container}>
@@ -43,35 +45,57 @@ class Login extends Component {
         <Container style={styles.container} text>
           <Grid verticalAlign="middle" style={styles.grid}>
             <Grid.Column>
-              <Header as="h1">Log in</Header>
+              <Header as="h1">
+                <FormattedMessage id="login.title"/>
+              </Header>
 
               <Segment basic>
-                <Dimmer active={this.props.isFetching} inverted>
-                  <Loader size="huge" inverted/>
-                </Dimmer>
+                <Form size="huge" onSubmit={this.handleSubmit} loading={this.props.isFetching} error={Boolean(err)}>
+                  <Form.Input
+                    name="email"
+                    label={formatMessage({id: 'login.email'})}
+                    type="text"
+                    icon="user"
+                    iconPosition="left"
+                    required
+                    />
 
-                <Form size="huge" onSubmit={this.handleSubmit}>
-                  <Form.Input name="email" label="Email" type="text"/>
-                  <Form.Input name="password" label="Password" type="password"/>
-                  <Button size="huge" type="submit" primary>Log In</Button>
+                  <Form.Input
+                    name="password"
+                    label={formatMessage({id: 'login.password'})}
+                    type="password"
+                    icon="lock"
+                    iconPosition="left"
+                    required
+                    />
+
+                  {err &&
+                    <Message
+                      header={formatMessage({id: 'error.error'})}
+                      content={
+                        err.message ? err.message : formatMessage({id: 'error.general'})
+                      }
+                      error
+                      />
+                  }
+
+                  <Button
+                    content={formatMessage({id: 'login.loginButton'})}
+                    size="huge"
+                    type="submit"
+                    icon="chevron right"
+                    labelPosition="right"
+                    primary
+                    />
                 </Form>
               </Segment>
 
-              {err &&
-                <Message error>
-                  <Message.Header>
-                    Error
-                  </Message.Header>
-                  <p>{err.message ? err.message : 'Something went wrong while trying to fulfill your request. Please try again later'}</p>
-                </Message>
-              }
-
               <Message info>
                 <Message.Header>
-                  New to Shareff?
+                  <FormattedMessage id="login.infoMessageTitle"/>
                 </Message.Header>
                 <p>
-                  Sign up for a Shareff account today!
+                  <FormattedMessage id="login.infoMessageContent"/>
                 </p>
               </Message>
             </Grid.Column>
@@ -83,6 +107,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+  intl: intlShape.isRequired,
   isAuthenticated: React.PropTypes.bool,
   isFetching: React.PropTypes.bool,
   router: React.PropTypes.object,
@@ -101,4 +126,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(injectIntl(Login));

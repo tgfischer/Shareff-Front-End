@@ -1,29 +1,8 @@
-/**
- * Actions for logging into the application
- */
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAILURE = 'LOGIN_FAILURE';
-
-/**
- * Actions for signing up for the application
- */
-export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
-export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
-export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
-
-/**
- * Actions for logging out of the application
- */
-export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-
-/**
- * Actions for retreiving the user information from the database
- */
-export const GET_USER_REQUEST = 'GET_USER_REQUEST';
-export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
-export const GET_USER_FAILURE = 'GET_USER_FAILURE';
+import {
+  BASE_URL, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_REQUEST,
+  SIGNUP_SUCCESS, SIGNUP_FAILURE, LOGOUT_REQUEST, LOGOUT_SUCCESS,
+  GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILURE
+} from '../constants/constants';
 
 const loginRequest = creds => ({
   type: LOGIN_REQUEST,
@@ -113,11 +92,6 @@ const getUserFailure = message => ({
 });
 
 /**
- * The base URL for the backend of the application
- */
-const BASE_URL = '//localhost:4000';
-
-/**
  * Log the user into their account
  */
 export const login = creds => {
@@ -160,13 +134,25 @@ export const login = creds => {
  * form
  */
 export const signup = info => {
+  let body = '';
+
+  // Iterate over all of the properties, adding them to the body
+  for (const key in info) {
+    if (info.hasOwnProperty(key)) {
+      body += `${key}=${info[key]}&`;
+    }
+  }
+
+  // Remove the trailing &
+  body = body.substring(0, body.length - 1);
+
   const config = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     // Note the quotes for the templating
-    body: `email=${info.email}&password=${info.password}`
+    body
   };
 
   return dispatch => {

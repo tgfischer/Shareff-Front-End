@@ -1,6 +1,6 @@
 import React from 'react';
-import {getUser} from '../actions/actions';
 import {connect} from 'react-redux';
+import {getUser} from '../../actions/auth';
 
 const styles = {
   container: {

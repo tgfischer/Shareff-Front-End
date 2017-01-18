@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router';
 import {Container, Button, Menu} from 'semantic-ui-react';
-import {logOut} from '../actions/actions';
+import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
+import {logOut} from '../../actions/auth';
 
 class NavBar extends Component {
   constructor(props) {
@@ -17,27 +18,35 @@ class NavBar extends Component {
     return (
       <Menu size="huge" className="no-shadow">
         <Container>
-          <Menu.Item className="bold" header>Shareff</Menu.Item>
+          <Menu.Item className="bold" header>
+            <FormattedMessage id="navBar.title"/>
+          </Menu.Item>
           <Menu.Menu position="right">
             <Menu.Item as={Link} to="/" activeClassName="active">
-              Home
+              <FormattedMessage id="navBar.home"/>
             </Menu.Item>
             <Menu.Item as={Link} to="/listings" activeClassName="active">
-              Rental Listings
+              <FormattedMessage id="navBar.rentalListings"/>
             </Menu.Item>
             {!this.props.isAuthenticated &&
               <Menu.Item>
-                <Button basic as={Link} to="/login">Log In</Button>
+                <Button basic as={Link} to="/login">
+                  <FormattedMessage id="navBar.login"/>
+                </Button>
               </Menu.Item>
             }
             {!this.props.isAuthenticated &&
               <Menu.Item>
-                <Button color="blue" as={Link} to="/signup">Sign Up</Button>
+                <Button color="blue" as={Link} to="/signup">
+                  <FormattedMessage id="navBar.signUp"/>
+                </Button>
               </Menu.Item>
             }
             {this.props.isAuthenticated &&
               <Menu.Item>
-                <Button basic onClick={this.handleLogOut}>Log Out</Button>
+                <Button basic onClick={this.handleLogOut}>
+                  <FormattedMessage id="navBar.logOut"/>
+                </Button>
               </Menu.Item>
             }
           </Menu.Menu>
@@ -48,6 +57,7 @@ class NavBar extends Component {
 }
 
 NavBar.propTypes = {
+  intl: intlShape.isRequired,
   isAuthenticated: React.PropTypes.bool,
   user: React.PropTypes.object,
   router: React.PropTypes.object,
@@ -66,4 +76,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withRouter(NavBar));
+export default connect(mapStateToProps)(withRouter(injectIntl(NavBar)));

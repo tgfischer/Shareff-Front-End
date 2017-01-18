@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {CalendarRange} from '../calendarRange';
+import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {Accordion, Container, Form, Grid, Header, Icon, Segment} from 'semantic-ui-react';
+import CalendarRange from '../General/CalendarRange';
 
 const styles = {
   masthead: {
@@ -14,8 +15,10 @@ const styles = {
   }
 };
 
-export class Masthead extends Component {
+class Masthead extends Component {
   render() {
+    const {formatMessage} = this.props.intl;
+
     return (
       <Segment style={styles.masthead} vertical>
         <Container text>
@@ -24,16 +27,21 @@ export class Masthead extends Component {
               <Grid.Row centered>
                 <Grid.Column>
                   <Header as="h1" size="huge" className="bold" style={styles.header}>
-                    Shareff
+                    <FormattedMessage id="masthead.title"/>
                     <Header.Subheader style={styles.subHeader}>
-                      Helping you find the things you need
+                      <FormattedMessage id="masthead.desc"/>
                     </Header.Subheader>
                   </Header>
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column>
-                  <Form.Input action={{color: "blue", labelPosition: "right", icon: "search", content: "Search", size: "huge"}} name="search" label="Search" type="text"/>
+                  <Form.Input
+                    action={{color: "blue", labelPosition: "right", icon: "search", content: formatMessage({id: 'masthead.search'}), size: "huge"}}
+                    name="search"
+                    label="Search"
+                    type="text"
+                    />
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>
@@ -46,10 +54,10 @@ export class Masthead extends Component {
                   <Accordion fluid styled>
                     <Accordion.Title>
                       <Icon name="options"/>
-                      Advanced Settings
+                      <FormattedMessage id="masthead.advancedSettings"/>
                     </Accordion.Title>
                     <Accordion.Content>
-                      <Form.Input name="location" label="Location" type="text"/>
+                      <Form.Input name="location" label={formatMessage({id: 'masthead.location'})} type="text"/>
                     </Accordion.Content>
                   </Accordion>
                 </Grid.Column>
@@ -61,3 +69,9 @@ export class Masthead extends Component {
     );
   }
 }
+
+Masthead.propTypes = {
+  intl: intlShape.isRequired
+};
+
+export default injectIntl(Masthead);

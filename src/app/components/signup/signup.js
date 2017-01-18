@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
-  Button, Container, Dimmer, Form, Grid, Header, Loader, Message, Segment
+  Button, Container, Form, Grid, Header, Message, Segment
 } from 'semantic-ui-react';
-import NavBar from '../navbar';
-import {Calendar} from '../calendar';
-import {signup} from '../../actions/actions';
+import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
+import NavBar from '../General/NavBar';
+import {Calendar} from '../General/Calendar';
+import {signup} from '../../actions/auth';
 
 const styles = {
   container: {
@@ -47,7 +48,8 @@ class SignUp extends Component {
     });
   }
   render() {
-    const {err} = this.props;
+    const {err, intl} = this.props;
+    const {formatMessage} = intl;
 
     const provinces = [{
       text: 'AB', value: 'AB'
@@ -83,54 +85,140 @@ class SignUp extends Component {
         <Container style={styles.container}>
           <Grid verticalAlign="middle" style={styles.grid}>
             <Grid.Column>
-              <Header as="h1">Sign Up</Header>
+              <Header as="h1">
+                <FormattedMessage id="signUp.title"/>
+              </Header>
 
               <Segment basic>
-                <Dimmer active={this.props.isFetching} inverted>
-                  <Loader size="huge" inverted/>
-                </Dimmer>
+                <Form size="huge" onSubmit={this.handleSubmit} loading={this.props.isFetching} error={Boolean(err)}>
+                  <Form.Group widths="equal">
+                    <Form.Input
+                      label={formatMessage({id: 'signUp.firstName'})}
+                      name="firstName"
+                      placeholder={formatMessage({id: 'signUp.firstName'})}
+                      type="text"
+                      required
+                      />
 
-                <Form size="huge" onSubmit={this.handleSubmit}>
-                  <Form.Group widths="equal">
-                    <Form.Input label="First Name" name="firstName" placeholder="First Name" type="text"/>
-                    <Form.Input label="Last Name" name="lastName" placeholder="Last Name" type="text"/>
+                    <Form.Input
+                      label={formatMessage({id: 'signUp.lastName'})}
+                      name="lastName"
+                      placeholder={formatMessage({id: 'signUp.lastName'})}
+                      type="text"
+                      required
+                      />
                   </Form.Group>
-                  <Form.Input label="Address" name="address" placeholder="Address" type="text"/>
+                  <Form.Input
+                    label={formatMessage({id: 'signUp.addressOne'})}
+                    name="addressOne"
+                    placeholder={formatMessage({id: 'signUp.addressOne'})}
+                    type="text"
+                    required
+                    />
+                  <Form.Input
+                    label={formatMessage({id: 'signUp.addressTwo'})}
+                    name="addressTwo"
+                    placeholder={formatMessage({id: 'signUp.addressTwo'})}
+                    type="text"
+                    />
                   <Form.Group widths="equal">
-                    <Form.Input label="City" name="city" placeholder="City" type="text"/>
-                    <Form.Select label="Province" name="province" placeholder="Province" options={provinces}/>
-                    <Form.Input label="Postal Code" name="postalCode" placeholder="Postal Code" type="text"/>
+                    <Form.Input
+                      label={formatMessage({id: 'signUp.city'})}
+                      name="city"
+                      placeholder={formatMessage({id: 'signUp.city'})}
+                      type="text"
+                      required
+                      />
+
+                    <Form.Select
+                      label={formatMessage({id: 'signUp.province'})}
+                      name="province"
+                      placeholder={formatMessage({id: 'signUp.province'})}
+                      options={provinces}
+                      required
+                      />
+
+                    <Form.Input
+                      label={formatMessage({id: 'signUp.postalCode'})}
+                      name="postalCode"
+                      placeholder={formatMessage({id: 'signUp.postalCode'})}
+                      type="text"
+                      required
+                      />
                   </Form.Group>
                   <Form.Group widths="equal">
-                    <Form.Input label="Email" name="email" placeholder="Email" type="text"/>
-                    <Form.Input label="Password" name="password" placeholder="Password" type="password"/>
-                    <Form.Input label="Confirm Password" name="confirmPassword" placeholder="Confirm Password" type="password"/>
+                    <Form.Input
+                      label={formatMessage({id: 'signUp.email'})}
+                      name="email"
+                      placeholder={formatMessage({id: 'signUp.email'})}
+                      type="text"
+                      required
+                      />
+
+                    <Form.Input
+                      label={formatMessage({id: 'signUp.password'})}
+                      name="password"
+                      placeholder={formatMessage({id: 'signUp.password'})}
+                      type="password"
+                      required
+                      />
+
+                    <Form.Input
+                      label={formatMessage({id: 'signUp.confirmPassword'})}
+                      name="confirmPassword"
+                      placeholder={formatMessage({id: 'signUp.confirmPassword'})}
+                      type="password"
+                      required
+                      />
                   </Form.Group>
                   <Form.Group widths="equal">
-                    <Form.Input label="Credit Card Number" name="ccn" placeholder="Credit Card Number" type="number"/>
-                    <Form.Input label="CVN" name="cvn" placeholder="CVN" type="number"/>
-                    <Calendar label="Expiry Date" name="expiryDate" placeholder="Expiry Date" type="month"/>
+                    <Form.Input
+                      label={formatMessage({id: 'signUp.ccn'})}
+                      name="ccn"
+                      placeholder={formatMessage({id: 'signUp.ccn'})}
+                      type="number"
+                      required
+                      />
+
+                    <Form.Input
+                      label={formatMessage({id: 'signUp.cvn'})}
+                      name="cvn"
+                      placeholder={formatMessage({id: 'signUp.cvn'})}
+                      type="number"
+                      required
+                      />
+
+                    <Calendar
+                      label={formatMessage({id: 'signUp.expiryDate'})}
+                      name="expiryDate"
+                      placeholder={formatMessage({id: 'signUp.expiryDate'})}
+                      type="month"
+                      required
+                      />
                   </Form.Group>
 
-                  <Button size="huge" type="submit" primary>Sign Up</Button>
+                  {err &&
+                    <Message
+                      header={formatMessage({id: 'error.error'})}
+                      content={
+                        err.message ? err.message : formatMessage({id: 'error.general'})
+                      }
+                      error
+                      />
+                  }
+
+                  <Button size="huge" type="submit" primary>
+                    <FormattedMessage id="signUp.signUpButton"/>
+                  </Button>
                 </Form>
               </Segment>
 
-              {err &&
-                <Message error>
-                  <Message.Header>
-                    Error
-                  </Message.Header>
-                  <p>{err.message ? err.message : 'Something went wrong while trying to fulfill your request. Please try again later'}</p>
-                </Message>
-              }
-
               <Message info>
                 <Message.Header>
-                  Already have an account?
+                  <FormattedMessage id="signUp.infoMessageTitle"/>
                 </Message.Header>
                 <p>
-                  Log into your Shareff account instead!
+                  <FormattedMessage id="signUp.infoMessageContent"/>
                 </p>
               </Message>
             </Grid.Column>
@@ -142,6 +230,7 @@ class SignUp extends Component {
 }
 
 SignUp.propTypes = {
+  intl: intlShape.isRequired,
   router: React.PropTypes.object,
   isFetching: React.PropTypes.bool,
   dispatch: React.PropTypes.func.isRequired,
@@ -160,4 +249,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(SignUp);
+export default connect(mapStateToProps)(injectIntl(SignUp));
