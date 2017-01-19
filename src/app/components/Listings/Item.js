@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-/* import {
-  Button, Container, Form, Grid, Header, Message, Segment
-} from 'semantic-ui-react'; */
+import {
+  Button, Container, Grid, Header, Segment
+} from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 
 class Item extends Component {

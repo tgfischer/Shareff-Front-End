@@ -43,6 +43,11 @@ class NavBar extends Component {
               </Menu.Item>
             }
             {this.props.isAuthenticated &&
+              <Menu.Item as={Link} to="/profile" activeClassName="active">
+                <FormattedMessage id="navBar.profile"/>
+              </Menu.Item>
+            }
+            {this.props.isAuthenticated &&
               <Menu.Item>
                 <Button basic onClick={this.handleLogOut}>
                   <FormattedMessage id="navBar.logOut"/>

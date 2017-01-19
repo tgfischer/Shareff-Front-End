@@ -21,6 +21,7 @@ const en = {
     title: 'Shareff',
     home: 'Home',
     rentalListings: 'Rental Listings',
+    profile: 'Profile',
     login: 'Login',
     signUp: 'Sign Up',
     logOut: 'Log Out'

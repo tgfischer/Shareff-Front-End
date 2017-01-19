@@ -17,20 +17,39 @@ export function requireAuthentication(Component, required) {
       this.checkAuth(required);
     }
     checkAuth(required) {
-      if (!this.props.isAuthenticated && required) {
-        this.props.router.push('/login');
-      } else if (this.props.isAuthenticated && !required) {
+      const {isAuthenticated, dispatch, router, user} = this.props;
+
+      // If the user is not logged in, but they need to
+      if (!isAuthenticated && required) {
+        // Redirect them to the login page
+        router.push('/login');
+      } else if (isAuthenticated) {
+        // Else if the user is authenticated
         const token = localStorage.getItem('token');
 
-        this.props.dispatch(getUser(token)).then(() => {
-          this.props.router.push('/');
-        });
+        // If the user object exists, but logged in users cannot see this page
+        if (user && !required) {
+          // Redirect them to the home page
+          router.push('/');
+        } else {
+          // If the user object doesn't exist (e.g. closed/reopened window),
+          // fetch it again
+          dispatch(getUser(token)).then(() => {
+            // If logged in users cannot see this page
+            if (!required) {
+              // Redirect them to the homepage
+              router.push('/');
+            }
+          });
+        }
       }
     }
     render() {
+      const {isAuthenticated, user} = this.props;
+
       return (
         <div style={styles.container}>
-          {!this.props.isAuthenticated && !required || this.props.isAuthenticated && required ?
+          {!isAuthenticated && !required || isAuthenticated && user && required ?
             <Component {...this.props}/> :
             null}
         </div>
@@ -49,12 +68,10 @@ export function requireAuthentication(Component, required) {
     const {auth} = state;
     const {isAuthenticated, user} = auth;
 
-    if (user || !required) {
-      return {
-        isAuthenticated,
-        user
-      };
-    }
+    return {
+      isAuthenticated,
+      user
+    };
   };
 
   return connect(mapStateToProps)(AuthenticatedComponent);
