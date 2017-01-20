@@ -27,13 +27,8 @@ export function requireAuthentication(Component, required) {
         // Else if the user is authenticated
         const token = localStorage.getItem('token');
 
-        // If the user object exists, but logged in users cannot see this page
-        if (user && !required) {
-          // Redirect them to the home page
-          router.push('/');
-        } else {
-          // If the user object doesn't exist (e.g. closed/reopened window),
-          // fetch it again
+        // If the user object doesn't exist (e.g. closed/reopened window), fetch it again
+        if (!user) {
           dispatch(getUser(token)).then(() => {
             // If logged in users cannot see this page
             if (!required) {
@@ -41,6 +36,9 @@ export function requireAuthentication(Component, required) {
               router.push('/');
             }
           });
+        } else if (!required) {
+          // Redirect them to the home page
+          router.push('/');
         }
       }
     }
@@ -59,6 +57,7 @@ export function requireAuthentication(Component, required) {
 
   AuthenticatedComponent.propTypes = {
     isAuthenticated: React.PropTypes.bool,
+    isFetching: React.PropTypes.bool,
     user: React.PropTypes.object,
     router: React.PropTypes.object,
     dispatch: React.PropTypes.func.isRequired
@@ -66,10 +65,11 @@ export function requireAuthentication(Component, required) {
 
   const mapStateToProps = state => {
     const {auth} = state;
-    const {isAuthenticated, user} = auth;
+    const {isAuthenticated, isFetching, user} = auth;
 
     return {
       isAuthenticated,
+      isFetching,
       user
     };
   };

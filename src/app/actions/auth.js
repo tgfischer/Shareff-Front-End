@@ -8,7 +8,7 @@ const loginRequest = creds => ({
   type: LOGIN_REQUEST,
   isFetching: true,
   isAuthenticated: false,
-  message: undefined,
+  err: undefined,
   user: undefined,
   creds
 });
@@ -17,22 +17,22 @@ const loginSuccess = user => ({
   type: LOGIN_SUCCESS,
   isFetching: false,
   isAuthenticated: true,
-  message: undefined,
+  err: undefined,
   user
 });
 
-const loginFailure = message => ({
+const loginFailure = err => ({
   type: LOGIN_FAILURE,
   isFetching: false,
   isAuthenticated: false,
-  message
+  err
 });
 
 const signupRequest = creds => ({
   type: SIGNUP_REQUEST,
   isFetching: true,
   isAuthenticated: false,
-  message: undefined,
+  err: undefined,
   user: undefined,
   creds
 });
@@ -41,22 +41,22 @@ const signupSuccess = user => ({
   type: SIGNUP_SUCCESS,
   isFetching: false,
   isAuthenticated: true,
-  message: undefined,
+  err: undefined,
   user
 });
 
-const signupFailure = message => ({
+const signupFailure = err => ({
   type: SIGNUP_FAILURE,
   isFetching: false,
   isAuthenticated: false,
-  message
+  err
 });
 
 const logoutRequest = () => ({
   type: LOGOUT_REQUEST,
   isFetching: true,
   isAuthenticated: true,
-  message: undefined,
+  err: undefined,
   user: undefined
 });
 
@@ -64,14 +64,14 @@ const logoutSuccess = () => ({
   type: LOGOUT_SUCCESS,
   isFetching: false,
   isAuthenticated: false,
-  message: undefined,
+  err: undefined,
   user: undefined
 });
 
 const getUserRequest = token => ({
   type: GET_USER_REQUEST,
   isFetching: true,
-  message: undefined,
+  err: undefined,
   user: undefined,
   token
 });
@@ -80,15 +80,15 @@ const getUserSuccess = user => ({
   type: GET_USER_SUCCESS,
   isAuthenticated: true,
   isFetching: false,
-  message: undefined,
+  err: undefined,
   user
 });
 
-const getUserFailure = message => ({
+const getUserFailure = err => ({
   type: GET_USER_FAILURE,
   isAuthenticated: false,
   isFetching: false,
-  message
+  err
 });
 
 /**

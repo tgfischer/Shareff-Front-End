@@ -18,6 +18,9 @@ const styles = {
 };
 
 class SignUp extends Component {
+  state = {
+    err: undefined
+  }
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,15 +43,18 @@ class SignUp extends Component {
       delete formData.confirmPassword;
     }
 
-    this.props.dispatch(signup(formData)).then(({isAuthenticated}) => {
+    this.props.dispatch(signup(formData)).then(({isAuthenticated, err}) => {
       if (isAuthenticated) {
         // Reload this route
         this.props.router.push('/');
+      } else {
+        this.setState({err});
       }
     });
   }
   render() {
-    const {err, intl} = this.props;
+    const {intl} = this.props;
+    const {err} = this.state;
     const {formatMessage} = intl;
 
     const provinces = [{
@@ -233,19 +239,16 @@ SignUp.propTypes = {
   intl: intlShape.isRequired,
   router: React.PropTypes.object,
   isFetching: React.PropTypes.bool,
-  dispatch: React.PropTypes.func.isRequired,
-  errorMessage: React.PropTypes.string,
-  err: React.PropTypes.object
+  dispatch: React.PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
   const {auth} = state;
-  const {isAuthenticated, isFetching, err} = auth;
+  const {isAuthenticated, isFetching} = auth;
 
   return {
     isAuthenticated,
-    isFetching,
-    err
+    isFetching
   };
 };
 

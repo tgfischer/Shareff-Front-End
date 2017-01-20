@@ -5,6 +5,14 @@ import {flatten} from './i18n';
  */
 const en = {
   /**
+   * Breadcrumb messages
+   */
+  breadcrumb: {
+    home: 'Home',
+    profile: 'Profile'
+  },
+
+  /**
    * Calendar Range messages
    */
   calendarRange: {
@@ -36,6 +44,34 @@ const en = {
     search: 'Search',
     advancedSettings: 'Advanced Settings',
     location: 'Location'
+  },
+
+  /**
+   * Profile page messages
+   */
+  profile: {
+    title: 'Welcome back, {firstName} {lastName}'
+  },
+
+  /**
+   * Personal Info messages
+   */
+  personalInfo: {
+    title: 'Update your personal information',
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    addressOne: 'Address Line 1',
+    addressTwo: 'Address Line 2',
+    city: 'City',
+    province: 'Province',
+    postalCode: 'Postal Code',
+    email: 'Email',
+    password: 'Password',
+    confirmPassword: 'Confirm Password',
+    ccn: 'Credit Card Number',
+    cvn: 'CVN',
+    expiryDate: 'Expiry Date',
+    updateButton: 'Update'
   },
 
   /**
