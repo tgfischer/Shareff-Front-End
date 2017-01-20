@@ -27,6 +27,10 @@ const getPersonalInfoFailure = err => ({
  * Get the user's personal information from the database
  */
 export const getPersonalInfo = info => {
+  // Send the token as well so that we can validate that the user that is logged
+  // is only modifying their own data
+  info.token = localStorage.getItem('token');
+
   const config = {
     method: 'POST',
     headers: {

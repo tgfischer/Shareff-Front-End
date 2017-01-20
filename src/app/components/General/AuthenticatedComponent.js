@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {getUser} from '../../actions/auth';
+import {Loading} from './Loading';
 
 const styles = {
   container: {
@@ -49,7 +50,8 @@ export function requireAuthentication(Component, required) {
         <div style={styles.container}>
           {!isAuthenticated && !required || isAuthenticated && user && required ?
             <Component {...this.props}/> :
-            null}
+            <Loading/>
+          }
         </div>
       );
     }

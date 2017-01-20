@@ -128,7 +128,8 @@ const en = {
    */
   error: {
     error: 'Error',
-    general: 'Something went wrong while trying to fulfill your request. Please try again later'
+    general: 'Something went wrong while trying to fulfill your request. Please try again later',
+    unauthorized: 'You are unauthorized to perform this action. Try logging out, and logging back in'
   }
 };
 
