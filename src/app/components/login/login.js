@@ -121,8 +121,8 @@ Login.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const {auth} = state;
-  const {isAuthenticated, isFetching} = auth;
+  const {reducers} = state;
+  const {isAuthenticated, isFetching} = reducers;
 
   return {
     isAuthenticated,

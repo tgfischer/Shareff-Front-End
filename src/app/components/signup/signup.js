@@ -9,7 +9,11 @@ import {Calendar} from '../General/Calendar';
 import {signup} from '../../actions/auth';
 
 const styles = {
+  root: {
+    height: 'calc(100% - 2.85714286em)'
+  },
   container: {
+    paddingTop: '1.5em',
     height: 'calc(100% - 2.85714286em)'
   },
   grid: {
@@ -86,7 +90,7 @@ class SignUp extends Component {
     }];
 
     return (
-      <div style={styles.container}>
+      <div style={styles.root}>
         <NavBar/>
         <Container style={styles.container}>
           <Grid verticalAlign="middle" style={styles.grid}>
@@ -243,8 +247,8 @@ SignUp.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const {auth} = state;
-  const {isAuthenticated, isFetching} = auth;
+  const {reducers} = state;
+  const {isAuthenticated, isFetching} = reducers;
 
   return {
     isAuthenticated,

@@ -16,7 +16,7 @@ import Profile from './app/components/Profile/Profile';
 import Login from './app/components/Login/Login';
 import SignUp from './app/components/SignUp/SignUp';
 import {requireAuthentication} from './app/components/General/AuthenticatedComponent';
-import {auth, listings} from './app/reducers/auth';
+import {reducers} from './app/reducers/reducers';
 import {i18n} from './app/i18n/i18n';
 
 import './index.scss';
@@ -27,8 +27,7 @@ addLocaleData([
 
 // Create the store from the reducers
 const store = createStore(combineReducers({
-  auth,
-  listings,
+  reducers,
   routing: routerReducer,
   intl: intlReducer
 }), i18n, applyMiddleware(thunk));

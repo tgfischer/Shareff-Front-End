@@ -2,24 +2,55 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {
-  Button, Form, Grid, Header, Message
+  Button, Form, Grid, Header, Modal
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import {Calendar} from '../General/Calendar';
+import {getPersonalInfo} from '../../actions/profile';
 
 class PersonalInfo extends Component {
+  state = {
+    openModal: false,
+    modalTitle: 'modal.success',
+    modalContent: 'modal.updatePersonalInfoSuccess'
+  }
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
   handleSubmit(e, {formData}) {
-    console.log(`${e} ${formData}`);
+    e.preventDefault();
+
+    const {intl, user} = this.props;
+
+    // Add the userId and the addressId to the object that will be sent to the
+    // server
+    formData.userId = user.userId;
+    formData.addressId = user.addressId;
+
+    // Send the updated personal information to the server
+    this.props.dispatch(getPersonalInfo(formData)).then(({err}) => {
+      const {formatMessage} = intl;
+
+      // Set the modal title
+      const title = err ? 'modal.error' : 'modal.success';
+      this.setState({modalTitle: formatMessage({id: title})});
+
+      // Set the modal content
+      const content = err ? 'error.general' : 'modal.updatePersonalInfoSuccess';
+      this.setState({modalContent: formatMessage({id: content})});
+
+      // Open the modal
+      this.setState({openModal: true});
+    });
   }
+  handleCloseModal = () => this.setState({openModal: false})
   render() {
-    const {err, intl, user} = this.props;
+    const {isFetching, intl, user} = this.props;
+    const {openModal, modalTitle, modalContent} = this.state;
     const {formatMessage} = intl;
     const {
-      firstName, lastName, line1, line2
+      firstName, lastName, line1, line2, city, province, postalCode, email
     } = user;
 
     const provinces = [{
@@ -53,11 +84,11 @@ class PersonalInfo extends Component {
     return (
       <Grid>
         <Grid.Column>
-          <Header as="h1">
+          <Header as="h1" dividing>
             <FormattedMessage id="personalInfo.title"/>
           </Header>
 
-          <Form size="huge" onSubmit={this.handleSubmit} loading={this.props.isFetching} error={Boolean(err)}>
+          <Form size="huge" onSubmit={this.handleSubmit} loading={isFetching}>
             <Form.Group widths="equal">
               <Form.Input
                 label={formatMessage({id: 'personalInfo.firstName'})}
@@ -96,6 +127,7 @@ class PersonalInfo extends Component {
               label={formatMessage({id: 'personalInfo.city'})}
               name="city"
               placeholder={formatMessage({id: 'personalInfo.city'})}
+              defaultValue={city}
               type="text"
               required
               />
@@ -104,6 +136,7 @@ class PersonalInfo extends Component {
                 label={formatMessage({id: 'personalInfo.province'})}
                 name="province"
                 placeholder={formatMessage({id: 'personalInfo.province'})}
+                defaultValue={province}
                 options={provinces}
                 required
                 />
@@ -112,6 +145,7 @@ class PersonalInfo extends Component {
                 label={formatMessage({id: 'personalInfo.postalCode'})}
                 name="postalCode"
                 placeholder={formatMessage({id: 'personalInfo.postalCode'})}
+                defaultValue={postalCode}
                 type="text"
                 required
                 />
@@ -120,6 +154,7 @@ class PersonalInfo extends Component {
               label={formatMessage({id: 'personalInfo.email'})}
               name="email"
               placeholder={formatMessage({id: 'personalInfo.email'})}
+              defaultValue={email}
               type="text"
               required
               />
@@ -129,7 +164,6 @@ class PersonalInfo extends Component {
                 name="password"
                 placeholder={formatMessage({id: 'personalInfo.password'})}
                 type="password"
-                required
                 />
 
               <Form.Input
@@ -137,43 +171,8 @@ class PersonalInfo extends Component {
                 name="confirmPassword"
                 placeholder={formatMessage({id: 'personalInfo.confirmPassword'})}
                 type="password"
-                required
                 />
             </Form.Group>
-            <Form.Input
-              label={formatMessage({id: 'personalInfo.ccn'})}
-              name="ccn"
-              placeholder={formatMessage({id: 'personalInfo.ccn'})}
-              type="number"
-              required
-              />
-            <Form.Group widths="equal">
-              <Form.Input
-                label={formatMessage({id: 'personalInfo.cvn'})}
-                name="cvn"
-                placeholder={formatMessage({id: 'personalInfo.cvn'})}
-                type="number"
-                required
-                />
-
-              <Calendar
-                label={formatMessage({id: 'personalInfo.expiryDate'})}
-                name="expiryDate"
-                placeholder={formatMessage({id: 'personalInfo.expiryDate'})}
-                type="month"
-                required
-                />
-            </Form.Group>
-
-            {err &&
-              <Message
-                header={formatMessage({id: 'error.error'})}
-                content={
-                  err.message ? err.message : formatMessage({id: 'error.general'})
-                }
-                error
-                />
-            }
 
             <Button
               content={formatMessage({id: 'personalInfo.updateButton'})}
@@ -184,6 +183,27 @@ class PersonalInfo extends Component {
               primary
               />
           </Form>
+
+          <Modal size="small" open={openModal} onClose={this.handleCloseModal}>
+            <Modal.Header>
+              <Header as="h1">
+                {modalTitle}
+              </Header>
+            </Modal.Header>
+            <Modal.Content>
+              <Header as="h3">
+                {modalContent}
+              </Header>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button
+                content={formatMessage({id: 'modal.okay'})}
+                onClick={this.handleCloseModal}
+                size="huge"
+                primary
+                />
+            </Modal.Actions>
+          </Modal>
         </Grid.Column>
       </Grid>
     );
@@ -201,8 +221,8 @@ PersonalInfo.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const {auth} = state;
-  const {isAuthenticated, isFetching, user, err} = auth;
+  const {reducers} = state;
+  const {isAuthenticated, isFetching, user, err} = reducers;
 
   return {
     isAuthenticated,

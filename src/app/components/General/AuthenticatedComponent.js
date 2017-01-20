@@ -64,8 +64,8 @@ export function requireAuthentication(Component, required) {
   };
 
   const mapStateToProps = state => {
-    const {auth} = state;
-    const {isAuthenticated, isFetching, user} = auth;
+    const {reducers} = state;
+    const {isAuthenticated, isFetching, user} = reducers;
 
     return {
       isAuthenticated,

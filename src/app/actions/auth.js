@@ -3,6 +3,7 @@ import {
   SIGNUP_SUCCESS, SIGNUP_FAILURE, LOGOUT_REQUEST, LOGOUT_SUCCESS,
   GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILURE
 } from '../constants/constants';
+import {bodyBuilder} from '../utils/Utils';
 
 const loginRequest = creds => ({
   type: LOGIN_REQUEST,
@@ -134,25 +135,12 @@ export const login = creds => {
  * form
  */
 export const signup = info => {
-  let body = '';
-
-  // Iterate over all of the properties, adding them to the body
-  for (const key in info) {
-    if (info.hasOwnProperty(key)) {
-      body += `${key}=${info[key]}&`;
-    }
-  }
-
-  // Remove the trailing &
-  body = body.substring(0, body.length - 1);
-
   const config = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
-    // Note the quotes for the templating
-    body
+    body: bodyBuilder(info)
   };
 
   return dispatch => {

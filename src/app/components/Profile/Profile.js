@@ -30,7 +30,7 @@ class Profile extends Component {
     return (
       <div>
         <NavBar/>
-        <Segment vertical>
+        <Segment color="blue" inverted vertical>
           <Container>
             <Grid stackable>
               <Grid.Row>
@@ -45,7 +45,7 @@ class Profile extends Component {
                     </Breadcrumb.Section>
                   </Breadcrumb>
 
-                  <Header as="h1" size="huge" className="bold">
+                  <Header as="h1" size="huge" className="bold" inverted>
                     <FormattedMessage id="profile.title" values={{firstName, lastName}}/>
                   </Header>
                 </Grid.Column>
@@ -53,14 +53,21 @@ class Profile extends Component {
             </Grid>
           </Container>
         </Segment>
-        <Segment vertical stacked>
+        <Segment vertical>
           <Container>
-            <Grid celled="internally">
+            <Grid stackable celled="internally">
               <Grid.Row>
                 <Grid.Column width={4}>
-                  <Menu fluid vertical tabular>
-                    <Menu.Item name="personalInfo" active={activeTab === 'personalInfo'} onClick={this.handleTabClick}/>
-                    <Menu.Item name="rentSchedule" active={activeTab === 'rentSchedule'} onClick={this.handleTabClick}/>
+                  <Menu size={'huge'} fluid vertical tabular>
+                    <Menu.Item name="personalInfo" active={activeTab === 'personalInfo'} onClick={this.handleTabClick}>
+                      <FormattedMessage id="profile.personalInfo"/>
+                    </Menu.Item>
+                    <Menu.Item name="billing" active={activeTab === 'billing'} onClick={this.handleTabClick}>
+                      <FormattedMessage id="profile.billing"/>
+                    </Menu.Item>
+                    <Menu.Item name="rentSchedule" active={activeTab === 'rentSchedule'} onClick={this.handleTabClick}>
+                      <FormattedMessage id="profile.rentSchedule"/>
+                    </Menu.Item>
                   </Menu>
                 </Grid.Column>
                 <Grid.Column width={12} stretched>
@@ -88,8 +95,8 @@ Profile.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const {auth} = state;
-  const {isAuthenticated, user} = auth;
+  const {reducers} = state;
+  const {isAuthenticated, user} = reducers;
 
   return {
     isAuthenticated,

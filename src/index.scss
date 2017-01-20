@@ -13,3 +13,11 @@
 #root {
   height: 100%;
 }
+
+.ui.breadcrumb a {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.ui.breadcrumb a:hover {
+  color: rgba(255, 255, 255, 1) !important;
+}

@@ -5,6 +5,13 @@ import {Container, Button, Menu} from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {logOut} from '../../actions/auth';
 
+const styles = {
+  menu: {
+    margin: '0',
+    borderRadius: '0'
+  }
+};
+
 class NavBar extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +23,7 @@ class NavBar extends Component {
   }
   render() {
     return (
-      <Menu size="huge" className="no-shadow">
+      <Menu size="huge" className="no-shadow" style={styles.menu}>
         <Container>
           <Menu.Item className="bold" header>
             <FormattedMessage id="navBar.title"/>
@@ -70,8 +77,8 @@ NavBar.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const {auth} = state;
-  const {isAuthenticated, isFetching, user, err} = auth;
+  const {reducers} = state;
+  const {isAuthenticated, isFetching, user, err} = reducers;
 
   return {
     isAuthenticated,

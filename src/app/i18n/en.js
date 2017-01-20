@@ -13,6 +13,17 @@ const en = {
   },
 
   /**
+   * Modal messages
+   */
+  modal: {
+    success: 'Success!',
+    updatePersonalInfoSuccess: 'Your personal information was successfully updated',
+    error: 'Error!',
+    okay: 'Okay',
+    cancel: 'Cancel'
+  },
+
+  /**
    * Calendar Range messages
    */
   calendarRange: {
@@ -50,7 +61,10 @@ const en = {
    * Profile page messages
    */
   profile: {
-    title: 'Welcome back, {firstName} {lastName}'
+    title: 'Welcome back, {firstName} {lastName}',
+    personalInfo: 'Personal Infomation',
+    rentSchedule: 'Rent Schedule',
+    billing: 'Billing'
   },
 
   /**
