@@ -33,8 +33,8 @@ Listings.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const {auth} = state;
-  const {isFetching, err} = auth;
+  const {reducers} = state;
+  const {isFetching, err} = reducers;
 
   return {
     isFetching,

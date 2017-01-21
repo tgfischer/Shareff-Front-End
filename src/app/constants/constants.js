@@ -29,3 +29,17 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const GET_USER_REQUEST = 'GET_USER_REQUEST';
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
 export const GET_USER_FAILURE = 'GET_USER_FAILURE';
+
+/**
+ * Actions for getting the rental listings
+ */
+export const GET_LISTINGS_REQUEST = 'GET_LISTINGS_REQUEST';
+export const GET_LISTINGS_SUCCESS = 'GET_LISTINGS_SUCCESS';
+export const GET_LISTINGS_FAILURE = 'GET_LISTINGS_FAILURE';
+
+/**
+ * Actions for getting the user's personal information
+ */
+export const GET_PERSONAL_INFO_REQUEST = 'GET_PERSONAL_INFO_REQUEST';
+export const GET_PERSONAL_INFO_SUCCESS = 'GET_PERSONAL_INFO_SUCCESS';
+export const GET_PERSONAL_INFO_FAILURE = 'GET_PERSONAL_INFO_FAILURE';

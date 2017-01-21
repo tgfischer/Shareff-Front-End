@@ -12,10 +12,11 @@ import {addLocaleData} from 'react-intl';
 import en from 'react-intl/locale-data/en';
 
 import {Home} from './app/components/Home/Home';
+import Profile from './app/components/Profile/Profile';
 import Login from './app/components/Login/Login';
-import SignUp from './app/components/Signup/Signup';
+import SignUp from './app/components/SignUp/SignUp';
 import {requireAuthentication} from './app/components/General/AuthenticatedComponent';
-import {auth} from './app/reducers/reducers';
+import {reducers} from './app/reducers/reducers';
 import {i18n} from './app/i18n/i18n';
 
 import './index.scss';
@@ -26,7 +27,7 @@ addLocaleData([
 
 // Create the store from the reducers
 const store = createStore(combineReducers({
-  auth,
+  reducers,
   routing: routerReducer,
   intl: intlReducer
 }), i18n, applyMiddleware(thunk));
@@ -39,6 +40,7 @@ ReactDOM.render(
     <IntlProvider locale="en" defaultLocale="en">
       <Router history={history}>
         <Route path="/" component={Home}/>
+        <Route path="/profile" component={requireAuthentication(Profile, true)}/>
         <Route path="/login" component={requireAuthentication(Login, false)}/>
         <Route path="/signup" component={requireAuthentication(SignUp, false)}/>
       </Router>

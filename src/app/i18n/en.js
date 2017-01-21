@@ -5,6 +5,25 @@ import {flatten} from './i18n';
  */
 const en = {
   /**
+   * Breadcrumb messages
+   */
+  breadcrumb: {
+    home: 'Home',
+    profile: 'Profile'
+  },
+
+  /**
+   * Modal messages
+   */
+  modal: {
+    success: 'Success!',
+    updatePersonalInfoSuccess: 'Your personal information was successfully updated',
+    error: 'Error!',
+    okay: 'Okay',
+    cancel: 'Cancel'
+  },
+
+  /**
    * Calendar Range messages
    */
   calendarRange: {
@@ -21,6 +40,7 @@ const en = {
     title: 'Shareff',
     home: 'Home',
     rentalListings: 'Rental Listings',
+    profile: 'Profile',
     login: 'Login',
     signUp: 'Sign Up',
     logOut: 'Log Out'
@@ -35,6 +55,37 @@ const en = {
     search: 'Search',
     advancedSettings: 'Advanced Settings',
     location: 'Location'
+  },
+
+  /**
+   * Profile page messages
+   */
+  profile: {
+    title: 'Welcome back, {firstName} {lastName}',
+    personalInfo: 'Personal Infomation',
+    rentSchedule: 'Rent Schedule',
+    billing: 'Billing'
+  },
+
+  /**
+   * Personal Info messages
+   */
+  personalInfo: {
+    title: 'Update your personal information',
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    addressOne: 'Address Line 1',
+    addressTwo: 'Address Line 2',
+    city: 'City',
+    province: 'Province',
+    postalCode: 'Postal Code',
+    email: 'Email',
+    password: 'Password',
+    confirmPassword: 'Confirm Password',
+    ccn: 'Credit Card Number',
+    cvn: 'CVN',
+    expiryDate: 'Expiry Date',
+    updateButton: 'Update'
   },
 
   /**
@@ -77,7 +128,8 @@ const en = {
    */
   error: {
     error: 'Error',
-    general: 'Something went wrong while trying to fulfill your request. Please try again later'
+    general: 'Something went wrong while trying to fulfill your request. Please try again later',
+    unauthorized: 'You are unauthorized to perform this action. Try logging out, and logging back in'
   }
 };
 

@@ -5,6 +5,13 @@ import {Container, Button, Menu} from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {logOut} from '../../actions/auth';
 
+const styles = {
+  menu: {
+    margin: '0',
+    borderRadius: '0'
+  }
+};
+
 class NavBar extends Component {
   constructor(props) {
     super(props);
@@ -16,15 +23,12 @@ class NavBar extends Component {
   }
   render() {
     return (
-      <Menu size="huge" className="no-shadow">
+      <Menu size="huge" className="no-shadow" style={styles.menu}>
         <Container>
-          <Menu.Item className="bold" header>
+          <Menu.Item as={Link} to="/" className="bold" activeClassName="active" header>
             <FormattedMessage id="navBar.title"/>
           </Menu.Item>
           <Menu.Menu position="right">
-            <Menu.Item as={Link} to="/" activeClassName="active">
-              <FormattedMessage id="navBar.home"/>
-            </Menu.Item>
             <Menu.Item as={Link} to="/listings" activeClassName="active">
               <FormattedMessage id="navBar.rentalListings"/>
             </Menu.Item>
@@ -40,6 +44,11 @@ class NavBar extends Component {
                 <Button color="blue" as={Link} to="/signup">
                   <FormattedMessage id="navBar.signUp"/>
                 </Button>
+              </Menu.Item>
+            }
+            {this.props.isAuthenticated &&
+              <Menu.Item as={Link} to="/profile" activeClassName="active">
+                <FormattedMessage id="navBar.profile"/>
               </Menu.Item>
             }
             {this.props.isAuthenticated &&
@@ -65,8 +74,8 @@ NavBar.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const {auth} = state;
-  const {isAuthenticated, isFetching, user, err} = auth;
+  const {reducers} = state;
+  const {isAuthenticated, isFetching, user, err} = reducers;
 
   return {
     isAuthenticated,

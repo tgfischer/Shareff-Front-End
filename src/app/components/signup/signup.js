@@ -9,7 +9,11 @@ import {Calendar} from '../General/Calendar';
 import {signup} from '../../actions/auth';
 
 const styles = {
+  root: {
+    height: 'calc(100% - 2.85714286em)'
+  },
   container: {
+    paddingTop: '1.5em',
     height: 'calc(100% - 2.85714286em)'
   },
   grid: {
@@ -18,6 +22,9 @@ const styles = {
 };
 
 class SignUp extends Component {
+  state = {
+    err: undefined
+  }
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,15 +47,18 @@ class SignUp extends Component {
       delete formData.confirmPassword;
     }
 
-    this.props.dispatch(signup(formData)).then(({isAuthenticated}) => {
+    this.props.dispatch(signup(formData)).then(({isAuthenticated, err}) => {
       if (isAuthenticated) {
         // Reload this route
         this.props.router.push('/');
+      } else {
+        this.setState({err});
       }
     });
   }
   render() {
-    const {err, intl} = this.props;
+    const {intl} = this.props;
+    const {err} = this.state;
     const {formatMessage} = intl;
 
     const provinces = [{
@@ -80,7 +90,7 @@ class SignUp extends Component {
     }];
 
     return (
-      <div style={styles.container}>
+      <div style={styles.root}>
         <NavBar/>
         <Container style={styles.container}>
           <Grid verticalAlign="middle" style={styles.grid}>
@@ -233,19 +243,16 @@ SignUp.propTypes = {
   intl: intlShape.isRequired,
   router: React.PropTypes.object,
   isFetching: React.PropTypes.bool,
-  dispatch: React.PropTypes.func.isRequired,
-  errorMessage: React.PropTypes.string,
-  err: React.PropTypes.object
+  dispatch: React.PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
-  const {auth} = state;
-  const {isAuthenticated, isFetching, err} = auth;
+  const {reducers} = state;
+  const {isAuthenticated, isFetching} = reducers;
 
   return {
     isAuthenticated,
-    isFetching,
-    err
+    isFetching
   };
 };
 
