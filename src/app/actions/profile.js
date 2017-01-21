@@ -63,3 +63,7 @@ export const getPersonalInfo = user => {
     });
   };
 };
+
+export const uploadItem = () => {
+  console.log("uploaded :)");
+};

@@ -64,7 +64,8 @@ const en = {
     title: 'Welcome back, {firstName} {lastName}',
     personalInfo: 'Personal Infomation',
     rentSchedule: 'Rent Schedule',
-    billing: 'Billing'
+    billing: 'Billing',
+    uploadItem: 'Upload Item'
   },
 
   /**
@@ -86,6 +87,19 @@ const en = {
     cvn: 'CVN',
     expiryDate: 'Expiry Date',
     updateButton: 'Update'
+  },
+
+  /**
+   * Upload Item messages
+   */
+  uploadItem: {
+    pageTitle: 'Upload an item for rent',
+    title: 'Title',
+    description: 'Description',
+    category: 'Category',
+    price: 'Price',
+    terms: 'Terms of Use',
+    uploadButton: 'Upload'
   },
 
   /**
