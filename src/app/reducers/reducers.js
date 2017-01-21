@@ -93,19 +93,18 @@ export const reducers = (state = {
         isFetching: true,
         err: undefined,
         success: undefined,
-        info: action.info
+        user: action.user
       });
     case GET_PERSONAL_INFO_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         err: undefined,
-        info: undefined,
+        user: action.user,
         success: action.success
       });
     case GET_PERSONAL_INFO_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
-        info: undefined,
         success: undefined,
         err: action.err
       });

@@ -11,7 +11,7 @@ export class Loading extends Component {
   render() {
     return (
       <Segment style={styles.segment} basic>
-        <Dimmer active>
+        <Dimmer inverted active>
           <Loader size="massive"/>
         </Dimmer>
       </Segment>

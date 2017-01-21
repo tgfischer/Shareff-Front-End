@@ -184,7 +184,7 @@ class PersonalInfo extends Component {
               />
           </Form>
 
-          <Modal size="small" open={openModal} onClose={this.handleCloseModal}>
+          <Modal size="small" dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
             <Modal.Header>
               <Header as="h1">
                 {modalTitle}
