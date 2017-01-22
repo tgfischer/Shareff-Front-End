@@ -96,9 +96,12 @@ const en = {
     pageTitle: 'Upload an item for rent',
     title: 'Title',
     description: 'Description',
+    descriptionPlaceholder: 'Tell us about your item. This can include condition of the item, how long you\'ve had it for, or anything that can help your potential renter learn more about the item.',
     category: 'Category',
     price: 'Price',
     terms: 'Terms of Use',
+    termsPlaceholder: 'Write down your terms and conditions for renting your item. This could include uses of the item, what time you want it by, or anything else you want to mention.',
+    uploadPhotoButton: 'Browse',
     uploadButton: 'Upload'
   },
 

@@ -58,19 +58,10 @@ class UploadItem extends Component {
           </Header>
 
           <Form size="huge" onSubmit={this.handleSubmit} loading={isFetching}>
-            <Form.Group widths="equal">
-              <Form.Input
-                label={formatMessage({id: 'uploadItem.title'})}
-                name="title"
-                placeholder={formatMessage({id: 'uploadItem.title'})}
-                type="text"
-                required
-                />
-            </Form.Group>
             <Form.Input
-              label={formatMessage({id: 'uploadItem.description'})}
-              name="description"
-              placeholder={formatMessage({id: 'uploadItem.description'})}
+              label={formatMessage({id: 'uploadItem.title'})}
+              name="title"
+              placeholder={formatMessage({id: 'uploadItem.title'})}
               type="text"
               required
               />
@@ -87,12 +78,25 @@ class UploadItem extends Component {
               type="number"
               required
               />
-            <Form.Input
+            <Form.TextArea
+              label={formatMessage({id: 'uploadItem.description'})}
+              name="description"
+              placeholder={formatMessage({id: 'uploadItem.descriptionPlaceholder'})}
+              required
+              />
+            <Form.TextArea
               label={formatMessage({id: 'uploadItem.terms'})}
               name="terms"
-              placeholder={formatMessage({id: 'uploadItem.terms'})}
-              type="text"
+              placeholder={formatMessage({id: 'uploadItem.termsPlaceholder'})}
               required
+              />
+            <label>Upload your photos</label>
+            <Button
+              content={formatMessage({id: 'uploadItem.uploadPhotoButton'})}
+              size="medium"
+              icon="upload"
+              labelPosition="right"
+              floated="left"
               />
 
             <Button
