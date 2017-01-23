@@ -18,6 +18,7 @@ const en = {
   modal: {
     success: 'Success!',
     updatePersonalInfoSuccess: 'Your personal information was successfully updated',
+    uploadItemSuccess: 'Your Item was successfull uploaded',
     error: 'Error!',
     okay: 'Okay',
     cancel: 'Cancel'

@@ -23,12 +23,11 @@ class UploadItem extends Component {
 
     const {intl, user} = this.props;
 
-    // Add the userId and the addressId to the object that will be sent to the
-    // server
+    // Add the userId to the object that will be sent to the server
     formData.userId = user.userId;
     formData.addressId = user.addressId;
 
-    // Send the updated personal information to the server
+    // Send the new item to the server
     this.props.dispatch(uploadItem(formData)).then(({err}) => {
       const {formatMessage} = intl;
 
@@ -89,14 +88,6 @@ class UploadItem extends Component {
               name="terms"
               placeholder={formatMessage({id: 'uploadItem.termsPlaceholder'})}
               required
-              />
-            <label>Upload your photos</label>
-            <Button
-              content={formatMessage({id: 'uploadItem.uploadPhotoButton'})}
-              size="medium"
-              icon="upload"
-              labelPosition="right"
-              floated="left"
               />
 
             <Button
