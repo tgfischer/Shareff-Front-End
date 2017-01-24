@@ -5,9 +5,7 @@ import {
   Button, Form, Grid, Header, Image, Modal
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import {
-  UPLOAD_PROFILE_PHOTO_FOLDER_URL, UPLOAD_PROFILE_PHOTO_ROUTE, PHOTO_PLACEHOLDER_URL
-} from '../../constants/constants';
+import {BASE_URL} from '../../constants/constants';
 import {getPersonalInfo, uploadProfilePhoto} from '../../actions/profile';
 import UploadFile from '../General/UploadFile';
 
@@ -65,7 +63,7 @@ class PersonalInfo extends Component {
     const {openModal, modalTitle, modalContent} = this.state;
     const {formatMessage} = intl;
     const {
-      firstName, lastName, line1, line2, city, province, postalCode, email
+      firstName, lastName, line1, line2, city, province, postalCode, email, photoUrl
     } = user;
 
     const provinces = [{
@@ -211,7 +209,7 @@ class PersonalInfo extends Component {
                 <Grid>
                   <Grid.Row>
                     <Grid.Column>
-                      <Image src={PHOTO_PLACEHOLDER_URL} shape="rounded" size="medium" centered bordered/>
+                      <Image src={BASE_URL + photoUrl} shape="rounded" size="medium" centered bordered/>
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row>
@@ -219,8 +217,6 @@ class PersonalInfo extends Component {
                       <UploadFile
                         label={formatMessage({id: 'personalInfo.uploadProfilePhotoLabel'})}
                         uploadAction={uploadProfilePhoto}
-                        uploadRoute={UPLOAD_PROFILE_PHOTO_ROUTE}
-                        uploadFolder={UPLOAD_PROFILE_PHOTO_FOLDER_URL}
                         name="uploadProfilePhoto"
                         fluid
                         />

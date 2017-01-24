@@ -42,8 +42,14 @@ class UploadFile extends Component {
       const formData = new FormData();
 
       for (let i = 0; i < files.length; i++) {
-        formData.append('files[]', files[i]);
+        formData.append('files', files[i]);
       }
+
+      const {user} = this.props;
+      const token = localStorage.getItem('token');
+
+      formData.append('token', token);
+      formData.append('userId', user.userId);
 
       this.props.dispatch(this.props.uploadAction(formData)).then(() => {
         console.log("yay");
@@ -94,8 +100,7 @@ UploadFile.propTypes = {
   placeholder: React.PropTypes.string,
   required: React.PropTypes.bool,
   uploadAction: React.PropTypes.func.isRequired,
-  uploadFolder: React.PropTypes.string.isRequired,
-  uploadRoute: React.PropTypes.string.isRequired
+  user: React.PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {

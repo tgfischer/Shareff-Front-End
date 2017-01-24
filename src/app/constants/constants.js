@@ -19,16 +19,6 @@ export const PHOTO_PLACEHOLDER_URL = `${PHOTOS_URL}/white-image.png`;
 export const UPLOADS_FOLDER_URL = `${BASE_URL}/uploads`;
 
 /**
- * The path to the location where the profile photos are stored on the server
- */
-export const UPLOAD_PROFILE_PHOTO_FOLDER_URL = `${UPLOADS_FOLDER_URL}/profile`;
-
-/**
- * The path to the route that handles uploading a user's profile photo
- */
-export const UPLOAD_PROFILE_PHOTO_ROUTE = `${BASE_URL}/profile/upload_profile_photo`;
-
-/**
  * Actions for logging into the application
  */
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
