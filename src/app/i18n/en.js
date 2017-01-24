@@ -18,6 +18,7 @@ const en = {
   modal: {
     success: 'Success!',
     updatePersonalInfoSuccess: 'Your personal information was successfully updated',
+    uploadPhotosSuccess: 'Your photo(s) were successfully uploaded',
     error: 'Error!',
     okay: 'Okay',
     cancel: 'Cancel'

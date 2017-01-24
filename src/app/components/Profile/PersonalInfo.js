@@ -13,14 +13,11 @@ class PersonalInfo extends Component {
   state = {
     openModal: false,
     modalTitle: 'modal.success',
-    modalContent: 'modal.updatePersonalInfoSuccess',
-    browseDisabled: true
+    modalContent: 'modal.updatePersonalInfoSuccess'
   }
   constructor(props) {
     super(props);
     this.handlePersonalInfoSubmit = this.handlePersonalInfoSubmit.bind(this);
-    this.handleBrowseButtonClick = this.handleBrowseButtonClick.bind(this);
-    this.handleProfilePhotoSubmit = this.handleProfilePhotoSubmit.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
   }
   handlePersonalInfoSubmit(e, {formData}) {
@@ -48,14 +45,6 @@ class PersonalInfo extends Component {
       // Open the modal
       this.setState({openModal: true});
     });
-  }
-  handleBrowseButtonClick(e) {
-    console.log(e);
-  }
-  handleProfilePhotoSubmit(e, {formData}) {
-    e.preventDefault();
-
-    console.log(formData);
   }
   handleCloseModal = () => this.setState({openModal: false})
   render() {
