@@ -3,7 +3,8 @@ import {
   SIGNUP_SUCCESS, SIGNUP_FAILURE, LOGOUT_REQUEST, LOGOUT_SUCCESS,
   GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILURE,
   GET_PERSONAL_INFO_REQUEST, GET_PERSONAL_INFO_SUCCESS, GET_PERSONAL_INFO_FAILURE,
-  GET_LISTINGS_REQUEST, GET_LISTINGS_SUCCESS, GET_LISTINGS_FAILURE
+  GET_LISTINGS_REQUEST, GET_LISTINGS_SUCCESS, GET_LISTINGS_FAILURE,
+  UPLOAD_PROFILE_PHOTO_REQUEST, UPLOAD_PROFILE_PHOTO_SUCCESS, UPLOAD_PROFILE_PHOTO_FAILURE
 } from '../constants/constants';
 
 // The auth reducer. The starting state sets authentication
@@ -123,6 +124,22 @@ export const reducers = (state = {
       return Object.assign({}, state, {
         isFetching: false,
         listings: undefined,
+        err: action.message
+      });
+    case UPLOAD_PROFILE_PHOTO_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        err: undefined
+      });
+    case UPLOAD_PROFILE_PHOTO_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: undefined,
+        user: action.user
+      });
+    case UPLOAD_PROFILE_PHOTO_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
         err: action.message
       });
     default:

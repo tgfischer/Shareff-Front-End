@@ -8,8 +8,8 @@ import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {
   UPLOAD_PROFILE_PHOTO_FOLDER_URL, UPLOAD_PROFILE_PHOTO_ROUTE, PHOTO_PLACEHOLDER_URL
 } from '../../constants/constants';
-import {getPersonalInfo} from '../../actions/profile';
-import {UploadFile} from '../General/UploadFile';
+import {getPersonalInfo, uploadProfilePhoto} from '../../actions/profile';
+import UploadFile from '../General/UploadFile';
 
 class PersonalInfo extends Component {
   state = {
@@ -218,6 +218,7 @@ class PersonalInfo extends Component {
                     <Grid.Column>
                       <UploadFile
                         label={formatMessage({id: 'personalInfo.uploadProfilePhotoLabel'})}
+                        uploadAction={uploadProfilePhoto}
                         uploadRoute={UPLOAD_PROFILE_PHOTO_ROUTE}
                         uploadFolder={UPLOAD_PROFILE_PHOTO_FOLDER_URL}
                         name="uploadProfilePhoto"
