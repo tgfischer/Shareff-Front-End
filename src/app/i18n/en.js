@@ -33,6 +33,11 @@ const en = {
     endPlaceholder: 'End'
   },
 
+  uploadFile: {
+    browseButton: 'Browse',
+    uploadButton: 'Upload'
+  },
+
   /**
    * Nav Bar messages
    */
@@ -85,7 +90,9 @@ const en = {
     ccn: 'Credit Card Number',
     cvn: 'CVN',
     expiryDate: 'Expiry Date',
-    updateButton: 'Update'
+    uploadProfilePhoto: 'Upload your profile photo',
+    uploadProfilePhotoLabel: 'Choose a new profile photo below',
+    updateInfoButton: 'Update Information'
   },
 
   /**

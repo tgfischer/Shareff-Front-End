@@ -2,11 +2,10 @@ import {
   BASE_URL, GET_PERSONAL_INFO_REQUEST, GET_PERSONAL_INFO_SUCCESS, GET_PERSONAL_INFO_FAILURE
 } from '../constants/constants';
 
-const getPersonalInfoRequest = user => ({
+const getPersonalInfoRequest = () => ({
   type: GET_PERSONAL_INFO_REQUEST,
   isFetching: true,
-  err: undefined,
-  user
+  err: undefined
 });
 
 const getPersonalInfoSuccess = user => ({
@@ -43,7 +42,7 @@ export const getPersonalInfo = user => {
 
   return dispatch => {
     // We dispatch request to kickoff the call to the API
-    dispatch(getPersonalInfoRequest(user));
+    dispatch(getPersonalInfoRequest());
 
     return fetch(`${BASE_URL}/profile/personal_info`, config).then(res => res.json()).then(json => {
       // Get the user's information, and the error
