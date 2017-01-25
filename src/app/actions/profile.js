@@ -66,16 +66,16 @@ export const getPersonalInfo = user => {
 
     return fetch(`${BASE_URL}/profile/personal_info`, config).then(res => res.json()).then(json => {
       // Get the user's information, and the error
-      const {success, err} = json;
+      const {user, err} = json;
 
-      if (success) {
-        // Dispatch the success action
-        return dispatch(getPersonalInfoSuccess(user));
+      if (err) {
+        // If there was a problem, we want to dispatch the error condition
+        console.log(err);
+        return dispatch(getPersonalInfoFailure(err));
       }
 
-      // If there was a problem, we want to dispatch the error condition
-      console.log(err);
-      return dispatch(getPersonalInfoFailure(err));
+      // Dispatch the success action
+      return dispatch(getPersonalInfoSuccess(user));
     }).catch(err => {
       console.log(err);
       return dispatch(getPersonalInfoFailure(err));
@@ -100,14 +100,14 @@ export const uploadProfilePhoto = formData => {
       // Get the user's information, and the error
       const {user, err} = json;
 
-      if (user) {
-        // Dispatch the success action
-        return dispatch(uploadProfilePhotoSuccess(user));
+      if (err) {
+        // If there was a problem, we want to dispatch the error condition
+        console.log(err);
+        return dispatch(uploadProfilePhotoFailure(err));
       }
 
-      // If there was a problem, we want to dispatch the error condition
-      console.log(err);
-      return dispatch(uploadProfilePhotoFailure(err));
+      // Dispatch the success action
+      return dispatch(uploadProfilePhotoSuccess(user));
     }).catch(err => {
       console.log(err);
       return dispatch(uploadProfilePhotoFailure(err));

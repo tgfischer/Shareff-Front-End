@@ -53,6 +53,10 @@ class UploadFile extends Component {
       const files = $('.uploadFile input[type=file]')[0].files;
       const formData = new FormData();
 
+      if (files.length === 0) {
+        return;
+      }
+
       // Add all of the files to the formData with the same key (files)
       for (let i = 0; i < files.length; i++) {
         formData.append('files', files[i]);
