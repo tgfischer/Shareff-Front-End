@@ -52,7 +52,8 @@ class PersonalInfo extends Component {
     const {openModal, modalTitle, modalContent} = this.state;
     const {formatMessage} = intl;
     const {
-      firstName, lastName, line1, line2, city, province, postalCode, email, photoUrl
+      firstName, lastName, line1, line2, city, province, postalCode, email,
+      photoUrl, description
     } = user;
 
     const provinces = [{
@@ -89,7 +90,10 @@ class PersonalInfo extends Component {
           <Grid.Row>
             <Grid.Column>
               <Header as="h1" dividing>
-                <FormattedMessage id="personalInfo.title"/>
+                <FormattedMessage id="personalInfo.personalInfoTitle"/>
+                <Header.Subheader>
+                  <FormattedMessage id="personalInfo.personalInfoSubTitle"/>
+                </Header.Subheader>
               </Header>
 
               <Form size="huge" onSubmit={this.handlePersonalInfoSubmit} loading={isFetching}>
@@ -112,6 +116,52 @@ class PersonalInfo extends Component {
                     required
                     />
                 </Form.Group>
+                <Form.Input
+                  label={formatMessage({id: 'personalInfo.email'})}
+                  name="email"
+                  placeholder={formatMessage({id: 'personalInfo.email'})}
+                  defaultValue={email}
+                  type="text"
+                  required
+                  />
+                <Form.Group widths="equal">
+                  <Form.Input
+                    label={formatMessage({id: 'personalInfo.password'})}
+                    name="password"
+                    placeholder={formatMessage({id: 'personalInfo.password'})}
+                    type="password"
+                    />
+
+                  <Form.Input
+                    label={formatMessage({id: 'personalInfo.confirmPassword'})}
+                    name="confirmPassword"
+                    placeholder={formatMessage({id: 'personalInfo.confirmPassword'})}
+                    type="password"
+                    />
+                </Form.Group>
+
+                <Header as="h1" dividing>
+                  <FormattedMessage id="personalInfo.descriptionTitle"/>
+                  <Header.Subheader>
+                    <FormattedMessage id="personalInfo.descriptionSubTitle"/>
+                  </Header.Subheader>
+                </Header>
+
+                <Form.TextArea
+                  name="description"
+                  label={formatMessage({id: 'personalInfo.descriptionLabel'})}
+                  placeholder={formatMessage({id: 'personalInfo.descriptionPlaceholder'})}
+                  defaultValue={description}
+                  rows="5"
+                  />
+
+                <Header as="h1" dividing>
+                  <FormattedMessage id="personalInfo.addressTitle"/>
+                  <Header.Subheader>
+                    <FormattedMessage id="personalInfo.addressSubTitle"/>
+                  </Header.Subheader>
+                </Header>
+
                 <Form.Input
                   label={formatMessage({id: 'personalInfo.addressOne'})}
                   name="addressOne"
@@ -152,29 +202,6 @@ class PersonalInfo extends Component {
                     defaultValue={postalCode}
                     type="text"
                     required
-                    />
-                </Form.Group>
-                <Form.Input
-                  label={formatMessage({id: 'personalInfo.email'})}
-                  name="email"
-                  placeholder={formatMessage({id: 'personalInfo.email'})}
-                  defaultValue={email}
-                  type="text"
-                  required
-                  />
-                <Form.Group widths="equal">
-                  <Form.Input
-                    label={formatMessage({id: 'personalInfo.password'})}
-                    name="password"
-                    placeholder={formatMessage({id: 'personalInfo.password'})}
-                    type="password"
-                    />
-
-                  <Form.Input
-                    label={formatMessage({id: 'personalInfo.confirmPassword'})}
-                    name="confirmPassword"
-                    placeholder={formatMessage({id: 'personalInfo.confirmPassword'})}
-                    type="password"
                     />
                 </Form.Group>
 
