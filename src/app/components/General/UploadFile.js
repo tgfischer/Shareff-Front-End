@@ -5,6 +5,12 @@ import {Button, Header, Modal} from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import $ from 'jquery';
 
+const styles = {
+  uploadButton: {
+    width: '100%'
+  }
+};
+
 class UploadFile extends Component {
   state = {
     isDisabled: true,
@@ -23,10 +29,9 @@ class UploadFile extends Component {
   }
   handleBrowseClick() {
     // Programmically click the hidden input
-    $('input[type=file]').click();
+    $('.uploadFile input[type=file]').click();
   }
   handlePhotoChange(e) {
-    const file = $(e.target);
     let name = '';
 
     // Concatenate all of the filenames together to be displayed
@@ -38,14 +43,14 @@ class UploadFile extends Component {
     name = name.replace(/,\s*$/, '');
 
     // Put the filenames in the input box
-    $('input[type=text]', file.parent()).val(name);
+    $('.uploadFile input[type=text]').val(name);
 
     // Enable the upload button
     this.setState({isDisabled: false});
   }
   handleUploadClick() {
     if (!this.state.isDisabled) {
-      const files = $('input[type=file]')[0].files;
+      const files = $('.uploadFile input[type=file]')[0].files;
       const formData = new FormData();
 
       // Add all of the files to the formData with the same key (files)
@@ -77,33 +82,42 @@ class UploadFile extends Component {
       });
     }
   }
-  handleCloseModal = () => this.setState({openModal: false})
+  handleCloseModal = () => {
+    // Close the modal, disable the button
+    this.setState({openModal: false, isDisabled: true});
+
+    // Reset the input
+    $('.uploadFile input').val('');
+  }
   render() {
     const {fluid, label, multiple, name, required, intl} = this.props;
     const {openModal, modalTitle, modalContent} = this.state;
     const {formatMessage} = intl;
 
     return (
-      <div>
+      <div className="uploadFile">
         <div className="field">
           <label htmlFor={name}>{label}</label>
           <div className="two fields">
-            <div className={required ? "required thirteen wide field" : "thirteen wide field"}>
+            <div className={required ? "required twelve wide field" : "twelve wide field"}>
               <div className={fluid ? "ui fluid file input browse action" : "ui file input browse action"}>
                 <input onClick={this.handleBrowseClick} type="text" readOnly/>
                 <input onChange={this.handlePhotoChange} type="file" name={name} autoComplete="off" className="hidden" multiple={multiple}/>
-                <div onClick={this.handleBrowseClick} className="ui huge primary button">
+                <div onClick={this.handleBrowseClick} className="ui huge primary right labeled icon button">
+                  <i className="folder open icon"></i>
                   <FormattedMessage id="uploadFile.browseButton"/>
                 </div>
               </div>
             </div>
-            <div className="three wide field">
+            <div className="four wide field">
               <div
+                style={styles.uploadButton}
                 onClick={this.handleUploadClick}
                 className={this.state.isDisabled ?
-                  "ui huge primary disabled upload button" :
-                  "ui huge primary upload button"}
+                  "ui huge primary disabled upload right labeled icon button" :
+                  "ui huge primary upload right labeled icon button"}
                 >
+                <i className="upload icon"></i>
                 <FormattedMessage id="uploadFile.uploadButton"/>
               </div>
             </div>
