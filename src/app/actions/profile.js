@@ -34,14 +34,12 @@ const uploadItemRequest = () => ({
 const uploadItemSuccess = () => ({
   type: UPLOAD_ITEM_SUCCESS,
   isFetching: false,
-  success: true,
   err: undefined
 });
 
 const uploadItemFailure = err => ({
   type: UPLOAD_ITEM_FAILURE,
   isFetching: false,
-  success: false,
   err
 });
 
@@ -99,15 +97,15 @@ export const uploadItem = item => {
 
   return dispatch => {
     // kick off request to API
-    dispatch(uploadItemRequest);
+    dispatch(uploadItemRequest());
 
     return fetch(`${BASE_URL}/profile/upload_item`, config).then(res => res.json()).then(json => {
       // Get the user's information, and the error
-      const {success, err} = json;
+      const {err} = json;
 
-      if (success) {
+      if (!err) {
         // Dispatch the success action
-        return dispatch(uploadItemSuccess);
+        return dispatch(uploadItemSuccess());
       }
 
       // If there was a problem, we want to dispatch the error condition

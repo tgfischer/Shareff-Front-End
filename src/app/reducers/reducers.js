@@ -135,13 +135,11 @@ export const reducers = (state = {
     case UPLOAD_ITEM_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        success: action.success,
         err: undefined
       });
     case UPLOAD_ITEM_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
-        success: false,
         err: action.err
       });
     default:
