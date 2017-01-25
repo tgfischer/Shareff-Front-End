@@ -25,3 +25,7 @@
 .hidden {
   display: none !important;
 }
+
+.ui.selection.list.list > .item:hover, .ui.selection.list > .item:hover {
+  background: rgba(0, 0, 0, 0.05);
+}

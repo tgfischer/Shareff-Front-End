@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import $ from 'jquery';
 import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router';
 import {
@@ -7,14 +8,24 @@ import {
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
 import PersonalInfo from './PersonalInfo';
+import Messages from './Messages';
 
 class Profile extends Component {
   state = {
-    activeTab: 'personalInfo'
+    activeTab: 'personalInfo',
+    navBarHeight: 0,
+    pageHeaderHeight: 0
   }
   constructor(props) {
     super(props);
     this.handleTabClick = this.handleTabClick.bind(this);
+  }
+  componentDidMount() {
+    const navBarHeight = $('.nav-bar').outerHeight();
+    const pageHeaderHeight = $('.page-header').outerHeight();
+
+    this.setState({navBarHeight});
+    this.setState({pageHeaderHeight});
   }
   handleTabClick(e, {name}) {
     // Prevent the default action
@@ -23,14 +34,22 @@ class Profile extends Component {
     this.setState({activeTab: name});
   }
   render() {
-    const {activeTab} = this.state;
+    const {activeTab, navBarHeight, pageHeaderHeight} = this.state;
     const {user} = this.props;
     const {firstName, lastName} = user;
+    const styles = {
+      wrapper: {
+        height: '100%'
+      },
+      verticalSegment: {
+        maxHeight: `calc(100vh - ${navBarHeight}px - ${pageHeaderHeight}px)`
+      }
+    };
 
     return (
-      <div>
+      <div style={styles.wrapper}>
         <NavBar/>
-        <Segment color="blue" inverted vertical>
+        <Segment className="page-header" color="blue" inverted vertical>
           <Container>
             <Grid stackable>
               <Grid.Row>
@@ -53,7 +72,7 @@ class Profile extends Component {
             </Grid>
           </Container>
         </Segment>
-        <Segment vertical>
+        <Segment style={styles.verticalSegment} className="vertical-segment" vertical>
           <Container>
             <Grid stackable celled="internally">
               <Grid.Row>
@@ -61,6 +80,9 @@ class Profile extends Component {
                   <Menu size={'huge'} fluid vertical tabular>
                     <Menu.Item name="personalInfo" active={activeTab === 'personalInfo'} onClick={this.handleTabClick}>
                       <FormattedMessage id="profile.personalInfo"/>
+                    </Menu.Item>
+                    <Menu.Item name="messages" active={activeTab === 'messages'} onClick={this.handleTabClick}>
+                      <FormattedMessage id="profile.messages"/>
                     </Menu.Item>
                     <Menu.Item name="billing" active={activeTab === 'billing'} onClick={this.handleTabClick}>
                       <FormattedMessage id="profile.billing"/>
@@ -74,6 +96,9 @@ class Profile extends Component {
                   <Segment>
                     {activeTab === 'personalInfo' &&
                       <PersonalInfo {...this.props}/>
+                    }
+                    {activeTab === 'messages' &&
+                      <Messages {...this.props}/>
                     }
                   </Segment>
                 </Grid.Column>

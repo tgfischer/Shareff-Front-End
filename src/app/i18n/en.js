@@ -69,6 +69,7 @@ const en = {
   profile: {
     title: 'Welcome back, {firstName} {lastName}',
     personalInfo: 'Personal Infomation',
+    messages: 'Messages',
     rentSchedule: 'Rent Schedule',
     billing: 'Billing'
   },
@@ -101,6 +102,14 @@ const en = {
     uploadProfilePhoto: 'Upload your profile photo',
     uploadProfilePhotoLabel: 'Choose a new profile photo below',
     updateInfoButton: 'Update Information'
+  },
+
+  messages: {
+    title: 'Chatting with {firstName} {lastName}',
+    subTitle: 'Email: {email}',
+    inputLabel: 'Enter your message',
+    inputPlaceholder: 'Enter your message...',
+    sendButton: 'Send'
   },
 
   /**
