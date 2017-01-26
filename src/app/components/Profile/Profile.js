@@ -8,7 +8,7 @@ import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
 import PersonalInfo from './PersonalInfo';
 import UploadItem from './UploadItem';
-import Messages from './Messages';
+import Messages from './Messages/Messages';
 
 const styles = {
   wrapper: {
@@ -63,7 +63,7 @@ class Profile extends Component {
         </Segment>
         <Segment className="vertical-segment" vertical>
           <Container>
-            <Grid stackable celled="internally">
+            <Grid stackable>
               <Grid.Row>
                 <Grid.Column width={4}>
                   <Menu size={'huge'} fluid vertical tabular>
@@ -84,7 +84,7 @@ class Profile extends Component {
                     </Menu.Item>
                   </Menu>
                 </Grid.Column>
-                <Grid.Column className="content-column" width={12}>
+                <Grid.Column className="content-column" width={12} stretched>
                   <Segment className="content-segment">
                     {activeTab === 'personalInfo' &&
                       <PersonalInfo {...this.props}/>

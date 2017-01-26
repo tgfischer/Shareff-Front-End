@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
+import validator from 'validator';
 import {
   Button, Form, Grid, Header, Image, Modal
 } from 'semantic-ui-react';
@@ -51,6 +52,7 @@ class PersonalInfo extends Component {
     const {isFetching, intl, user} = this.props;
     const {openModal, modalTitle, modalContent} = this.state;
     const {formatMessage} = intl;
+    const {unescape} = validator;
     const {
       firstName, lastName, line1, line2, city, province, postalCode, email,
       photoUrl, description
@@ -102,7 +104,7 @@ class PersonalInfo extends Component {
                     label={formatMessage({id: 'personalInfo.firstName'})}
                     name="firstName"
                     placeholder={formatMessage({id: 'personalInfo.firstName'})}
-                    defaultValue={firstName}
+                    defaultValue={unescape(firstName || '')}
                     type="text"
                     required
                     />
@@ -111,7 +113,7 @@ class PersonalInfo extends Component {
                     label={formatMessage({id: 'personalInfo.lastName'})}
                     name="lastName"
                     placeholder={formatMessage({id: 'personalInfo.lastName'})}
-                    defaultValue={lastName}
+                    defaultValue={unescape(lastName || '')}
                     type="text"
                     required
                     />
@@ -120,7 +122,7 @@ class PersonalInfo extends Component {
                   label={formatMessage({id: 'personalInfo.email'})}
                   name="email"
                   placeholder={formatMessage({id: 'personalInfo.email'})}
-                  defaultValue={email}
+                  defaultValue={unescape(email || '')}
                   type="text"
                   required
                   />
@@ -151,7 +153,7 @@ class PersonalInfo extends Component {
                   name="description"
                   label={formatMessage({id: 'personalInfo.descriptionLabel'})}
                   placeholder={formatMessage({id: 'personalInfo.descriptionPlaceholder'})}
-                  defaultValue={description}
+                  defaultValue={unescape(description || '')}
                   rows="5"
                   />
 
@@ -166,7 +168,7 @@ class PersonalInfo extends Component {
                   label={formatMessage({id: 'personalInfo.addressOne'})}
                   name="addressOne"
                   placeholder={formatMessage({id: 'personalInfo.addressOne'})}
-                  defaultValue={line1}
+                  defaultValue={unescape(line1 || '')}
                   type="text"
                   required
                   />
@@ -174,14 +176,14 @@ class PersonalInfo extends Component {
                   label={formatMessage({id: 'personalInfo.addressTwo'})}
                   name="addressTwo"
                   placeholder={formatMessage({id: 'personalInfo.addressTwo'})}
-                  defaultValue={line2}
+                  defaultValue={unescape(line2 || '')}
                   type="text"
                   />
                 <Form.Input
                   label={formatMessage({id: 'personalInfo.city'})}
                   name="city"
                   placeholder={formatMessage({id: 'personalInfo.city'})}
-                  defaultValue={city}
+                  defaultValue={unescape(city || '')}
                   type="text"
                   required
                   />
@@ -190,7 +192,7 @@ class PersonalInfo extends Component {
                     label={formatMessage({id: 'personalInfo.province'})}
                     name="province"
                     placeholder={formatMessage({id: 'personalInfo.province'})}
-                    defaultValue={province}
+                    defaultValue={unescape(province || '')}
                     options={provinces}
                     required
                     />
@@ -199,7 +201,7 @@ class PersonalInfo extends Component {
                     label={formatMessage({id: 'personalInfo.postalCode'})}
                     name="postalCode"
                     placeholder={formatMessage({id: 'personalInfo.postalCode'})}
-                    defaultValue={postalCode}
+                    defaultValue={unescape(postalCode || '')}
                     type="text"
                     required
                     />
