@@ -21,3 +21,11 @@
 .ui.breadcrumb a:hover {
   color: rgba(255, 255, 255, 1) !important;
 }
+
+.hidden {
+  display: none !important;
+}
+
+.ui.selection.list.list > .item:hover, .ui.selection.list > .item:hover {
+  background: rgba(0, 0, 0, 0.05);
+}

@@ -8,6 +8,13 @@ import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
 import PersonalInfo from './PersonalInfo';
 import UploadItem from './UploadItem';
+import Messages from './Messages/Messages';
+
+const styles = {
+  wrapper: {
+    height: '100%'
+  }
+};
 
 class Profile extends Component {
   state = {
@@ -29,9 +36,9 @@ class Profile extends Component {
     const {firstName, lastName} = user;
 
     return (
-      <div>
+      <div style={styles.wrapper}>
         <NavBar/>
-        <Segment color="blue" inverted vertical>
+        <Segment className="page-header" color="blue" inverted vertical>
           <Container>
             <Grid stackable>
               <Grid.Row>
@@ -54,14 +61,17 @@ class Profile extends Component {
             </Grid>
           </Container>
         </Segment>
-        <Segment vertical>
+        <Segment className="vertical-segment" vertical>
           <Container>
-            <Grid stackable celled="internally">
+            <Grid stackable>
               <Grid.Row>
                 <Grid.Column width={4}>
                   <Menu size={'huge'} fluid vertical tabular>
                     <Menu.Item name="personalInfo" active={activeTab === 'personalInfo'} onClick={this.handleTabClick}>
                       <FormattedMessage id="profile.personalInfo"/>
+                    </Menu.Item>
+                    <Menu.Item name="messages" active={activeTab === 'messages'} onClick={this.handleTabClick}>
+                      <FormattedMessage id="profile.messages"/>
                     </Menu.Item>
                     <Menu.Item name="billing" active={activeTab === 'billing'} onClick={this.handleTabClick}>
                       <FormattedMessage id="profile.billing"/>
@@ -74,10 +84,13 @@ class Profile extends Component {
                     </Menu.Item>
                   </Menu>
                 </Grid.Column>
-                <Grid.Column width={12} stretched>
-                  <Segment>
+                <Grid.Column className="content-column" width={12} stretched>
+                  <Segment className="content-segment">
                     {activeTab === 'personalInfo' &&
                       <PersonalInfo {...this.props}/>
+                    }
+                    {activeTab === 'messages' &&
+                      <Messages {...this.props}/>
                     }
                     {activeTab === 'uploadItem' &&
                       <UploadItem {...this.props}/>

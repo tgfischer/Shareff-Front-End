@@ -18,7 +18,8 @@ const en = {
   modal: {
     success: 'Success!',
     updatePersonalInfoSuccess: 'Your personal information was successfully updated',
-    uploadItemSuccess: 'Your Item was successfull uploaded',
+    uploadPhotosSuccess: 'Your photo(s) were successfully uploaded',
+    uploadItemSuccess: 'Your item was successfully uploaded',
     error: 'Error!',
     okay: 'Okay',
     cancel: 'Cancel'
@@ -32,6 +33,11 @@ const en = {
     startPlaceholder: 'Start',
     endLabel: 'End Date',
     endPlaceholder: 'End'
+  },
+
+  uploadFile: {
+    browseButton: 'Browse',
+    uploadButton: 'Upload'
   },
 
   /**
@@ -64,6 +70,7 @@ const en = {
   profile: {
     title: 'Welcome back, {firstName} {lastName}',
     personalInfo: 'Personal Infomation',
+    messages: 'Messages',
     rentSchedule: 'Rent Schedule',
     billing: 'Billing',
     uploadItem: 'Upload Item'
@@ -73,21 +80,38 @@ const en = {
    * Personal Info messages
    */
   personalInfo: {
-    title: 'Update your personal information',
+    personalInfoTitle: 'Update your personal information',
+    personalInfoSubTitle: 'Your name and email address will be visible to others',
     firstName: 'First Name',
     lastName: 'Last Name',
+    email: 'Email',
+    password: 'Password',
+    confirmPassword: 'Confirm Password',
+    descriptionTitle: 'Update your profile description',
+    descriptionSubTitle: 'This description will be visible to those that visit your profile',
+    descriptionLabel: 'Profile Description',
+    descriptionPlaceholder: 'Tell us about yourself',
+    addressTitle: 'Update your address',
+    addressSubTitle: 'Only the city and province that you live in will be visible to others',
     addressOne: 'Address Line 1',
     addressTwo: 'Address Line 2',
     city: 'City',
     province: 'Province',
     postalCode: 'Postal Code',
-    email: 'Email',
-    password: 'Password',
-    confirmPassword: 'Confirm Password',
     ccn: 'Credit Card Number',
     cvn: 'CVN',
     expiryDate: 'Expiry Date',
-    updateButton: 'Update'
+    uploadProfilePhoto: 'Upload your profile photo',
+    uploadProfilePhotoLabel: 'Choose a new profile photo below',
+    updateInfoButton: 'Update Information'
+  },
+
+  messages: {
+    title: 'Chatting with {firstName} {lastName}',
+    subTitle: 'Email: {email}',
+    inputLabel: 'Enter your message',
+    inputPlaceholder: 'Enter your message...',
+    sendButton: 'Send'
   },
 
   /**
