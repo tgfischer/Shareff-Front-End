@@ -64,7 +64,8 @@ const en = {
     title: 'Welcome back, {firstName} {lastName}',
     personalInfo: 'Personal Infomation',
     rentSchedule: 'Rent Schedule',
-    billing: 'Billing'
+    billing: 'Billing',
+    rentItem: 'Rent Item'
   },
 
   /**
@@ -86,6 +87,13 @@ const en = {
     cvn: 'CVN',
     expiryDate: 'Expiry Date',
     updateButton: 'Update'
+  },
+
+  /**
+   * Rent Item Info messages
+   */
+  rentItem: {
+    title: 'Your items available for rent'
   },
 
   /**
