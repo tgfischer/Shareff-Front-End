@@ -19,6 +19,7 @@ const en = {
     success: 'Success!',
     updatePersonalInfoSuccess: 'Your personal information was successfully updated',
     uploadPhotosSuccess: 'Your photo(s) were successfully uploaded',
+    uploadItemSuccess: 'Your item was successfully uploaded',
     error: 'Error!',
     okay: 'Okay',
     cancel: 'Cancel'
@@ -71,7 +72,8 @@ const en = {
     personalInfo: 'Personal Infomation',
     messages: 'Messages',
     rentSchedule: 'Rent Schedule',
-    billing: 'Billing'
+    billing: 'Billing',
+    uploadItem: 'Upload Item'
   },
 
   /**
@@ -110,6 +112,22 @@ const en = {
     inputLabel: 'Enter your message',
     inputPlaceholder: 'Enter your message...',
     sendButton: 'Send'
+  },
+
+  /**
+   * Upload Item messages
+   */
+  uploadItem: {
+    pageTitle: 'Upload an item for rent',
+    title: 'Title',
+    description: 'Description',
+    descriptionPlaceholder: 'Tell us about your item. This can include condition of the item, how long you\'ve had it for, or anything that can help your potential renter learn more about the item.',
+    category: 'Category',
+    price: 'Price',
+    terms: 'Terms of Use',
+    termsPlaceholder: 'Write down your terms and conditions for renting your item. This could include uses of the item, what time you want it by, or anything else you want to mention.',
+    uploadPhotoButton: 'Browse',
+    uploadButton: 'Upload'
   },
 
   /**

@@ -7,6 +7,7 @@ import {
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
 import PersonalInfo from './PersonalInfo';
+import UploadItem from './UploadItem';
 import Messages from './Messages';
 
 const styles = {
@@ -78,15 +79,21 @@ class Profile extends Component {
                     <Menu.Item name="rentSchedule" active={activeTab === 'rentSchedule'} onClick={this.handleTabClick}>
                       <FormattedMessage id="profile.rentSchedule"/>
                     </Menu.Item>
+                    <Menu.Item name="uploadItem" active={activeTab === 'uploadItem'} onClick={this.handleTabClick}>
+                      <FormattedMessage id="profile.uploadItem"/>
+                    </Menu.Item>
                   </Menu>
                 </Grid.Column>
-                <Grid.Column width={12}>
-                  <Segment>
+                <Grid.Column className="content-column" width={12}>
+                  <Segment className="content-segment">
                     {activeTab === 'personalInfo' &&
                       <PersonalInfo {...this.props}/>
                     }
                     {activeTab === 'messages' &&
                       <Messages {...this.props}/>
+                    }
+                    {activeTab === 'uploadItem' &&
+                      <UploadItem {...this.props}/>
                     }
                   </Segment>
                 </Grid.Column>
