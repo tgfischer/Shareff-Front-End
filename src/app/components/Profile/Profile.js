@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import $ from 'jquery';
 import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router';
 import {
@@ -10,22 +9,19 @@ import NavBar from '../General/NavBar';
 import PersonalInfo from './PersonalInfo';
 import Messages from './Messages';
 
+const styles = {
+  wrapper: {
+    height: '100%'
+  }
+};
+
 class Profile extends Component {
   state = {
-    activeTab: 'personalInfo',
-    navBarHeight: 0,
-    pageHeaderHeight: 0
+    activeTab: 'personalInfo'
   }
   constructor(props) {
     super(props);
     this.handleTabClick = this.handleTabClick.bind(this);
-  }
-  componentDidMount() {
-    const navBarHeight = $('.nav-bar').outerHeight();
-    const pageHeaderHeight = $('.page-header').outerHeight();
-
-    this.setState({navBarHeight});
-    this.setState({pageHeaderHeight});
   }
   handleTabClick(e, {name}) {
     // Prevent the default action
@@ -34,17 +30,9 @@ class Profile extends Component {
     this.setState({activeTab: name});
   }
   render() {
-    const {activeTab, navBarHeight, pageHeaderHeight} = this.state;
+    const {activeTab} = this.state;
     const {user} = this.props;
     const {firstName, lastName} = user;
-    const styles = {
-      wrapper: {
-        height: '100%'
-      },
-      verticalSegment: {
-        maxHeight: `calc(100vh - ${navBarHeight}px - ${pageHeaderHeight}px)`
-      }
-    };
 
     return (
       <div style={styles.wrapper}>
@@ -72,7 +60,7 @@ class Profile extends Component {
             </Grid>
           </Container>
         </Segment>
-        <Segment style={styles.verticalSegment} className="vertical-segment" vertical>
+        <Segment className="vertical-segment" vertical>
           <Container>
             <Grid stackable celled="internally">
               <Grid.Row>
@@ -92,7 +80,7 @@ class Profile extends Component {
                     </Menu.Item>
                   </Menu>
                 </Grid.Column>
-                <Grid.Column width={12} stretched>
+                <Grid.Column width={12}>
                   <Segment>
                     {activeTab === 'personalInfo' &&
                       <PersonalInfo {...this.props}/>

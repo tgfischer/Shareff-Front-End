@@ -5,22 +5,39 @@ import {
   Form, Grid, Header, Image, List, Segment
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-
-const styles = {
-  messageArea: {
-    margin: '0'
-  }
-};
+import $ from 'jquery';
 
 class Messages extends Component {
+  state = {
+    navBarHeight: 0,
+    pageHeaderHeight: 0
+  }
+  componentDidMount() {
+    const navBarHeight = $('.nav-bar').outerHeight();
+    const pageHeaderHeight = $('.page-header').outerHeight();
+
+    this.setState({navBarHeight});
+    this.setState({pageHeaderHeight});
+  }
   render() {
+    const {navBarHeight, pageHeaderHeight} = this.state;
     const {intl} = this.props;
     const {formatMessage} = intl;
+
+    const styles = {
+      messageArea: {
+        margin: '0'
+      },
+      conversation: {
+        maxHeight: `calc(100vh - ${navBarHeight}px - ${pageHeaderHeight}px)`,
+        overflow: 'auto'
+      }
+    };
 
     return (
       <div>
         <Grid divided>
-          <Grid.Row>
+          <Grid.Row style={styles.conversation} className="conversation">
             <Grid.Column width={4}>
               <List selection verticalAlign="middle" size="large">
                 <List.Item>
