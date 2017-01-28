@@ -173,7 +173,9 @@ const en = {
    */
   rentalItem: {
     description: 'Item Description',
-    termsOfUse: 'Terms of Use'
+    termsOfUse: 'Terms of Use',
+    messageOwnerButton: 'Message Owner',
+    requestToRentButton: 'Request to Rent'
   },
 
   /**

@@ -51,7 +51,10 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"
-    })
+    }),
+    new webpack.EnvironmentPlugin([
+      'GOOGLE_MAPS_API_KEY'
+    ])
   ],
   postcss: () => [autoprefixer],
   debug: true,

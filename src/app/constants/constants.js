@@ -14,6 +14,11 @@ export const PHOTOS_URL = `${BASE_URL}/photos`;
 export const PHOTO_PLACEHOLDER_URL = `${PHOTOS_URL}/white-image.png`;
 
 /**
+ * The path to the Google Maps marker
+ */
+export const GOOGLE_MAPS_MARKER_URL = `${PHOTOS_URL}/marker.png`;
+
+/**
  * The path to the uploads folder
  */
 export const UPLOADS_FOLDER_URL = `${BASE_URL}/uploads`;
