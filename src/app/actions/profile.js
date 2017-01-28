@@ -82,7 +82,7 @@ export const getPersonalInfo = user => {
     // We dispatch request to kickoff the call to the API
     dispatch(getPersonalInfoRequest());
 
-    return fetch(`${BASE_URL}/profile/personal_info`, config).then(res => res.json()).then(json => {
+    return fetch(`${BASE_URL}/profile/personal_info/get_personal_info`, config).then(res => res.json()).then(json => {
       // Get the user's information, and the error
       const {user, err} = json;
 
@@ -114,7 +114,7 @@ export const uploadProfilePhoto = formData => {
     // We dispatch request to kickoff the call to the API
     dispatch(uploadProfilePhotoRequest());
 
-    return fetch(`${BASE_URL}/profile/upload_profile_photo`, config).then(res => res.json()).then(json => {
+    return fetch(`${BASE_URL}/profile/personal_info/upload_profile_photo`, config).then(res => res.json()).then(json => {
       // Get the user's information, and the error
       const {user, err} = json;
 
@@ -150,7 +150,7 @@ export const uploadItem = item => {
     // kick off request to API
     dispatch(uploadItemRequest());
 
-    return fetch(`${BASE_URL}/profile/upload_item`, config).then(res => res.json()).then(json => {
+    return fetch(`${BASE_URL}/profile/upload_item/upload_item`, config).then(res => res.json()).then(json => {
       // Get the user's information, and the error
       const {err} = json;
 

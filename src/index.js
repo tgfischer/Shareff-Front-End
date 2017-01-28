@@ -15,6 +15,8 @@ import {Home} from './app/components/Home/Home';
 import Profile from './app/components/Profile/Profile';
 import Login from './app/components/Login/Login';
 import SignUp from './app/components/SignUp/SignUp';
+import Listings from './app/components/Listings/Listings';
+import RentalItem from './app/components/RentalItem/RentalItem';
 import {requireAuthentication} from './app/components/General/AuthenticatedComponent';
 import {reducers} from './app/reducers/reducers';
 import {i18n} from './app/i18n/i18n';
@@ -43,6 +45,8 @@ ReactDOM.render(
         <Route path="/profile" component={requireAuthentication(Profile, true)}/>
         <Route path="/login" component={requireAuthentication(Login, false)}/>
         <Route path="/signup" component={requireAuthentication(SignUp, false)}/>
+        <Route path="/listings" component={Listings}/>
+        <Route path="/listings/:itemId" component={RentalItem}/>
       </Router>
     </IntlProvider>
   </Provider>,

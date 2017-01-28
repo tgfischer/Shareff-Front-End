@@ -39,6 +39,10 @@ class MessageArea extends Component {
     this.setState({conversationHeaderHeight});
     this.setState({messageInputHeight});
   }
+  componentDidUpdate() {
+    // Scroll to the bottom of the div
+    $('.message-area').scrollTop($('.message-area').prop('scrollHeight'));
+  }
   render() {
     const {
       navBarHeight, pageHeaderHeight, verticalSegmentPadding,
@@ -49,7 +53,7 @@ class MessageArea extends Component {
     const {formatMessage} = intl;
 
     const styles = {
-      conversation: {
+      messageArea: {
         maxHeight: `calc(100vh - ${navBarHeight}px - ${pageHeaderHeight}px - \
           ${verticalSegmentPadding}px - ${contentColumnPadding}px - \
           ${contentSegmentBorderWidth}px - ${conversationHeaderHeight}px - \
@@ -73,7 +77,7 @@ class MessageArea extends Component {
             </Header>
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row style={styles.conversation}>
+        <Grid.Row style={styles.messageArea} className="message-area">
           <Grid style={styles.messageGrid}>
             <Grid.Row>
               <Grid.Column width={10}>

@@ -84,7 +84,7 @@ class Profile extends Component {
                     </Menu.Item>
                   </Menu>
                 </Grid.Column>
-                <Grid.Column className="content-column" width={12} stretched>
+                <Grid.Column className="content-column" width={12}>
                   <Segment className="content-segment">
                     {activeTab === 'personalInfo' &&
                       <PersonalInfo {...this.props}/>

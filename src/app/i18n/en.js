@@ -9,7 +9,8 @@ const en = {
    */
   breadcrumb: {
     home: 'Home',
-    profile: 'Profile'
+    profile: 'Profile',
+    listings: 'Rental Listings'
   },
 
   /**
@@ -111,7 +112,9 @@ const en = {
     subTitle: 'Email: {email}',
     inputLabel: 'Enter your message',
     inputPlaceholder: 'Enter your message...',
-    sendButton: 'Send'
+    sendButton: 'Send',
+    selectRecipientHeader: 'No Conversation Selected',
+    selectRecipientSubHeader: 'Choose someone in the sidebar to talk to'
   },
 
   /**
@@ -163,6 +166,14 @@ const en = {
     signUpButton: 'Sign Up',
     infoMessageTitle: 'Already have an account?',
     infoMessageContent: 'Log into your Shareff account instead!'
+  },
+
+  /**
+   * Rental Item messages
+   */
+  rentalItem: {
+    description: 'Item Description',
+    termsOfUse: 'Terms of Use'
   },
 
   /**
