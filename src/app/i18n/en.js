@@ -172,10 +172,15 @@ const en = {
    * Rental Item messages
    */
   rentalItem: {
+    ownerTitle: 'Owner',
+    priceTitle: 'Price',
+    priceContent: '${price} per day',
+    addressTitle: 'Address',
     description: 'Item Description',
     termsOfUse: 'Terms of Use',
     messageOwnerButton: 'Message Owner',
-    requestToRentButton: 'Request to Rent'
+    requestToRentButton: 'Request to Rent',
+    photosTitle: 'Photos of the item'
   },
 
   /**
