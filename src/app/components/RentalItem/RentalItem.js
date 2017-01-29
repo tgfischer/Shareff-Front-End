@@ -5,9 +5,10 @@ import validator from 'validator';
 import GoogleMap from "google-map-react";
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {
-  Breadcrumb, Button, Container, Grid, Header, Icon, Image, Segment
+  Breadcrumb, Button, Container, Form, Grid, Header, Icon, Image, Modal, Segment
 } from 'semantic-ui-react';
 import NavBar from '../General/NavBar';
+import CalendarRange from '../General/CalendarRange';
 import {Loading} from '../General/Loading';
 import {Marker} from '../General/Marker';
 import {getRentalItem} from '../../actions/rentalItem';
@@ -34,14 +35,32 @@ const styles = {
 };
 
 class RentalItem extends Component {
+  state = {
+    openModal: false,
+    modalTitle: 'modal.requestToRentTitle',
+    modalContent: 'modal.requestToRentDetails'
+  }
+  constructor(props) {
+    super(props);
+    this.handleRequestToRentButton = this.handleRequestToRentButton.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+  }
   componentDidMount() {
     // Fetch the rental item using the item ID in the params
     const {itemId} = this.props.params;
     this.props.dispatch(getRentalItem(itemId));
   }
+  handleRequestToRentButton() {
+    this.setState({openModal: true});
+    this.setState({modalTitle: 'modal.requestToRentTitle'});
+    this.setState({modalContent: 'modal.requestToRentDetails'});
+  }
+  handleCloseModal = () => this.setState({openModal: false})
   render() {
-    const {rentalItem} = this.props;
+    const {rentalItem, intl} = this.props;
+    const {openModal, modalTitle, modalContent} = this.state;
     const {unescape} = validator;
+    const {formatMessage} = intl;
 
     return (
       <div style={styles.wrapper}>
@@ -73,7 +92,7 @@ class RentalItem extends Component {
                       </Header>
                     </Grid.Column>
                     <Grid.Column width={3} floated="right">
-                      <Button size="big" inverted fluid>
+                      <Button onClick={this.handleRequestToRentButton} size="big" inverted fluid>
                         <FormattedMessage id="rentalItem.requestToRentButton"/>
                       </Button>
                     </Grid.Column>
@@ -107,7 +126,20 @@ class RentalItem extends Component {
                         </Header.Content>
                       </Header>
                     </Grid.Column>
-                    <Grid.Column width={10}>
+                    <Grid.Column width={4}>
+                      <Header as="h2" inverted>
+                        <Icon name="thumbs up"/>
+                        <Header.Content>
+                          <FormattedMessage id="rentalItem.ratingTitle"/>
+                          <Header.Subheader>
+                            {!rentalItem.rating &&
+                              <FormattedMessage id="rentalItem.noRatings"/>
+                            }
+                          </Header.Subheader>
+                        </Header.Content>
+                      </Header>
+                    </Grid.Column>
+                    <Grid.Column width={6}>
                       <Header as="h2" inverted>
                         <Icon name="home"/>
                         <Header.Content>
@@ -190,6 +222,45 @@ class RentalItem extends Component {
           </div> :
           <Loading/>
         }
+        <Modal dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
+          <Modal.Header>
+            <Header as="h1">
+              <FormattedMessage id={modalTitle}/>
+            </Header>
+          </Modal.Header>
+          <Modal.Content>
+            <Grid stackable>
+              <Grid.Row>
+                <Grid.Column>
+                  <Header as="h3">
+                    <FormattedMessage id={modalContent}/>
+                  </Header>
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column>
+                  <Form size="huge">
+                    <CalendarRange/>
+                  </Form>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button
+              content={formatMessage({id: 'modal.okay'})}
+              onClick={this.handleCloseModal}
+              size="huge"
+              primary
+              />
+            <Button
+              content={formatMessage({id: 'modal.cancel'})}
+              onClick={this.handleCloseModal}
+              size="huge"
+              basic
+              />
+          </Modal.Actions>
+        </Modal>
       </div>
     );
   }

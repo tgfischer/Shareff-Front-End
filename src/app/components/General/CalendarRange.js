@@ -10,7 +10,7 @@ import '../../../../node_modules/semantic-ui-calendar/dist/calendar.min.css';
 
 class CalendarRange extends Component {
   componentDidMount() {
-    $(".ui.calendar").calendar({
+    $("#rangestart").calendar({
       endCalendar: $('#rangeend')
     });
     $('#rangeend').calendar({

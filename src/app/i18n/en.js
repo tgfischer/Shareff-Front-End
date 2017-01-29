@@ -21,6 +21,8 @@ const en = {
     updatePersonalInfoSuccess: 'Your personal information was successfully updated',
     uploadPhotosSuccess: 'Your photo(s) were successfully uploaded',
     uploadItemSuccess: 'Your item was successfully uploaded',
+    requestToRentTitle: 'Request to Rent Item',
+    requestToRentDetails: 'Select the dates that you would like to rent the item on',
     error: 'Error!',
     okay: 'Okay',
     cancel: 'Cancel'
@@ -176,6 +178,8 @@ const en = {
     priceTitle: 'Price',
     priceContent: '${price} per day',
     addressTitle: 'Address',
+    ratingTitle: 'Owner Rating',
+    noRatings: 'No one has rated this owner yet',
     description: 'Item Description',
     termsOfUse: 'Terms of Use',
     messageOwnerButton: 'Message Owner',
