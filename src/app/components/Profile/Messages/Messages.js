@@ -2,31 +2,48 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {
-  Grid, List
+  Grid, Header, Icon, List, Segment
 } from 'semantic-ui-react';
-import {intlShape, injectIntl} from 'react-intl';
-import {Conversation} from './Conversation';
+import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
+import {Recipient} from './Recipient';
 import MessageArea from './MessageArea';
 
 class Messages extends Component {
   state = {
-    selectedConversation: null
+    selectedRecipient: null
   }
-  handleConversationClick() {
-
+  constructor(props) {
+    super(props);
+    this.handleRecipientClick = this.handleRecipientClick.bind(this);
   }
+  handleRecipientClick = ({recipient}) => this.setState({selectedRecipient: recipient.userId})
   render() {
+    const {selectedRecipient} = this.state;
+
     return (
       <div>
         <Grid divided>
           <Grid.Row className="conversation">
             <Grid.Column width={4}>
               <List selection verticalAlign="middle" size="large">
-                <Conversation recipient={{userId: 1}}/>
+                <Recipient onClick={this.handleRecipientClick} recipient={{userId: 'a57ef477-6383-4797-b9b6-27dbe62d9010', firstName: 'Bill', lastName: 'Fischer', email: 'tfische5@uwo.ca', photoUrl: '/photos/uploads/profile/9ca9df5d-260a-4f62-9f74-ce8d22dded28.JPG'}}/>
               </List>
             </Grid.Column>
             <Grid.Column width={12}>
-              <MessageArea {...this.props}/>
+              {selectedRecipient &&
+                <MessageArea recipient={selectedRecipient} {...this.props}/>
+              }
+              {!selectedRecipient &&
+                <Segment textAlign="center" basic>
+                  <Header as="h2" icon>
+                    <Icon name="warning"/>
+                    <FormattedMessage id="messages.selectRecipientHeader"/>
+                    <Header.Subheader>
+                      <FormattedMessage id="messages.selectRecipientSubHeader"/>
+                    </Header.Subheader>
+                  </Header>
+                </Segment>
+              }
             </Grid.Column>
           </Grid.Row>
         </Grid>

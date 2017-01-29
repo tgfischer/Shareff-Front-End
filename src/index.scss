@@ -29,3 +29,11 @@
 .ui.selection.list.list > .item:hover, .ui.selection.list > .item:hover {
   background: rgba(0, 0, 0, 0.05);
 }
+
+.ui.inverted.dark.blue.segment {
+  background-color: #1E76B9 !important;
+}
+
+.ui.inverted.button {
+  box-shadow: 0 0 0 1px #FFF inset!important
+}

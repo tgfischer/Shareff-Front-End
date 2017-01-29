@@ -5,7 +5,8 @@ import {
   GET_PERSONAL_INFO_REQUEST, GET_PERSONAL_INFO_SUCCESS, GET_PERSONAL_INFO_FAILURE,
   GET_LISTINGS_REQUEST, GET_LISTINGS_SUCCESS, GET_LISTINGS_FAILURE,
   UPLOAD_PROFILE_PHOTO_REQUEST, UPLOAD_PROFILE_PHOTO_SUCCESS, UPLOAD_PROFILE_PHOTO_FAILURE,
-  UPLOAD_ITEM_REQUEST, UPLOAD_ITEM_SUCCESS, UPLOAD_ITEM_FAILURE
+  UPLOAD_ITEM_REQUEST, UPLOAD_ITEM_SUCCESS, UPLOAD_ITEM_FAILURE,
+  GET_RENTAL_ITEM_REQUEST, GET_RENTAL_ITEM_SUCCESS, GET_RENTAL_ITEM_FAILURE
 } from '../constants/constants';
 
 // The auth reducer. The starting state sets authentication
@@ -34,7 +35,7 @@ export const reducers = (state = {
         isFetching: false,
         isAuthenticated: false,
         user: undefined,
-        err: action.message
+        err: action.err
       });
     case SIGNUP_REQUEST:
       return Object.assign({}, state, {
@@ -55,7 +56,7 @@ export const reducers = (state = {
         isFetching: false,
         isAuthenticated: false,
         user: undefined,
-        err: action.message
+        err: action.err
       });
     case LOGOUT_REQUEST:
       return Object.assign({}, state, {
@@ -88,7 +89,7 @@ export const reducers = (state = {
         isFetching: false,
         isAuthenticated: false,
         user: undefined,
-        err: action.message
+        err: action.err
       });
     case GET_PERSONAL_INFO_REQUEST:
       return Object.assign({}, state, {
@@ -125,7 +126,7 @@ export const reducers = (state = {
       return Object.assign({}, state, {
         isFetching: false,
         listings: undefined,
-        err: action.message
+        err: action.err
       });
     case UPLOAD_PROFILE_PHOTO_REQUEST:
       return Object.assign({}, state, {
@@ -141,7 +142,7 @@ export const reducers = (state = {
     case UPLOAD_PROFILE_PHOTO_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
-        err: action.message
+        err: action.err
       });
     case UPLOAD_ITEM_REQUEST:
       return Object.assign({}, state, {
@@ -156,6 +157,24 @@ export const reducers = (state = {
     case UPLOAD_ITEM_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
+        err: action.err
+      });
+    case GET_RENTAL_ITEM_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        rentalItem: undefined,
+        err: undefined
+      });
+    case GET_RENTAL_ITEM_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: undefined,
+        rentalItem: action.rentalItem
+      });
+    case GET_RENTAL_ITEM_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        rentalItem: undefined,
         err: action.err
       });
     default:

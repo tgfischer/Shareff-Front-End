@@ -14,6 +14,11 @@ export const PHOTOS_URL = `${BASE_URL}/photos`;
 export const PHOTO_PLACEHOLDER_URL = `${PHOTOS_URL}/white-image.png`;
 
 /**
+ * The path to the Google Maps marker
+ */
+export const GOOGLE_MAPS_MARKER_URL = `${PHOTOS_URL}/marker.png`;
+
+/**
  * The path to the uploads folder
  */
 export const UPLOADS_FOLDER_URL = `${BASE_URL}/uploads`;
@@ -72,3 +77,10 @@ export const UPLOAD_PROFILE_PHOTO_FAILURE = 'UPLOAD_PROFILE_PHOTO_FAILURE';
 export const UPLOAD_ITEM_REQUEST = 'UPLOAD_ITEM_REQUEST';
 export const UPLOAD_ITEM_SUCCESS = 'UPLOAD_ITEM_SUCCESS';
 export const UPLOAD_ITEM_FAILURE = 'UPLOAD_ITEM_FAILURE';
+
+/**
+ * Actions for getting a rental item
+ */
+export const GET_RENTAL_ITEM_REQUEST = 'GET_RENTAL_ITEM_REQUEST';
+export const GET_RENTAL_ITEM_SUCCESS = 'GET_RENTAL_ITEM_SUCCESS';
+export const GET_RENTAL_ITEM_FAILURE = 'GET_RENTAL_ITEM_FAILURE';

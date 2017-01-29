@@ -9,7 +9,8 @@ const en = {
    */
   breadcrumb: {
     home: 'Home',
-    profile: 'Profile'
+    profile: 'Profile',
+    listings: 'Rental Listings'
   },
 
   /**
@@ -20,6 +21,8 @@ const en = {
     updatePersonalInfoSuccess: 'Your personal information was successfully updated',
     uploadPhotosSuccess: 'Your photo(s) were successfully uploaded',
     uploadItemSuccess: 'Your item was successfully uploaded',
+    requestToRentTitle: 'Request to Rent Item',
+    requestToRentDetails: 'Select the dates that you would like to rent the item on',
     error: 'Error!',
     okay: 'Okay',
     cancel: 'Cancel'
@@ -111,7 +114,9 @@ const en = {
     subTitle: 'Email: {email}',
     inputLabel: 'Enter your message',
     inputPlaceholder: 'Enter your message...',
-    sendButton: 'Send'
+    sendButton: 'Send',
+    selectRecipientHeader: 'No Conversation Selected',
+    selectRecipientSubHeader: 'Choose someone in the sidebar to talk to'
   },
 
   /**
@@ -163,6 +168,23 @@ const en = {
     signUpButton: 'Sign Up',
     infoMessageTitle: 'Already have an account?',
     infoMessageContent: 'Log into your Shareff account instead!'
+  },
+
+  /**
+   * Rental Item messages
+   */
+  rentalItem: {
+    ownerTitle: 'Owner',
+    priceTitle: 'Price',
+    priceContent: '${price} per day',
+    addressTitle: 'Address',
+    ratingTitle: 'Owner Rating',
+    noRatings: 'No one has rated this owner yet',
+    description: 'Item Description',
+    termsOfUse: 'Terms of Use',
+    messageOwnerButton: 'Message Owner',
+    requestToRentButton: 'Request to Rent',
+    photosTitle: 'Photos of the item'
   },
 
   /**
