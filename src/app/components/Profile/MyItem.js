@@ -5,7 +5,7 @@ import {Grid, Header, Image, Item} from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {DataTableSemantic} from '../General/DataTable';
 
-class RentItem extends Component {
+class MyItem extends Component {
   render() {
     const columns = ["Name", "Position", "Office", "Age", "Start Date", "Salary"];
     const itemlist = [
@@ -34,7 +34,7 @@ class RentItem extends Component {
         <Grid>
           <Grid.Column>
             <Header as="h1" dividing>
-              <FormattedMessage id="rentItem.title"/>
+              <FormattedMessage id="myItem.title"/>
             </Header>
             <Item.Group divided>
               {items.map(item =>
@@ -58,7 +58,7 @@ class RentItem extends Component {
   }
 }
 
-RentItem.propTypes = {
+MyItem.propTypes = {
   intl: intlShape.isRequired,
   isAuthenticated: React.PropTypes.bool,
   isFetching: React.PropTypes.bool,
@@ -80,4 +80,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withRouter(injectIntl(RentItem)));
+export default connect(mapStateToProps)(withRouter(injectIntl(MyItem)));

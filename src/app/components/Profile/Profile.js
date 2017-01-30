@@ -7,7 +7,8 @@ import {
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
 import PersonalInfo from './PersonalInfo';
-import RentItem from './RentItem';
+import MyItem from './YourItem';
+import UploadItem from './UploadItem';
 
 class Profile extends Component {
   state = {
@@ -69,8 +70,11 @@ class Profile extends Component {
                     <Menu.Item name="rentSchedule" active={activeTab === 'rentSchedule'} onClick={this.handleTabClick}>
                       <FormattedMessage id="profile.rentSchedule"/>
                     </Menu.Item>
-                    <Menu.Item name="rentItem" active={activeTab === 'rentItem'} onClick={this.handleTabClick}>
-                      <FormattedMessage id="profile.rentItem"/>
+                    <Menu.Item name="rentItem" active={activeTab === 'myItem'} onClick={this.handleTabClick}>
+                      <FormattedMessage id="profile.myItem"/>
+                    </Menu.Item>
+                    <Menu.Item name="uploadItem" active={activeTab === 'uploadItem'} onClick={this.handleTabClick}>
+                      <FormattedMessage id="profile.uploadItem"/>
                     </Menu.Item>
                   </Menu>
                 </Grid.Column>
@@ -79,8 +83,11 @@ class Profile extends Component {
                     {activeTab === 'personalInfo' &&
                       <PersonalInfo {...this.props}/>
                     }
-                    {activeTab === 'rentItem' &&
-                      <RentItem {...this.props}/>
+                    {activeTab === 'myItem' &&
+                      <MyItem {...this.props}/>
+                    }
+                    {activeTab === 'uploadItem' &&
+                      <UploadItem {...this.props}/>
                     }
                   </Segment>
                 </Grid.Column>

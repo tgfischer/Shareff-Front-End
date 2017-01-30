@@ -1,5 +1,6 @@
 import {
-  BASE_URL, GET_PERSONAL_INFO_REQUEST, GET_PERSONAL_INFO_SUCCESS, GET_PERSONAL_INFO_FAILURE
+  BASE_URL, GET_PERSONAL_INFO_REQUEST, GET_PERSONAL_INFO_SUCCESS, GET_PERSONAL_INFO_FAILURE,
+  UPLOAD_ITEM_REQUEST, UPLOAD_ITEM_SUCCESS, UPLOAD_ITEM_FAILURE
 } from '../constants/constants';
 
 const getPersonalInfoRequest = user => ({
@@ -24,12 +25,48 @@ const getPersonalInfoFailure = err => ({
   err
 });
 
+const uploadItemRequest = () => ({
+  type: UPLOAD_ITEM_REQUEST,
+  isFetching: true,
+  err: undefined
+});
+
+const uploadItemSuccess = () => ({
+  type: UPLOAD_ITEM_SUCCESS,
+  isFetching: false,
+  err: undefined
+});
+
+const uploadItemFailure = err => ({
+  type: UPLOAD_ITEM_FAILURE,
+  isFetching: false,
+  err
+});
+
+const getMyItemsRequest = () => ({
+  type: GET_MY_ITEMS_REQUEST,
+  isFetching: true,
+  err: undefined
+});
+
+const getMyItemsSuccess = () => ({
+  type: GET_MY_ITEMS_SUCCESS,
+  isFetching: false,
+  err: undefined
+});
+
+const getMyItemsFailure = err => ({
+  type: GET_MY_ITEMS_FAILURE,
+  isFetching: true,
+  err
+});
+
 /**
  * Get the user's personal information from the database
  */
 export const getPersonalInfo = user => {
   // Send the token as well so that we can validate that the user that is logged
-  // is only modifying their own data
+  // in is only modifying their own data
   user.token = localStorage.getItem('token');
 
   const config = {
@@ -37,7 +74,6 @@ export const getPersonalInfo = user => {
     headers: {
       'Content-Type': 'application/json'
     },
-    // Note the quotes for the templating
     body: JSON.stringify(user)
   };
 
@@ -60,6 +96,78 @@ export const getPersonalInfo = user => {
     }).catch(err => {
       console.log(err);
       return dispatch(getPersonalInfoFailure(err));
+    });
+  };
+};
+
+export const uploadItem = item => {
+  // Send the token as well so that we can validate that the user that is logged
+  // in is only modifying their own data
+  item.token = localStorage.getItem('token');
+
+  const config = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(item)
+  };
+
+  return dispatch => {
+    // kick off request to API
+    dispatch(uploadItemRequest());
+
+    return fetch(`${BASE_URL}/profile/upload_item`, config).then(res => res.json()).then(json => {
+      // Get the user's information, and the error
+      const {err} = json;
+
+      if (!err) {
+        // Dispatch the success action
+        return dispatch(uploadItemSuccess());
+      }
+
+      // If there was a problem, we want to dispatch the error condition
+      console.log(err);
+      return dispatch(uploadItemFailure(err));
+    }).catch(err => {
+      console.log(err);
+      return dispatch(uploadItemFailure(err));
+    });
+  };
+};
+
+export const getMyItems = owner => {
+  // Send the token as well so that we can validate that the user that is logged
+  // in is only modifying their own data
+  owner.token = localStorage.getItem('token');
+
+  const config = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(owner)
+  };
+
+  return dispatch => {
+    // kick off request to API
+    dispatch(getMyItemsRequest());
+
+    return fetch(`${BASE_URL}/profile/my_items'`, config).then(res => res.json()).then(json => {
+      // Get the owner's information, and the error
+      const {err} = json;
+
+      if (!err) {
+        // Dispatch the success action
+        return dispatch(getMyItemsSuccess());
+      }
+
+      // if there was a problem, we want to dispatch the error condition
+      console.log(err);
+      return dispatch(getMyItemsFailure(err));
+    }).catch(err => {
+      console.log(err);
+      return dispatch(getMyItemsFailure(err));
     });
   };
 };

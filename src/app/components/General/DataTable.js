@@ -29,7 +29,7 @@ export class DataTableSemantic extends Component {
           </tfoot>
           <tbody>
             {items.map((item, index) => {
-              return (<tr key={index}> {
+              return (<tr key={index}>{
                 columns.map(column =>
                   <td key={column}>{item[column]}</td>
                 )
