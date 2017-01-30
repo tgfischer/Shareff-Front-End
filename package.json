@@ -2,6 +2,7 @@
   "dependencies": {
     "axios": "^0.9.1",
     "babel-preset-stage-0": "^6.16.0",
+    "google-map-react": "^0.22.3",
     "jquery": "^3.1.1",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
@@ -20,7 +21,8 @@
     "datatables.net": "^1.10.10",
     "datatables.net-se": "^1.4.2",
     "datatables.net-fixedheader": "*",
-    "datatables.net-fixedheader-se": "*"
+    "datatables.net-fixedheader-se": "*",
+    "validator": "^6.2.1"
   },
   "devDependencies": {
     "react-addons-test-utils": "^15.0.1",

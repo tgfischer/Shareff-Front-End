@@ -23,7 +23,7 @@ class NavBar extends Component {
   }
   render() {
     return (
-      <Menu size="huge" className="no-shadow" style={styles.menu}>
+      <Menu size="huge" className="nav-bar no-shadow" style={styles.menu}>
         <Container>
           <Menu.Item as={Link} to="/" className="bold" activeClassName="active" header>
             <FormattedMessage id="navBar.title"/>

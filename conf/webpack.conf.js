@@ -51,14 +51,17 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"
-    })
+    }),
+    new webpack.EnvironmentPlugin([
+      'GOOGLE_MAPS_API_KEY'
+    ])
   ],
   postcss: () => [autoprefixer],
   debug: true,
   devtool: 'source-map',
   output: {
     path: path.join(process.cwd(), conf.paths.tmp),
-    filename: 'index.js'
+    filename: '/index.js'
   },
   entry: [
     'webpack/hot/dev-server',

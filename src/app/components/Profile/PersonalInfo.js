@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
+import validator from 'validator';
 import {
-  Button, Form, Grid, Header, Modal
+  Button, Form, Grid, Header, Image, Modal
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import {getPersonalInfo} from '../../actions/profile';
+import {BASE_URL} from '../../constants/constants';
+import {getPersonalInfo, uploadProfilePhoto} from '../../actions/profile';
+import UploadFile from '../General/UploadFile';
 
 class PersonalInfo extends Component {
   state = {
@@ -15,10 +18,10 @@ class PersonalInfo extends Component {
   }
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handlePersonalInfoSubmit = this.handlePersonalInfoSubmit.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
   }
-  handleSubmit(e, {formData}) {
+  handlePersonalInfoSubmit(e, {formData}) {
     e.preventDefault();
 
     const {intl, user} = this.props;
@@ -49,8 +52,10 @@ class PersonalInfo extends Component {
     const {isFetching, intl, user} = this.props;
     const {openModal, modalTitle, modalContent} = this.state;
     const {formatMessage} = intl;
+    const {unescape} = validator;
     const {
-      firstName, lastName, line1, line2, city, province, postalCode, email
+      firstName, lastName, line1, line2, city, province, postalCode, email,
+      photoUrl, description
     } = user;
 
     const provinces = [{
@@ -82,130 +87,185 @@ class PersonalInfo extends Component {
     }];
 
     return (
-      <Grid>
-        <Grid.Column>
-          <Header as="h1" dividing>
-            <FormattedMessage id="personalInfo.title"/>
-          </Header>
+      <div>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column>
+              <Header as="h1" dividing>
+                <FormattedMessage id="personalInfo.personalInfoTitle"/>
+                <Header.Subheader>
+                  <FormattedMessage id="personalInfo.personalInfoSubTitle"/>
+                </Header.Subheader>
+              </Header>
 
-          <Form size="huge" onSubmit={this.handleSubmit} loading={isFetching}>
-            <Form.Group widths="equal">
-              <Form.Input
-                label={formatMessage({id: 'personalInfo.firstName'})}
-                name="firstName"
-                placeholder={formatMessage({id: 'personalInfo.firstName'})}
-                defaultValue={firstName}
-                type="text"
-                required
-                />
+              <Form size="huge" onSubmit={this.handlePersonalInfoSubmit} loading={isFetching}>
+                <Form.Group widths="equal">
+                  <Form.Input
+                    label={formatMessage({id: 'personalInfo.firstName'})}
+                    name="firstName"
+                    placeholder={formatMessage({id: 'personalInfo.firstName'})}
+                    defaultValue={unescape(firstName || '')}
+                    type="text"
+                    required
+                    />
 
-              <Form.Input
-                label={formatMessage({id: 'personalInfo.lastName'})}
-                name="lastName"
-                placeholder={formatMessage({id: 'personalInfo.lastName'})}
-                defaultValue={lastName}
-                type="text"
-                required
-                />
-            </Form.Group>
-            <Form.Input
-              label={formatMessage({id: 'personalInfo.addressOne'})}
-              name="addressOne"
-              placeholder={formatMessage({id: 'personalInfo.addressOne'})}
-              defaultValue={line1}
-              type="text"
-              required
-              />
-            <Form.Input
-              label={formatMessage({id: 'personalInfo.addressTwo'})}
-              name="addressTwo"
-              placeholder={formatMessage({id: 'personalInfo.addressTwo'})}
-              defaultValue={line2}
-              type="text"
-              />
-            <Form.Input
-              label={formatMessage({id: 'personalInfo.city'})}
-              name="city"
-              placeholder={formatMessage({id: 'personalInfo.city'})}
-              defaultValue={city}
-              type="text"
-              required
-              />
-            <Form.Group widths="equal">
-              <Form.Select
-                label={formatMessage({id: 'personalInfo.province'})}
-                name="province"
-                placeholder={formatMessage({id: 'personalInfo.province'})}
-                defaultValue={province}
-                options={provinces}
-                required
-                />
+                  <Form.Input
+                    label={formatMessage({id: 'personalInfo.lastName'})}
+                    name="lastName"
+                    placeholder={formatMessage({id: 'personalInfo.lastName'})}
+                    defaultValue={unescape(lastName || '')}
+                    type="text"
+                    required
+                    />
+                </Form.Group>
+                <Form.Input
+                  label={formatMessage({id: 'personalInfo.email'})}
+                  name="email"
+                  placeholder={formatMessage({id: 'personalInfo.email'})}
+                  defaultValue={unescape(email || '')}
+                  type="text"
+                  required
+                  />
+                <Form.Group widths="equal">
+                  <Form.Input
+                    label={formatMessage({id: 'personalInfo.password'})}
+                    name="password"
+                    placeholder={formatMessage({id: 'personalInfo.password'})}
+                    type="password"
+                    />
 
-              <Form.Input
-                label={formatMessage({id: 'personalInfo.postalCode'})}
-                name="postalCode"
-                placeholder={formatMessage({id: 'personalInfo.postalCode'})}
-                defaultValue={postalCode}
-                type="text"
-                required
-                />
-            </Form.Group>
-            <Form.Input
-              label={formatMessage({id: 'personalInfo.email'})}
-              name="email"
-              placeholder={formatMessage({id: 'personalInfo.email'})}
-              defaultValue={email}
-              type="text"
-              required
-              />
-            <Form.Group widths="equal">
-              <Form.Input
-                label={formatMessage({id: 'personalInfo.password'})}
-                name="password"
-                placeholder={formatMessage({id: 'personalInfo.password'})}
-                type="password"
-                />
+                  <Form.Input
+                    label={formatMessage({id: 'personalInfo.confirmPassword'})}
+                    name="confirmPassword"
+                    placeholder={formatMessage({id: 'personalInfo.confirmPassword'})}
+                    type="password"
+                    />
+                </Form.Group>
 
-              <Form.Input
-                label={formatMessage({id: 'personalInfo.confirmPassword'})}
-                name="confirmPassword"
-                placeholder={formatMessage({id: 'personalInfo.confirmPassword'})}
-                type="password"
-                />
-            </Form.Group>
+                <Header as="h1" dividing>
+                  <FormattedMessage id="personalInfo.descriptionTitle"/>
+                  <Header.Subheader>
+                    <FormattedMessage id="personalInfo.descriptionSubTitle"/>
+                  </Header.Subheader>
+                </Header>
 
+                <Form.TextArea
+                  name="description"
+                  label={formatMessage({id: 'personalInfo.descriptionLabel'})}
+                  placeholder={formatMessage({id: 'personalInfo.descriptionPlaceholder'})}
+                  defaultValue={unescape(description || '')}
+                  rows="5"
+                  />
+
+                <Header as="h1" dividing>
+                  <FormattedMessage id="personalInfo.addressTitle"/>
+                  <Header.Subheader>
+                    <FormattedMessage id="personalInfo.addressSubTitle"/>
+                  </Header.Subheader>
+                </Header>
+
+                <Form.Input
+                  label={formatMessage({id: 'personalInfo.addressOne'})}
+                  name="addressOne"
+                  placeholder={formatMessage({id: 'personalInfo.addressOne'})}
+                  defaultValue={unescape(line1 || '')}
+                  type="text"
+                  required
+                  />
+                <Form.Input
+                  label={formatMessage({id: 'personalInfo.addressTwo'})}
+                  name="addressTwo"
+                  placeholder={formatMessage({id: 'personalInfo.addressTwo'})}
+                  defaultValue={unescape(line2 || '')}
+                  type="text"
+                  />
+                <Form.Input
+                  label={formatMessage({id: 'personalInfo.city'})}
+                  name="city"
+                  placeholder={formatMessage({id: 'personalInfo.city'})}
+                  defaultValue={unescape(city || '')}
+                  type="text"
+                  required
+                  />
+                <Form.Group widths="equal">
+                  <Form.Select
+                    label={formatMessage({id: 'personalInfo.province'})}
+                    name="province"
+                    placeholder={formatMessage({id: 'personalInfo.province'})}
+                    defaultValue={unescape(province || '')}
+                    options={provinces}
+                    required
+                    />
+
+                  <Form.Input
+                    label={formatMessage({id: 'personalInfo.postalCode'})}
+                    name="postalCode"
+                    placeholder={formatMessage({id: 'personalInfo.postalCode'})}
+                    defaultValue={unescape(postalCode || '')}
+                    type="text"
+                    required
+                    />
+                </Form.Group>
+
+                <Button
+                  content={formatMessage({id: 'personalInfo.updateInfoButton'})}
+                  size="huge"
+                  type="submit"
+                  icon="save"
+                  labelPosition="right"
+                  primary
+                  />
+              </Form>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <Form size="huge" onSubmit={this.handleProfilePhotoSubmit} loading={isFetching}>
+                <Header as="h1" dividing>
+                  <FormattedMessage id="personalInfo.uploadProfilePhoto"/>
+                </Header>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Image src={BASE_URL + photoUrl} shape="rounded" size="medium" centered bordered/>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <UploadFile
+                        label={formatMessage({id: 'personalInfo.uploadProfilePhotoLabel'})}
+                        uploadAction={uploadProfilePhoto}
+                        name="uploadProfilePhoto"
+                        fluid
+                        />
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Form>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        <Modal size="small" dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
+          <Modal.Header>
+            <Header as="h1">
+              {modalTitle}
+            </Header>
+          </Modal.Header>
+          <Modal.Content>
+            <Header as="h3">
+              {modalContent}
+            </Header>
+          </Modal.Content>
+          <Modal.Actions>
             <Button
-              content={formatMessage({id: 'personalInfo.updateButton'})}
+              content={formatMessage({id: 'modal.okay'})}
+              onClick={this.handleCloseModal}
               size="huge"
-              type="submit"
-              icon="save"
-              labelPosition="right"
               primary
               />
-          </Form>
-
-          <Modal size="small" dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
-            <Modal.Header>
-              <Header as="h1">
-                {modalTitle}
-              </Header>
-            </Modal.Header>
-            <Modal.Content>
-              <Header as="h3">
-                {modalContent}
-              </Header>
-            </Modal.Content>
-            <Modal.Actions>
-              <Button
-                content={formatMessage({id: 'modal.okay'})}
-                onClick={this.handleCloseModal}
-                size="huge"
-                primary
-                />
-            </Modal.Actions>
-          </Modal>
-        </Grid.Column>
-      </Grid>
+          </Modal.Actions>
+        </Modal>
+      </div>
     );
   }
 }
