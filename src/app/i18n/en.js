@@ -26,6 +26,7 @@ const en = {
     requestPriceTitle: 'Cost to Rent Item: ${price}',
     invalidDates: 'Select valid start and end dates to calculate the price',
     makeRequest: 'Make Request',
+    makeRentRequestSuccess: 'Your request to rent this item was successful. You will be notified once the owner has reviewed this request',
     error: 'Error!',
     okay: 'Okay',
     cancel: 'Cancel'

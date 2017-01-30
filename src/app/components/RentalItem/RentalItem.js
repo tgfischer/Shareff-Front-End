@@ -39,6 +39,9 @@ const styles = {
 class RentalItem extends Component {
   state = {
     openModal: false,
+    openResponseModal: false,
+    modalTitle: 'modal.error',
+    modalContent: 'error.general',
     isMakeRequestButtonDisabled: true,
     startDate: {},
     endDate: {},
@@ -80,12 +83,17 @@ class RentalItem extends Component {
       this.setState({totalPrice});
     }
   }
-  handleCloseModal = () => this.setState({openModal: false})
+  handleCloseModal = () => this.setState({
+    openModal: false,
+    isMakeRequestButtonDisabled: true
+  })
+  handleCloseResponseModal = () => this.setState({openResponseModal: false})
   handleMakeRentRequest(e) {
     e.preventDefault();
 
     const {startDate, endDate} = this.state;
-    const {user, rentalItem, router} = this.props;
+    const {user, rentalItem, intl} = this.props;
+    const {formatMessage} = intl;
 
     // Make the rent request
     this.props.dispatch(makeRentRequest({
@@ -93,15 +101,27 @@ class RentalItem extends Component {
       userId: user.userId,
       startDate: startDate.date,
       endDate: endDate.date
-    })).then(() => {
-      // Redirect them to their profile
-      router.push('/profile');
+    })).then(err => {
+      // Set the modal title
+      const title = err ? 'modal.error' : 'modal.success';
+      this.setState({modalTitle: formatMessage({id: title})});
+
+      // Set the modal content
+      const content = err ? 'error.general' : 'modal.makeRentRequestSuccess';
+      this.setState({modalContent: formatMessage({id: content})});
+
+      // Open the modal
+      this.setState({
+        openModal: false,
+        openResponseModal: true,
+        isMakeRequestButtonDisabled: true
+      });
     });
   }
   render() {
     const {rentalItem, intl, user, isFetching} = this.props;
     const {
-      openModal, totalPrice, isMakeRequestButtonDisabled
+      openModal, modalTitle, modalContent, openResponseModal, totalPrice, isMakeRequestButtonDisabled
     } = this.state;
     const {unescape} = validator;
     const {formatMessage} = intl;
@@ -317,6 +337,26 @@ class RentalItem extends Component {
               onClick={this.handleCloseModal}
               size="huge"
               basic
+              />
+          </Modal.Actions>
+        </Modal>
+        <Modal size="small" dimmer="blurring" open={openResponseModal} onClose={this.handleCloseResponseModal}>
+          <Modal.Header>
+            <Header as="h1">
+              {modalTitle}
+            </Header>
+          </Modal.Header>
+          <Modal.Content>
+            <Header as="h3">
+              {modalContent}
+            </Header>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button
+              content={formatMessage({id: 'modal.okay'})}
+              onClick={this.handleCloseResponseModal}
+              size="huge"
+              primary
               />
           </Modal.Actions>
         </Modal>
