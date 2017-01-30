@@ -23,6 +23,9 @@ const en = {
     uploadItemSuccess: 'Your item was successfully uploaded',
     requestToRentTitle: 'Request to Rent Item',
     requestToRentDetails: 'Select the dates that you would like to rent the item on',
+    requestPriceTitle: 'Cost to Rent Item: ${price}',
+    invalidDates: 'Select valid start and end dates to calculate the price',
+    makeRequest: 'Make Request',
     error: 'Error!',
     okay: 'Okay',
     cancel: 'Cancel'
