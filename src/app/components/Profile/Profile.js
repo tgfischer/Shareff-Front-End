@@ -7,6 +7,7 @@ import {
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
 import PersonalInfo from './PersonalInfo';
+import MyItems from './MyItems';
 import UploadItem from './UploadItem';
 import Messages from './Messages/Messages';
 
@@ -21,7 +22,8 @@ const tabs = [
   'messages',
   'billing',
   'schedule',
-  'add-item'
+  'add-item',
+  'my-items'
 ];
 
 class Profile extends Component {
@@ -85,6 +87,9 @@ class Profile extends Component {
                     <Menu.Item as={Link} to="/profile/schedule" name="schedule" active={activeTab === 'schedule'}>
                       <FormattedMessage id="profile.schedule"/>
                     </Menu.Item>
+                    <Menu.Item as={Link} to="/profile/my-items" name="my-items" active={activeTab === 'my-items'}>
+                      <FormattedMessage id="profile.myItems"/>
+                    </Menu.Item>
                     <Menu.Item as={Link} to="/profile/add-item" name="add-item" active={activeTab === 'add-item'}>
                       <FormattedMessage id="profile.addItem"/>
                     </Menu.Item>
@@ -94,6 +99,9 @@ class Profile extends Component {
                   <Segment className="content-segment">
                     {activeTab === 'info' &&
                       <PersonalInfo {...this.props}/>
+                    }
+                    {activeTab === 'my-items' &&
+                      <MyItems {...this.props}/>
                     }
                     {activeTab === 'messages' &&
                       <Messages {...this.props}/>

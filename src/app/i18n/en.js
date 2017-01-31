@@ -82,6 +82,7 @@ const en = {
     messages: 'Messages',
     schedule: 'Rent Schedule',
     billing: 'Billing',
+    myItems: 'My Items',
     addItem: 'Upload Item'
   },
 
@@ -128,6 +129,12 @@ const en = {
     selectRecipientSubHeader: 'Choose someone in the sidebar to talk to'
   },
 
+  /**
+   * Rent Item Info messages
+   */
+  myItems: {
+    title: 'Items available for rent'
+  },
   /**
    * Upload Item messages
    */

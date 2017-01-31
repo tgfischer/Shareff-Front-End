@@ -98,6 +98,13 @@ export const GET_RENTAL_ITEM_SUCCESS = 'GET_RENTAL_ITEM_SUCCESS';
 export const GET_RENTAL_ITEM_FAILURE = 'GET_RENTAL_ITEM_FAILURE';
 
 /**
+ * Actions for getting a list of my items
+ */
+export const GET_MY_ITEMS_REQUEST = 'GET_MY_ITEMS_REQUEST';
+export const GET_MY_ITEMS_SUCCESS = 'GET_MY_ITEMS_SUCCESS';
+export const GET_MY_ITEMS_FAILURE = 'GET_MY_ITEMS_FAILURE';
+
+/**
  * Actions for making a rent request
  */
 export const MAKE_RENT_REQUEST_REQUEST = 'MAKE_RENT_REQUEST_REQUEST';
