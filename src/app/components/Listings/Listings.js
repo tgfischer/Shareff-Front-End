@@ -8,6 +8,7 @@ import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
 import CalendarRange from '../General/CalendarRange';
 import MaxPriceSlider from '../General/Sliders/MaxPriceSlider';
+import MaxDistanceSlider from '../General/Sliders/MaxDistanceSlider';
 import {Loading} from '../General/Loading';
 import {getListings} from '../../actions/listings';
 
@@ -46,10 +47,10 @@ class Listings extends Component {
     this.setState({advancedSettings: advancedSettings ? null : 'hidden'});
   }
   render() {
-    const {location, intl} = this.props;
+    const {intl} = this.props;
     const {listings, advancedSettings} = this.state;
     const {formatMessage} = intl;
-    const {q} = location.query;
+    const {q, location, maxPrice, maxDistance} = this.props.location.query;
 
     return (
       <div style={styles.wrapper}>
@@ -92,7 +93,7 @@ class Listings extends Component {
                   <Grid verticalAlign="middle" stackable>
                     <Grid.Row>
                       <Grid.Column>
-                        <Form.Input defaultValue={unescape(q)} name="q" type="text" action fluid>
+                        <Form.Input defaultValue={unescape(q || '')} name="q" type="text" action fluid>
                           <input/>
                           <Button onClick={this.handleToggleAdvancedSettings} size="huge" icon inverted>
                             <Icon name="options"/>
@@ -109,8 +110,11 @@ class Listings extends Component {
                               <FormattedMessage id="masthead.advancedSettings"/>
                             </Header>
                             <CalendarRange/>
-                            <Form.Input name="location" label={formatMessage({id: 'masthead.location'})} type="text"/>
-                            <MaxPriceSlider/>
+                            <Form.Input name="location" defaultValue={unescape(location || '')} label={formatMessage({id: 'masthead.location'})} type="text"/>
+                            <Form.Group widths="equal">
+                              <MaxPriceSlider colour="green" defaultValue={unescape(maxPrice || '')}/>
+                              <MaxDistanceSlider colour="green" defaultValue={unescape(maxDistance || '')}/>
+                            </Form.Group>
                           </div>
                         }
                       </Grid.Column>

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {ADVANCED_SETTINGS_MAX_PRICE} from '../../../constants/constants';
 import $ from 'jquery';
 import '../../../../semantic-ui/components/range.js';
 import '../../../../semantic-ui/components/range.css';
@@ -8,23 +7,27 @@ export class Slider extends Component {
   state ={
     maxed: true
   }
-  componentDidMount() {
-    const {name, min, step, onChange} = this.props;
-    let {max, start} = this.props;
+  componentWillMount() {
+    const {start, max} = this.props;
 
-    if (!max) {
-      this.setState({maxed: true});
-      max = ADVANCED_SETTINGS_MAX_PRICE;
+    if (start && start < max) {
+      this.setState({maxed: false});
     }
+  }
+  componentDidMount() {
+    const {name, min, max, step, onChange} = this.props;
+    let {className, start} = this.props;
 
     if (!start) {
       start = max;
     }
 
-    $('.ui.range').range({
+    className = `${className.split(' ').join('.')}`;
+
+    $(`.ui.${className}.range`).range({
       onChange: value => {
         // If the value is over the limit
-        if (value >= ADVANCED_SETTINGS_MAX_PRICE) {
+        if (value >= max) {
           // Set the state to maxed
           this.setState({maxed: true});
 
@@ -70,9 +73,9 @@ Slider.propTypes = {
   onChange: React.PropTypes.func,
   name: React.PropTypes.string.isRequired,
   label: React.PropTypes.string,
-  className: React.PropTypes.string,
+  className: React.PropTypes.string.isRequired,
   min: React.PropTypes.number.isRequired,
-  max: React.PropTypes.number,
+  max: React.PropTypes.number.isRequired,
   start: React.PropTypes.number,
   step: React.PropTypes.number
 };

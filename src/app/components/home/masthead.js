@@ -4,6 +4,7 @@ import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {Accordion, Container, Form, Grid, Header, Icon, Segment} from 'semantic-ui-react';
 import CalendarRange from '../General/CalendarRange';
 import MaxPriceSlider from '../General/Sliders/MaxPriceSlider';
+import MaxDistanceSlider from '../General/Sliders/MaxDistanceSlider';
 
 const styles = {
   masthead: {
@@ -81,7 +82,10 @@ class Masthead extends Component {
                       {showAdvancedSettings &&
                         <div>
                           <Form.Input name="location" label={formatMessage({id: 'masthead.location'})} type="text"/>
-                          <MaxPriceSlider/>
+                          <Form.Group widths="equal">
+                            <MaxPriceSlider colour="blue"/>
+                            <MaxDistanceSlider colour="blue"/>
+                          </Form.Group>
                         </div>
                       }
                     </Accordion.Content>

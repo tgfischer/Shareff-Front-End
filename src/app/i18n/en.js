@@ -69,7 +69,8 @@ const en = {
     search: 'Search',
     advancedSettings: 'Advanced Settings',
     location: 'Location',
-    priceRange: 'Maximum Price: ${price}'
+    maxPriceLabel: 'Maximum Price: ${price}',
+    maxDistanceLabel: 'Maximum Distance: {distance}km'
   },
 
   /**

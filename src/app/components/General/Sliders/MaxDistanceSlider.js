@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {intlShape, injectIntl} from 'react-intl';
-import {ADVANCED_SETTINGS_MAX_PRICE} from '../../../constants/constants';
+import {ADVANCED_SETTINGS_MAX_DISTANCE} from '../../../constants/constants';
 import {Slider} from './Slider';
 
-class MaxPriceSlider extends Component {
+class MaxDistanceSlider extends Component {
   state ={
-    sliderValue: `${ADVANCED_SETTINGS_MAX_PRICE}+`
+    sliderValue: `${ADVANCED_SETTINGS_MAX_DISTANCE}+`
   }
   constructor(props) {
     super(props);
@@ -25,22 +25,22 @@ class MaxPriceSlider extends Component {
 
     return (
       <Slider
-        name="maxPrice"
+        name="maxDistance"
         onChange={this.handleSliderOnChange}
-        label={formatMessage({id: 'masthead.maxPriceLabel'}, {price: sliderValue})}
-        className={`maxPrice ${colour}`}
+        label={formatMessage({id: 'masthead.maxDistanceLabel'}, {distance: sliderValue})}
+        className={`maxDistance ${colour}`}
         min={0}
-        max={ADVANCED_SETTINGS_MAX_PRICE}
+        max={ADVANCED_SETTINGS_MAX_DISTANCE}
         start={defaultValue}
         />
     );
   }
 }
 
-MaxPriceSlider.propTypes = {
+MaxDistanceSlider.propTypes = {
   intl: intlShape.isRequired,
   colour: React.PropTypes.string.isRequired,
   defaultValue: React.PropTypes.string
 };
 
-export default injectIntl(MaxPriceSlider);
+export default injectIntl(MaxDistanceSlider);

@@ -30,6 +30,12 @@ export const UPLOADS_FOLDER_URL = `${BASE_URL}/uploads`;
 export const ADVANCED_SETTINGS_MAX_PRICE = 2000;
 
 /**
+ * The maximum distance in the maxDistance input, which is located in the Advanced
+ * Settings when you search
+ */
+export const ADVANCED_SETTINGS_MAX_DISTANCE = 100;
+
+/**
  * Actions for logging into the application
  */
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
