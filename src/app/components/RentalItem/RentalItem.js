@@ -135,19 +135,21 @@ class RentalItem extends Component {
               <Container>
                 <Grid stackable>
                   <Grid.Row>
-                    <Breadcrumb>
-                      <Breadcrumb.Section as={Link} to="/">
-                        <FormattedMessage id="breadcrumb.home"/>
-                      </Breadcrumb.Section>
-                      <Breadcrumb.Divider icon="right angle"/>
-                      <Breadcrumb.Section as={Link} to="/listings">
-                        <FormattedMessage id="breadcrumb.listings"/>
-                      </Breadcrumb.Section>
-                      <Breadcrumb.Divider icon="right angle"/>
-                      <Breadcrumb.Section active>
-                        {unescape(rentalItem.title)}
-                      </Breadcrumb.Section>
-                    </Breadcrumb>
+                    <Grid.Column>
+                      <Breadcrumb>
+                        <Breadcrumb.Section as={Link} to="/">
+                          <FormattedMessage id="breadcrumb.home"/>
+                        </Breadcrumb.Section>
+                        <Breadcrumb.Divider icon="right angle"/>
+                        <Breadcrumb.Section as={Link} to="/listings">
+                          <FormattedMessage id="breadcrumb.listings"/>
+                        </Breadcrumb.Section>
+                        <Breadcrumb.Divider icon="right angle"/>
+                        <Breadcrumb.Section active>
+                          {unescape(rentalItem.title)}
+                        </Breadcrumb.Section>
+                      </Breadcrumb>
+                    </Grid.Column>
                   </Grid.Row>
                   <Grid.Row verticalAlign="middle">
                     <Grid.Column width={13}>

@@ -10,6 +10,10 @@
   box-shadow: none !important;
 }
 
+.ui.right.labeled.huge.fluid.button {
+  padding-right: 4.07142857em !important;
+}
+
 #root {
   height: 100%;
 }
@@ -36,4 +40,12 @@
 
 .ui.inverted.button {
   box-shadow: 0 0 0 1px #FFF inset!important
+}
+
+.nav-bar .right.menu .item:last-child {
+  padding-right: 0 !important;
+}
+
+.ui.inverted.form label {
+  color: white !important;
 }

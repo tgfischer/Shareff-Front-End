@@ -55,7 +55,10 @@ class Profile extends Component {
                       <FormattedMessage id="breadcrumb.profile"/>
                     </Breadcrumb.Section>
                   </Breadcrumb>
-
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column>
                   <Header as="h1" size="huge" className="bold" inverted>
                     <FormattedMessage id="profile.title" values={{firstName, lastName}}/>
                   </Header>

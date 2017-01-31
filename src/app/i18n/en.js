@@ -113,6 +113,9 @@ const en = {
     updateInfoButton: 'Update Information'
   },
 
+  /**
+   * Messages messages
+   */
   messages: {
     title: 'Chatting with {firstName} {lastName}',
     subTitle: 'Email: {email}',
@@ -172,6 +175,13 @@ const en = {
     signUpButton: 'Sign Up',
     infoMessageTitle: 'Already have an account?',
     infoMessageContent: 'Log into your Shareff account instead!'
+  },
+
+  /**
+   * Listings messages
+   */
+  listings: {
+    title: 'Search Results for: \'{q}\''
   },
 
   /**

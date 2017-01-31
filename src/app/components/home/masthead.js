@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {Accordion, Container, Form, Grid, Header, Icon, Segment} from 'semantic-ui-react';
 import CalendarRange from '../General/CalendarRange';
@@ -16,13 +17,26 @@ const styles = {
 };
 
 class Masthead extends Component {
+  constructor(props) {
+    super(props);
+    this.handleOnSubmit = this.handleOnSubmit.bind(this);
+  }
+  handleOnSubmit(e, {formData}) {
+    e.preventDefault();
+
+    // Transition to the listings page, with the query params
+    this.props.router.push({
+      pathname: '/listings',
+      query: formData
+    });
+  }
   render() {
     const {formatMessage} = this.props.intl;
 
     return (
       <Segment style={styles.masthead} vertical>
         <Container text>
-          <Form size="huge">
+          <Form size="huge" onSubmit={this.handleOnSubmit}>
             <Grid verticalAlign="middle" columns={1}>
               <Grid.Row centered>
                 <Grid.Column>
@@ -38,7 +52,7 @@ class Masthead extends Component {
                 <Grid.Column>
                   <Form.Input
                     action={{color: "blue", labelPosition: "right", icon: "search", content: formatMessage({id: 'masthead.search'}), size: "huge"}}
-                    name="search"
+                    name="q"
                     label="Search"
                     type="text"
                     />
@@ -71,7 +85,8 @@ class Masthead extends Component {
 }
 
 Masthead.propTypes = {
-  intl: intlShape.isRequired
+  intl: intlShape.isRequired,
+  router: React.PropTypes.object.isRequired
 };
 
-export default injectIntl(Masthead);
+export default withRouter(injectIntl(Masthead));

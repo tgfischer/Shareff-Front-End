@@ -25,7 +25,10 @@ class CalendarRange extends Component {
             text
           }
         });
-        onChange(this.state.startDate, this.state.endDate);
+
+        if (onChange) {
+          onChange(this.state.startDate, this.state.endDate);
+        }
       }
     });
     $('#rangeend').calendar({
@@ -37,7 +40,10 @@ class CalendarRange extends Component {
             text
           }
         });
-        onChange(this.state.startDate, this.state.endDate);
+
+        if (onChange) {
+          onChange(this.state.startDate, this.state.endDate);
+        }
       }
     });
   }
@@ -54,7 +60,7 @@ class CalendarRange extends Component {
             <div className="ui input left icon">
               <Icon name="calendar"/>
               <input
-                name="start"
+                name="startDate"
                 type="text"
                 placeholder={formatMessage({id: 'calendarRange.startPlaceholder'})}
                 />
@@ -69,7 +75,7 @@ class CalendarRange extends Component {
             <div className="ui input left icon">
               <Icon name="calendar"/>
               <input
-                name="end"
+                name="endDate"
                 type="text"
                 placeholder={formatMessage({id: 'calendarRange.endPlaceholder'})}
                 />
@@ -83,7 +89,7 @@ class CalendarRange extends Component {
 
 CalendarRange.propTypes = {
   intl: intlShape.isRequired,
-  onChange: React.PropTypes.func.isRequired
+  onChange: React.PropTypes.func
 };
 
 export default injectIntl(CalendarRange);
