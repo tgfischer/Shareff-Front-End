@@ -16,24 +16,27 @@ const styles = {
   }
 };
 
-class Profile extends Component {
-  state = {
-    activeTab: 'personalInfo'
-  }
-  constructor(props) {
-    super(props);
-    this.handleTabClick = this.handleTabClick.bind(this);
-  }
-  handleTabClick(e, {name}) {
-    // Prevent the default action
-    e.preventDefault();
+const tabs = [
+  'info',
+  'messages',
+  'billing',
+  'schedule',
+  'add-item'
+];
 
-    this.setState({activeTab: name});
+class Profile extends Component {
+  componentWillMount() {
+    const {router, params} = this.props;
+    const {activeTab} = params;
+
+    if (!activeTab || !tabs.includes(activeTab)) {
+      router.replace('/profile/info');
+    }
   }
   render() {
-    const {activeTab} = this.state;
-    const {user} = this.props;
+    const {user, params} = this.props;
     const {firstName, lastName} = user;
+    const {activeTab} = params;
 
     return (
       <div style={styles.wrapper}>
@@ -67,32 +70,32 @@ class Profile extends Component {
               <Grid.Row>
                 <Grid.Column width={4}>
                   <Menu size={'huge'} fluid vertical tabular>
-                    <Menu.Item name="personalInfo" active={activeTab === 'personalInfo'} onClick={this.handleTabClick}>
-                      <FormattedMessage id="profile.personalInfo"/>
+                    <Menu.Item as={Link} to="/profile/info" name="info" active={activeTab === 'info'}>
+                      <FormattedMessage id="profile.info"/>
                     </Menu.Item>
-                    <Menu.Item name="messages" active={activeTab === 'messages'} onClick={this.handleTabClick}>
+                    <Menu.Item as={Link} to="/profile/messages" name="messages" active={activeTab === 'messages'}>
                       <FormattedMessage id="profile.messages"/>
                     </Menu.Item>
-                    <Menu.Item name="billing" active={activeTab === 'billing'} onClick={this.handleTabClick}>
+                    <Menu.Item as={Link} to="/profile/billing" name="billing" active={activeTab === 'billing'}>
                       <FormattedMessage id="profile.billing"/>
                     </Menu.Item>
-                    <Menu.Item name="rentSchedule" active={activeTab === 'rentSchedule'} onClick={this.handleTabClick}>
-                      <FormattedMessage id="profile.rentSchedule"/>
+                    <Menu.Item as={Link} to="/profile/schedule" name="schedule" active={activeTab === 'schedule'}>
+                      <FormattedMessage id="profile.schedule"/>
                     </Menu.Item>
-                    <Menu.Item name="uploadItem" active={activeTab === 'uploadItem'} onClick={this.handleTabClick}>
-                      <FormattedMessage id="profile.uploadItem"/>
+                    <Menu.Item as={Link} to="/profile/add-item" name="add-item" active={activeTab === 'add-item'}>
+                      <FormattedMessage id="profile.addItem"/>
                     </Menu.Item>
                   </Menu>
                 </Grid.Column>
                 <Grid.Column className="content-column" width={12}>
                   <Segment className="content-segment">
-                    {activeTab === 'personalInfo' &&
+                    {activeTab === 'info' &&
                       <PersonalInfo {...this.props}/>
                     }
                     {activeTab === 'messages' &&
                       <Messages {...this.props}/>
                     }
-                    {activeTab === 'uploadItem' &&
+                    {activeTab === 'add-item' &&
                       <UploadItem {...this.props}/>
                     }
                   </Segment>
@@ -111,7 +114,8 @@ Profile.propTypes = {
   isAuthenticated: React.PropTypes.bool,
   user: React.PropTypes.object,
   router: React.PropTypes.object,
-  dispatch: React.PropTypes.func.isRequired
+  dispatch: React.PropTypes.func.isRequired,
+  params: React.PropTypes.string
 };
 
 const mapStateToProps = state => {

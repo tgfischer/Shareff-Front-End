@@ -76,11 +76,11 @@ const en = {
    */
   profile: {
     title: 'Welcome back, {firstName} {lastName}',
-    personalInfo: 'Personal Infomation',
+    info: 'Personal Infomation',
     messages: 'Messages',
-    rentSchedule: 'Rent Schedule',
+    schedule: 'Rent Schedule',
     billing: 'Billing',
-    uploadItem: 'Upload Item'
+    addItem: 'Upload Item'
   },
 
   /**
