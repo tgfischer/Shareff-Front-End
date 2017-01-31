@@ -7,7 +7,8 @@ import {
   UPLOAD_PROFILE_PHOTO_REQUEST, UPLOAD_PROFILE_PHOTO_SUCCESS, UPLOAD_PROFILE_PHOTO_FAILURE,
   UPLOAD_ITEM_REQUEST, UPLOAD_ITEM_SUCCESS, UPLOAD_ITEM_FAILURE,
   GET_RENTAL_ITEM_REQUEST, GET_RENTAL_ITEM_SUCCESS, GET_RENTAL_ITEM_FAILURE,
-  GET_MY_ITEMS_REQUEST, GET_MY_ITEMS_SUCCESS, GET_MY_ITEMS_FAILURE
+  GET_MY_ITEMS_REQUEST, GET_MY_ITEMS_SUCCESS, GET_MY_ITEMS_FAILURE,
+  MAKE_RENT_REQUEST_REQUEST, MAKE_RENT_REQUEST_SUCCESS, MAKE_RENT_REQUEST_FAILURE
 } from '../constants/constants';
 
 // The auth reducer. The starting state sets authentication
@@ -193,7 +194,21 @@ export const reducers = (state = {
     case GET_MY_ITEMS_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
-        myItems: undefined,
+        myItems: undefined
+      });
+    case MAKE_RENT_REQUEST_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        err: undefined
+      });
+    case MAKE_RENT_REQUEST_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: undefined
+      });
+    case MAKE_RENT_REQUEST_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
         err: action.err
       });
     default:

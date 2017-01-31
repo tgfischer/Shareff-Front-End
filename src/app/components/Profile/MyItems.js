@@ -5,7 +5,7 @@ import {intlShape, injectIntl} from 'react-intl';
 import {DataTableSemantic} from '../General/DataTable';
 import {getMyItems} from '../../actions/profile';
 
-class MyItem extends Component {
+class MyItems extends Component {
 
   componentWillMount() {
     // Fetch the list of my items data using the ownerId from the props
@@ -31,7 +31,7 @@ class MyItem extends Component {
   }
 }
 
-MyItem.propTypes = {
+MyItems.propTypes = {
   intl: intlShape.isRequired,
   isAuthenticated: React.PropTypes.bool,
   isFetching: React.PropTypes.bool,
@@ -55,4 +55,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withRouter(injectIntl(MyItem)));
+export default connect(mapStateToProps)(withRouter(injectIntl(MyItems)));

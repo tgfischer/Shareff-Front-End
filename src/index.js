@@ -43,6 +43,7 @@ ReactDOM.render(
       <Router history={history}>
         <Route path="/" component={Home}/>
         <Route path="/profile" component={requireAuthentication(Profile, true)}/>
+        <Route path="/profile/:activeTab" component={requireAuthentication(Profile, true)}/>
         <Route path="/login" component={requireAuthentication(Login, false)}/>
         <Route path="/signup" component={requireAuthentication(SignUp, false)}/>
         <Route path="/listings" component={Listings}/>
