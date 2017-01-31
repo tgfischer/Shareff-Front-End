@@ -18,6 +18,9 @@ const styles = {
   },
   container: {
     paddingTop: '2em'
+  },
+  calendarRange: {
+    marginBottom: '0'
   }
 };
 
@@ -50,7 +53,7 @@ class Listings extends Component {
     const {intl} = this.props;
     const {listings, advancedSettings} = this.state;
     const {formatMessage} = intl;
-    const {q, location, maxPrice, maxDistance} = this.props.location.query;
+    const {q, startDate, endDate, location, maxPrice, maxDistance} = this.props.location.query;
 
     return (
       <div style={styles.wrapper}>
@@ -95,11 +98,12 @@ class Listings extends Component {
                       <Grid.Column>
                         <Form.Input defaultValue={unescape(q || '')} name="q" type="text" action fluid>
                           <input/>
-                          <Button onClick={this.handleToggleAdvancedSettings} size="huge" icon inverted>
+                          <Button onClick={this.handleToggleAdvancedSettings} size="huge" color="green" icon>
                             <Icon name="options"/>
                           </Button>
                           <Button labelPosition="right" icon="search" content={formatMessage({id: 'masthead.search'})} size="huge" inverted/>
                         </Form.Input>
+                        <CalendarRange defaultValues={{startDate, endDate}} style={styles.calendarRange}/>
                       </Grid.Column>
                     </Grid.Row>
                     <Grid.Row className={advancedSettings}>
@@ -109,7 +113,6 @@ class Listings extends Component {
                             <Header as="h2" className="bold" inverted>
                               <FormattedMessage id="masthead.advancedSettings"/>
                             </Header>
-                            <CalendarRange/>
                             <Form.Input name="location" defaultValue={unescape(location || '')} label={formatMessage({id: 'masthead.location'})} type="text"/>
                             <Form.Group widths="equal">
                               <MaxPriceSlider colour="green" defaultValue={unescape(maxPrice || '')}/>

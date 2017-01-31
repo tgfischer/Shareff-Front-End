@@ -14,7 +14,7 @@ class CalendarRange extends Component {
     endDate: {}
   }
   componentDidMount() {
-    const {onChange} = this.props;
+    const {defaultValues, onChange} = this.props;
 
     $("#rangestart").calendar({
       endCalendar: $('#rangeend'),
@@ -46,12 +46,20 @@ class CalendarRange extends Component {
         }
       }
     });
+
+    if (defaultValues) {
+      const {startDate, endDate} = defaultValues;
+
+      $('#rangestart').calendar('set endDate', endDate);
+      $('#rangeend').calendar('set startDate', startDate);
+    }
   }
   render() {
-    const {formatMessage} = this.props.intl;
+    const {intl, style} = this.props;
+    const {formatMessage} = intl;
 
     return (
-      <div className="two fields">
+      <div className="two fields" style={style}>
         <div className="field">
           <label>
             <FormattedMessage id="calendarRange.startLabel"/>
@@ -89,7 +97,9 @@ class CalendarRange extends Component {
 
 CalendarRange.propTypes = {
   intl: intlShape.isRequired,
-  onChange: React.PropTypes.func
+  onChange: React.PropTypes.func,
+  style: React.PropTypes.object,
+  defaultValues: React.PropTypes.object
 };
 
 export default injectIntl(CalendarRange);
