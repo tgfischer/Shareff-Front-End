@@ -204,7 +204,7 @@ export const getMyItems = ownerId => {
     // kick off request to API
     dispatch(getMyItemsRequest());
 
-    return fetch(`${BASE_URL}/profile/me/my_items`, config).then(res => res.json()).then(json => {
+    return fetch(`${BASE_URL}/profile/my_items/my_items`, config).then(res => res.json()).then(json => {
       // Get the list of myItems information, and the error
       const {myItems, err} = json;
 
