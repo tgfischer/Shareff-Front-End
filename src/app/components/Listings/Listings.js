@@ -7,6 +7,7 @@ import {
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
 import CalendarRange from '../General/CalendarRange';
+import MaxPriceSlider from '../General/Sliders/MaxPriceSlider';
 import {Loading} from '../General/Loading';
 import {getListings} from '../../actions/listings';
 
@@ -102,11 +103,16 @@ class Listings extends Component {
                     </Grid.Row>
                     <Grid.Row className={advancedSettings}>
                       <Grid.Column>
-                        <Header as="h2" className="bold" inverted>
-                          <FormattedMessage id="masthead.advancedSettings"/>
-                        </Header>
-                        <CalendarRange/>
-                        <Form.Input name="location" label={formatMessage({id: 'masthead.location'})} type="text"/>
+                        {advancedSettings !== 'hidden' &&
+                          <div>
+                            <Header as="h2" className="bold" inverted>
+                              <FormattedMessage id="masthead.advancedSettings"/>
+                            </Header>
+                            <CalendarRange/>
+                            <Form.Input name="location" label={formatMessage({id: 'masthead.location'})} type="text"/>
+                            <MaxPriceSlider/>
+                          </div>
+                        }
                       </Grid.Column>
                     </Grid.Row>
                   </Grid>

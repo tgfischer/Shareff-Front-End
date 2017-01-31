@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {ADVANCED_SETTINGS_MAX_PRICE} from '../../constants/constants';
+import {ADVANCED_SETTINGS_MAX_PRICE} from '../../../constants/constants';
 import $ from 'jquery';
-import '../../../semantic-ui/components/range.js';
-import '../../../semantic-ui/components/range.css';
+import '../../../../semantic-ui/components/range.js';
+import '../../../../semantic-ui/components/range.css';
 
 export class Slider extends Component {
   state ={
