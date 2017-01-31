@@ -118,7 +118,7 @@ Profile.propTypes = {
   user: React.PropTypes.object,
   router: React.PropTypes.object,
   dispatch: React.PropTypes.func.isRequired,
-  params: React.PropTypes.string
+  params: React.PropTypes.object
 };
 
 const mapStateToProps = state => {

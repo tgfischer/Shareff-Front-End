@@ -68,7 +68,8 @@ const en = {
     desc: 'Helping you find the things you need',
     search: 'Search',
     advancedSettings: 'Advanced Settings',
-    location: 'Location'
+    location: 'Location',
+    priceRange: 'Maximum Price: ${price}'
   },
 
   /**
