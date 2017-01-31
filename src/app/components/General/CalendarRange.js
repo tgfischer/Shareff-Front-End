@@ -9,12 +9,36 @@ import '../../../../node_modules/semantic-ui-calendar/dist/calendar.min.js';
 import '../../../../node_modules/semantic-ui-calendar/dist/calendar.min.css';
 
 class CalendarRange extends Component {
+  state = {
+    startDate: {},
+    endDate: {}
+  }
   componentDidMount() {
+    const {onChange} = this.props;
+
     $("#rangestart").calendar({
-      endCalendar: $('#rangeend')
+      endCalendar: $('#rangeend'),
+      onChange: (date, text) => {
+        this.setState({
+          startDate: {
+            date,
+            text
+          }
+        });
+        onChange(this.state.startDate, this.state.endDate);
+      }
     });
     $('#rangeend').calendar({
-      startCalendar: $('#rangestart')
+      startCalendar: $('#rangestart'),
+      onChange: (date, text) => {
+        this.setState({
+          endDate: {
+            date,
+            text
+          }
+        });
+        onChange(this.state.startDate, this.state.endDate);
+      }
     });
   }
   render() {
@@ -58,7 +82,8 @@ class CalendarRange extends Component {
 }
 
 CalendarRange.propTypes = {
-  intl: intlShape.isRequired
+  intl: intlShape.isRequired,
+  onChange: React.PropTypes.func.isRequired
 };
 
 export default injectIntl(CalendarRange);

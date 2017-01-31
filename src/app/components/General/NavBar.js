@@ -47,7 +47,7 @@ class NavBar extends Component {
               </Menu.Item>
             }
             {this.props.isAuthenticated &&
-              <Menu.Item as={Link} to="/profile" activeClassName="active">
+              <Menu.Item as={Link} to="/profile/info" activeClassName="active">
                 <FormattedMessage id="navBar.profile"/>
               </Menu.Item>
             }
