@@ -1,7 +1,8 @@
 import {
   BASE_URL, GET_PERSONAL_INFO_REQUEST, GET_PERSONAL_INFO_SUCCESS, GET_PERSONAL_INFO_FAILURE,
   UPLOAD_PROFILE_PHOTO_REQUEST, UPLOAD_PROFILE_PHOTO_SUCCESS, UPLOAD_PROFILE_PHOTO_FAILURE,
-  UPLOAD_ITEM_REQUEST, UPLOAD_ITEM_SUCCESS, UPLOAD_ITEM_FAILURE
+  UPLOAD_ITEM_REQUEST, UPLOAD_ITEM_SUCCESS, UPLOAD_ITEM_FAILURE, GET_MY_ITEMS_REQUEST,
+  GET_MY_ITEMS_SUCCESS, GET_MY_ITEMS_FAILURE
 } from '../constants/constants';
 
 const getPersonalInfoRequest = () => ({
@@ -65,18 +66,21 @@ const uploadItemFailure = err => ({
 const getMyItemsRequest = () => ({
   type: GET_MY_ITEMS_REQUEST,
   isFetching: true,
-  err: undefined
+  err: undefined,
+  myItems: undefined
 });
 
-const getMyItemsSuccess = () => ({
+const getMyItemsSuccess = myItems => ({
   type: GET_MY_ITEMS_SUCCESS,
   isFetching: false,
-  err: undefined
+  err: undefined,
+  myItems
 });
 
 const getMyItemsFailure = err => ({
   type: GET_MY_ITEMS_FAILURE,
-  isFetching: true,
+  isFetching: false,
+  myItems: undefined,
   err
 });
 
@@ -187,30 +191,26 @@ export const uploadItem = item => {
   };
 };
 
-export const getMyItems = owner => {
-  // Send the token as well so that we can validate that the user that is logged
-  // in is only modifying their own data
-  owner.token = localStorage.getItem('token');
-
+export const getMyItems = ownerId => {
   const config = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(owner)
+    body: JSON.stringify({ownerId})
   };
 
   return dispatch => {
     // kick off request to API
     dispatch(getMyItemsRequest());
 
-    return fetch(`${BASE_URL}/profile/my_items'`, config).then(res => res.json()).then(json => {
-      // Get the owner's information, and the error
-      const {err} = json;
+    return fetch(`${BASE_URL}/profile/me/my_items`, config).then(res => res.json()).then(json => {
+      // Get the list of myItems information, and the error
+      const {myItems, err} = json;
 
       if (!err) {
         // Dispatch the success action
-        return dispatch(getMyItemsSuccess());
+        return dispatch(getMyItemsSuccess(myItems));
       }
 
       // if there was a problem, we want to dispatch the error condition

@@ -7,7 +7,7 @@ import {
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
 import PersonalInfo from './PersonalInfo';
-import MyItem from './YourItem';
+import MyItem from './MyItem';
 import UploadItem from './UploadItem';
 import Messages from './Messages/Messages';
 
@@ -80,7 +80,7 @@ class Profile extends Component {
                     <Menu.Item name="rentSchedule" active={activeTab === 'rentSchedule'} onClick={this.handleTabClick}>
                       <FormattedMessage id="profile.rentSchedule"/>
                     </Menu.Item>
-                    <Menu.Item name="rentItem" active={activeTab === 'myItem'} onClick={this.handleTabClick}>
+                    <Menu.Item name="myItem" active={activeTab === 'myItem'} onClick={this.handleTabClick}>
                       <FormattedMessage id="profile.myItem"/>
                     </Menu.Item>
                     <Menu.Item name="uploadItem" active={activeTab === 'uploadItem'} onClick={this.handleTabClick}>

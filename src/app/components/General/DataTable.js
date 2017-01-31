@@ -8,35 +8,31 @@ import 'datatables.net-fixedheader-se/css/fixedHeader.semanticui.css';
 
 export class DataTableSemantic extends Component {
   componentDidMount() {
-    $(".ui.table").dataTable({fixedHeader: true});
+    const {rows, columns} = this.props;
+    $(".ui.table").dataTable({
+      data: rows,
+      columns,
+      fixedHeader: true
+    });
   }
 
   render() {
-    const {items, columns} = this.props;
+    const {columns} = this.props;
 
     return (
       <div>
         <table className="ui celled table">
           <thead>
             <tr>
-              {columns.map(column => <th key={column}>{column}</th>)}
+              {columns.forEach(column => <th key={column}></th>)}
             </tr>
           </thead>
           <tfoot>
             <tr>
-              {columns.map(column => <th key={column}>{column}</th>)}
+              {columns.forEach(column => <th key={column}></th>)}
             </tr>
           </tfoot>
           <tbody>
-            {items.map((item, index) => {
-              return (<tr key={index}>{
-                columns.map(column =>
-                  <td key={column}>{item[column]}</td>
-                )
-              }
-              </tr>);
-            })
-            }
           </tbody>
         </table>
       </div>
@@ -45,6 +41,6 @@ export class DataTableSemantic extends Component {
 }
 
 DataTableSemantic.propTypes = {
-  items: React.PropTypes.array.isRequired,
+  rows: React.PropTypes.array.isRequired,
   columns: React.PropTypes.array
 };

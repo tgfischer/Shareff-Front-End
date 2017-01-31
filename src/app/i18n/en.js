@@ -76,7 +76,7 @@ const en = {
     messages: 'Messages',
     rentSchedule: 'Rent Schedule',
     billing: 'Billing',
-    myItem: 'My Item',
+    myItem: 'My Items',
     uploadItem: 'Upload Item'
   },
 
