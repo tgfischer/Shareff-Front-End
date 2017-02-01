@@ -194,6 +194,14 @@ const en = {
   },
 
   /**
+   * Item messages
+   */
+  item: {
+    subheader: 'Price: ${price} {costPeriod}, Location: {location}',
+    viewItemButton: 'View Item'
+  },
+
+  /**
    * Rental Item messages
    */
   rentalItem: {

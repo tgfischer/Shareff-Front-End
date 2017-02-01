@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import {
-  Breadcrumb, Button, Container, Form, Grid, Header, Icon, Segment
+  Button, Container, Form, Grid, Header, Icon, Popup, Segment
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
 import CalendarRange from '../General/CalendarRange';
 import MaxPriceSlider from '../General/Sliders/MaxPriceSlider';
 import MaxDistanceSlider from '../General/Sliders/MaxDistanceSlider';
+import PageHeaderSegment from '../General/PageHeaderSegment';
+import Item from './Item';
 import {Loading} from '../General/Loading';
 import {getListings} from '../../actions/listings';
 
@@ -38,7 +39,7 @@ class Listings extends Component {
 
     this.props.dispatch(getListings({
       q, startDate, endDate, location
-    })).then(listings => this.setState({listings}));
+    })).then(result => this.setState({listings: result.listings}));
   }
   handleToggleAdvancedSettings(e) {
     e.preventDefault();
@@ -55,41 +56,23 @@ class Listings extends Component {
     const {formatMessage} = intl;
     const {q, startDate, endDate, location, maxPrice, maxDistance} = this.props.location.query;
 
+    const breadcrumbs = [{
+      text: formatMessage({id: 'breadcrumb.home'}),
+      to: '/'
+    }, {
+      text: formatMessage({id: 'listings.title'}, {q: unescape(q)})
+    }];
+
     return (
       <div style={styles.wrapper}>
         {listings ?
           <div>
             <NavBar/>
-            <Segment className="page-header" color="blue" inverted vertical>
-              <Container>
-                <Grid stackable>
-                  <Grid.Row>
-                    <Grid.Column>
-                      <Breadcrumb>
-                        <Breadcrumb.Section as={Link} to="/">
-                          <FormattedMessage id="breadcrumb.home"/>
-                        </Breadcrumb.Section>
-                        <Breadcrumb.Divider icon="right angle"/>
-                        <Breadcrumb.Section as={Link} to="/listings">
-                          <FormattedMessage id="breadcrumb.listings"/>
-                        </Breadcrumb.Section>
-                        <Breadcrumb.Divider icon="right angle"/>
-                        <Breadcrumb.Section active>
-                          <FormattedMessage id="listings.title" values={{q: unescape(q)}}/>
-                        </Breadcrumb.Section>
-                      </Breadcrumb>
-                    </Grid.Column>
-                  </Grid.Row>
-                  <Grid.Row>
-                    <Grid.Column>
-                      <Header as="h1" size="huge" className="bold" inverted>
-                        <FormattedMessage id="listings.title" values={{q: unescape(q)}}/>
-                      </Header>
-                    </Grid.Column>
-                  </Grid.Row>
-                </Grid>
-              </Container>
-            </Segment>
+            <PageHeaderSegment
+              breadcrumbs={breadcrumbs}
+              title={formatMessage({id: 'listings.title'}, {q: unescape(q)})}
+              colour="blue"
+              />
             <Segment className="dark blue" inverted vertical>
               <Container>
                 <Form size="huge" className="inverted">
@@ -98,9 +81,16 @@ class Listings extends Component {
                       <Grid.Column>
                         <Form.Input defaultValue={unescape(q || '')} name="q" type="text" action fluid>
                           <input/>
-                          <Button onClick={this.handleToggleAdvancedSettings} size="huge" color="green" icon>
-                            <Icon name="options"/>
-                          </Button>
+                          <Popup
+                            trigger={
+                              <Button onClick={this.handleToggleAdvancedSettings} size="huge" color="green" icon>
+                                <Icon name="options"/>
+                              </Button>
+                            }
+                            content={formatMessage({id: 'masthead.advancedSettings'})}
+                            inverted
+                            />
+
                           <Button labelPosition="right" icon="search" content={formatMessage({id: 'masthead.search'})} size="huge" inverted/>
                         </Form.Input>
                         <CalendarRange defaultValues={{startDate, endDate}} style={styles.calendarRange}/>
@@ -126,6 +116,16 @@ class Listings extends Component {
                 </Form>
               </Container>
             </Segment>
+            {listings.map((item, i) => {
+              return (
+                <Item
+                  isAlternate={i % 2 !== 0}
+                  item={item}
+                  key={i}
+                  search={this.props.location.query}
+                  />
+              );
+            })}
           </div> :
           <Loading/>
         }

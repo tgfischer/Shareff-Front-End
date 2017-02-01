@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router';
 import {
-  Breadcrumb, Container, Grid, Header, Menu, Segment
+  Container, Grid, Menu, Segment
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
+import PageHeaderSegment from '../General/PageHeaderSegment';
 import PersonalInfo from './PersonalInfo';
 import MyItems from './MyItems';
 import UploadItem from './UploadItem';
@@ -36,39 +37,26 @@ class Profile extends Component {
     }
   }
   render() {
-    const {user, params} = this.props;
+    const {intl, user, params} = this.props;
+    const {formatMessage} = intl;
     const {firstName, lastName} = user;
     const {activeTab} = params;
+
+    const breadcrumbs = [{
+      text: formatMessage({id: 'breadcrumb.home'}),
+      to: '/'
+    }, {
+      text: formatMessage({id: 'profile.title'}, {firstName: unescape(firstName), lastName: unescape(lastName)})
+    }];
 
     return (
       <div style={styles.wrapper}>
         <NavBar/>
-        <Segment className="page-header" color="blue" inverted vertical>
-          <Container>
-            <Grid stackable>
-              <Grid.Row>
-                <Grid.Column>
-                  <Breadcrumb>
-                    <Breadcrumb.Section as={Link} to="/">
-                      <FormattedMessage id="breadcrumb.home"/>
-                    </Breadcrumb.Section>
-                    <Breadcrumb.Divider icon="right angle"/>
-                    <Breadcrumb.Section active>
-                      <FormattedMessage id="breadcrumb.profile"/>
-                    </Breadcrumb.Section>
-                  </Breadcrumb>
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
-                  <Header as="h1" size="huge" className="bold" inverted>
-                    <FormattedMessage id="profile.title" values={{firstName, lastName}}/>
-                  </Header>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          </Container>
-        </Segment>
+        <PageHeaderSegment
+          breadcrumbs={breadcrumbs}
+          title={formatMessage({id: 'profile.title'}, {firstName: unescape(firstName), lastName: unescape(lastName)})}
+          colour="blue"
+          />
         <Segment className="vertical-segment" vertical>
           <Container>
             <Grid stackable>

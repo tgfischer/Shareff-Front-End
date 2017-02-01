@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Link, withRouter} from 'react-router';
+import {withRouter} from 'react-router';
 import validator from 'validator';
 import GoogleMap from 'google-map-react';
 import moment from 'moment';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {
-  Breadcrumb, Button, Container, Form, Grid, Header, Icon, Image, Modal, Segment
+  Button, Container, Form, Grid, Header, Icon, Image, Modal, Segment
 } from 'semantic-ui-react';
 import NavBar from '../General/NavBar';
 import CalendarRange from '../General/CalendarRange';
+import PageHeaderSegment from '../General/PageHeaderSegment';
 import {Loading} from '../General/Loading';
 import {Marker} from '../General/Marker';
 import {getRentalItem, makeRentRequest} from '../../actions/rentalItem';
@@ -125,49 +126,53 @@ class RentalItem extends Component {
     } = this.state;
     const {unescape} = validator;
     const {formatMessage} = intl;
+    const breadcrumbs = [{
+      text: formatMessage({id: 'breadcrumb.home'}),
+      to: '/'
+    }];
+
+    if (rentalItem) {
+      // If the user came from a search, then we want to go back to the place they
+      // were at before. Otherwise, don't add this breadcrumb
+      if (this.props.location.query) {
+        const {query} = this.props.location;
+
+        breadcrumbs.push({
+          text: formatMessage({id: 'listings.title'}, {q: unescape(query.q)}),
+          to: {
+            pathname: '/listings',
+            query
+          }
+        });
+      }
+
+      breadcrumbs.push({
+        text: unescape(rentalItem.title)
+      });
+    }
 
     return (
       <div style={styles.wrapper}>
         {rentalItem && user ?
           <div>
             <NavBar/>
-            <Segment className="page-header" color="blue" inverted vertical>
-              <Container>
-                <Grid stackable>
-                  <Grid.Row>
-                    <Grid.Column>
-                      <Breadcrumb>
-                        <Breadcrumb.Section as={Link} to="/">
-                          <FormattedMessage id="breadcrumb.home"/>
-                        </Breadcrumb.Section>
-                        <Breadcrumb.Divider icon="right angle"/>
-                        <Breadcrumb.Section as={Link} to="/listings">
-                          <FormattedMessage id="breadcrumb.listings"/>
-                        </Breadcrumb.Section>
-                        <Breadcrumb.Divider icon="right angle"/>
-                        <Breadcrumb.Section active>
-                          {unescape(rentalItem.title)}
-                        </Breadcrumb.Section>
-                      </Breadcrumb>
-                    </Grid.Column>
-                  </Grid.Row>
-                  <Grid.Row verticalAlign="middle">
-                    <Grid.Column width={13}>
-                      <Header as="h1" size="huge" className="bold" inverted>
-                        {unescape(rentalItem.title)}
-                      </Header>
-                    </Grid.Column>
-                    <Grid.Column width={3} floated="right">
-                      {user && user.userId !== rentalItem.ownerId &&
-                        <Button onClick={this.handleRequestToRentButton} size="big" inverted fluid>
-                          <FormattedMessage id="rentalItem.requestToRentButton"/>
-                        </Button>
-                      }
-                    </Grid.Column>
-                  </Grid.Row>
-                </Grid>
-              </Container>
-            </Segment>
+            {user && user.userId !== rentalItem.ownerId ?
+              <PageHeaderSegment
+                breadcrumbs={breadcrumbs}
+                title={unescape(rentalItem.title)}
+                colour="blue"
+                action={{
+                  handleButtonClick: this.handleRequestToRentButton,
+                  buttonText: formatMessage({id: 'rentalItem.requestToRentButton'}),
+                  isButtonInverted: true
+                }}
+                /> :
+              <PageHeaderSegment
+                breadcrumbs={breadcrumbs}
+                title={unescape(rentalItem.title)}
+                colour="blue"
+                />
+            }
             <Segment className="dark blue" inverted vertical>
               <Container>
                 <Grid verticalAlign="middle" stackable>
@@ -241,7 +246,7 @@ class RentalItem extends Component {
                 </Grid>
               </Container>
             </Segment>
-            {rentalItem.photos.length !== 0 &&
+            {rentalItem.photos && rentalItem.photos.length !== 0 &&
               <Segment vertical>
                 <Container style={styles.container}>
                   <Grid stackable>
@@ -376,7 +381,8 @@ RentalItem.propTypes = {
   err: React.PropTypes.object,
   dispatch: React.PropTypes.func.isRequired,
   user: React.PropTypes.object,
-  params: React.PropTypes.object.isRequired
+  params: React.PropTypes.object.isRequired,
+  location: React.PropTypes.object
 };
 
 const mapStateToProps = state => {

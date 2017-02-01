@@ -76,6 +76,6 @@ Slider.propTypes = {
   className: React.PropTypes.string.isRequired,
   min: React.PropTypes.number.isRequired,
   max: React.PropTypes.number.isRequired,
-  start: React.PropTypes.number,
+  start: React.PropTypes.string,
   step: React.PropTypes.number
 };
