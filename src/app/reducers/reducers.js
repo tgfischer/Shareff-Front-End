@@ -6,7 +6,9 @@ import {
   GET_LISTINGS_REQUEST, GET_LISTINGS_SUCCESS, GET_LISTINGS_FAILURE,
   UPLOAD_PROFILE_PHOTO_REQUEST, UPLOAD_PROFILE_PHOTO_SUCCESS, UPLOAD_PROFILE_PHOTO_FAILURE,
   UPLOAD_ITEM_REQUEST, UPLOAD_ITEM_SUCCESS, UPLOAD_ITEM_FAILURE,
-  GET_RENTAL_ITEM_REQUEST, GET_RENTAL_ITEM_SUCCESS, GET_RENTAL_ITEM_FAILURE
+  GET_RENTAL_ITEM_REQUEST, GET_RENTAL_ITEM_SUCCESS, GET_RENTAL_ITEM_FAILURE,
+  GET_MY_ITEMS_REQUEST, GET_MY_ITEMS_SUCCESS, GET_MY_ITEMS_FAILURE,
+  MAKE_RENT_REQUEST_REQUEST, MAKE_RENT_REQUEST_SUCCESS, MAKE_RENT_REQUEST_FAILURE
 } from '../constants/constants';
 
 // The auth reducer. The starting state sets authentication
@@ -175,6 +177,38 @@ export const reducers = (state = {
       return Object.assign({}, state, {
         isFetching: false,
         rentalItem: undefined,
+        err: action.err
+      });
+    case GET_MY_ITEMS_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        myItems: undefined,
+        err: undefined
+      });
+    case GET_MY_ITEMS_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: undefined,
+        myItems: action.myItems
+      });
+    case GET_MY_ITEMS_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        myItems: undefined
+      });
+    case MAKE_RENT_REQUEST_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        err: undefined
+      });
+    case MAKE_RENT_REQUEST_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: undefined
+      });
+    case MAKE_RENT_REQUEST_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
         err: action.err
       });
     default:

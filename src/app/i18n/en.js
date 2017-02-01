@@ -23,6 +23,10 @@ const en = {
     uploadItemSuccess: 'Your item was successfully uploaded',
     requestToRentTitle: 'Request to Rent Item',
     requestToRentDetails: 'Select the dates that you would like to rent the item on',
+    requestPriceTitle: 'Cost to Rent Item: ${price}',
+    invalidDates: 'Select valid start and end dates to calculate the price',
+    makeRequest: 'Make Request',
+    makeRentRequestSuccess: 'Your request to rent this item was successful. You will be notified once the owner has reviewed this request',
     error: 'Error!',
     okay: 'Okay',
     cancel: 'Cancel'
@@ -72,11 +76,12 @@ const en = {
    */
   profile: {
     title: 'Welcome back, {firstName} {lastName}',
-    personalInfo: 'Personal Infomation',
+    info: 'Personal Infomation',
     messages: 'Messages',
-    rentSchedule: 'Rent Schedule',
+    schedule: 'Rent Schedule',
     billing: 'Billing',
-    uploadItem: 'Upload Item'
+    myItems: 'My Items',
+    addItem: 'Upload Item'
   },
 
   /**
@@ -119,6 +124,12 @@ const en = {
     selectRecipientSubHeader: 'Choose someone in the sidebar to talk to'
   },
 
+  /**
+   * Rent Item Info messages
+   */
+  myItems: {
+    title: 'Items available for rent'
+  },
   /**
    * Upload Item messages
    */

@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router';
 import validator from 'validator';
-import GoogleMap from "google-map-react";
+import GoogleMap from 'google-map-react';
+import moment from 'moment';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {
   Breadcrumb, Button, Container, Form, Grid, Header, Icon, Image, Modal, Segment
@@ -11,7 +12,8 @@ import NavBar from '../General/NavBar';
 import CalendarRange from '../General/CalendarRange';
 import {Loading} from '../General/Loading';
 import {Marker} from '../General/Marker';
-import {getRentalItem} from '../../actions/rentalItem';
+import {getRentalItem, makeRentRequest} from '../../actions/rentalItem';
+import {getUser} from '../../actions/auth';
 import {PHOTO_PLACEHOLDER_URL} from '../../constants/constants';
 
 const styles = {
@@ -37,34 +39,96 @@ const styles = {
 class RentalItem extends Component {
   state = {
     openModal: false,
-    modalTitle: 'modal.requestToRentTitle',
-    modalContent: 'modal.requestToRentDetails'
+    openResponseModal: false,
+    modalTitle: 'modal.error',
+    modalContent: 'error.general',
+    isMakeRequestButtonDisabled: true,
+    startDate: {},
+    endDate: {},
+    totalPrice: null
   }
   constructor(props) {
     super(props);
     this.handleRequestToRentButton = this.handleRequestToRentButton.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleMakeRentRequest = this.handleMakeRentRequest.bind(this);
   }
   componentDidMount() {
     // Fetch the rental item using the item ID in the params
     const {itemId} = this.props.params;
-    this.props.dispatch(getRentalItem(itemId));
+
+    this.props.dispatch(getRentalItem(itemId)).then(() => {
+      if (!this.props.user) {
+        // Else if the user is authenticated
+        const token = localStorage.getItem('token');
+        this.props.dispatch(getUser(token));
+      }
+    });
   }
-  handleRequestToRentButton() {
-    this.setState({openModal: true});
-    this.setState({modalTitle: 'modal.requestToRentTitle'});
-    this.setState({modalContent: 'modal.requestToRentDetails'});
+  handleRequestToRentButton = () => this.setState({openModal: true})
+  handleOnChange(startDate, endDate) {
+    this.setState({
+      isMakeRequestButtonDisabled: !(startDate.date && endDate.date),
+      startDate,
+      endDate
+    });
+
+    if (this.state.startDate.date && this.state.endDate.date) {
+      const start = moment(this.state.startDate.date);
+      const end = moment(this.state.endDate.date);
+      const duration = moment.duration(end.diff(start)).asDays();
+      const totalPrice = (duration * this.props.rentalItem.price).toFixed(2);
+
+      this.setState({totalPrice});
+    }
   }
-  handleCloseModal = () => this.setState({openModal: false})
+  handleCloseModal = () => this.setState({
+    openModal: false,
+    isMakeRequestButtonDisabled: true
+  })
+  handleCloseResponseModal = () => this.setState({openResponseModal: false})
+  handleMakeRentRequest(e) {
+    e.preventDefault();
+
+    const {startDate, endDate} = this.state;
+    const {user, rentalItem, intl} = this.props;
+    const {formatMessage} = intl;
+
+    // Make the rent request
+    this.props.dispatch(makeRentRequest({
+      itemId: rentalItem.itemId,
+      userId: user.userId,
+      startDate: startDate.date,
+      endDate: endDate.date
+    })).then(err => {
+      // Set the modal title
+      const title = err ? 'modal.error' : 'modal.success';
+      this.setState({modalTitle: formatMessage({id: title})});
+
+      // Set the modal content
+      const content = err ? 'error.general' : 'modal.makeRentRequestSuccess';
+      this.setState({modalContent: formatMessage({id: content})});
+
+      // Open the modal
+      this.setState({
+        openModal: false,
+        openResponseModal: true,
+        isMakeRequestButtonDisabled: true
+      });
+    });
+  }
   render() {
-    const {rentalItem, intl} = this.props;
-    const {openModal, modalTitle, modalContent} = this.state;
+    const {rentalItem, intl, user, isFetching} = this.props;
+    const {
+      openModal, modalTitle, modalContent, openResponseModal, totalPrice, isMakeRequestButtonDisabled
+    } = this.state;
     const {unescape} = validator;
     const {formatMessage} = intl;
 
     return (
       <div style={styles.wrapper}>
-        {rentalItem ?
+        {rentalItem && user ?
           <div>
             <NavBar/>
             <Segment className="page-header" color="blue" inverted vertical>
@@ -92,9 +156,11 @@ class RentalItem extends Component {
                       </Header>
                     </Grid.Column>
                     <Grid.Column width={3} floated="right">
-                      <Button onClick={this.handleRequestToRentButton} size="big" inverted fluid>
-                        <FormattedMessage id="rentalItem.requestToRentButton"/>
-                      </Button>
+                      {user && user.userId !== rentalItem.ownerId &&
+                        <Button onClick={this.handleRequestToRentButton} size="big" inverted fluid>
+                          <FormattedMessage id="rentalItem.requestToRentButton"/>
+                        </Button>
+                      }
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
@@ -225,31 +291,44 @@ class RentalItem extends Component {
         <Modal dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
           <Modal.Header>
             <Header as="h1">
-              <FormattedMessage id={modalTitle}/>
+              <FormattedMessage id="modal.requestToRentTitle"/>
             </Header>
           </Modal.Header>
           <Modal.Content>
-            <Grid stackable>
-              <Grid.Row>
-                <Grid.Column>
-                  <Header as="h3">
-                    <FormattedMessage id={modalContent}/>
-                  </Header>
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
-                  <Form size="huge">
-                    <CalendarRange/>
-                  </Form>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
+            <Form onSubmit={this.handleMakeRentRequest} loading={isFetching} size="huge">
+              <Grid stackable>
+                <Grid.Row columns={1}>
+                  <Grid.Column>
+                    <Header as="h3">
+                      <FormattedMessage id="modal.requestToRentDetails"/>
+                    </Header>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row columns={1}>
+                  <Grid.Column>
+                    <CalendarRange onChange={this.handleOnChange}/>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row columns={1}>
+                  <Grid.Column>
+                    <Header as="h3" className="bold">
+                      {isMakeRequestButtonDisabled &&
+                        <FormattedMessage id="modal.invalidDates"/>
+                      }
+                      {!isMakeRequestButtonDisabled &&
+                        <FormattedMessage id="modal.requestPriceTitle" values={{price: totalPrice}}/>
+                      }
+                    </Header>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </Form>
           </Modal.Content>
           <Modal.Actions>
             <Button
-              content={formatMessage({id: 'modal.okay'})}
-              onClick={this.handleCloseModal}
+              content={formatMessage({id: 'modal.makeRequest'})}
+              disabled={isMakeRequestButtonDisabled}
+              onClick={this.handleMakeRentRequest}
               size="huge"
               primary
               />
@@ -258,6 +337,26 @@ class RentalItem extends Component {
               onClick={this.handleCloseModal}
               size="huge"
               basic
+              />
+          </Modal.Actions>
+        </Modal>
+        <Modal size="small" dimmer="blurring" open={openResponseModal} onClose={this.handleCloseResponseModal}>
+          <Modal.Header>
+            <Header as="h1">
+              {modalTitle}
+            </Header>
+          </Modal.Header>
+          <Modal.Content>
+            <Header as="h3">
+              {modalContent}
+            </Header>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button
+              content={formatMessage({id: 'modal.okay'})}
+              onClick={this.handleCloseResponseModal}
+              size="huge"
+              primary
               />
           </Modal.Actions>
         </Modal>
