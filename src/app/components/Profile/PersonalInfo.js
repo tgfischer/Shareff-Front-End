@@ -49,7 +49,7 @@ class PersonalInfo extends Component {
   }
   handleCloseModal = () => this.setState({openModal: false})
   render() {
-    const {isFetching, intl, user} = this.props;
+    const {intl, user} = this.props;
     const {openModal, modalTitle, modalContent} = this.state;
     const {formatMessage} = intl;
     const {unescape} = validator;
@@ -98,7 +98,7 @@ class PersonalInfo extends Component {
                 </Header.Subheader>
               </Header>
 
-              <Form size="huge" onSubmit={this.handlePersonalInfoSubmit} loading={isFetching}>
+              <Form size="huge" onSubmit={this.handlePersonalInfoSubmit}>
                 <Form.Group widths="equal">
                   <Form.Input
                     label={formatMessage({id: 'personalInfo.firstName'})}
@@ -220,7 +220,7 @@ class PersonalInfo extends Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
-              <Form size="huge" onSubmit={uploadProfilePhoto} loading={isFetching}>
+              <Form size="huge" onSubmit={uploadProfilePhoto}>
                 <Header as="h1" dividing>
                   <FormattedMessage id="personalInfo.uploadProfilePhoto"/>
                 </Header>

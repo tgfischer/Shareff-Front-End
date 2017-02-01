@@ -36,7 +36,7 @@ class Profile extends Component {
     }
   }
   render() {
-    const {user, params} = this.props;
+    const {user, params, isFetching} = this.props;
     const {firstName, lastName} = user;
     const {activeTab} = params;
 
@@ -93,7 +93,7 @@ class Profile extends Component {
                   </Menu>
                 </Grid.Column>
                 <Grid.Column className="content-column" width={12}>
-                  <Segment className="content-segment">
+                  <Segment className="content-segment" loading={isFetching}>
                     {activeTab === 'info' &&
                       <PersonalInfo {...this.props}/>
                     }
@@ -123,15 +123,17 @@ Profile.propTypes = {
   user: React.PropTypes.object,
   router: React.PropTypes.object,
   dispatch: React.PropTypes.func.isRequired,
+  isFetching: React.PropTypes.bool.isRequired,
   params: React.PropTypes.object
 };
 
 const mapStateToProps = state => {
   const {reducers} = state;
-  const {isAuthenticated, user} = reducers;
+  const {isAuthenticated, isFetching, user} = reducers;
 
   return {
     isAuthenticated,
+    isFetching,
     user
   };
 };

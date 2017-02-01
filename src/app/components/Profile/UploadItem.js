@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {
-  Button, Form, Grid, Header, Modal
+  Button, Form, Grid, Header, Modal, Dropdown
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
+import {BASE_URL} from '../../constants/constants';
 import {uploadItem, uploadProfilePhoto} from '../../actions/profile';
 import UploadFile from '../General/UploadFile';
 
@@ -46,9 +47,26 @@ class UploadItem extends Component {
   }
   handleCloseModal = () => this.setState({openModal: false})
   render() {
-    const {isFetching, intl} = this.props;
-    const {openModal, modalTitle, modalContent} = this.state;
+    const {intl} = this.props;
+    const {openModal, modalTitle, modalContent, images} = this.state;
     const {formatMessage} = intl;
+
+    const categories = [
+      {key: 'electronics', text: 'Electronics', value: 'electronics'},
+      {key: 'sports', text: 'Sports Equipment', value: 'sports'},
+      {key: 'farm', text: 'Farm Equipment', value: 'farm'},
+      {key: 'utensils', text: 'Utensils', value: 'utensils'},
+      {key: 'appliances', text: 'Appliances', value: 'appliances'},
+      {key: 'education', text: 'Education', value: 'education'},
+      {key: 'other', text: 'Other', value: 'other'}
+    ];
+
+    const costPeriods = [
+      {text: 'Hour', value: 'hour'},
+      {text: 'Day', value: 'day'},
+      {text: 'Week', value: 'week'},
+      {text: 'Month', value: 'month'}
+    ];
 
     return (
       <div>
@@ -56,64 +74,89 @@ class UploadItem extends Component {
           <Grid.Row>
             <Grid.Column>
               <Header as="h1" dividing>
-                <FormattedMessage id="uploadItem.pageTitle"/>
+                <FormattedMessage id="addItem.pageTitle"/>
               </Header>
 
-              <Form size="huge" onSubmit={this.handleSubmit} loading={isFetching}>
+              <Form size="huge" onSubmit={this.handleSubmit}>
                 <Form.Input
-                  label={formatMessage({id: 'uploadItem.title'})}
+                  label={formatMessage({id: 'addItem.title'})}
                   name="title"
-                  placeholder={formatMessage({id: 'uploadItem.title'})}
+                  placeholder={formatMessage({id: 'addItem.title'})}
                   type="text"
                   required
                   />
-                <Form.Input
-                  label={formatMessage({id: 'uploadItem.category'})}
-                  name="category"
-                  placeholder={formatMessage({id: 'uploadItem.category'})}
-                  type="text"
-                  />
-                <Form.Input
-                  label={formatMessage({id: 'uploadItem.price'})}
-                  name="price"
-                  placeholder={formatMessage({id: 'uploadItem.price'})}
-                  type="number"
-                  required
-                  />
+                <Form.Field>
+                  <label> {formatMessage({id: 'addItem.category'})} </label>
+                  <Dropdown
+                    name="category"
+                    placeholder={formatMessage({id: 'addItem.category'})}
+                    fluid
+                    multiple
+                    labeled
+                    selection
+                    search
+                    options={categories}
+                    />
+                </Form.Field>
+                <Form.Group>
+                  <Form.Input
+                    width="12"
+                    label={formatMessage({id: 'addItem.price'})}
+                    name="price"
+                    placeholder={formatMessage({id: 'addItem.price'})}
+                    type="number"
+                    required
+                    />
+                  <Form.Field width="4">
+                    <label> {formatMessage({id: 'addItem.costPeriod'})} </label>
+                    <Dropdown
+                      name="costPeriod"
+                      placeholder={formatMessage({id: 'addItem.costPeriod'})}
+                      fluid
+                      search
+                      labeled
+                      selection
+                      options={costPeriods}
+                      required
+                      />
+                  </Form.Field>
+                </Form.Group>
                 <Form.TextArea
-                  label={formatMessage({id: 'uploadItem.description'})}
+                  label={formatMessage({id: 'addItem.description'})}
                   name="description"
-                  placeholder={formatMessage({id: 'uploadItem.descriptionPlaceholder'})}
+                  placeholder={formatMessage({id: 'addItem.descriptionPlaceholder'})}
                   required
                   />
                 <Form.TextArea
-                  label={formatMessage({id: 'uploadItem.terms'})}
+                  label={formatMessage({id: 'addItem.terms'})}
                   name="terms"
-                  placeholder={formatMessage({id: 'uploadItem.termsPlaceholder'})}
+                  placeholder={formatMessage({id: 'addItem.termsPlaceholder'})}
                   required
-                  />
-
-                <Button
-                  content={formatMessage({id: 'uploadItem.uploadButton'})}
-                  size="huge"
-                  type="submit"
-                  icon="upload"
-                  labelPosition="right"
-                  primary
                   />
               </Form>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
-              <Form size="huge" onSubmit={this.handleProfilePhotoSubmit} loading={isFetching}>
+              <Form size="huge" onSubmit={uploadProfilePhoto}>
                 <Header as="h1" dividing>
-                  <FormattedMessage id="uploadItem.uploadPhotos"/>
+                  <FormattedMessage id="addItem.uploadPhotos"/>
                 </Header>
                 <Grid>
                   <Grid.Row>
-                    <Grid.Column>
-                    </Grid.Column>
+                    {images ? images.map((photoUrl, i) => {
+                      return (
+                        <Image
+                          src={BASE_URL + photoUrl}
+                          shape="rounded"
+                          size="small"
+                          centered
+                          bordered
+                          key={i}
+                          />
+                      );
+                    }) : "nothing here yet"
+                    }
                   </Grid.Row>
                   <Grid.Row>
                     <Grid.Column>
@@ -127,6 +170,18 @@ class UploadItem extends Component {
                   </Grid.Row>
                 </Grid>
               </Form>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <Button
+                content={formatMessage({id: 'addItem.addItemButton'})}
+                size="huge"
+                type="submit"
+                icon="plus"
+                labelPosition="right"
+                primary
+                />
             </Grid.Column>
           </Grid.Row>
         </Grid>

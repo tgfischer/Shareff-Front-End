@@ -81,7 +81,7 @@ const en = {
     schedule: 'Rent Schedule',
     billing: 'Billing',
     myItems: 'My Items',
-    addItem: 'Upload Item'
+    addItem: 'Add Item'
   },
 
   /**
@@ -131,19 +131,20 @@ const en = {
     title: 'Items available for rent'
   },
   /**
-   * Upload Item messages
+   * adding item messages
    */
-  uploadItem: {
+  addItem: {
     pageTitle: 'Upload an item for rent',
     title: 'Title',
     description: 'Description',
+    costPeriod: 'Cost Period',
     descriptionPlaceholder: 'Tell us about your item. This can include condition of the item, how long you\'ve had it for, or anything that can help your potential renter learn more about the item.',
     category: 'Category',
     price: 'Price',
     terms: 'Terms of Use',
     termsPlaceholder: 'Write down your terms and conditions for renting your item. This could include uses of the item, what time you want it by, or anything else you want to mention.',
     uploadPhotoButton: 'Browse',
-    uploadButton: 'Upload',
+    addItemButton: 'Add',
     uploadPhotos: 'Upload Photos of Your Item'
   },
 
