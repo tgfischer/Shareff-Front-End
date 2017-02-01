@@ -132,7 +132,8 @@ const en = {
     terms: 'Terms of Use',
     termsPlaceholder: 'Write down your terms and conditions for renting your item. This could include uses of the item, what time you want it by, or anything else you want to mention.',
     uploadPhotoButton: 'Browse',
-    uploadButton: 'Upload'
+    uploadButton: 'Upload',
+    uploadPhotos: 'Upload Photos of Your Item'
   },
 
   /**

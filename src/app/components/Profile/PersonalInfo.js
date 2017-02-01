@@ -220,7 +220,7 @@ class PersonalInfo extends Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
-              <Form size="huge" onSubmit={this.handleProfilePhotoSubmit} loading={isFetching}>
+              <Form size="huge" onSubmit={uploadProfilePhoto} loading={isFetching}>
                 <Header as="h1" dividing>
                   <FormattedMessage id="personalInfo.uploadProfilePhoto"/>
                 </Header>

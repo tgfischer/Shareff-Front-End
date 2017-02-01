@@ -5,7 +5,8 @@ import {
   Button, Form, Grid, Header, Modal
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import {uploadItem} from '../../actions/profile';
+import {uploadItem, uploadProfilePhoto} from '../../actions/profile';
+import UploadFile from '../General/UploadFile';
 
 class UploadItem extends Component {
   state = {
@@ -50,78 +51,107 @@ class UploadItem extends Component {
     const {formatMessage} = intl;
 
     return (
-      <Grid>
-        <Grid.Column>
-          <Header as="h1" dividing>
-            <FormattedMessage id="uploadItem.pageTitle"/>
-          </Header>
+      <div>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column>
+              <Header as="h1" dividing>
+                <FormattedMessage id="uploadItem.pageTitle"/>
+              </Header>
 
-          <Form size="huge" onSubmit={this.handleSubmit} loading={isFetching}>
-            <Form.Input
-              label={formatMessage({id: 'uploadItem.title'})}
-              name="title"
-              placeholder={formatMessage({id: 'uploadItem.title'})}
-              type="text"
-              required
-              />
-            <Form.Input
-              label={formatMessage({id: 'uploadItem.category'})}
-              name="category"
-              placeholder={formatMessage({id: 'uploadItem.category'})}
-              type="text"
-              />
-            <Form.Input
-              label={formatMessage({id: 'uploadItem.price'})}
-              name="price"
-              placeholder={formatMessage({id: 'uploadItem.price'})}
-              type="number"
-              required
-              />
-            <Form.TextArea
-              label={formatMessage({id: 'uploadItem.description'})}
-              name="description"
-              placeholder={formatMessage({id: 'uploadItem.descriptionPlaceholder'})}
-              required
-              />
-            <Form.TextArea
-              label={formatMessage({id: 'uploadItem.terms'})}
-              name="terms"
-              placeholder={formatMessage({id: 'uploadItem.termsPlaceholder'})}
-              required
-              />
+              <Form size="huge" onSubmit={this.handleSubmit} loading={isFetching}>
+                <Form.Input
+                  label={formatMessage({id: 'uploadItem.title'})}
+                  name="title"
+                  placeholder={formatMessage({id: 'uploadItem.title'})}
+                  type="text"
+                  required
+                  />
+                <Form.Input
+                  label={formatMessage({id: 'uploadItem.category'})}
+                  name="category"
+                  placeholder={formatMessage({id: 'uploadItem.category'})}
+                  type="text"
+                  />
+                <Form.Input
+                  label={formatMessage({id: 'uploadItem.price'})}
+                  name="price"
+                  placeholder={formatMessage({id: 'uploadItem.price'})}
+                  type="number"
+                  required
+                  />
+                <Form.TextArea
+                  label={formatMessage({id: 'uploadItem.description'})}
+                  name="description"
+                  placeholder={formatMessage({id: 'uploadItem.descriptionPlaceholder'})}
+                  required
+                  />
+                <Form.TextArea
+                  label={formatMessage({id: 'uploadItem.terms'})}
+                  name="terms"
+                  placeholder={formatMessage({id: 'uploadItem.termsPlaceholder'})}
+                  required
+                  />
 
+                <Button
+                  content={formatMessage({id: 'uploadItem.uploadButton'})}
+                  size="huge"
+                  type="submit"
+                  icon="upload"
+                  labelPosition="right"
+                  primary
+                  />
+              </Form>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <Form size="huge" onSubmit={this.handleProfilePhotoSubmit} loading={isFetching}>
+                <Header as="h1" dividing>
+                  <FormattedMessage id="uploadItem.uploadPhotos"/>
+                </Header>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <UploadFile
+                        uploadAction={uploadProfilePhoto}
+                        name="uploadProfilePhoto"
+                        fluid
+                        multiple
+                        />
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Form>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+
+        <Modal size="small" dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
+          <Modal.Header>
+            <Header as="h1">
+              {modalTitle}
+            </Header>
+          </Modal.Header>
+          <Modal.Content>
+            <Header as="h3">
+              {modalContent}
+            </Header>
+          </Modal.Content>
+          <Modal.Actions>
             <Button
-              content={formatMessage({id: 'uploadItem.uploadButton'})}
+              content={formatMessage({id: 'modal.okay'})}
+              onClick={this.handleCloseModal}
               size="huge"
-              type="submit"
-              icon="upload"
-              labelPosition="right"
               primary
               />
-          </Form>
-
-          <Modal size="small" dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
-            <Modal.Header>
-              <Header as="h1">
-                {modalTitle}
-              </Header>
-            </Modal.Header>
-            <Modal.Content>
-              <Header as="h3">
-                {modalContent}
-              </Header>
-            </Modal.Content>
-            <Modal.Actions>
-              <Button
-                content={formatMessage({id: 'modal.okay'})}
-                onClick={this.handleCloseModal}
-                size="huge"
-                primary
-                />
-            </Modal.Actions>
-          </Modal>
-        </Grid.Column>
-      </Grid>
+          </Modal.Actions>
+        </Modal>
+      </div>
     );
   }
 }
