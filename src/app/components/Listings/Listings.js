@@ -9,6 +9,7 @@ import CalendarRange from '../General/CalendarRange';
 import MaxPriceSlider from '../General/Sliders/MaxPriceSlider';
 import MaxDistanceSlider from '../General/Sliders/MaxDistanceSlider';
 import PageHeaderSegment from '../General/PageHeaderSegment';
+import NoItemsFound from './NoItemsFound';
 import Item from './Item';
 import {Loading} from '../General/Loading';
 import {getListings} from '../../actions/listings';
@@ -33,25 +34,33 @@ class Listings extends Component {
   constructor(props) {
     super(props);
     this.handleToggleAdvancedSettings = this.handleToggleAdvancedSettings.bind(this);
+    this.handleOnSubmit = this.handleOnSubmit.bind(this);
   }
   componentWillMount() {
-    const {q, startDate, endDate, location} = this.props.location.query;
+    const {q, startDate, endDate, location, maxPrice, maxDistance} = this.props.location.query;
 
     this.props.dispatch(getListings({
-      q, startDate, endDate, location
+      q, startDate, endDate, location, maxPrice, maxDistance
     })).then(result => this.setState({listings: result.listings}));
   }
-  handleToggleAdvancedSettings(e) {
-    e.preventDefault();
-
+  handleToggleAdvancedSettings() {
     // Get the class name
     const {advancedSettings} = this.state;
 
     // Toggle the visibility of the advanced settings section
     this.setState({advancedSettings: advancedSettings ? null : 'hidden'});
   }
+  handleOnSubmit(e, {formData}) {
+    e.preventDefault();
+
+    const {q, startDate, endDate, location, maxPrice, maxDistance} = formData;
+
+    this.props.dispatch(getListings({
+      q, startDate, endDate, location, maxPrice, maxDistance
+    })).then(result => this.setState({listings: result.listings}));
+  }
   render() {
-    const {intl} = this.props;
+    const {intl, isFetching} = this.props;
     const {listings, advancedSettings} = this.state;
     const {formatMessage} = intl;
     const {q, startDate, endDate, location, maxPrice, maxDistance} = this.props.location.query;
@@ -73,9 +82,9 @@ class Listings extends Component {
               title={formatMessage({id: 'listings.title'}, {q: unescape(q)})}
               colour="blue"
               />
-            <Segment className="dark blue" inverted vertical>
+            <Segment className="dark blue" loading={isFetching} inverted vertical>
               <Container>
-                <Form size="huge" className="inverted">
+                <Form onSubmit={this.handleOnSubmit} size="huge" className="inverted">
                   <Grid verticalAlign="middle" stackable>
                     <Grid.Row>
                       <Grid.Column>
@@ -83,7 +92,7 @@ class Listings extends Component {
                           <input/>
                           <Popup
                             trigger={
-                              <Button onClick={this.handleToggleAdvancedSettings} size="huge" color="green" icon>
+                              <Button onClick={this.handleToggleAdvancedSettings} size="huge" type="button" icon inverted>
                                 <Icon name="options"/>
                               </Button>
                             }
@@ -91,7 +100,7 @@ class Listings extends Component {
                             inverted
                             />
 
-                          <Button labelPosition="right" icon="search" content={formatMessage({id: 'masthead.search'})} size="huge" inverted/>
+                          <Button type="submit" labelPosition="right" icon="search" content={formatMessage({id: 'masthead.search'})} size="huge" inverted/>
                         </Form.Input>
                         <CalendarRange defaultValues={{startDate, endDate}} style={styles.calendarRange}/>
                       </Grid.Column>
@@ -116,6 +125,9 @@ class Listings extends Component {
                 </Form>
               </Container>
             </Segment>
+            {listings.length === 0 &&
+              <NoItemsFound/>
+            }
             {listings.map((item, i) => {
               return (
                 <Item

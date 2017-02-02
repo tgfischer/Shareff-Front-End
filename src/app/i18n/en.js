@@ -23,10 +23,12 @@ const en = {
     uploadItemSuccess: 'Your item was successfully uploaded',
     requestToRentTitle: 'Request to Rent Item',
     requestToRentDetails: 'Select the dates that you would like to rent the item on',
-    requestPriceTitle: 'Cost to Rent Item: ${price}',
+    requestPriceTitle: 'Cost to Rent Item',
     invalidDates: 'Select valid start and end dates to calculate the price',
     makeRequest: 'Make Request',
     makeRentRequestSuccess: 'Your request to rent this item was successful. You will be notified once the owner has reviewed this request',
+    rentRequestMessageLabel: 'Message',
+    rentRequestMessagePlaceholder: 'Enter a message to send to the owner',
     error: 'Error!',
     okay: 'Okay',
     cancel: 'Cancel'
@@ -199,6 +201,11 @@ const en = {
   item: {
     subheader: 'Price: ${price} {costPeriod}, Location: {location}',
     viewItemButton: 'View Item'
+  },
+
+  noItemsFound: {
+    title: 'No Items Found',
+    content: 'No items were found. Change your search settings, and try again.'
   },
 
   /**

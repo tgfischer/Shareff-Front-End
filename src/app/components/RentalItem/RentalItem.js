@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import $ from 'jquery';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import validator from 'validator';
@@ -6,7 +7,7 @@ import GoogleMap from 'google-map-react';
 import moment from 'moment';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {
-  Button, Container, Form, Grid, Header, Icon, Image, Modal, Segment
+  Button, Container, Form, Grid, Header, Icon, Image, Modal, Segment, Statistic
 } from 'semantic-ui-react';
 import NavBar from '../General/NavBar';
 import CalendarRange from '../General/CalendarRange';
@@ -96,13 +97,21 @@ class RentalItem extends Component {
     const {user, rentalItem, intl} = this.props;
     const {formatMessage} = intl;
 
+    //
+    // Note, I'm using jQuery here because onChange is way too slow, and the
+    // submit button is outside the form. Putting it inside the form breaks the
+    // modal
+    //
+
     // Make the rent request
     this.props.dispatch(makeRentRequest({
       itemId: rentalItem.itemId,
-      userId: user.userId,
+      renterId: user.userId,
+      ownerId: rentalItem.ownerId,
       startDate: startDate.date,
-      endDate: endDate.date
-    })).then(err => {
+      endDate: endDate.date,
+      message: $('.rent-request-modal textarea').val()
+    })).then(({err}) => {
       // Set the modal title
       const title = err ? 'modal.error' : 'modal.success';
       this.setState({modalTitle: formatMessage({id: title})});
@@ -134,7 +143,7 @@ class RentalItem extends Component {
     if (rentalItem) {
       // If the user came from a search, then we want to go back to the place they
       // were at before. Otherwise, don't add this breadcrumb
-      if (this.props.location.query) {
+      if (this.props.location.query && this.props.location.query.q) {
         const {query} = this.props.location;
 
         breadcrumbs.push({
@@ -295,7 +304,7 @@ class RentalItem extends Component {
           </div> :
           <Loading/>
         }
-        <Modal dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
+        <Modal className="rent-request-modal" dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
           <Modal.Header>
             <Header as="h1">
               <FormattedMessage id="modal.requestToRentTitle"/>
@@ -314,18 +323,17 @@ class RentalItem extends Component {
                 <Grid.Row columns={1}>
                   <Grid.Column>
                     <CalendarRange onChange={this.handleOnChange}/>
+                    <Form.TextArea
+                      name="message"
+                      label={formatMessage({id: 'modal.rentRequestMessageLabel'})}
+                      placeholder={formatMessage({id: 'modal.rentRequestMessagePlaceholder'})}
+                      rows="5"
+                      />
                   </Grid.Column>
                 </Grid.Row>
                 <Grid.Row columns={1}>
-                  <Grid.Column>
-                    <Header as="h3" className="bold">
-                      {isMakeRequestButtonDisabled &&
-                        <FormattedMessage id="modal.invalidDates"/>
-                      }
-                      {!isMakeRequestButtonDisabled &&
-                        <FormattedMessage id="modal.requestPriceTitle" values={{price: totalPrice}}/>
-                      }
-                    </Header>
+                  <Grid.Column textAlign="center">
+                    <Statistic value={isMakeRequestButtonDisabled ? '--' : `$${totalPrice}`} label={formatMessage({id: 'modal.requestPriceTitle'})}/>
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
