@@ -136,7 +136,9 @@ export const uploadProfilePhoto = formData => {
     // We dispatch request to kickoff the call to the API
     dispatch(uploadProfilePhotoRequest());
 
-    return fetch(`${BASE_URL}/profile/personal_info/upload_profile_photo`, config).then(res => res.json()).then(json => {
+    const REQUEST_URL = formData.get('profile') ? "upload_profile_photo" : "upload_item_photos";
+
+    return fetch(`${BASE_URL}/profile/personal_info/${REQUEST_URL}`, config).then(res => res.json()).then(json => {
       // Get the user's information, and the error
       const {user, err} = json;
 

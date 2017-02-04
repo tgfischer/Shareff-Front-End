@@ -52,7 +52,6 @@ class UploadFile extends Component {
     if (!this.state.isDisabled) {
       const files = $('.uploadFile input[type=file]')[0].files;
       const formData = new FormData();
-
       if (files.length === 0) {
         return;
       }
@@ -68,6 +67,7 @@ class UploadFile extends Component {
       // Add the userId and token for validation
       formData.append('token', token);
       formData.append('userId', user.userId);
+      // formData.append('profile', true);
 
       // Upload the photos!
       this.props.dispatch(this.props.uploadAction(formData)).then(({err}) => {

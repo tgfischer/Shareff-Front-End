@@ -100,14 +100,14 @@ class UploadItem extends Component {
                 </Form.Field>
                 <Form.Group>
                   <Form.Input
-                    width="12"
+                    width="10"
                     label={formatMessage({id: 'addItem.price'})}
                     name="price"
                     placeholder={formatMessage({id: 'addItem.price'})}
                     type="number"
                     required
                     />
-                  <Form.Field width="4">
+                  <Form.Field width="6">
                     <label> {formatMessage({id: 'addItem.costPeriod'})} </label>
                     <Dropdown
                       name="costPeriod"
