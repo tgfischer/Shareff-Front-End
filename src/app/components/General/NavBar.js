@@ -29,9 +29,6 @@ class NavBar extends Component {
             <FormattedMessage id="navBar.title"/>
           </Menu.Item>
           <Menu.Menu position="right">
-            <Menu.Item as={Link} to="/listings" activeClassName="active">
-              <FormattedMessage id="navBar.rentalListings"/>
-            </Menu.Item>
             {!this.props.isAuthenticated &&
               <Menu.Item>
                 <Button basic as={Link} to="/login">

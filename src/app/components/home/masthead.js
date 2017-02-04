@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {Accordion, Container, Form, Grid, Header, Icon, Segment} from 'semantic-ui-react';
 import CalendarRange from '../General/CalendarRange';
+import MaxPriceSlider from '../General/Sliders/MaxPriceSlider';
+import MaxDistanceSlider from '../General/Sliders/MaxDistanceSlider';
 
 const styles = {
   masthead: {
@@ -16,13 +19,32 @@ const styles = {
 };
 
 class Masthead extends Component {
+  state = {
+    showAdvancedSettings: false
+  }
+  constructor(props) {
+    super(props);
+    this.handleOnSubmit = this.handleOnSubmit.bind(this);
+    this.handleToggleAdvancedSettings = this.handleToggleAdvancedSettings.bind(this);
+  }
+  handleOnSubmit(e, {formData}) {
+    e.preventDefault();
+
+    // Transition to the listings page, with the query params
+    this.props.router.push({
+      pathname: '/listings',
+      query: formData
+    });
+  }
+  handleToggleAdvancedSettings = () => this.setState({showAdvancedSettings: !this.state.showAdvancedSettings})
   render() {
+    const {showAdvancedSettings} = this.state;
     const {formatMessage} = this.props.intl;
 
     return (
       <Segment style={styles.masthead} vertical>
         <Container text>
-          <Form size="huge">
+          <Form size="huge" onSubmit={this.handleOnSubmit}>
             <Grid verticalAlign="middle" columns={1}>
               <Grid.Row centered>
                 <Grid.Column>
@@ -38,7 +60,7 @@ class Masthead extends Component {
                 <Grid.Column>
                   <Form.Input
                     action={{color: "blue", labelPosition: "right", icon: "search", content: formatMessage({id: 'masthead.search'}), size: "huge"}}
-                    name="search"
+                    name="q"
                     label="Search"
                     type="text"
                     />
@@ -51,13 +73,21 @@ class Masthead extends Component {
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column>
-                  <Accordion fluid styled>
+                  <Accordion onTitleClick={this.handleToggleAdvancedSettings} fluid styled>
                     <Accordion.Title>
                       <Icon name="options"/>
                       <FormattedMessage id="masthead.advancedSettings"/>
                     </Accordion.Title>
                     <Accordion.Content>
-                      <Form.Input name="location" label={formatMessage({id: 'masthead.location'})} type="text"/>
+                      {showAdvancedSettings &&
+                        <div>
+                          <Form.Input name="location" label={formatMessage({id: 'masthead.location'})} type="text"/>
+                          <Form.Group widths="equal">
+                            <MaxPriceSlider colour="blue"/>
+                            <MaxDistanceSlider colour="blue"/>
+                          </Form.Group>
+                        </div>
+                      }
                     </Accordion.Content>
                   </Accordion>
                 </Grid.Column>
@@ -71,7 +101,8 @@ class Masthead extends Component {
 }
 
 Masthead.propTypes = {
-  intl: intlShape.isRequired
+  intl: intlShape.isRequired,
+  router: React.PropTypes.object.isRequired
 };
 
-export default injectIntl(Masthead);
+export default withRouter(injectIntl(Masthead));
