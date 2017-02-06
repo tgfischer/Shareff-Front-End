@@ -1,7 +1,7 @@
 import {
   BASE_URL, GET_PERSONAL_INFO_REQUEST, GET_PERSONAL_INFO_SUCCESS, GET_PERSONAL_INFO_FAILURE,
-  UPLOAD_PROFILE_PHOTO_REQUEST, UPLOAD_PROFILE_PHOTO_SUCCESS, UPLOAD_PROFILE_PHOTO_FAILURE,
-  UPLOAD_ITEM_REQUEST, UPLOAD_ITEM_SUCCESS, UPLOAD_ITEM_FAILURE, GET_MY_ITEMS_REQUEST,
+  UPLOAD_PHOTOS_REQUEST, UPLOAD_PHOTOS_SUCCESS, UPLOAD_PHOTOS_FAILURE,
+  ADD_ITEM_REQUEST, ADD_ITEM_SUCCESS, ADD_ITEM_FAILURE, GET_MY_ITEMS_REQUEST,
   GET_MY_ITEMS_SUCCESS, GET_MY_ITEMS_FAILURE
 } from '../constants/constants';
 
@@ -26,39 +26,40 @@ const getPersonalInfoFailure = err => ({
   err
 });
 
-const uploadProfilePhotoRequest = () => ({
-  type: UPLOAD_PROFILE_PHOTO_REQUEST,
+const uploadPhotosRequest = () => ({
+  type: UPLOAD_PHOTOS_REQUEST,
   isFetching: true,
   err: undefined
 });
 
-const uploadProfilePhotoSuccess = user => ({
-  type: UPLOAD_PROFILE_PHOTO_SUCCESS,
+const uploadPhotosSuccess = json => ({
+  type: UPLOAD_PHOTOS_SUCCESS,
   isFetching: false,
   err: undefined,
-  user
+  user: json.user,
+  photoUrls: json.photoUrls
 });
 
-const uploadProfilePhotoFailure = err => ({
-  type: UPLOAD_PROFILE_PHOTO_FAILURE,
+const uploadPhotosFailure = json => ({
+  type: UPLOAD_PHOTOS_FAILURE,
   isFetching: false,
-  err
+  err: json.err
 });
 
-const uploadItemRequest = () => ({
-  type: UPLOAD_ITEM_REQUEST,
+const addItemRequest = () => ({
+  type: ADD_ITEM_REQUEST,
   isFetching: true,
   err: undefined
 });
 
-const uploadItemSuccess = () => ({
-  type: UPLOAD_ITEM_SUCCESS,
+const addItemSuccess = () => ({
+  type: ADD_ITEM_SUCCESS,
   isFetching: false,
   err: undefined
 });
 
-const uploadItemFailure = err => ({
-  type: UPLOAD_ITEM_FAILURE,
+const addItemFailure = err => ({
+  type: ADD_ITEM_FAILURE,
   isFetching: false,
   err
 });
@@ -126,7 +127,7 @@ export const getPersonalInfo = user => {
 /**
  * Get the user's personal information from the database
  */
-export const uploadProfilePhoto = formData => {
+export const uploadPhotos = formData => {
   const config = {
     method: 'POST',
     body: formData
@@ -134,30 +135,30 @@ export const uploadProfilePhoto = formData => {
 
   return dispatch => {
     // We dispatch request to kickoff the call to the API
-    dispatch(uploadProfilePhotoRequest());
+    dispatch(uploadPhotosRequest());
 
-    const REQUEST_URL = formData.get('profile') ? "upload_profile_photo" : "upload_item_photos";
+    const REQUEST_URL = formData.get('isProfilePhoto') === 'true' ? 'upload_profile_photo' : 'upload_item_photos';
 
     return fetch(`${BASE_URL}/profile/personal_info/${REQUEST_URL}`, config).then(res => res.json()).then(json => {
       // Get the user's information, and the error
-      const {user, err} = json;
+      const {err} = json;
 
       if (err) {
         // If there was a problem, we want to dispatch the error condition
         console.log(err);
-        return dispatch(uploadProfilePhotoFailure(err));
+        return dispatch(uploadPhotosFailure(err));
       }
 
       // Dispatch the success action
-      return dispatch(uploadProfilePhotoSuccess(user));
+      return dispatch(uploadPhotosSuccess(json));
     }).catch(err => {
       console.log(err);
-      return dispatch(uploadProfilePhotoFailure(err));
+      return dispatch(uploadPhotosFailure(err));
     });
   };
 };
 
-export const uploadItem = item => {
+export const addItem = item => {
   // Send the token as well so that we can validate that the user that is logged
   // in is only modifying their own data
   item.token = localStorage.getItem('token');
@@ -172,7 +173,7 @@ export const uploadItem = item => {
 
   return dispatch => {
     // kick off request to API
-    dispatch(uploadItemRequest());
+    dispatch(addItemRequest());
 
     return fetch(`${BASE_URL}/profile/upload_item/upload_item`, config).then(res => res.json()).then(json => {
       // Get the user's information, and the error
@@ -180,15 +181,15 @@ export const uploadItem = item => {
 
       if (!err) {
         // Dispatch the success action
-        return dispatch(uploadItemSuccess());
+        return dispatch(addItemSuccess());
       }
 
       // If there was a problem, we want to dispatch the error condition
       console.log(err);
-      return dispatch(uploadItemFailure(err));
+      return dispatch(addItemFailure(err));
     }).catch(err => {
       console.log(err);
-      return dispatch(uploadItemFailure(err));
+      return dispatch(addItemFailure(err));
     });
   };
 };

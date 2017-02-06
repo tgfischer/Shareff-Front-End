@@ -8,7 +8,7 @@ import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
 import PersonalInfo from './PersonalInfo';
 import MyItems from './MyItems';
-import UploadItem from './UploadItem';
+import AddItem from './AddItem';
 import Messages from './Messages/Messages';
 
 const styles = {
@@ -104,7 +104,7 @@ class Profile extends Component {
                       <Messages {...this.props}/>
                     }
                     {activeTab === 'add-item' &&
-                      <UploadItem {...this.props}/>
+                      <AddItem {...this.props}/>
                     }
                   </Segment>
                 </Grid.Column>

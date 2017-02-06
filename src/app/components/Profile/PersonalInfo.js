@@ -7,7 +7,7 @@ import {
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {BASE_URL} from '../../constants/constants';
-import {getPersonalInfo, uploadProfilePhoto} from '../../actions/profile';
+import {getPersonalInfo, uploadPhotos} from '../../actions/profile';
 import UploadFile from '../General/UploadFile';
 
 class PersonalInfo extends Component {
@@ -220,7 +220,7 @@ class PersonalInfo extends Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
-              <Form size="huge" onSubmit={uploadProfilePhoto}>
+              <Form size="huge" onSubmit={uploadPhotos}>
                 <Header as="h1" dividing>
                   <FormattedMessage id="personalInfo.uploadProfilePhoto"/>
                 </Header>
@@ -234,9 +234,10 @@ class PersonalInfo extends Component {
                     <Grid.Column>
                       <UploadFile
                         label={formatMessage({id: 'personalInfo.uploadProfilePhotoLabel'})}
-                        uploadAction={uploadProfilePhoto}
+                        uploadAction={uploadPhotos}
                         name="uploadProfilePhoto"
                         fluid
+                        isProfilePhoto
                         />
                     </Grid.Column>
                   </Grid.Row>

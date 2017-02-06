@@ -2,23 +2,28 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {
-  Button, Form, Grid, Header, Modal, Dropdown
+  Button, Form, Grid, Header, Modal, Dropdown, Image
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {BASE_URL} from '../../constants/constants';
-import {uploadItem, uploadProfilePhoto} from '../../actions/profile';
+import {addItem, uploadPhotos} from '../../actions/profile';
 import UploadFile from '../General/UploadFile';
 
 class UploadItem extends Component {
   state = {
     openModal: false,
     modalTitle: 'modal.success',
-    modalContent: 'modal.uploadItemSuccess'
+    modalContent: 'modal.uploadItemSuccess',
+    photoUrls: null
   }
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.onPhotoStateChange = this.onPhotoStateChange.bind(this);
+  }
+  onPhotoStateChange(photoUrls) {
+    this.setState({photoUrls});
   }
   handleSubmit(e, {formData}) {
     e.preventDefault();
@@ -30,7 +35,7 @@ class UploadItem extends Component {
     formData.addressId = user.addressId;
 
     // Send the new item to the server
-    this.props.dispatch(uploadItem(formData)).then(({err}) => {
+    this.props.dispatch(addItem(formData)).then(({err}) => {
       const {formatMessage} = intl;
 
       // Set the modal title
@@ -48,7 +53,7 @@ class UploadItem extends Component {
   handleCloseModal = () => this.setState({openModal: false})
   render() {
     const {intl} = this.props;
-    const {openModal, modalTitle, modalContent, images} = this.state;
+    const {openModal, modalTitle, modalContent, photoUrls} = this.state;
     const {formatMessage} = intl;
 
     const categories = [
@@ -138,33 +143,36 @@ class UploadItem extends Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
-              <Form size="huge" onSubmit={uploadProfilePhoto}>
+              <Form size="huge" onSubmit={uploadPhotos}>
                 <Header as="h1" dividing>
                   <FormattedMessage id="addItem.uploadPhotos"/>
                 </Header>
                 <Grid>
-                  <Grid.Row>
-                    {images ? images.map((photoUrl, i) => {
-                      return (
-                        <Image
-                          src={BASE_URL + photoUrl}
-                          shape="rounded"
-                          size="small"
-                          centered
-                          bordered
-                          key={i}
-                          />
-                      );
-                    }) : "nothing here yet"
+                  <Grid.Row columns="4">
+                    {
+                      photoUrls ? photoUrls.map((photoUrl, i) => {
+                        return (
+                          <Grid.Column key={i}>
+                            <Image
+                              src={BASE_URL + photoUrl}
+                              shape="rounded"
+                              size="small"
+                              centered
+                              bordered
+                              />
+                          </Grid.Column>
+                        );
+                      }) : ""
                     }
                   </Grid.Row>
                   <Grid.Row>
                     <Grid.Column>
                       <UploadFile
-                        uploadAction={uploadProfilePhoto}
+                        uploadAction={uploadPhotos}
                         name="uploadProfilePhoto"
                         fluid
                         multiple
+                        updateAddItemComponent={this.onPhotoStateChange}
                         />
                     </Grid.Column>
                   </Grid.Row>

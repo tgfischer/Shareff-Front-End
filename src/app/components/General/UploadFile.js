@@ -67,11 +67,16 @@ class UploadFile extends Component {
       // Add the userId and token for validation
       formData.append('token', token);
       formData.append('userId', user.userId);
-      // formData.append('profile', true);
+      formData.append('isProfilePhoto', this.props.isProfilePhoto);
 
       // Upload the photos!
-      this.props.dispatch(this.props.uploadAction(formData)).then(({err}) => {
+      this.props.dispatch(this.props.uploadAction(formData)).then(json => {
         const {formatMessage} = intl;
+        const {err, photoUrls} = json;
+
+        if (photoUrls) {
+          this.props.updateAddItemComponent(photoUrls);
+        }
 
         // Set the modal title
         const title = err ? 'modal.error' : 'modal.success';
@@ -162,7 +167,9 @@ UploadFile.propTypes = {
   placeholder: React.PropTypes.string,
   required: React.PropTypes.bool,
   uploadAction: React.PropTypes.func.isRequired,
-  user: React.PropTypes.object.isRequired
+  updateAddItemComponent: React.PropTypes.func,
+  user: React.PropTypes.object.isRequired,
+  isProfilePhoto: React.PropTypes.bool
 };
 
 const mapStateToProps = state => {
