@@ -4,6 +4,13 @@ import {withRouter} from 'react-router';
 import {intlShape, injectIntl} from 'react-intl';
 import {DataTableSemantic} from '../General/DataTable';
 import {getMyItems} from '../../actions/profile';
+import {Loading} from '../General/Loading';
+
+const styles = {
+  div: {
+    margin: "15%"
+  }
+};
 
 class MyItems extends Component {
 
@@ -12,7 +19,6 @@ class MyItems extends Component {
     const {userId} = this.props.user;
     this.props.dispatch(getMyItems(userId));
   }
-
   render() {
     const column = [
       {data: 'title', title: "Title"},
@@ -21,11 +27,14 @@ class MyItems extends Component {
       {data: 'price', title: "Price"},
       {data: 'termsOfUse', title: "Term of use"}
     ];
-    const {myItems} = this.props;
+    const {isFetching, myItems} = this.props;
 
     return (
       <div>
-        <DataTableSemantic rows={myItems} columns={column}/>
+        {isFetching || !myItems ?
+          <div style={styles.div}><Loading/></div> :
+          <DataTableSemantic rows={myItems} columns={column}/>
+        }
       </div>
     );
   }
@@ -37,7 +46,7 @@ MyItems.propTypes = {
   isFetching: React.PropTypes.bool,
   err: React.PropTypes.object,
   user: React.PropTypes.object,
-  myItems: React.PropTypes.array.isRequired,
+  myItems: React.PropTypes.array,
   router: React.PropTypes.object,
   dispatch: React.PropTypes.func.isRequired
 };

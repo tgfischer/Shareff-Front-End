@@ -23,10 +23,12 @@ const en = {
     uploadItemSuccess: 'Your item was successfully uploaded',
     requestToRentTitle: 'Request to Rent Item',
     requestToRentDetails: 'Select the dates that you would like to rent the item on',
-    requestPriceTitle: 'Cost to Rent Item: ${price}',
+    requestPriceTitle: 'Cost to Rent Item',
     invalidDates: 'Select valid start and end dates to calculate the price',
     makeRequest: 'Make Request',
     makeRentRequestSuccess: 'Your request to rent this item was successful. You will be notified once the owner has reviewed this request',
+    rentRequestMessageLabel: 'Message',
+    rentRequestMessagePlaceholder: 'Enter a message to send to the owner',
     error: 'Error!',
     okay: 'Okay',
     cancel: 'Cancel'
@@ -68,7 +70,9 @@ const en = {
     desc: 'Helping you find the things you need',
     search: 'Search',
     advancedSettings: 'Advanced Settings',
-    location: 'Location'
+    location: 'Location',
+    maxPriceLabel: 'Maximum Price: ${price}',
+    maxDistanceLabel: 'Maximum Distance: {distance}km'
   },
 
   /**
@@ -114,6 +118,9 @@ const en = {
     updateInfoButton: 'Update Information'
   },
 
+  /**
+   * Messages messages
+   */
   messages: {
     title: 'Chatting with {firstName} {lastName}',
     subTitle: 'Email: {email}',
@@ -181,6 +188,26 @@ const en = {
     signUpButton: 'Sign Up',
     infoMessageTitle: 'Already have an account?',
     infoMessageContent: 'Log into your Shareff account instead!'
+  },
+
+  /**
+   * Listings messages
+   */
+  listings: {
+    title: 'Search Results for: \'{q}\''
+  },
+
+  /**
+   * Item messages
+   */
+  item: {
+    subheader: 'Price: ${price} {costPeriod}, Location: {location}',
+    viewItemButton: 'View Item'
+  },
+
+  noItemsFound: {
+    title: 'No Items Found',
+    content: 'No items were found. Change your search settings, and try again.'
   },
 
   /**
