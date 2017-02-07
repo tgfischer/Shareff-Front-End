@@ -175,7 +175,7 @@ export const addItem = item => {
     // kick off request to API
     dispatch(addItemRequest());
 
-    return fetch(`${BASE_URL}/profile/upload_item/upload_item`, config).then(res => res.json()).then(json => {
+    return fetch(`${BASE_URL}/profile/add_item/add_item`, config).then(res => res.json()).then(json => {
       // Get the user's information, and the error
       const {err} = json;
 

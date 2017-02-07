@@ -110,7 +110,7 @@ class UploadFile extends Component {
           <div className="two fields">
             <div className={required ? "required twelve wide field" : "twelve wide field"}>
               <div className={fluid ? "ui fluid file input browse action" : "ui file input browse action"}>
-                <input onClick={this.handleBrowseClick} type="text" readOnly/>
+                <input onClick={this.handleBrowseClick} type="text" name="browse" readOnly/>
                 <input onChange={this.handlePhotoChange} type="file" name={name} autoComplete="off" className="hidden" multiple={multiple}/>
                 <div onClick={this.handleBrowseClick} className="ui huge primary right labeled icon button">
                   <i className="folder open icon"></i>

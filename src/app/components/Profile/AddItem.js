@@ -33,6 +33,7 @@ class UploadItem extends Component {
     // Add the userId to the object that will be sent to the server
     formData.userId = user.userId;
     formData.addressId = user.addressId;
+    formData.photos = this.state.photoUrls;
 
     // Send the new item to the server
     this.props.dispatch(addItem(formData)).then(({err}) => {
@@ -81,7 +82,10 @@ class UploadItem extends Component {
               <Header as="h1" dividing>
                 <FormattedMessage id="addItem.pageTitle"/>
               </Header>
-
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
               <Form size="huge" onSubmit={this.handleSubmit}>
                 <Form.Input
                   label={formatMessage({id: 'addItem.title'})}
@@ -138,58 +142,56 @@ class UploadItem extends Component {
                   placeholder={formatMessage({id: 'addItem.termsPlaceholder'})}
                   required
                   />
+                <Grid.Row>
+                  <Grid.Column>
+                    <Header as="h1" dividing>
+                      <FormattedMessage id="addItem.uploadPhotos"/>
+                    </Header>
+                    <Grid>
+                      <Grid.Row columns="4">
+                        {
+                          photoUrls ? photoUrls.map((photoUrl, i) => {
+                            return (
+                              <Grid.Column key={i}>
+                                <Image
+                                  src={BASE_URL + photoUrl}
+                                  shape="rounded"
+                                  size="small"
+                                  centered
+                                  bordered
+                                  />
+                              </Grid.Column>
+                            );
+                          }) : ""
+                        }
+                      </Grid.Row>
+                      <Grid.Row>
+                        <Grid.Column>
+                          <UploadFile
+                            uploadAction={uploadPhotos}
+                            name="uploadPhotos"
+                            fluid
+                            multiple
+                            updateAddItemComponent={this.onPhotoStateChange}
+                            />
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                  <Grid.Column>
+                    <Button
+                      content={formatMessage({id: 'addItem.addItemButton'})}
+                      size="huge"
+                      type="submit"
+                      icon="plus"
+                      labelPosition="right"
+                      primary
+                      />
+                  </Grid.Column>
+                </Grid.Row>
               </Form>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column>
-              <Form size="huge" onSubmit={uploadPhotos}>
-                <Header as="h1" dividing>
-                  <FormattedMessage id="addItem.uploadPhotos"/>
-                </Header>
-                <Grid>
-                  <Grid.Row columns="4">
-                    {
-                      photoUrls ? photoUrls.map((photoUrl, i) => {
-                        return (
-                          <Grid.Column key={i}>
-                            <Image
-                              src={BASE_URL + photoUrl}
-                              shape="rounded"
-                              size="small"
-                              centered
-                              bordered
-                              />
-                          </Grid.Column>
-                        );
-                      }) : ""
-                    }
-                  </Grid.Row>
-                  <Grid.Row>
-                    <Grid.Column>
-                      <UploadFile
-                        uploadAction={uploadPhotos}
-                        name="uploadProfilePhoto"
-                        fluid
-                        multiple
-                        updateAddItemComponent={this.onPhotoStateChange}
-                        />
-                    </Grid.Column>
-                  </Grid.Row>
-                </Grid>
-              </Form>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column>
-              <Button
-                content={formatMessage({id: 'addItem.addItemButton'})}
-                size="huge"
-                type="submit"
-                icon="plus"
-                labelPosition="right"
-                primary
-                />
             </Grid.Column>
           </Grid.Row>
         </Grid>
