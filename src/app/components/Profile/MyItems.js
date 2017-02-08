@@ -16,8 +16,8 @@ class MyItems extends Component {
 
   componentWillMount() {
     // Fetch the list of my items data using the ownerId from the props
-    const {userId} = this.props.user;
-    this.props.dispatch(getMyItems(userId));
+    const {user} = this.props;
+    this.props.dispatch(getMyItems(user));
   }
   render() {
     const column = [
