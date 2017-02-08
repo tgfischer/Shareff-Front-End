@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {
-  Form, Grid, Header, Image, Segment
+  Divider, Form, Grid, Header, Image, Segment
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {BASE_URL} from '../../../constants/constants';
 import $ from 'jquery';
+import moment from 'moment';
 
 class MessageArea extends Component {
   state = {
@@ -50,9 +51,10 @@ class MessageArea extends Component {
       contentColumnPadding, contentSegmentBorderWidth, conversationHeaderHeight,
       messageInputHeight
     } = this.state;
-    const {intl, messages, recipient, user} = this.props;
+    const {intl, messages, recipient, item, rentRequest, user} = this.props;
+    const {firstName, lastName, photoUrl} = recipient;
+    const {startDate, endDate} = rentRequest;
     const {formatMessage} = intl;
-    const {firstName, lastName, photoUrl, email} = recipient;
 
     // Resize the message area so it doesn't add a scrollbar to the viewport,
     // but instead add a scrollbar to the message area
@@ -67,24 +69,31 @@ class MessageArea extends Component {
       messageGrid: {
         margin: '0',
         width: '100%'
+      },
+      divider: {
+        margin: '0 1em'
       }
     };
 
     return (
       <Grid>
-        <Grid.Row className="conversation-header">
+        <Grid.Row className="conversation-header" verticalAlign="middle">
           <Grid.Column>
-            <Header as="h1" dividing>
-              <Image src={BASE_URL + photoUrl} shape="rounded" bordered/>
+            <Header as="h1">
+              <Image src={BASE_URL + photoUrl} shape="rounded"/>
               <Header.Content>
                 <FormattedMessage id="messages.title" values={{firstName, lastName}}/>
                 <Header.Subheader>
-                  <FormattedMessage id="messages.subTitle" values={{email}}/>
+                  <FormattedMessage id="messages.requestedItem" values={{item: item.title}}/>
+                </Header.Subheader>
+                <Header.Subheader>
+                  {moment(startDate).format('MMM Do YYYY, h:mm a')} &#8594; {moment(endDate).format('MMM Do YYYY, h:mm a')}
                 </Header.Subheader>
               </Header.Content>
             </Header>
           </Grid.Column>
         </Grid.Row>
+        <Divider style={styles.divider}/>
         <Grid.Row style={styles.messageArea} className="message-area">
           <Grid style={styles.messageGrid}>
             {messages.map(({senderId, timeSent, content}, i) => {

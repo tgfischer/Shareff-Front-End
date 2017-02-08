@@ -123,7 +123,7 @@ const en = {
    */
   messages: {
     title: 'Chatting with {firstName} {lastName}',
-    subTitle: 'Email: {email}',
+    requestedItem: 'Requested Item: {item}',
     inputLabel: 'Enter your message',
     inputPlaceholder: 'Enter your message...',
     sendButton: 'Send',
