@@ -9,7 +9,8 @@ import {
   GET_RENTAL_ITEM_REQUEST, GET_RENTAL_ITEM_SUCCESS, GET_RENTAL_ITEM_FAILURE,
   GET_MY_ITEMS_REQUEST, GET_MY_ITEMS_SUCCESS, GET_MY_ITEMS_FAILURE,
   MAKE_RENT_REQUEST_REQUEST, MAKE_RENT_REQUEST_SUCCESS, MAKE_RENT_REQUEST_FAILURE,
-  GET_CONVERSATIONS_REQUEST, GET_CONVERSATIONS_SUCCESS, GET_CONVERSATIONS_FAILURE
+  GET_CONVERSATIONS_REQUEST, GET_CONVERSATIONS_SUCCESS, GET_CONVERSATIONS_FAILURE,
+  GET_MESSAGES_REQUEST, GET_MESSAGES_SUCCESS, GET_MESSAGES_FAILURE
 } from '../constants/constants';
 
 // The auth reducer. The starting state sets authentication
@@ -229,6 +230,33 @@ export const reducers = (state = {
       return Object.assign({}, state, {
         isFetching: false,
         conversations: undefined,
+        err: action.err
+      });
+    case GET_MESSAGES_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        messages: undefined,
+        recipient: undefined,
+        rentRequest: undefined,
+        item: undefined,
+        err: undefined
+      });
+    case GET_MESSAGES_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: undefined,
+        messages: action.messages,
+        recipient: action.recipient,
+        rentRequest: action.rentRequest,
+        item: action.item
+      });
+    case GET_MESSAGES_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        messages: undefined,
+        recipient: undefined,
+        rentRequest: undefined,
+        item: undefined,
         err: action.err
       });
     default:

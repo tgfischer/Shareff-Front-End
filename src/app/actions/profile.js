@@ -3,7 +3,8 @@ import {
   UPLOAD_PROFILE_PHOTO_REQUEST, UPLOAD_PROFILE_PHOTO_SUCCESS, UPLOAD_PROFILE_PHOTO_FAILURE,
   UPLOAD_ITEM_REQUEST, UPLOAD_ITEM_SUCCESS, UPLOAD_ITEM_FAILURE,
   GET_MY_ITEMS_REQUEST, GET_MY_ITEMS_SUCCESS, GET_MY_ITEMS_FAILURE,
-  GET_CONVERSATIONS_REQUEST, GET_CONVERSATIONS_SUCCESS, GET_CONVERSATIONS_FAILURE
+  GET_CONVERSATIONS_REQUEST, GET_CONVERSATIONS_SUCCESS, GET_CONVERSATIONS_FAILURE,
+  GET_MESSAGES_REQUEST, GET_MESSAGES_SUCCESS, GET_MESSAGES_FAILURE
 } from '../constants/constants';
 
 const getPersonalInfoRequest = () => ({
@@ -103,6 +104,36 @@ const getConversationsFailure = err => ({
   type: GET_CONVERSATIONS_FAILURE,
   isFetching: false,
   conversations: undefined,
+  err
+});
+
+const getMessagesRequest = () => ({
+  type: GET_MESSAGES_REQUEST,
+  isFetching: true,
+  err: undefined,
+  messages: undefined,
+  recipient: undefined,
+  rentRequest: undefined,
+  item: undefined
+});
+
+const getMessagesSuccess = ({messages, recipient, rentRequest, item}) => ({
+  type: GET_MESSAGES_SUCCESS,
+  isFetching: false,
+  err: undefined,
+  messages,
+  recipient,
+  rentRequest,
+  item
+});
+
+const getMessagesFailure = err => ({
+  type: GET_MESSAGES_FAILURE,
+  isFetching: false,
+  messages: undefined,
+  recipient: undefined,
+  rentRequest: undefined,
+  item: undefined,
   err
 });
 
@@ -220,7 +251,7 @@ export const getMyItems = owner => {
   // Send the token as well so that we can validate that the user that is logged
   // in is only modifying their own data
   owner.token = localStorage.getItem('token');
-  
+
   const config = {
     method: 'POST',
     headers: {
@@ -269,10 +300,7 @@ export const getConversations = ({userId}) => {
     // kick off request to API
     dispatch(getConversationsRequest());
 
-    return fetch(`${BASE_URL}/profile/messages/get_conversations`, config).then(res => res.json()).then(json => {
-      // Get the list of conversations, or an error
-      const {conversations, err} = json;
-
+    return fetch(`${BASE_URL}/profile/messages/get_conversations`, config).then(res => res.json()).then(({conversations, err}) => {
       if (!err) {
         // Dispatch the success action
         return dispatch(getConversationsSuccess(conversations));
@@ -284,6 +312,40 @@ export const getConversations = ({userId}) => {
     }).catch(err => {
       console.log(err);
       return dispatch(getConversationsFailure(err));
+    });
+  };
+};
+
+/**
+ * Fetch a list of messages between two users
+ */
+export const getMessages = ({conversationId, requestId, recipientId, userId}) => {
+  const token = localStorage.getItem('token');
+
+  const config = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({conversationId, requestId, recipientId, userId, token})
+  };
+
+  return dispatch => {
+    // kick off request to API
+    dispatch(getMessagesRequest());
+
+    return fetch(`${BASE_URL}/profile/messages/get_messages`, config).then(res => res.json()).then(({result, err}) => {
+      if (!err) {
+        // Dispatch the success action
+        return dispatch(getMessagesSuccess(result));
+      }
+
+      // If there was a problem, we want to dispatch the error condition
+      console.log(err);
+      return dispatch(getMessagesFailure(err));
+    }).catch(err => {
+      console.log(err);
+      return dispatch(getMessagesFailure(err));
     });
   };
 };

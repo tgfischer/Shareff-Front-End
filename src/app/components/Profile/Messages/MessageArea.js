@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {
-  Form, Grid, Header, Segment
+  Form, Grid, Header, Image, Segment
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
+import {BASE_URL} from '../../../constants/constants';
 import $ from 'jquery';
 
 class MessageArea extends Component {
@@ -49,9 +50,12 @@ class MessageArea extends Component {
       contentColumnPadding, contentSegmentBorderWidth, conversationHeaderHeight,
       messageInputHeight
     } = this.state;
-    const {intl} = this.props;
+    const {intl, messages, recipient, user} = this.props;
     const {formatMessage} = intl;
+    const {firstName, lastName, photoUrl, email} = recipient;
 
+    // Resize the message area so it doesn't add a scrollbar to the viewport,
+    // but instead add a scrollbar to the message area
     const styles = {
       messageArea: {
         maxHeight: `calc(100vh - ${navBarHeight}px - ${pageHeaderHeight}px - \
@@ -61,7 +65,8 @@ class MessageArea extends Component {
         overflow: 'auto'
       },
       messageGrid: {
-        margin: '0'
+        margin: '0',
+        width: '100%'
       }
     };
 
@@ -70,43 +75,35 @@ class MessageArea extends Component {
         <Grid.Row className="conversation-header">
           <Grid.Column>
             <Header as="h1" dividing>
-              <FormattedMessage id="messages.title" values={{firstName: 'Emily', lastName: 'Guglielmi'}}/>
-              <Header.Subheader>
-                <FormattedMessage id="messages.subTitle" values={{email: 'emily.guglielmi@gmail.com'}}/>
-              </Header.Subheader>
+              <Image src={BASE_URL + photoUrl} shape="rounded" bordered/>
+              <Header.Content>
+                <FormattedMessage id="messages.title" values={{firstName, lastName}}/>
+                <Header.Subheader>
+                  <FormattedMessage id="messages.subTitle" values={{email}}/>
+                </Header.Subheader>
+              </Header.Content>
             </Header>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row style={styles.messageArea} className="message-area">
           <Grid style={styles.messageGrid}>
-            <Grid.Row>
-              <Grid.Column width={10}>
-                <Segment size="large" compact>
-                  Hello World!
-                </Segment>
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Column width={10} floated="right">
-                <Segment size="large" floated="right" color="blue" compact>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac lectus et orci vehicula lacinia. Pellentesque ultrices neque sed sem imperdiet maximus. Donec condimentum nulla felis. Aenean consequat finibus dignissim. Nulla facilisi. Nam iaculis id lectus ut placerat. Ut venenatis quam id mi rhoncus commodo. Vestibulum cursus elit eu vulputate porttitor.
-                </Segment>
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Column width={10}>
-                <Segment size="large" compact>
-                  Hello World!
-                </Segment>
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Column width={10} floated="right">
-                <Segment size="large" floated="right" color="blue" compact>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac lectus et orci vehicula lacinia. Pellentesque ultrices neque sed sem imperdiet maximus. Donec condimentum nulla felis. Aenean consequat finibus dignissim. Nulla facilisi. Nam iaculis id lectus ut placerat. Ut venenatis quam id mi rhoncus commodo. Vestibulum cursus elit eu vulputate porttitor.
-                </Segment>
-              </Grid.Column>
-            </Grid.Row>
+            {messages.map(({senderId, timeSent, content}, i) => {
+              // Check if this message was sent by the logged in user, or the
+              // recipient
+              const floated = user.userId === senderId ? 'right' : undefined;
+              const colour = user.userId === senderId ? 'blue' : undefined;
+
+              // Render the message in the message area
+              return (
+                <Grid.Row key={i}>
+                  <Grid.Column floated={floated} width={10}>
+                    <Segment size="large" floated={floated} color={colour} compact>
+                      {content}
+                    </Segment>
+                  </Grid.Column>
+                </Grid.Row>
+              );
+            })}
           </Grid>
         </Grid.Row>
         <Grid.Row className="message-input" verticalAlign="bottom">
@@ -135,16 +132,27 @@ MessageArea.propTypes = {
   err: React.PropTypes.object,
   user: React.PropTypes.object,
   router: React.PropTypes.object,
-  dispatch: React.PropTypes.func.isRequired
+  dispatch: React.PropTypes.func.isRequired,
+  messages: React.PropTypes.array.isRequired,
+  item: React.PropTypes.object.isRequired,
+  recipient: React.PropTypes.object.isRequired,
+  rentRequest: React.PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   const {reducers} = state;
-  const {isAuthenticated, isFetching, user, err} = reducers;
+  const {
+    isAuthenticated, isFetching, messages, item, recipient, rentRequest, user,
+    err
+  } = reducers;
 
   return {
     isAuthenticated,
     isFetching,
+    messages,
+    item,
+    recipient,
+    rentRequest,
     user,
     err
   };

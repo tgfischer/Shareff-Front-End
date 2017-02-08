@@ -8,7 +8,13 @@ export class Recipient extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
   handleClick() {
-    this.props.onClick(this.props);
+    const {conversationId, requestId, userId} = this.props;
+
+    this.props.onClick({
+      recipientId: userId,
+      conversationId,
+      requestId
+    });
   }
   render() {
     const {photoUrl, firstName, lastName, tooltip} = this.props;
@@ -17,7 +23,7 @@ export class Recipient extends Component {
       <Popup
         trigger={
           <List.Item onClick={this.handleClick}>
-            <Image avatar src={BASE_URL + photoUrl} bordered/>
+            <Image src={BASE_URL + photoUrl} size="mini" shape="rounded" bordered/>
             <List.Content>
               <List.Header>{firstName} {lastName}</List.Header>
             </List.Content>
@@ -32,6 +38,8 @@ export class Recipient extends Component {
 
 Recipient.propTypes = {
   userId: React.PropTypes.string.isRequired,
+  conversationId: React.PropTypes.string.isRequired,
+  requestId: React.PropTypes.string.isRequired,
   firstName: React.PropTypes.string.isRequired,
   lastName: React.PropTypes.string.isRequired,
   photoUrl: React.PropTypes.string.isRequired,

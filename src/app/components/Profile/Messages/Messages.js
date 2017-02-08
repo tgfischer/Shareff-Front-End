@@ -7,11 +7,11 @@ import {
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {Recipient} from './Recipient';
 import MessageArea from './MessageArea';
-import {getConversations} from '../../../actions/profile';
+import {getConversations, getMessages} from '../../../actions/profile';
 
 class Messages extends Component {
   state = {
-    selectedRecipient: null
+    selectedConversation: null
   }
   constructor(props) {
     super(props);
@@ -19,13 +19,24 @@ class Messages extends Component {
   }
   componentWillMount() {
     const {user, dispatch} = this.props;
-
     dispatch(getConversations(user));
   }
-  handleRecipientClick = ({userId}) => this.setState({selectedRecipient: userId})
+  handleRecipientClick = ({conversationId, requestId, recipientId}) => {
+    const {userId} = this.props.user;
+
+    // Get the messages
+    this.props.dispatch(getMessages({conversationId, requestId, recipientId, userId})).then(({err}) => {
+      if (!err) {
+        // Set the selected recipient with the user id and the conversation id
+        this.setState({
+          selectedConversation: conversationId
+        });
+      }
+    });
+  }
   render() {
-    const {conversations} = this.props;
-    const {selectedRecipient} = this.state;
+    const {conversations, messages, item, recipient, rentRequest} = this.props;
+    const {selectedConversation} = this.state;
 
     return (
       <div>
@@ -33,12 +44,14 @@ class Messages extends Component {
           <Grid.Row className="conversation">
             <Grid.Column width={4}>
               <List selection verticalAlign="middle" size="large">
-                {conversations && conversations.map(({userId, firstName, lastName, itemTitle, photoUrl}, i) => {
+                {conversations && conversations.map(({userId, conversationId, requestId, firstName, lastName, itemTitle, photoUrl}, i) => {
                   return (
                     <Recipient
                       key={i}
                       onClick={this.handleRecipientClick}
                       userId={userId}
+                      requestId={requestId}
+                      conversationId={conversationId}
                       firstName={firstName}
                       lastName={lastName}
                       tooltip={itemTitle}
@@ -49,10 +62,10 @@ class Messages extends Component {
               </List>
             </Grid.Column>
             <Grid.Column width={12}>
-              {selectedRecipient &&
-                <MessageArea recipient={selectedRecipient} {...this.props}/>
+              {selectedConversation && messages && item && recipient && rentRequest &&
+                <MessageArea messages={messages} item={item} recipient={recipient} rentRequest={rentRequest} {...this.props}/>
               }
-              {!selectedRecipient &&
+              {!selectedConversation &&
                 <Segment textAlign="center" basic>
                   <Header as="h2" icon>
                     <Icon name="warning"/>
@@ -79,17 +92,28 @@ Messages.propTypes = {
   user: React.PropTypes.object,
   router: React.PropTypes.object,
   dispatch: React.PropTypes.func.isRequired,
-  conversations: React.PropTypes.array
+  conversations: React.PropTypes.array,
+  messages: React.PropTypes.array,
+  item: React.PropTypes.object,
+  recipient: React.PropTypes.object,
+  rentRequest: React.PropTypes.object
 };
 
 const mapStateToProps = state => {
   const {reducers} = state;
-  const {isAuthenticated, isFetching, conversations, user, err} = reducers;
+  const {
+    isAuthenticated, isFetching, conversations, messages, item, recipient,
+    rentRequest, user, err
+  } = reducers;
 
   return {
     isAuthenticated,
     isFetching,
     conversations,
+    messages,
+    item,
+    recipient,
+    rentRequest,
     user,
     err
   };
