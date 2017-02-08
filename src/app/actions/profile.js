@@ -1,8 +1,9 @@
 import {
   BASE_URL, GET_PERSONAL_INFO_REQUEST, GET_PERSONAL_INFO_SUCCESS, GET_PERSONAL_INFO_FAILURE,
   UPLOAD_PROFILE_PHOTO_REQUEST, UPLOAD_PROFILE_PHOTO_SUCCESS, UPLOAD_PROFILE_PHOTO_FAILURE,
-  UPLOAD_ITEM_REQUEST, UPLOAD_ITEM_SUCCESS, UPLOAD_ITEM_FAILURE, GET_MY_ITEMS_REQUEST,
-  GET_MY_ITEMS_SUCCESS, GET_MY_ITEMS_FAILURE
+  UPLOAD_ITEM_REQUEST, UPLOAD_ITEM_SUCCESS, UPLOAD_ITEM_FAILURE,
+  GET_MY_ITEMS_REQUEST, GET_MY_ITEMS_SUCCESS, GET_MY_ITEMS_FAILURE,
+  GET_CONVERSATIONS_REQUEST, GET_CONVERSATIONS_SUCCESS, GET_CONVERSATIONS_FAILURE
 } from '../constants/constants';
 
 const getPersonalInfoRequest = () => ({
@@ -81,6 +82,27 @@ const getMyItemsFailure = err => ({
   type: GET_MY_ITEMS_FAILURE,
   isFetching: false,
   myItems: undefined,
+  err
+});
+
+const getConversationsRequest = () => ({
+  type: GET_CONVERSATIONS_REQUEST,
+  isFetching: true,
+  err: undefined,
+  conversations: undefined
+});
+
+const getConversationsSuccess = conversations => ({
+  type: GET_CONVERSATIONS_SUCCESS,
+  isFetching: false,
+  err: undefined,
+  conversations
+});
+
+const getConversationsFailure = err => ({
+  type: GET_CONVERSATIONS_FAILURE,
+  isFetching: false,
+  conversations: undefined,
   err
 });
 
@@ -191,6 +213,9 @@ export const uploadItem = item => {
   };
 };
 
+/**
+ * Fetch the list of items that the user has put up for rent
+ */
 export const getMyItems = ownerId => {
   const config = {
     method: 'POST',
@@ -219,6 +244,42 @@ export const getMyItems = ownerId => {
     }).catch(err => {
       console.log(err);
       return dispatch(getMyItemsFailure(err));
+    });
+  };
+};
+
+/**
+ * Fetch a list of conversations
+ */
+export const getConversations = ({userId}) => {
+  const token = localStorage.getItem('token');
+  const config = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({userId, token})
+  };
+
+  return dispatch => {
+    // kick off request to API
+    dispatch(getConversationsRequest());
+
+    return fetch(`${BASE_URL}/profile/messages/get_conversations`, config).then(res => res.json()).then(json => {
+      // Get the list of conversations, or an error
+      const {conversations, err} = json;
+
+      if (!err) {
+        // Dispatch the success action
+        return dispatch(getConversationsSuccess(conversations));
+      }
+
+      // If there was a problem, we want to dispatch the error condition
+      console.log(err);
+      return dispatch(getConversationsFailure(err));
+    }).catch(err => {
+      console.log(err);
+      return dispatch(getConversationsFailure(err));
     });
   };
 };

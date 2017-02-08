@@ -7,6 +7,7 @@ import {
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {Recipient} from './Recipient';
 import MessageArea from './MessageArea';
+import {getConversations} from '../../../actions/profile';
 
 class Messages extends Component {
   state = {
@@ -16,8 +17,14 @@ class Messages extends Component {
     super(props);
     this.handleRecipientClick = this.handleRecipientClick.bind(this);
   }
-  handleRecipientClick = ({recipient}) => this.setState({selectedRecipient: recipient.userId})
+  componentWillMount() {
+    const {user, dispatch} = this.props;
+
+    dispatch(getConversations(user));
+  }
+  handleRecipientClick = ({userId}) => this.setState({selectedRecipient: userId})
   render() {
+    const {conversations} = this.props;
     const {selectedRecipient} = this.state;
 
     return (
@@ -26,7 +33,19 @@ class Messages extends Component {
           <Grid.Row className="conversation">
             <Grid.Column width={4}>
               <List selection verticalAlign="middle" size="large">
-                <Recipient onClick={this.handleRecipientClick} recipient={{userId: 'a57ef477-6383-4797-b9b6-27dbe62d9010', firstName: 'Bill', lastName: 'Fischer', email: 'tfische5@uwo.ca', photoUrl: '/photos/uploads/profile/9ca9df5d-260a-4f62-9f74-ce8d22dded28.JPG'}}/>
+                {conversations && conversations.map(({userId, firstName, lastName, itemTitle, photoUrl}, i) => {
+                  return (
+                    <Recipient
+                      key={i}
+                      onClick={this.handleRecipientClick}
+                      userId={userId}
+                      firstName={firstName}
+                      lastName={lastName}
+                      tooltip={itemTitle}
+                      photoUrl={photoUrl}
+                      />
+                  );
+                })}
               </List>
             </Grid.Column>
             <Grid.Column width={12}>
@@ -59,16 +78,18 @@ Messages.propTypes = {
   err: React.PropTypes.object,
   user: React.PropTypes.object,
   router: React.PropTypes.object,
-  dispatch: React.PropTypes.func.isRequired
+  dispatch: React.PropTypes.func.isRequired,
+  conversations: React.PropTypes.array
 };
 
 const mapStateToProps = state => {
   const {reducers} = state;
-  const {isAuthenticated, isFetching, user, err} = reducers;
+  const {isAuthenticated, isFetching, conversations, user, err} = reducers;
 
   return {
     isAuthenticated,
     isFetching,
+    conversations,
     user,
     err
   };
