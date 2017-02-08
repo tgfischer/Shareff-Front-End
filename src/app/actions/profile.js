@@ -40,10 +40,10 @@ const uploadPhotosSuccess = json => ({
   photoUrls: json.photoUrls
 });
 
-const uploadPhotosFailure = json => ({
+const uploadPhotosFailure = err => ({
   type: UPLOAD_PHOTOS_FAILURE,
   isFetching: false,
-  err: json.err
+  err
 });
 
 const addItemRequest = () => ({

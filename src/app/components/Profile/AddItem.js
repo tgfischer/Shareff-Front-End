@@ -22,9 +22,6 @@ class UploadItem extends Component {
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.onPhotoStateChange = this.onPhotoStateChange.bind(this);
   }
-  onPhotoStateChange(photoUrls) {
-    this.setState({photoUrls});
-  }
   handleSubmit(e, {formData}) {
     e.preventDefault();
 
@@ -51,7 +48,8 @@ class UploadItem extends Component {
       this.setState({openModal: true});
     });
   }
-  handleCloseModal = () => this.setState({openModal: false})
+  handleCloseModal = () => this.setState({openModal: false});
+  onPhotoStateChange = photoUrls => this.setState({photoUrls});
   render() {
     const {intl} = this.props;
     const {openModal, modalTitle, modalContent, photoUrls} = this.state;
