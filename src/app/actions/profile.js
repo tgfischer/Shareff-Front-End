@@ -191,13 +191,16 @@ export const uploadItem = item => {
   };
 };
 
-export const getMyItems = ownerId => {
+export const getMyItems = owner => {
+  // Send the token as well so that we can validate that the user that is logged
+  // in is only modifying their own data
+  owner.token = localStorage.getItem('token');
   const config = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ownerId})
+    body: JSON.stringify(owner)
   };
 
   return dispatch => {
