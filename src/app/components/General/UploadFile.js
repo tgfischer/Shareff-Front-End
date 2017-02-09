@@ -70,9 +70,8 @@ class UploadFile extends Component {
       formData.append('isProfilePhoto', this.props.isProfilePhoto);
 
       // Upload the photos!
-      this.props.dispatch(this.props.uploadAction(formData)).then(json => {
+      this.props.dispatch(this.props.uploadAction(formData)).then(({err, photoUrls}) => {
         const {formatMessage} = intl;
-        const {err, photoUrls} = json;
 
         if (photoUrls) {
           this.props.updateAddItemComponent(photoUrls);

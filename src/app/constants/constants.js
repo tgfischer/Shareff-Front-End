@@ -110,3 +110,24 @@ export const GET_MY_ITEMS_FAILURE = 'GET_MY_ITEMS_FAILURE';
 export const MAKE_RENT_REQUEST_REQUEST = 'MAKE_RENT_REQUEST_REQUEST';
 export const MAKE_RENT_REQUEST_SUCCESS = 'MAKE_RENT_REQUEST_SUCCESS';
 export const MAKE_RENT_REQUEST_FAILURE = 'MAKE_RENT_REQUEST_FAILURE';
+
+/**
+* Constants for dropdowns
+*/
+
+export const categories = [
+  {key: 'electronics', text: 'Electronics', value: 'electronics'},
+  {key: 'sports', text: 'Sports Equipment', value: 'sports'},
+  {key: 'farm', text: 'Farm Equipment', value: 'farm'},
+  {key: 'utensils', text: 'Utensils', value: 'utensils'},
+  {key: 'appliances', text: 'Appliances', value: 'appliances'},
+  {key: 'education', text: 'Education', value: 'education'},
+  {key: 'other', text: 'Other', value: 'other'}
+];
+
+export const costPeriods = [
+  {text: 'Hour', value: 'hour'},
+  {text: 'Day', value: 'day'},
+  {text: 'Week', value: 'week'},
+  {text: 'Month', value: 'month'}
+];

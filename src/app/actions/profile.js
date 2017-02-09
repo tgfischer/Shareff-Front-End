@@ -32,12 +32,12 @@ const uploadPhotosRequest = () => ({
   err: undefined
 });
 
-const uploadPhotosSuccess = json => ({
+const uploadPhotosSuccess = (user, photoUrls) => ({
   type: UPLOAD_PHOTOS_SUCCESS,
   isFetching: false,
   err: undefined,
-  user: json.user,
-  photoUrls: json.photoUrls
+  user,
+  photoUrls
 });
 
 const uploadPhotosFailure = err => ({
@@ -141,7 +141,7 @@ export const uploadPhotos = formData => {
 
     return fetch(`${BASE_URL}/profile/personal_info/${REQUEST_URL}`, config).then(res => res.json()).then(json => {
       // Get the user's information, and the error
-      const {err} = json;
+      const {user, photoUrls, err} = json;
 
       if (err) {
         // If there was a problem, we want to dispatch the error condition
@@ -150,7 +150,7 @@ export const uploadPhotos = formData => {
       }
 
       // Dispatch the success action
-      return dispatch(uploadPhotosSuccess(json));
+      return dispatch(uploadPhotosSuccess(user, photoUrls));
     }).catch(err => {
       console.log(err);
       return dispatch(uploadPhotosFailure(err));

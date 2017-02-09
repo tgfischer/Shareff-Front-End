@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {
-  Button, Form, Grid, Header, Modal, Dropdown, Image
+  Button, Form, Grid, Header, Modal, Dropdown, Image, Card
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import {BASE_URL} from '../../constants/constants';
+import {BASE_URL, categories, costPeriods} from '../../constants/constants';
 import {addItem, uploadPhotos} from '../../actions/profile';
 import UploadFile from '../General/UploadFile';
 
@@ -54,23 +54,6 @@ class UploadItem extends Component {
     const {intl} = this.props;
     const {openModal, modalTitle, modalContent, photoUrls} = this.state;
     const {formatMessage} = intl;
-
-    const categories = [
-      {key: 'electronics', text: 'Electronics', value: 'electronics'},
-      {key: 'sports', text: 'Sports Equipment', value: 'sports'},
-      {key: 'farm', text: 'Farm Equipment', value: 'farm'},
-      {key: 'utensils', text: 'Utensils', value: 'utensils'},
-      {key: 'appliances', text: 'Appliances', value: 'appliances'},
-      {key: 'education', text: 'Education', value: 'education'},
-      {key: 'other', text: 'Other', value: 'other'}
-    ];
-
-    const costPeriods = [
-      {text: 'Hour', value: 'hour'},
-      {text: 'Day', value: 'day'},
-      {text: 'Week', value: 'week'},
-      {text: 'Month', value: 'month'}
-    ];
 
     return (
       <div>
@@ -140,43 +123,37 @@ class UploadItem extends Component {
                   placeholder={formatMessage({id: 'addItem.termsPlaceholder'})}
                   required
                   />
-                <Grid.Row>
-                  <Grid.Column>
-                    <Header as="h1" dividing>
-                      <FormattedMessage id="addItem.uploadPhotos"/>
-                    </Header>
-                    <Grid>
-                      <Grid.Row columns="4">
-                        {
-                          photoUrls ? photoUrls.map((photoUrl, i) => {
-                            return (
-                              <Grid.Column key={i}>
-                                <Image
-                                  src={BASE_URL + photoUrl}
-                                  shape="rounded"
-                                  size="small"
-                                  centered
-                                  bordered
-                                  />
-                              </Grid.Column>
-                            );
-                          }) : ""
-                        }
-                      </Grid.Row>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <UploadFile
-                            uploadAction={uploadPhotos}
-                            name="uploadPhotos"
-                            fluid
-                            multiple
-                            updateAddItemComponent={this.onPhotoStateChange}
-                            />
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
-                  </Grid.Column>
-                </Grid.Row>
+                <Grid.Column>
+                  <Header as="h1" dividing>
+                    <FormattedMessage id="addItem.uploadPhotos"/>
+                  </Header>
+                  <Grid stackable columns="4">
+                    {
+                      photoUrls ? photoUrls.map((photoUrl, i) => {
+                        return (
+                          <Grid.Column key={i}>
+                            <Card>
+                              <Image
+                                src={BASE_URL + photoUrl}
+                                />
+                            </Card>
+                          </Grid.Column>
+                        );
+                      }) : ""
+                    }
+                    <Grid.Row columns="1">
+                      <Grid.Column>
+                        <UploadFile
+                          uploadAction={uploadPhotos}
+                          name="uploadPhotos"
+                          fluid
+                          multiple
+                          updateAddItemComponent={this.onPhotoStateChange}
+                          />
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
+                </Grid.Column>
                 <Grid.Row>
                   <Grid.Column>
                     <Button
