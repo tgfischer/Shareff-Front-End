@@ -11,7 +11,7 @@ import {getConversations, getMessages} from '../../../actions/profile';
 
 class Messages extends Component {
   state = {
-    selectedConversation: null
+    conversationId: null
   }
   constructor(props) {
     super(props);
@@ -28,15 +28,13 @@ class Messages extends Component {
     this.props.dispatch(getMessages({conversationId, requestId, recipientId, userId})).then(({err}) => {
       if (!err) {
         // Set the selected recipient with the user id and the conversation id
-        this.setState({
-          selectedConversation: conversationId
-        });
+        this.setState({conversationId});
       }
     });
   }
   render() {
     const {conversations, messages, item, recipient, rentRequest} = this.props;
-    const {selectedConversation} = this.state;
+    const {conversationId} = this.state;
 
     return (
       <div>
@@ -62,10 +60,10 @@ class Messages extends Component {
               </List>
             </Grid.Column>
             <Grid.Column width={12}>
-              {selectedConversation && messages && item && recipient && rentRequest &&
-                <MessageArea messages={messages} item={item} recipient={recipient} rentRequest={rentRequest} {...this.props}/>
+              {conversationId && conversationId && messages && item && recipient && rentRequest &&
+                <MessageArea conversationId={conversationId} messages={messages} item={item} recipient={recipient} rentRequest={rentRequest} {...this.props}/>
               }
-              {!selectedConversation &&
+              {!conversationId &&
                 <Segment textAlign="center" basic>
                   <Header as="h2" icon>
                     <Icon name="warning"/>

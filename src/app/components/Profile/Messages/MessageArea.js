@@ -8,6 +8,9 @@ import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {BASE_URL} from '../../../constants/constants';
 import $ from 'jquery';
 import moment from 'moment';
+import io from 'socket.io-client';
+
+const socket = io.connect(BASE_URL);
 
 class MessageArea extends Component {
   state = {
@@ -18,6 +21,10 @@ class MessageArea extends Component {
     contentSegmentBorderWidth: 0,
     conversationHeaderHeight: 0,
     messageInputHeight: 0
+  }
+  constructor(props) {
+    super(props);
+    this.handleSendMessage = this.handleSendMessage.bind(this);
   }
   componentDidMount() {
     // Get the height of all of the elements that are above and below the message
@@ -40,10 +47,26 @@ class MessageArea extends Component {
     this.setState({contentSegmentBorderWidth});
     this.setState({conversationHeaderHeight});
     this.setState({messageInputHeight});
+
+    socket.emit('subscribe', this.props.conversationId);
+    socket.on('receive:message', message => {
+      console.log(message);
+    });
   }
   componentDidUpdate() {
     // Scroll to the bottom of the div
     $('.message-area').scrollTop($('.message-area').prop('scrollHeight'));
+  }
+  handleSendMessage(e, {formData}) {
+    e.preventDefault();
+
+    const {conversationId} = this.props;
+    const {message} = formData;
+
+    socket.emit('send:message', {
+      room: conversationId,
+      message
+    });
   }
   render() {
     const {
@@ -117,7 +140,7 @@ class MessageArea extends Component {
         </Grid.Row>
         <Grid.Row className="message-input" verticalAlign="bottom">
           <Grid.Column>
-            <Form size="large">
+            <Form onSubmit={this.handleSendMessage} size="large">
               <Form.Input
                 label={formatMessage({id: 'messages.inputLabel'})}
                 action={{color: 'blue', labelPosition: 'right', icon: 'send', content: formatMessage({id: 'messages.sendButton'}), size: 'large'}}
@@ -142,6 +165,7 @@ MessageArea.propTypes = {
   user: React.PropTypes.object,
   router: React.PropTypes.object,
   dispatch: React.PropTypes.func.isRequired,
+  conversationId: React.PropTypes.string.isRequired,
   messages: React.PropTypes.array.isRequired,
   item: React.PropTypes.object.isRequired,
   recipient: React.PropTypes.object.isRequired,
@@ -151,17 +175,12 @@ MessageArea.propTypes = {
 const mapStateToProps = state => {
   const {reducers} = state;
   const {
-    isAuthenticated, isFetching, messages, item, recipient, rentRequest, user,
-    err
+    isAuthenticated, isFetching, user, err
   } = reducers;
 
   return {
     isAuthenticated,
     isFetching,
-    messages,
-    item,
-    recipient,
-    rentRequest,
     user,
     err
   };
