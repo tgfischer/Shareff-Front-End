@@ -85,7 +85,8 @@ const en = {
     schedule: 'Rent Schedule',
     billing: 'Billing',
     myItems: 'My Items',
-    addItem: 'Upload Item'
+    addItem: 'Upload Item',
+    incomingRequests: 'Incoming Rent Requests'
   },
 
   /**
@@ -135,7 +136,14 @@ const en = {
    * Rent Item Info messages
    */
   myItems: {
-    title: 'Items available for rent'
+    title: 'Items available for rent',
+    columns: {
+      title: 'Title',
+      category: 'Category',
+      description: 'Description',
+      price: 'Price',
+      termsOfUse: 'Terms of Use'
+    }
   },
   /**
    * Upload Item messages
@@ -203,6 +211,9 @@ const en = {
     viewItemButton: 'View Item'
   },
 
+  /**
+   * No items found messages
+   */
   noItemsFound: {
     title: 'No Items Found',
     content: 'No items were found. Change your search settings, and try again.'
@@ -223,6 +234,19 @@ const en = {
     messageOwnerButton: 'Message Owner',
     requestToRentButton: 'Request to Rent',
     photosTitle: 'Photos of the item'
+  },
+
+  /**
+   * Incoming rent requests messages
+   */
+  incomingRequests: {
+    columns: {
+      itemTitle: 'Requested Item',
+      rentersName: 'Renter\'s Name',
+      startDate: 'Start Date',
+      endDate: 'End Date',
+      status: 'Status'
+    }
   },
 
   /**

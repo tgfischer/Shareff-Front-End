@@ -2,6 +2,10 @@
   font-weight: 100 !important;
 }
 
+table.hover tbody tr:hover, table thead tr {
+  cursor: pointer;
+}
+
 .bold, .bold * {
   font-weight: 400 !important;
 }

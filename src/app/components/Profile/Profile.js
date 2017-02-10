@@ -9,6 +9,7 @@ import NavBar from '../General/NavBar';
 import PageHeaderSegment from '../General/PageHeaderSegment';
 import PersonalInfo from './PersonalInfo';
 import MyItems from './MyItems';
+import IncomingRequests from './IncomingRequests';
 import UploadItem from './UploadItem';
 import Messages from './Messages/Messages';
 
@@ -24,7 +25,8 @@ const tabs = [
   'billing',
   'schedule',
   'add-item',
-  'my-items'
+  'my-items',
+  'incoming-requests'
 ];
 
 class Profile extends Component {
@@ -62,6 +64,12 @@ class Profile extends Component {
             <Grid stackable>
               <Grid.Row>
                 <Grid.Column width={4}>
+                  {
+                    /**
+                     * Could defintely do this with tabs.map((tab, i) => {...});,
+                     * but whatever. TODO for later I guess
+                     */
+                  }
                   <Menu size={'huge'} fluid vertical tabular>
                     <Menu.Item as={Link} to="/profile/info" name="info" active={activeTab === 'info'}>
                       <FormattedMessage id="profile.info"/>
@@ -78,6 +86,9 @@ class Profile extends Component {
                     <Menu.Item as={Link} to="/profile/my-items" name="my-items" active={activeTab === 'my-items'}>
                       <FormattedMessage id="profile.myItems"/>
                     </Menu.Item>
+                    <Menu.Item as={Link} to="/profile/incoming-requests" name="incoming-requests" active={activeTab === 'incoming-requests'}>
+                      <FormattedMessage id="profile.incomingRequests"/>
+                    </Menu.Item>
                     <Menu.Item as={Link} to="/profile/add-item" name="add-item" active={activeTab === 'add-item'}>
                       <FormattedMessage id="profile.addItem"/>
                     </Menu.Item>
@@ -90,6 +101,9 @@ class Profile extends Component {
                     }
                     {activeTab === 'my-items' &&
                       <MyItems {...this.props}/>
+                    }
+                    {activeTab === 'incoming-requests' &&
+                      <IncomingRequests {...this.props}/>
                     }
                     {activeTab === 'messages' &&
                       <Messages {...this.props}/>

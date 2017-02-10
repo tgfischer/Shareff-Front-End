@@ -14,24 +14,36 @@ export class DataTableSemantic extends Component {
   state = {
     isTableInitialized: false
   }
-
   componentDidMount() {
-    const {rows, columns} = this.props;
-    $(".ui.table").dataTable({
+    const {rows, columns, order, onRowClick} = this.props;
+
+    // Initialize the table
+    const table = $(".ui.table").dataTable({
       data: rows,
+      order: order ? order : [[1, 'asc']],
       columns,
       initComplete: this.setState({isTableInitialized: true})
     });
-  }
 
+    // Set up the event when the user clicks a row, if they passed in the prop
+    if (onRowClick) {
+      table.on('click', 'tbody tr', e => {
+        // Get the row data
+        const row = table.row(this).data();
+
+        // Fire the event handler that was passed in
+        onRowClick(e, row);
+      });
+    }
+  }
   render() {
-    const {isFetching, columns} = this.props;
+    const {columns, onRowClick} = this.props;
     const {isTableInitialized} = this.state;
 
     return (
       <div>
-        <Segment loading={isFetching && !isTableInitialized} basic>
-          <table className="ui celled table">
+        <Segment loading={!isTableInitialized} basic>
+          <table className={onRowClick ? "ui celled large hover table" : "ui celled large table"}>
             <thead>
               <tr>
                 {columns.forEach(column => <th key={column}></th>)}
@@ -53,8 +65,10 @@ export class DataTableSemantic extends Component {
 
 DataTableSemantic.propTypes = {
   rows: React.PropTypes.array.isRequired,
-  columns: React.PropTypes.array,
-  isFetching: React.PropTypes.bool
+  columns: React.PropTypes.array.isRequired,
+  order: React.PropTypes.array,
+  isFetching: React.PropTypes.bool.isRequired,
+  onRowClick: React.PropTypes.func
 };
 
 const mapStateToProps = state => {
