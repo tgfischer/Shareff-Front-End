@@ -117,7 +117,7 @@ class RentalItem extends Component {
       this.setState({modalTitle: formatMessage({id: title})});
 
       // Set the modal content
-      const content = err ? 'error.general' : 'modal.makeRentRequestSuccess';
+      const content = err ? 'error.general' : 'rentalItem.modal.success';
       this.setState({modalContent: formatMessage({id: content})});
 
       // Open the modal
@@ -307,7 +307,7 @@ class RentalItem extends Component {
         <Modal className="rent-request-modal" dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
           <Modal.Header>
             <Header as="h1">
-              <FormattedMessage id="modal.requestToRentTitle"/>
+              <FormattedMessage id="rentalItem.modal.title"/>
             </Header>
           </Modal.Header>
           <Modal.Content>
@@ -316,7 +316,7 @@ class RentalItem extends Component {
                 <Grid.Row columns={1}>
                   <Grid.Column>
                     <Header as="h3">
-                      <FormattedMessage id="modal.requestToRentDetails"/>
+                      <FormattedMessage id="rentalItem.modal.description"/>
                     </Header>
                   </Grid.Column>
                 </Grid.Row>
@@ -325,15 +325,15 @@ class RentalItem extends Component {
                     <CalendarRange onChange={this.handleOnChange}/>
                     <Form.TextArea
                       name="message"
-                      label={formatMessage({id: 'modal.rentRequestMessageLabel'})}
-                      placeholder={formatMessage({id: 'modal.rentRequestMessagePlaceholder'})}
+                      label={formatMessage({id: 'rentalItem.modal.messageLabel'})}
+                      placeholder={formatMessage({id: 'rentalItem.modal.messagePlaceholder'})}
                       rows="5"
                       />
                   </Grid.Column>
                 </Grid.Row>
                 <Grid.Row columns={1}>
                   <Grid.Column textAlign="center">
-                    <Statistic value={isMakeRequestButtonDisabled ? '--' : `$${totalPrice}`} label={formatMessage({id: 'modal.requestPriceTitle'})}/>
+                    <Statistic value={isMakeRequestButtonDisabled ? '--' : `$${totalPrice}`} label={formatMessage({id: 'rentalItem.modal.cost'})}/>
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
@@ -341,7 +341,7 @@ class RentalItem extends Component {
           </Modal.Content>
           <Modal.Actions>
             <Button
-              content={formatMessage({id: 'modal.makeRequest'})}
+              content={formatMessage({id: 'rentalItem.modal.makeRequestButton'})}
               disabled={isMakeRequestButtonDisabled}
               onClick={this.handleMakeRentRequest}
               size="huge"

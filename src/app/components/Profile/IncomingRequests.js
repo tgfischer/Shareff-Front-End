@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router';
+import {withRouter, Link} from 'react-router';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {Button, Header, Modal} from 'semantic-ui-react';
 import moment from 'moment';
@@ -91,10 +91,17 @@ class IncomingRequests extends Component {
             </Modal.Content>
             <Modal.Actions>
               <Button
-                content={formatMessage({id: 'modal.okay'})}
-                onClick={this.handleCloseModal}
+                content={formatMessage({id: 'incomingRequests.modal.viewItemButton'})}
+                as={Link}
+                to={`/listings/${selectedRow.itemId}`}
                 size="huge"
                 primary
+                />
+              <Button
+                content={formatMessage({id: 'modal.close'})}
+                onClick={this.handleCloseModal}
+                size="huge"
+                basic
                 />
             </Modal.Actions>
           </Modal>

@@ -18,20 +18,10 @@ const en = {
    */
   modal: {
     success: 'Success!',
-    updatePersonalInfoSuccess: 'Your personal information was successfully updated',
-    uploadPhotosSuccess: 'Your photo(s) were successfully uploaded',
-    uploadItemSuccess: 'Your item was successfully uploaded',
-    requestToRentTitle: 'Request to Rent Item',
-    requestToRentDetails: 'Select the dates that you would like to rent the item on',
-    requestPriceTitle: 'Cost to Rent Item',
-    invalidDates: 'Select valid start and end dates to calculate the price',
-    makeRequest: 'Make Request',
-    makeRentRequestSuccess: 'Your request to rent this item was successful. You will be notified once the owner has reviewed this request',
-    rentRequestMessageLabel: 'Message',
-    rentRequestMessagePlaceholder: 'Enter a message to send to the owner',
     error: 'Error!',
     okay: 'Okay',
-    cancel: 'Cancel'
+    cancel: 'Cancel',
+    close: 'Close'
   },
 
   /**
@@ -44,6 +34,9 @@ const en = {
     endPlaceholder: 'End'
   },
 
+  /**
+   * Upload file messages
+   */
   uploadFile: {
     browseButton: 'Browse',
     uploadButton: 'Upload'
@@ -93,8 +86,8 @@ const en = {
    * Personal Info messages
    */
   personalInfo: {
-    personalInfoTitle: 'Update your personal information',
-    personalInfoSubTitle: 'Your name and email address will be visible to others',
+    title: 'Update your personal information',
+    subTitle: 'Your name and email address will be visible to others',
     firstName: 'First Name',
     lastName: 'Last Name',
     email: 'Email',
@@ -114,9 +107,14 @@ const en = {
     ccn: 'Credit Card Number',
     cvn: 'CVN',
     expiryDate: 'Expiry Date',
-    uploadProfilePhoto: 'Upload your profile photo',
-    uploadProfilePhotoLabel: 'Choose a new profile photo below',
-    updateInfoButton: 'Update Information'
+    updateInfoButton: 'Update Information',
+    profilePhoto: {
+      title: 'Upload your profile photo',
+      label: 'Choose a new profile photo below'
+    },
+    modal: {
+      success: 'Your personal information was successfully updated'
+    }
   },
 
   /**
@@ -148,7 +146,7 @@ const en = {
   /**
    * Upload Item messages
    */
-  uploadItem: {
+  addItem: {
     pageTitle: 'Upload an item for rent',
     title: 'Title',
     description: 'Description',
@@ -158,7 +156,11 @@ const en = {
     terms: 'Terms of Use',
     termsPlaceholder: 'Write down your terms and conditions for renting your item. This could include uses of the item, what time you want it by, or anything else you want to mention.',
     uploadPhotoButton: 'Browse',
-    uploadButton: 'Upload'
+    uploadButton: 'Upload',
+    modal: {
+      uploadPhotosSuccess: 'Your photo(s) were successfully uploaded',
+      addItemSuccess: 'Your item was successfully uploaded'
+    }
   },
 
   /**
@@ -233,7 +235,17 @@ const en = {
     termsOfUse: 'Terms of Use',
     messageOwnerButton: 'Message Owner',
     requestToRentButton: 'Request to Rent',
-    photosTitle: 'Photos of the item'
+    photosTitle: 'Photos of the item',
+    modal: {
+      title: 'Request to Rent Item',
+      description: 'Select the dates that you would like to rent the item on',
+      cost: 'Cost to Rent Item',
+      invalidDates: 'Select valid start and end dates to calculate the price',
+      makeRequestButton: 'Make Request',
+      success: 'Your request to rent this item was successful. You will be notified once the owner has reviewed this request',
+      messageLabel: 'Message',
+      messagePlaceholder: 'Enter a message to send to the owner'
+    }
   },
 
   /**
@@ -248,7 +260,8 @@ const en = {
       status: 'Status'
     },
     modal: {
-      title: 'Rent Request for \'{itemTitle}\''
+      title: 'Rent Request for \'{itemTitle}\'',
+      viewItemButton: 'View Rental Item'
     }
   },
 
