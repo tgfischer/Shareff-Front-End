@@ -78,7 +78,7 @@ class IncomingRequests extends Component {
           <div style={styles.div}><Loading/></div>
         }
         {selectedRow &&
-          <Modal size="small" dimmer="blurring" open={selectedRow} onClose={this.handleCloseModal}>
+          <Modal size="small" dimmer="blurring" open={Boolean(selectedRow)} onClose={this.handleCloseModal}>
             <Modal.Header>
               <Header as="h1">
                 <FormattedMessage id="incomingRequests.modal.title" values={{itemTitle: selectedRow.itemTitle}}/>
