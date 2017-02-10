@@ -17,8 +17,10 @@ export class DataTableSemantic extends Component {
   componentDidMount() {
     const {rows, columns, order, onRowClick} = this.props;
 
-    // Initialize the table
-    const table = $(".ui.table").dataTable({
+    // Initialize the table. We have to disable eslint for the next line because
+    // it complains that Datatables names their function 'DataTable'
+    // eslint-disable-next-line babel/new-cap
+    const table = $(".ui.table").DataTable({
       data: rows,
       order: order ? order : [[1, 'asc']],
       columns,
@@ -26,8 +28,10 @@ export class DataTableSemantic extends Component {
     });
 
     // Set up the event when the user clicks a row, if they passed in the prop
+    // Note, we cannot use arrow functions here because arrow functions rebind
+    // 'this' with the context outside the function
     if (onRowClick) {
-      table.on('click', 'tbody tr', e => {
+      table.on('click', 'tbody tr', function (e) {
         // Get the row data
         const row = table.row(this).data();
 
@@ -37,25 +41,16 @@ export class DataTableSemantic extends Component {
     }
   }
   render() {
-    const {columns, onRowClick} = this.props;
+    const {onRowClick} = this.props;
     const {isTableInitialized} = this.state;
 
     return (
       <div>
         <Segment loading={!isTableInitialized} basic>
-          <table className={onRowClick ? "ui celled large hover table" : "ui celled large table"}>
-            <thead>
-              <tr>
-                {columns.forEach(column => <th key={column}></th>)}
-              </tr>
-            </thead>
-            <tfoot>
-              <tr>
-                {columns.forEach(column => <th key={column}></th>)}
-              </tr>
-            </tfoot>
-            <tbody>
-            </tbody>
+          <table className={onRowClick ? "ui celled large selectable striped hover table" : "ui celled striped large table"}>
+            <thead></thead>
+            <tbody></tbody>
+            <tfoot></tfoot>
           </table>
         </Segment>
       </div>

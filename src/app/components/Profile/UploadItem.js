@@ -5,7 +5,7 @@ import {
   Button, Form, Grid, Header, Modal
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import {uploadItem} from '../../actions/profile/profile';
+import {uploadItem} from '../../actions/profile/addItem';
 
 class UploadItem extends Component {
   state = {

@@ -7,7 +7,7 @@ import {
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {Recipient} from './Recipient';
 import MessageArea from './MessageArea';
-import {getConversations, getMessages} from '../../../actions/profile/profile';
+import {getConversations, getMessages} from '../../../actions/profile/messages';
 
 class Messages extends Component {
   state = {

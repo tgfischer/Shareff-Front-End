@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import {intlShape, injectIntl} from 'react-intl';
+import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
+import {Button, Header, Modal} from 'semantic-ui-react';
 import moment from 'moment';
 import $ from 'jquery';
 import {DataTableSemantic} from '../General/DataTableSemantic';
@@ -16,9 +17,13 @@ const styles = {
 };
 
 class IncomingRequests extends Component {
+  state = {
+    selectedRow: null
+  }
   constructor(props) {
     super(props);
     this.handleRowClick = this.handleRowClick.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
   componentWillMount() {
     // Fetch the list of my items data using the ownerId from the props
@@ -31,10 +36,13 @@ class IncomingRequests extends Component {
   }
   handleRowClick(e, row) {
     e.preventDefault();
-    console.log(row);
+
+    this.setState({selectedRow: row});
   }
+  handleCloseModal = () => this.setState({selectedRow: null})
   render() {
     const {intl, requests} = this.props;
+    const {selectedRow} = this.state;
     const {formatMessage} = intl;
     const columns = [
       {data: 'requestId', visible: false, searchable: false},
@@ -68,6 +76,28 @@ class IncomingRequests extends Component {
             {...this.props}
             /> :
           <div style={styles.div}><Loading/></div>
+        }
+        {selectedRow &&
+          <Modal size="small" dimmer="blurring" open={selectedRow} onClose={this.handleCloseModal}>
+            <Modal.Header>
+              <Header as="h1">
+                <FormattedMessage id="incomingRequests.modal.title" values={{itemTitle: selectedRow.itemTitle}}/>
+              </Header>
+            </Modal.Header>
+            <Modal.Content>
+              <Header as="h3">
+                Hello World
+              </Header>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button
+                content={formatMessage({id: 'modal.okay'})}
+                onClick={this.handleCloseModal}
+                size="huge"
+                primary
+                />
+            </Modal.Actions>
+          </Modal>
         }
       </div>
     );

@@ -246,6 +246,9 @@ const en = {
       startDate: 'Start Date',
       endDate: 'End Date',
       status: 'Status'
+    },
+    modal: {
+      title: 'Rent Request for \'{itemTitle}\''
     }
   },
 

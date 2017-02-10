@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {intlShape, injectIntl} from 'react-intl';
 import {DataTableSemantic} from '../General/DataTableSemantic';
-import {getMyItems} from '../../actions/profile/profile';
+import {getMyItems} from '../../actions/profile/myItems';
 import {Loading} from '../General/Loading';
 
 const styles = {
