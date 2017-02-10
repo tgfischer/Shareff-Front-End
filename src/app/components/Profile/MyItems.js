@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {intlShape, injectIntl} from 'react-intl';
-import {DataTableSemantic} from '../General/DataTable';
-import {getMyItems} from '../../actions/profile';
+import {DataTableSemantic} from '../General/DataTableSemantic';
+import {getMyItems} from '../../actions/profile/myItems';
 import {Loading} from '../General/Loading';
 
 const styles = {
@@ -13,27 +13,30 @@ const styles = {
 };
 
 class MyItems extends Component {
-
   componentWillMount() {
     // Fetch the list of my items data using the ownerId from the props
-    const {user} = this.props;
-    this.props.dispatch(getMyItems(user));
+    const {user, dispatch} = this.props;
+    dispatch(getMyItems(user));
   }
   render() {
-    const column = [
-      {data: 'title', title: "Title"},
-      {data: 'category', title: "Category"},
-      {data: 'description', title: "Description"},
-      {data: 'price', title: "Price"},
-      {data: 'termsOfUse', title: "Term of use"}
+    const {myItems, intl} = this.props;
+    const {formatMessage} = intl;
+    const columns = [
+      {data: 'itemId', visible: false, searchable: false},
+      {data: 'costPeriod', visible: false, searchable: false},
+      {data: 'title', title: formatMessage({id: 'myItems.columns.title'})},
+      {data: 'category', title: formatMessage({id: 'myItems.columns.category'})},
+      {data: 'price', title: formatMessage({id: 'myItems.columns.price'}), render: (data, type, row) => {
+        const {costPeriod} = row;
+        return `$${data} per ${costPeriod}`;
+      }}
     ];
-    const {isFetching, myItems} = this.props;
 
     return (
       <div>
-        {isFetching || !myItems ?
-          <div style={styles.div}><Loading/></div> :
-          <DataTableSemantic rows={myItems} columns={column}/>
+        {myItems ?
+          <DataTableSemantic rows={myItems} columns={columns} {...this.props}/> :
+          <div style={styles.div}><Loading/></div>
         }
       </div>
     );
@@ -42,12 +45,12 @@ class MyItems extends Component {
 
 MyItems.propTypes = {
   intl: intlShape.isRequired,
-  isAuthenticated: React.PropTypes.bool,
-  isFetching: React.PropTypes.bool,
+  isAuthenticated: React.PropTypes.bool.isRequired,
+  isFetching: React.PropTypes.bool.isRequired,
   err: React.PropTypes.object,
-  user: React.PropTypes.object,
+  user: React.PropTypes.object.isRequired,
   myItems: React.PropTypes.array,
-  router: React.PropTypes.object,
+  router: React.PropTypes.object.isRequired,
   dispatch: React.PropTypes.func.isRequired
 };
 
