@@ -2,11 +2,13 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter, Link} from 'react-router';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import {Button, Header, Modal} from 'semantic-ui-react';
+import {Button, Form, Header, Modal} from 'semantic-ui-react';
 import moment from 'moment';
+import validator from 'validator';
 import $ from 'jquery';
 import {DataTableSemantic} from '../General/DataTableSemantic';
-import {getIncomingRequests} from '../../actions/profile/incomingRequests';
+import {getIncomingRequests, updateStatus} from '../../actions/profile/incomingRequests';
+import {UPDATE_REQUEST_STATUS_OPTIONS} from '../../constants/constants';
 import {Loading} from '../General/Loading';
 import '../../../assets/datatables/datetime-moment.js';
 
@@ -18,12 +20,14 @@ const styles = {
 
 class IncomingRequests extends Component {
   state = {
-    selectedRow: null
+    selectedRow: null,
+    err: null
   }
   constructor(props) {
     super(props);
     this.handleRowClick = this.handleRowClick.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleUpdateStatus = this.handleUpdateStatus.bind(this);
   }
   componentWillMount() {
     // Fetch the list of my items data using the ownerId from the props
@@ -37,16 +41,33 @@ class IncomingRequests extends Component {
   handleRowClick(e, row) {
     e.preventDefault();
 
-    this.setState({selectedRow: row});
+    this.setState({selectedRow: row, err: null});
   }
-  handleCloseModal = () => this.setState({selectedRow: null})
-  render() {
-    const {intl, requests} = this.props;
+  handleCloseModal = () => this.setState({err: null, selectedRow: null})
+  handleUpdateStatus(e, {formData}) {
+    e.preventDefault();
+
+    const {dispatch, requests, user} = this.props;
     const {selectedRow} = this.state;
+    const {status} = formData;
+    const {userId} = user;
+
+    dispatch(updateStatus({oldRequests: requests, userId, selectedRow, status})).then(({err}) => {
+      if (err) {
+        this.setState({err, selectedRow: null});
+      }
+    });
+  }
+  render() {
+    const {selectedRow, err} = this.state;
+    const {intl, requests} = this.props;
     const {formatMessage} = intl;
+    const {unescape} = validator;
     const columns = [
       {data: 'requestId', visible: false, searchable: false},
       {data: 'itemId', visible: false, searchable: false},
+      {data: 'renterId', visible: false, searchable: false},
+      {data: 'status', visible: false, searchable: false},
       {data: 'itemTitle', title: formatMessage({id: 'incomingRequests.columns.itemTitle'})},
       {data: 'rentersName', title: formatMessage({id: 'incomingRequests.columns.rentersName'})},
       {
@@ -65,16 +86,31 @@ class IncomingRequests extends Component {
       }
     ];
 
+    // Translate the options, and add them to a list to be rendered
+    const options = [];
+    UPDATE_REQUEST_STATUS_OPTIONS.forEach(({key, value}) => {
+      options.push({value, text: formatMessage({id: key})});
+    });
+
     return (
       <div>
         {requests ?
-          <DataTableSemantic
-            rows={requests}
-            columns={columns}
-            order={[[4, 'asc'], [5, 'asc'], [3, 'asc']]}
-            onRowClick={this.handleRowClick}
-            {...this.props}
-            /> :
+          <div>
+            <Header as="h1" dividing>
+              <FormattedMessage id="incomingRequests.title"/>
+              <Header.Subheader>
+                <FormattedMessage id="incomingRequests.subTitle"/>
+              </Header.Subheader>
+            </Header>
+
+            <DataTableSemantic
+              rows={requests}
+              columns={columns}
+              order={[[6, 'asc'], [7, 'asc'], [5, 'asc']]}
+              onRowClick={this.handleRowClick}
+              {...this.props}
+              />
+          </div> :
           <div style={styles.div}><Loading/></div>
         }
         {selectedRow &&
@@ -85,9 +121,21 @@ class IncomingRequests extends Component {
               </Header>
             </Modal.Header>
             <Modal.Content>
-              <Header as="h3">
-                Hello World
-              </Header>
+              <Form size="huge" onSubmit={this.handleUpdateStatus}>
+                <Form.Select
+                  label={formatMessage({id: 'incomingRequests.modal.updateStatusLabel'})}
+                  options={options}
+                  placeholder={unescape(selectedRow.status) || ''}
+                  name="status"
+                  required
+                  />
+                <Button
+                  content={formatMessage({id: 'incomingRequests.modal.updateStatusButton'})}
+                  size="huge"
+                  type="submit"
+                  primary
+                  />
+              </Form>
             </Modal.Content>
             <Modal.Actions>
               <Button
@@ -95,13 +143,42 @@ class IncomingRequests extends Component {
                 as={Link}
                 to={`/listings/${selectedRow.itemId}`}
                 size="huge"
-                primary
+                basic
+                />
+              <Button
+                content={formatMessage({id: 'incomingRequests.modal.viewRentersProfileButton'})}
+                as={Link}
+                to={`/user/${selectedRow.renterId}`}
+                size="huge"
+                basic
                 />
               <Button
                 content={formatMessage({id: 'modal.close'})}
                 onClick={this.handleCloseModal}
                 size="huge"
                 basic
+                />
+            </Modal.Actions>
+          </Modal>
+        }
+        {err &&
+          <Modal size="small" dimmer="blurring" open={Boolean(err)} onClose={this.handleCloseModal}>
+            <Modal.Header>
+              <Header as="h1">
+                <FormattedMessage id="modal.error"/>
+              </Header>
+            </Modal.Header>
+            <Modal.Content>
+              <Header as="h3">
+                <FormattedMessage id="error.general"/>
+              </Header>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button
+                content={formatMessage({id: 'modal.okay'})}
+                onClick={this.handleCloseModal}
+                size="huge"
+                primary
                 />
             </Modal.Actions>
           </Modal>

@@ -11,7 +11,8 @@ import {
   MAKE_RENT_REQUEST_REQUEST, MAKE_RENT_REQUEST_SUCCESS, MAKE_RENT_REQUEST_FAILURE,
   GET_CONVERSATIONS_REQUEST, GET_CONVERSATIONS_SUCCESS, GET_CONVERSATIONS_FAILURE,
   GET_MESSAGES_REQUEST, GET_MESSAGES_SUCCESS, GET_MESSAGES_FAILURE,
-  GET_INCOMING_REQUESTS_REQUEST, GET_INCOMING_REQUESTS_SUCCESS, GET_INCOMING_REQUESTS_FAILURE
+  GET_INCOMING_REQUESTS_REQUEST, GET_INCOMING_REQUESTS_SUCCESS, GET_INCOMING_REQUESTS_FAILURE,
+  UPDATE_STATUS_REQUEST, UPDATE_STATUS_SUCCESS, UPDATE_STATUS_FAILURE
 } from '../constants/constants';
 
 // The auth reducer. The starting state sets authentication
@@ -276,6 +277,24 @@ export const reducers = (state = {
       return Object.assign({}, state, {
         isFetching: false,
         requests: undefined,
+        err: action.err
+      });
+    case UPDATE_STATUS_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        requests: undefined,
+        err: undefined
+      });
+    case UPDATE_STATUS_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: undefined,
+        requests: action.requests
+      });
+    case UPDATE_STATUS_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        requests: action.requests,
         err: action.err
       });
     default:

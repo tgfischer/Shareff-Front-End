@@ -26,10 +26,13 @@ class MyItems extends Component {
       {data: 'costPeriod', visible: false, searchable: false},
       {data: 'title', title: formatMessage({id: 'myItems.columns.title'})},
       {data: 'category', title: formatMessage({id: 'myItems.columns.category'})},
-      {data: 'price', title: formatMessage({id: 'myItems.columns.price'}), render: (data, type, row) => {
-        const {costPeriod} = row;
-        return `$${data} per ${costPeriod}`;
-      }}
+      {
+        data: 'price',
+        title: formatMessage({id: 'myItems.columns.price'}),
+        render: (data, type, {costPeriod}) => {
+          return `$${data} per ${costPeriod}`;
+        }
+      }
     ];
 
     return (

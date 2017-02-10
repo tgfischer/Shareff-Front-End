@@ -248,10 +248,19 @@ const en = {
     }
   },
 
+  request: {
+    status: {
+      accept: 'Accept',
+      reject: 'Reject'
+    }
+  },
+
   /**
    * Incoming rent requests messages
    */
   incomingRequests: {
+    title: 'View your incoming rent requests',
+    subTitle: 'Click on a row to accept or decline the request',
     columns: {
       itemTitle: 'Requested Item',
       rentersName: 'Renter\'s Name',
@@ -261,7 +270,10 @@ const en = {
     },
     modal: {
       title: 'Rent Request for \'{itemTitle}\'',
-      viewItemButton: 'View Rental Item'
+      updateStatusLabel: 'Choose whether to accept or reject this request',
+      updateStatusButton: 'Update Request Status',
+      viewItemButton: 'View Rental Item',
+      viewRentersProfileButton: 'View Renter\'s Profile'
     }
   },
 

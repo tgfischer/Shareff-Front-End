@@ -36,6 +36,17 @@ export const ADVANCED_SETTINGS_MAX_PRICE = 2000;
 export const ADVANCED_SETTINGS_MAX_DISTANCE = 100;
 
 /**
+ * The list of request statuses the owner can set
+ */
+export const UPDATE_REQUEST_STATUS_OPTIONS = [{
+  value: 'RRS_REQUEST_ACCEPTED',
+  key: 'request.status.accept'
+}, {
+  value: 'RRS_REQUEST_REJECTED',
+  key: 'request.status.reject'
+}];
+
+/**
  * Actions for logging into the application
  */
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -131,3 +142,10 @@ export const GET_MESSAGES_FAILURE = 'GET_MESSAGES_FAILURE';
 export const GET_INCOMING_REQUESTS_REQUEST = 'GET_INCOMING_REQUESTS_REQUEST';
 export const GET_INCOMING_REQUESTS_SUCCESS = 'GET_INCOMING_REQUESTS_SUCCESS';
 export const GET_INCOMING_REQUESTS_FAILURE = 'GET_INCOMING_REQUESTS_FAILURE';
+
+/**
+ * Actions for updating the request status
+ */
+export const UPDATE_STATUS_REQUEST = 'UPDATE_STATUS_REQUEST';
+export const UPDATE_STATUS_SUCCESS = 'UPDATE_STATUS_SUCCESS';
+export const UPDATE_STATUS_FAILURE = 'UPDATE_STATUS_yyFAILURE';
