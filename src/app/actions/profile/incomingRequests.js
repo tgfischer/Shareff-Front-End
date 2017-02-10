@@ -77,7 +77,7 @@ export const getIncomingRequests = ({userId}) => {
 /**
  * Update the status of the rent request
  */
-export const updateStatus = ({userId, requestId, status, oldRequests}) => {
+export const updateStatus = ({userId, request, approved, oldRequests}) => {
   // Get the token from local storage
   const token = localStorage.getItem('token');
   const config = {
@@ -85,14 +85,14 @@ export const updateStatus = ({userId, requestId, status, oldRequests}) => {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({userId, requestId, status, token})
+    body: JSON.stringify({userId, request, approved, token})
   };
 
   return dispatch => {
     // We dispatch request to kickoff the call to the API
     dispatch(updateStatusRequest());
 
-    return fetch(`${BASE_URL}/profile/incoming_requests/update_request_status`, config).then(res => res.json()).then(json => {
+    return fetch(`${BASE_URL}/rent/request/auto_update_status`, config).then(res => res.json()).then(json => {
       // Get the user object
       const {requests, err} = json;
 

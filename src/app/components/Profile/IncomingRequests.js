@@ -8,7 +8,7 @@ import validator from 'validator';
 import $ from 'jquery';
 import {DataTableSemantic} from '../General/DataTableSemantic';
 import {getIncomingRequests, updateStatus} from '../../actions/profile/incomingRequests';
-import {UPDATE_REQUEST_STATUS_OPTIONS} from '../../constants/constants';
+import {ACCEPT_RENT_REQUEST, UPDATE_REQUEST_STATUS_OPTIONS} from '../../constants/constants';
 import {Loading} from '../General/Loading';
 import '../../../assets/datatables/datetime-moment.js';
 
@@ -51,8 +51,9 @@ class IncomingRequests extends Component {
     const {selectedRow} = this.state;
     const {status} = formData;
     const {userId} = user;
+    const approved = status === ACCEPT_RENT_REQUEST;
 
-    dispatch(updateStatus({oldRequests: requests, userId, selectedRow, status})).then(({err}) => {
+    dispatch(updateStatus({oldRequests: requests, request: selectedRow, userId, approved})).then(({err}) => {
       if (err) {
         this.setState({err, selectedRow: null});
       }
