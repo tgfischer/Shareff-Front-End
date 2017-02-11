@@ -20,7 +20,7 @@ class UploadItem extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
-    this.onPhotoStateChange = this.onPhotoStateChange.bind(this);
+    this.handlePhotosUpload = this.handlePhotosUpload.bind(this);
   }
   handleSubmit(e, {formData}) {
     e.preventDefault();
@@ -49,7 +49,7 @@ class UploadItem extends Component {
     });
   }
   handleCloseModal = () => this.setState({openModal: false});
-  onPhotoStateChange = photoUrls => this.setState({photoUrls});
+  handlePhotosUpload = photoUrls => this.setState({photoUrls});
   render() {
     const {intl} = this.props;
     const {openModal, modalTitle, modalContent, photoUrls} = this.state;
@@ -148,7 +148,7 @@ class UploadItem extends Component {
                           name="uploadPhotos"
                           fluid
                           multiple
-                          updateAddItemComponent={this.onPhotoStateChange}
+                          onPhotosChange={this.handlePhotosUpload}
                           />
                       </Grid.Column>
                     </Grid.Row>

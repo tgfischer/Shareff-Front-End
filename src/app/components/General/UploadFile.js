@@ -74,7 +74,7 @@ class UploadFile extends Component {
         const {formatMessage} = intl;
 
         if (photoUrls) {
-          this.props.updateAddItemComponent(photoUrls);
+          this.props.onPhotosChange(photoUrls);
         }
 
         // Set the modal title
@@ -166,7 +166,7 @@ UploadFile.propTypes = {
   placeholder: React.PropTypes.string,
   required: React.PropTypes.bool,
   uploadAction: React.PropTypes.func.isRequired,
-  updateAddItemComponent: React.PropTypes.func,
+  onPhotosChange: React.PropTypes.func,
   user: React.PropTypes.object.isRequired,
   isProfilePhoto: React.PropTypes.bool
 };
