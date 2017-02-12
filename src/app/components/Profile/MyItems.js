@@ -13,10 +13,19 @@ const styles = {
 };
 
 class MyItems extends Component {
+  constructor(props) {
+    super(props);
+    this.handleRowClick = this.handleRowClick.bind(this);
+  }
   componentWillMount() {
     // Fetch the list of my items data using the ownerId from the props
     const {user, dispatch} = this.props;
     dispatch(getMyItems(user));
+  }
+  handleRowClick(e, row) {
+    e.preventDefault();
+
+    this.props.router.push(`/listings/${row.itemId}`);
   }
   render() {
     const {myItems, intl} = this.props;
@@ -38,7 +47,12 @@ class MyItems extends Component {
     return (
       <div>
         {myItems ?
-          <DataTableSemantic rows={myItems} columns={columns} {...this.props}/> :
+          <DataTableSemantic
+            rows={myItems}
+            columns={columns}
+            onRowClick={this.handleRowClick}
+            {...this.props}
+            /> :
           <div style={styles.div}><Loading/></div>
         }
       </div>

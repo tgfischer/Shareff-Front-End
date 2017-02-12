@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import validator from 'validator';
-import {Container, Grid, Header, Image, Segment} from 'semantic-ui-react';
+import {Container, Grid, Header, Icon, Image, Segment} from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
 import {Loading} from '../General/Loading';
@@ -85,14 +85,36 @@ class User extends Component {
               colour="blue"
               />
             <Container style={styles.container}>
-              <Grid>
+              <Grid stackable>
                 <Grid.Row>
                   <Grid.Column width={4}>
                     <Image src={BASE_URL + targetUser.photoUrl} shape="rounded" bordered fluid/>
+                    <Header as="h3">
+                      <Icon name="thumbs up"/>
+                      <Header.Content>
+                        <FormattedMessage id="user.ratingTitle"/>
+                        <Header.Subheader>
+                          {!targetUser.avgRating &&
+                            <i>
+                              <FormattedMessage id="user.noAvgRating" values={{firstName: targetUser.firstName}}/>
+                            </i>
+                          }
+                        </Header.Subheader>
+                      </Header.Content>
+                    </Header>
+                    <Header as="h3">
+                      <Icon name="home"/>
+                      <Header.Content>
+                        <FormattedMessage id="user.locationTitle"/>
+                        <Header.Subheader>
+                          {targetUser.line1} {targetUser.line2}, {targetUser.city} {targetUser.province}, {targetUser.postalCode}
+                        </Header.Subheader>
+                      </Header.Content>
+                    </Header>
                   </Grid.Column>
                   <Grid.Column width={12} stretched>
                     <Segment>
-                      <Grid>
+                      <Grid stackable>
                         <Grid.Row>
                           <Grid.Column>
                             <Header as="h1" dividing>
@@ -114,6 +136,11 @@ class User extends Component {
                           <Grid.Column>
                             <Header as="h1" dividing>
                               <FormattedMessage id="user.itemsTitle"/>
+                              {targetItems && targetItems.length > 0 &&
+                                <Header.Subheader>
+                                  <FormattedMessage id="user.itemsSubTitle"/>
+                                </Header.Subheader>
+                              }
                             </Header>
                             {targetItems && targetItems.length > 0 &&
                               <DataTableSemantic

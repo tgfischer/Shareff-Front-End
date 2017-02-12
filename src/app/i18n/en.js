@@ -79,7 +79,8 @@ const en = {
     billing: 'Billing',
     myItems: 'My Items',
     addItem: 'Upload Item',
-    incomingRequests: 'Incoming Rent Requests'
+    incomingRequests: 'Incoming Rent Requests',
+    viewProfileButton: 'View Your Profile'
   },
 
   /**
@@ -207,7 +208,7 @@ const en = {
    * Item messages
    */
   item: {
-    subheader: 'Price: ${price} {costPeriod}, Location: {location}',
+    subheader: 'Price: ${price} per {costPeriod}, Owner: {ownerFirstName} {ownerLastName}, Location: {location}',
     viewItemButton: 'View Item'
   },
 
@@ -225,7 +226,7 @@ const en = {
   rentalItem: {
     ownerTitle: 'Owner',
     priceTitle: 'Price',
-    priceContent: '${price} per day',
+    priceContent: '${price} per {costPeriod}',
     addressTitle: 'Address',
     ratingTitle: 'Owner Rating',
     noRatings: 'No one has rated this owner yet',
@@ -280,7 +281,11 @@ const en = {
     description: 'Description',
     noDescriptionProvided: 'This user has not provided a description',
     itemsTitle: 'Available Items',
+    itemsSubTitle: 'Click on a row to view more details about that particular item',
     noRentalItems: 'This user has not put any of their items up for rent',
+    ratingTitle: 'Rating',
+    noAvgRating: 'No one has rated {firstName} yet',
+    locationTitle: 'Location',
     columns: {
       title: 'Title',
       category: 'Category',

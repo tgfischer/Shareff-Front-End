@@ -205,7 +205,7 @@ class RentalItem extends Component {
                         <Header.Content>
                           <FormattedMessage id="rentalItem.priceTitle"/>
                           <Header.Subheader>
-                            <FormattedMessage id="rentalItem.priceContent" values={{price: rentalItem.price}}/>
+                            <FormattedMessage id="rentalItem.priceContent" values={{price: rentalItem.price, costPeriod: rentalItem.costPeriod}}/>
                           </Header.Subheader>
                         </Header.Content>
                       </Header>

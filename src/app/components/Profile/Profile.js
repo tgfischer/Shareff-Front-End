@@ -30,6 +30,10 @@ const tabs = [
 ];
 
 class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.handleViewProfileClick = this.handleViewProfileClick.bind(this);
+  }
   componentWillMount() {
     const {router, params} = this.props;
     const {activeTab} = params;
@@ -37,6 +41,12 @@ class Profile extends Component {
     if (!activeTab || !tabs.includes(activeTab)) {
       router.replace('/profile/info');
     }
+  }
+  handleViewProfileClick(e) {
+    e.preventDefault();
+    const {router, user} = this.props;
+
+    router.push(`/user/${user.userId}`);
   }
   render() {
     const {intl, user, params, isFetching} = this.props;
@@ -58,6 +68,11 @@ class Profile extends Component {
           breadcrumbs={breadcrumbs}
           title={formatMessage({id: 'profile.title'}, {firstName: unescape(firstName), lastName: unescape(lastName)})}
           colour="blue"
+          action={{
+            handleButtonClick: this.handleViewProfileClick,
+            buttonText: formatMessage({id: 'profile.viewProfileButton'}),
+            isButtonInverted: true
+          }}
           />
         <Segment className="vertical-segment" vertical>
           <Container>
@@ -124,10 +139,10 @@ class Profile extends Component {
 
 Profile.propTypes = {
   intl: intlShape.isRequired,
-  isAuthenticated: React.PropTypes.bool,
+  isAuthenticated: React.PropTypes.bool.isRequired,
   isFetching: React.PropTypes.bool.isRequired,
   user: React.PropTypes.object,
-  router: React.PropTypes.object,
+  router: React.PropTypes.object.isRequired,
   dispatch: React.PropTypes.func.isRequired,
   params: React.PropTypes.object
 };
