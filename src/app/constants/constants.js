@@ -35,8 +35,8 @@ export const ADVANCED_SETTINGS_MAX_PRICE = 2000;
  */
 export const ADVANCED_SETTINGS_MAX_DISTANCE = 100;
 
-export const ACCEPT_RENT_REQUEST = 'ACCEPT_RENT_REQUEST';
-export const REJECT_RENT_REQUEST = 'REJECT_RENT_REQUEST';
+export const ACCEPT_RENT_REQUEST = 'RRS_REQUEST_ACCEPTED';
+export const REJECT_RENT_REQUEST = 'RRS_REQUEST_REJECTED';
 
 /**
  * The list of request statuses the owner can set

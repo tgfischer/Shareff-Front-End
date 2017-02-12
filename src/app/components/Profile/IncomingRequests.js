@@ -53,7 +53,7 @@ class IncomingRequests extends Component {
     const {userId} = user;
     const approved = status === ACCEPT_RENT_REQUEST;
 
-    dispatch(updateStatus({oldRequests: requests, request: selectedRow, userId, approved})).then(({err}) => {
+    dispatch(updateStatus({oldRequests: requests, request: selectedRow, userId, approved, status})).then(({err}) => {
       if (err) {
         this.setState({err, selectedRow: null});
       }

@@ -77,7 +77,7 @@ export const getIncomingRequests = ({userId}) => {
 /**
  * Update the status of the rent request
  */
-export const updateStatus = ({userId, request, approved, oldRequests}) => {
+export const updateStatus = ({userId, request, approved, oldRequests, status}) => {
   // Get the token from local storage
   const token = localStorage.getItem('token');
   const config = {
@@ -85,7 +85,7 @@ export const updateStatus = ({userId, request, approved, oldRequests}) => {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({userId, request, approved, token})
+    body: JSON.stringify({userId, request, approved, token, status})
   };
 
   return dispatch => {
