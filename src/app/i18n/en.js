@@ -138,9 +138,7 @@ const en = {
     columns: {
       title: 'Title',
       category: 'Category',
-      description: 'Description',
-      price: 'Price',
-      termsOfUse: 'Terms of Use'
+      price: 'Price'
     }
   },
   /**
@@ -274,6 +272,19 @@ const en = {
       updateStatusButton: 'Update Request Status',
       viewItemButton: 'View Rental Item',
       viewRentersProfileButton: 'View Renter\'s Profile'
+    }
+  },
+
+  user: {
+    title: '{firstName} {lastName}\'s Profile',
+    description: 'Description',
+    noDescriptionProvided: 'This user has not provided a description',
+    itemsTitle: 'Available Items',
+    noRentalItems: 'This user has not put any of their items up for rent',
+    columns: {
+      title: 'Title',
+      category: 'Category',
+      price: 'Price'
     }
   },
 

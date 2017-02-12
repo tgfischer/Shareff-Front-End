@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router';
+import {withRouter, Link} from 'react-router';
 import validator from 'validator';
 import GoogleMap from 'google-map-react';
 import moment from 'moment';
@@ -56,7 +56,7 @@ class RentalItem extends Component {
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleMakeRentRequest = this.handleMakeRentRequest.bind(this);
   }
-  componentDidMount() {
+  componentWillMount() {
     // Fetch the rental item using the item ID in the params
     const {itemId} = this.props.params;
 
@@ -192,7 +192,9 @@ class RentalItem extends Component {
                         <Header.Content>
                           <FormattedMessage id="rentalItem.ownerTitle"/>
                           <Header.Subheader>
-                            {rentalItem.owner.firstName} {rentalItem.owner.lastName}
+                            <Link to={`/user/${rentalItem.owner.userId}`}>
+                              {rentalItem.owner.firstName} {rentalItem.owner.lastName}
+                            </Link>
                           </Header.Subheader>
                         </Header.Content>
                       </Header>
