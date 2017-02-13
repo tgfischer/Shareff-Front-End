@@ -137,6 +137,7 @@ const en = {
    */
   myItems: {
     title: 'My Items',
+    subTitle: 'Click on a row to view that particular item',
     columns: {
       title: 'Title',
       category: 'Category',
@@ -261,13 +262,20 @@ const en = {
    */
   myRequests: {
     title: 'My Rent Requests',
-    subTitle: 'Click on a row to view options for that rent request',
+    subTitle: 'Click on a row delete the request, view the item page, or view the owner\'s profile',
     columns: {
       itemTitle: 'Requested Item',
       ownersName: 'Owner\'s Name',
       startDate: 'Start Date',
       endDate: 'End Date',
       status: 'Status'
+    },
+    modal: {
+      title: 'Delete Rent Request',
+      content: 'Would you like to delete this rent request?',
+      viewItemButton: 'View Rental Item',
+      viewOwnersProfileButton: 'View Owner\'s Profile',
+      deleteRequestButton: 'Delete Request'
     }
   },
 

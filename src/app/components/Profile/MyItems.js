@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import {intlShape, injectIntl} from 'react-intl';
+import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
+import {Header} from 'semantic-ui-react';
 import {DataTableSemantic} from '../General/DataTableSemantic';
 import {getMyItems} from '../../actions/profile/myItems';
 import {Loading} from '../General/Loading';
 
 const styles = {
   div: {
-    margin: "15%"
+    margin: '15%'
   }
 };
 
@@ -47,12 +48,21 @@ class MyItems extends Component {
     return (
       <div>
         {myItems ?
-          <DataTableSemantic
-            rows={myItems}
-            columns={columns}
-            onRowClick={this.handleRowClick}
-            {...this.props}
-            /> :
+          <div>
+            <Header as="h1" dividing>
+              <FormattedMessage id="myItems.title"/>
+              <Header.Subheader>
+                <FormattedMessage id="myItems.subTitle"/>
+              </Header.Subheader>
+            </Header>
+
+            <DataTableSemantic
+              rows={myItems}
+              columns={columns}
+              onRowClick={this.handleRowClick}
+              {...this.props}
+              />
+          </div> :
           <div style={styles.div}><Loading/></div>
         }
       </div>

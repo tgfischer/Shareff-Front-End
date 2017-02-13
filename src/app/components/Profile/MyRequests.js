@@ -2,23 +2,31 @@ import React, {Component} from 'react';
 import moment from 'moment';
 import $ from 'jquery';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router';
+import {withRouter, Link} from 'react-router';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import {Header} from 'semantic-ui-react';
+import {Button, Header, Modal} from 'semantic-ui-react';
 import {DataTableSemantic} from '../General/DataTableSemantic';
 import {getMyRequests} from '../../actions/profile/myRequests';
 import {Loading} from '../General/Loading';
 
 const styles = {
   div: {
-    margin: "15%"
+    margin: '15%'
+  },
+  noBorder: {
+    border: 'none'
   }
 };
 
 class MyRequests extends Component {
+  state = {
+    selectedRow: null,
+    err: null
+  }
   constructor(props) {
     super(props);
     this.handleRowClick = this.handleRowClick.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
   componentWillMount() {
     const {user, dispatch} = this.props;
@@ -31,14 +39,17 @@ class MyRequests extends Component {
   handleRowClick(e, row) {
     e.preventDefault();
 
-    this.props.router.push(`/listings/${row.itemId}`);
+    this.setState({selectedRow: row, err: null});
   }
+  handleCloseModal = () => this.setState({err: null, selectedRow: null})
   render() {
     const {myRequests, intl} = this.props;
+    const {selectedRow, err} = this.state;
     const {formatMessage} = intl;
     const columns = [
       {data: 'requestId', visible: false, searchable: false},
       {data: 'itemId', visible: false, searchable: false},
+      {data: 'ownerId', visible: false, searchable: false},
       {data: 'itemTitle', title: formatMessage({id: 'myRequests.columns.itemTitle'})},
       {
         data: 'startDate',
@@ -77,6 +88,67 @@ class MyRequests extends Component {
               />
           </div> :
           <div style={styles.div}><Loading/></div>
+        }
+        {selectedRow &&
+          <Modal dimmer="blurring" open={Boolean(selectedRow)} onClose={this.handleCloseModal} basic>
+            <Header style={styles.noBorder} as="h1">
+              <FormattedMessage id="myRequests.modal.title"/>
+            </Header>
+            <Modal.Content>
+              <p>
+                <FormattedMessage id="myRequests.modal.content"/>
+              </p>
+            </Modal.Content>
+            <Modal.Actions style={styles.noBorder}>
+              <Button
+                content={formatMessage({id: 'myRequests.modal.deleteRequestButton'})}
+                size="huge"
+                color="red"
+                />
+              <Button
+                content={formatMessage({id: 'myRequests.modal.viewItemButton'})}
+                as={Link}
+                to={`/listings/${selectedRow.itemId}`}
+                size="huge"
+                inverted
+                />
+              <Button
+                content={formatMessage({id: 'myRequests.modal.viewOwnersProfileButton'})}
+                as={Link}
+                to={`/user/${selectedRow.ownerId}`}
+                size="huge"
+                inverted
+                />
+              <Button
+                content={formatMessage({id: 'modal.close'})}
+                onClick={this.handleCloseModal}
+                size="huge"
+                inverted
+                />
+            </Modal.Actions>
+          </Modal>
+        }
+        {err &&
+          <Modal size="small" dimmer="blurring" open={Boolean(err)} onClose={this.handleCloseModal}>
+            <Modal.Header>
+              <Header as="h1">
+                <FormattedMessage id="modal.error"/>
+              </Header>
+            </Modal.Header>
+            <Modal.Content>
+              <Header as="h3">
+                <FormattedMessage id="error.general"/>
+              </Header>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button
+                content={formatMessage({id: 'modal.okay'})}
+                onClick={this.handleCloseModal}
+                size="huge"
+                primary
+                />
+            </Modal.Actions>
+          </Modal>
         }
       </div>
     );

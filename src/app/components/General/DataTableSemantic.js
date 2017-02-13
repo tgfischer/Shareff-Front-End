@@ -41,13 +41,13 @@ export class DataTableSemantic extends Component {
     }
   }
   render() {
-    const {onRowClick} = this.props;
+    const {onRowClick, rows} = this.props;
     const {isTableInitialized} = this.state;
 
     return (
       <div>
         <Segment loading={!isTableInitialized} basic>
-          <table className={onRowClick ? "ui celled large selectable striped hover table" : "ui celled striped large table"}>
+          <table className={onRowClick && rows.length > 0 ? "ui celled large selectable striped hover table" : "ui celled striped large table"}>
             <thead></thead>
             <tbody></tbody>
             <tfoot></tfoot>
