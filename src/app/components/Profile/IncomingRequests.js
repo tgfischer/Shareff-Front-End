@@ -55,8 +55,10 @@ class IncomingRequests extends Component {
 
     dispatch(updateStatus({oldRequests: requests, request: selectedRow, userId, approved, status})).then(({err}) => {
       if (err) {
-        this.setState({err, selectedRow: null});
+        return this.setState({err, selectedRow: null});
       }
+
+      this.setState({err: null, selectedRow: null});
     });
   }
   render() {
@@ -107,7 +109,7 @@ class IncomingRequests extends Component {
             <DataTableSemantic
               rows={requests}
               columns={columns}
-              order={[[6, 'asc'], [7, 'asc'], [5, 'asc']]}
+              order={[[4, 'asc'], [6, 'asc'], [7, 'asc'], [5, 'asc']]}
               onRowClick={this.handleRowClick}
               {...this.props}
               />

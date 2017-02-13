@@ -275,7 +275,7 @@ const en = {
       content: 'Would you like to delete this rent request?',
       viewItemButton: 'View Rental Item',
       viewOwnersProfileButton: 'View Owner\'s Profile',
-      deleteRequestButton: 'Delete Request'
+      cancelRequestButton: 'Delete Request'
     }
   },
 

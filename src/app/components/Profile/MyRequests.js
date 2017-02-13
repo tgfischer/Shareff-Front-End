@@ -6,7 +6,7 @@ import {withRouter, Link} from 'react-router';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {Button, Header, Modal} from 'semantic-ui-react';
 import {DataTableSemantic} from '../General/DataTableSemantic';
-import {getMyRequests} from '../../actions/profile/myRequests';
+import {getMyRequests, cancelRequest} from '../../actions/profile/myRequests';
 import {Loading} from '../General/Loading';
 
 const styles = {
@@ -27,6 +27,7 @@ class MyRequests extends Component {
     super(props);
     this.handleRowClick = this.handleRowClick.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleDeleteRequest = this.handleDeleteRequest.bind(this);
   }
   componentWillMount() {
     const {user, dispatch} = this.props;
@@ -42,6 +43,22 @@ class MyRequests extends Component {
     this.setState({selectedRow: row, err: null});
   }
   handleCloseModal = () => this.setState({err: null, selectedRow: null})
+  handleDeleteRequest(e) {
+    e.preventDefault();
+
+    const {dispatch, user} = this.props;
+    const {selectedRow} = this.state;
+    const {userId} = user;
+    const {requestId} = selectedRow;
+
+    dispatch(cancelRequest({userId, requestId})).then(({err}) => {
+      if (err) {
+        return this.setState({err, selectedRow: null});
+      }
+
+      this.setState({err: null, selectedRow: null});
+    });
+  }
   render() {
     const {myRequests, intl} = this.props;
     const {selectedRow, err} = this.state;
@@ -82,7 +99,7 @@ class MyRequests extends Component {
             <DataTableSemantic
               rows={myRequests}
               columns={columns}
-              order={[[2, 'asc'], [3, 'asc'], [4, 'asc']]}
+              order={[[3, 'asc'], [4, 'asc'], [5, 'asc'], [6, 'asc']]}
               onRowClick={this.handleRowClick}
               {...this.props}
               />
@@ -101,7 +118,8 @@ class MyRequests extends Component {
             </Modal.Content>
             <Modal.Actions style={styles.noBorder}>
               <Button
-                content={formatMessage({id: 'myRequests.modal.deleteRequestButton'})}
+                content={formatMessage({id: 'myRequests.modal.cancelRequestButton'})}
+                onClick={this.handleDeleteRequest}
                 size="huge"
                 color="red"
                 />

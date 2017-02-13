@@ -147,6 +147,13 @@ export const GET_MY_REQUESTS_SUCCESS = 'GET_MY_REQUESTS_SUCCESS';
 export const GET_MY_REQUESTS_FAILURE = 'GET_MY_REQUESTS_FAILURE';
 
 /**
+ * Actions for deleting a rent request
+ */
+export const CANCEL_REQUEST_REQUEST = 'CANCEL_REQUEST_REQUEST';
+export const CANCEL_REQUEST_SUCCESS = 'CANCEL_REQUEST_SUCCESS';
+export const CANCEL_REQUEST_FAILURE = 'CANCEL_REQUEST_FAILURE';
+
+/**
  * Actions for getting the incoming rent requests
  */
 export const GET_INCOMING_REQUESTS_REQUEST = 'GET_INCOMING_REQUESTS_REQUEST';
