@@ -140,6 +140,13 @@ export const GET_MESSAGES_SUCCESS = 'GET_MESSAGES_SUCCESS';
 export const GET_MESSAGES_FAILURE = 'GET_MESSAGES_FAILURE';
 
 /**
+ * Actions for getting a list of my rent requests
+ */
+export const GET_MY_REQUESTS_REQUEST = 'GET_MY_REQUESTS_REQUEST';
+export const GET_MY_REQUESTS_SUCCESS = 'GET_MY_REQUESTS_SUCCESS';
+export const GET_MY_REQUESTS_FAILURE = 'GET_MY_REQUESTS_FAILURE';
+
+/**
  * Actions for getting the incoming rent requests
  */
 export const GET_INCOMING_REQUESTS_REQUEST = 'GET_INCOMING_REQUESTS_REQUEST';

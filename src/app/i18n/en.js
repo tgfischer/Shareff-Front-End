@@ -80,6 +80,7 @@ const en = {
     myItems: 'My Items',
     addItem: 'Upload Item',
     incomingRequests: 'Incoming Rent Requests',
+    myRequests: 'My Rent Requests',
     viewProfileButton: 'View Your Profile'
   },
 
@@ -135,13 +136,14 @@ const en = {
    * Rent Item Info messages
    */
   myItems: {
-    title: 'Items available for rent',
+    title: 'My Items',
     columns: {
       title: 'Title',
       category: 'Category',
       price: 'Price'
     }
   },
+
   /**
    * Upload Item messages
    */
@@ -255,6 +257,21 @@ const en = {
   },
 
   /**
+   * My Requests messages
+   */
+  myRequests: {
+    title: 'My Rent Requests',
+    subTitle: 'Click on a row to view options for that rent request',
+    columns: {
+      itemTitle: 'Requested Item',
+      ownersName: 'Owner\'s Name',
+      startDate: 'Start Date',
+      endDate: 'End Date',
+      status: 'Status'
+    }
+  },
+
+  /**
    * Incoming rent requests messages
    */
   incomingRequests: {
@@ -264,8 +281,7 @@ const en = {
       itemTitle: 'Requested Item',
       rentersName: 'Renter\'s Name',
       startDate: 'Start Date',
-      endDate: 'End Date',
-      status: 'Status'
+      endDate: 'End Date'
     },
     modal: {
       title: 'Rent Request for \'{itemTitle}\'',

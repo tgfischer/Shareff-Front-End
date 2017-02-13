@@ -11,6 +11,7 @@ import {
   MAKE_RENT_REQUEST_REQUEST, MAKE_RENT_REQUEST_SUCCESS, MAKE_RENT_REQUEST_FAILURE,
   GET_CONVERSATIONS_REQUEST, GET_CONVERSATIONS_SUCCESS, GET_CONVERSATIONS_FAILURE,
   GET_MESSAGES_REQUEST, GET_MESSAGES_SUCCESS, GET_MESSAGES_FAILURE,
+  GET_MY_REQUESTS_REQUEST, GET_MY_REQUESTS_SUCCESS, GET_MY_REQUESTS_FAILURE,
   GET_INCOMING_REQUESTS_REQUEST, GET_INCOMING_REQUESTS_SUCCESS, GET_INCOMING_REQUESTS_FAILURE,
   UPDATE_STATUS_REQUEST, UPDATE_STATUS_SUCCESS, UPDATE_STATUS_FAILURE,
   GET_TARGET_USER_REQUEST, GET_TARGET_USER_SUCCESS, GET_TARGET_USER_FAILURE
@@ -260,6 +261,24 @@ export const reducers = (state = {
         recipient: undefined,
         rentRequest: undefined,
         item: undefined,
+        err: action.err
+      });
+    case GET_MY_REQUESTS_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        myRequests: undefined,
+        err: undefined
+      });
+    case GET_MY_REQUESTS_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: undefined,
+        myRequests: action.myRequests
+      });
+    case GET_MY_REQUESTS_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        myRequests: undefined,
         err: action.err
       });
     case GET_INCOMING_REQUESTS_REQUEST:
