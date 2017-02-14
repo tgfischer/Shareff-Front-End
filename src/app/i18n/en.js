@@ -35,6 +35,13 @@ const en = {
   },
 
   /**
+   * Full calendar messages
+   */
+  fullCalendar: {
+    today: 'Today'
+  },
+
+  /**
    * Upload file messages
    */
   uploadFile: {
@@ -276,6 +283,15 @@ const en = {
       viewItemButton: 'View Rental Item',
       viewOwnersProfileButton: 'View Owner\'s Profile',
       cancelRequestButton: 'Delete Request'
+    }
+  },
+
+  /**
+   * Rent schedule messages
+   */
+  schedule: {
+    calendar: {
+      label: 'Rent Schedule'
     }
   },
 
