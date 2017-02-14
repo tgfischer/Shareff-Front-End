@@ -1,28 +1,20 @@
-import {
-  BASE_URL, GET_LISTINGS_REQUEST, GET_LISTINGS_SUCCESS, GET_LISTINGS_FAILURE
-} from '../constants/constants';
+import {BASE_URL, Actions} from '../constants/constants';
 
 const getListingsRequest = request => ({
-  type: GET_LISTINGS_REQUEST,
+  type: Actions.GET_LISTINGS_REQUEST,
   isFetching: true,
-  message: undefined,
-  listings: undefined,
   request
 });
 
 const getListingsSuccess = listings => ({
-  type: GET_LISTINGS_SUCCESS,
+  type: Actions.GET_LISTINGS_SUCCESS,
   isFetching: false,
-  message: undefined,
-  request: undefined,
   listings
 });
 
 const getListingsFailure = message => ({
-  type: GET_LISTINGS_FAILURE,
+  type: Actions.GET_LISTINGS_FAILURE,
   isFetching: false,
-  listings: undefined,
-  request: undefined,
   message
 });
 

@@ -1,21 +1,19 @@
-import {
-  BASE_URL, GET_TARGET_USER_REQUEST, GET_TARGET_USER_SUCCESS, GET_TARGET_USER_FAILURE
-} from '../constants/constants';
+import {BASE_URL, Actions} from '../constants/constants';
 
 const getTargetUserRequest = () => ({
-  type: GET_TARGET_USER_REQUEST,
+  type: Actions.GET_TARGET_USER_REQUEST,
   isFetching: true
 });
 
 const getTargetUserSuccess = ({targetUser, targetItems}) => ({
-  type: GET_TARGET_USER_SUCCESS,
+  type: Actions.GET_TARGET_USER_SUCCESS,
   isFetching: false,
   targetUser,
   targetItems
 });
 
 const getTargetUserFailure = err => ({
-  type: GET_TARGET_USER_FAILURE,
+  type: Actions.GET_TARGET_USER_FAILURE,
   isFetching: false,
   err
 });

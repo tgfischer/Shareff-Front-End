@@ -1,43 +1,34 @@
-import {
-  BASE_URL, GET_RENTAL_ITEM_REQUEST, GET_RENTAL_ITEM_SUCCESS, GET_RENTAL_ITEM_FAILURE,
-  MAKE_RENT_REQUEST_REQUEST, MAKE_RENT_REQUEST_SUCCESS, MAKE_RENT_REQUEST_FAILURE
-} from '../constants/constants';
+import {BASE_URL, Actions} from '../constants/constants';
 
 const getRentalItemRequest = () => ({
-  type: GET_RENTAL_ITEM_REQUEST,
-  isFetching: true,
-  err: undefined,
-  rentalItem: undefined
+  type: Actions.GET_RENTAL_ITEM_REQUEST,
+  isFetching: true
 });
 
 const getRentalItemSuccess = rentalItem => ({
-  type: GET_RENTAL_ITEM_SUCCESS,
+  type: Actions.GET_RENTAL_ITEM_SUCCESS,
   isFetching: false,
-  err: undefined,
   rentalItem
 });
 
 const getRentalItemFailure = err => ({
-  type: GET_RENTAL_ITEM_FAILURE,
+  type: Actions.GET_RENTAL_ITEM_FAILURE,
   isFetching: false,
-  rentalItem: undefined,
   err
 });
 
 const makeRentRequestRequest = () => ({
-  type: MAKE_RENT_REQUEST_REQUEST,
-  isFetching: true,
-  err: undefined
+  type: Actions.MAKE_RENT_REQUEST_REQUEST,
+  isFetching: true
 });
 
 const makeRentRequestSuccess = () => ({
-  type: MAKE_RENT_REQUEST_SUCCESS,
-  isFetching: false,
-  err: undefined
+  type: Actions.MAKE_RENT_REQUEST_SUCCESS,
+  isFetching: false
 });
 
 const makeRentRequestFailure = err => ({
-  type: MAKE_RENT_REQUEST_FAILURE,
+  type: Actions.MAKE_RENT_REQUEST_FAILURE,
   isFetching: false,
   err
 });

@@ -1,25 +1,19 @@
-import {
-  BASE_URL, GET_MY_ITEMS_REQUEST, GET_MY_ITEMS_SUCCESS, GET_MY_ITEMS_FAILURE
-} from '../../constants/constants';
+import {BASE_URL, Actions} from '../../constants/constants';
 
 const getMyItemsRequest = () => ({
-  type: GET_MY_ITEMS_REQUEST,
-  isFetching: true,
-  err: undefined,
-  myItems: undefined
+  type: Actions.GET_MY_ITEMS_REQUEST,
+  isFetching: true
 });
 
 const getMyItemsSuccess = myItems => ({
-  type: GET_MY_ITEMS_SUCCESS,
+  type: Actions.GET_MY_ITEMS_SUCCESS,
   isFetching: false,
-  err: undefined,
   myItems
 });
 
 const getMyItemsFailure = err => ({
-  type: GET_MY_ITEMS_FAILURE,
+  type: Actions.GET_MY_ITEMS_FAILURE,
   isFetching: false,
-  myItems: undefined,
   err
 });
 

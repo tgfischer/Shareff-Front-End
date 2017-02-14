@@ -116,7 +116,7 @@ const en = {
     ccn: 'Credit Card Number',
     cvn: 'CVN',
     expiryDate: 'Expiry Date',
-    updateInfoButton: 'Update Information',
+    saveChangesButton: 'Save Changes',
     profilePhoto: {
       title: 'Upload your profile photo',
       label: 'Choose a new profile photo below'
@@ -316,6 +316,9 @@ const en = {
     }
   },
 
+  /**
+   * User profile messages
+   */
   user: {
     title: '{firstName} {lastName}\'s Profile',
     description: 'Description',
@@ -330,6 +333,15 @@ const en = {
       title: 'Title',
       category: 'Category',
       price: 'Price'
+    }
+  },
+
+  billing: {
+    title: 'Update your billing information',
+    subTitle: 'Don\'t worry, your information will remain secure!',
+    saveChangesButton: 'Save Changes',
+    modal: {
+      success: 'Your billing information was successfully updated'
     }
   },
 
