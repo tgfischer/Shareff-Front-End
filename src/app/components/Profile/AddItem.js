@@ -6,14 +6,15 @@ import {
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {BASE_URL, categories, costPeriods} from '../../constants/constants';
-import {addItem, uploadPhotos} from '../../actions/profile';
+import {uploadPhotos} from '../../actions/profile/personalInfo';
+import {addItem} from '../../actions/profile/addItem';
 import UploadFile from '../General/UploadFile';
 
 class UploadItem extends Component {
   state = {
     openModal: false,
     modalTitle: 'modal.success',
-    modalContent: 'modal.uploadItemSuccess',
+    modalContent: 'addItem.modal.addItemSuccess',
     photoUrls: null
   }
   constructor(props) {
@@ -41,7 +42,7 @@ class UploadItem extends Component {
       this.setState({modalTitle: formatMessage({id: title})});
 
       // Set the modal content
-      const content = err ? 'error.general' : 'modal.uploadItemSuccess';
+      const content = err ? 'error.general' : 'addItem.modal.addItemSuccess';
       this.setState({modalContent: formatMessage({id: content})});
 
       // Open the modal

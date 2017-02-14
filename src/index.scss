@@ -2,6 +2,19 @@
   font-weight: 100 !important;
 }
 
+.fc-day:hover {
+  cursor: pointer;
+}
+
+.fc button {
+  height: inherit !important;
+  line-height: inherit !important;
+}
+
+table.hover tbody tr:hover, table thead tr:hover {
+  cursor: pointer;
+}
+
 .bold, .bold * {
   font-weight: 400 !important;
 }
@@ -52,4 +65,16 @@
 
 .ui.range .inner {
   margin: 0;
+}
+
+p {
+  font-size: 1.5em;
+}
+
+.inverted a {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.inverted a:hover {
+  color: white !important;
 }

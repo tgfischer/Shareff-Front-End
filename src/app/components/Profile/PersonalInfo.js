@@ -7,14 +7,14 @@ import {
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {BASE_URL} from '../../constants/constants';
-import {getPersonalInfo, uploadPhotos} from '../../actions/profile';
+import {getPersonalInfo, uploadPhotos} from '../../actions/profile/personalInfo';
 import UploadFile from '../General/UploadFile';
 
 class PersonalInfo extends Component {
   state = {
     openModal: false,
     modalTitle: 'modal.success',
-    modalContent: 'modal.updatePersonalInfoSuccess'
+    modalContent: 'personalInfo.modal.success'
   }
   constructor(props) {
     super(props);
@@ -40,7 +40,7 @@ class PersonalInfo extends Component {
       this.setState({modalTitle: formatMessage({id: title})});
 
       // Set the modal content
-      const content = err ? 'error.general' : 'modal.updatePersonalInfoSuccess';
+      const content = err ? 'error.general' : 'personalInfo.modal.success';
       this.setState({modalContent: formatMessage({id: content})});
 
       // Open the modal
@@ -92,9 +92,9 @@ class PersonalInfo extends Component {
           <Grid.Row>
             <Grid.Column>
               <Header as="h1" dividing>
-                <FormattedMessage id="personalInfo.personalInfoTitle"/>
+                <FormattedMessage id="personalInfo.title"/>
                 <Header.Subheader>
-                  <FormattedMessage id="personalInfo.personalInfoSubTitle"/>
+                  <FormattedMessage id="personalInfo.subTitle"/>
                 </Header.Subheader>
               </Header>
 
@@ -208,7 +208,7 @@ class PersonalInfo extends Component {
                 </Form.Group>
 
                 <Button
-                  content={formatMessage({id: 'personalInfo.updateInfoButton'})}
+                  content={formatMessage({id: 'personalInfo.saveChangesButton'})}
                   size="huge"
                   type="submit"
                   icon="save"
@@ -220,9 +220,9 @@ class PersonalInfo extends Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column>
-              <Form size="huge" onSubmit={uploadPhotos}>
+              <Form size="huge" onSubmit={this.handleProfilePhotoSubmit}>
                 <Header as="h1" dividing>
-                  <FormattedMessage id="personalInfo.uploadProfilePhoto"/>
+                  <FormattedMessage id="personalInfo.profilePhoto.title"/>
                 </Header>
                 <Grid>
                   <Grid.Row>
@@ -233,7 +233,7 @@ class PersonalInfo extends Component {
                   <Grid.Row>
                     <Grid.Column>
                       <UploadFile
-                        label={formatMessage({id: 'personalInfo.uploadProfilePhotoLabel'})}
+                        label={formatMessage({id: 'personalInfo.profilePhoto.label'})}
                         uploadAction={uploadPhotos}
                         name="uploadProfilePhoto"
                         fluid

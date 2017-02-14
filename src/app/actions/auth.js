@@ -1,92 +1,75 @@
-import {
-  BASE_URL, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_REQUEST,
-  SIGNUP_SUCCESS, SIGNUP_FAILURE, LOGOUT_REQUEST, LOGOUT_SUCCESS,
-  GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILURE
-} from '../constants/constants';
+import {BASE_URL, Actions} from '../constants/constants';
 import {bodyBuilder} from '../utils/Utils';
 
 const loginRequest = creds => ({
-  type: LOGIN_REQUEST,
+  type: Actions.LOGIN_REQUEST,
   isFetching: true,
   isAuthenticated: false,
-  err: undefined,
-  user: undefined,
   creds
 });
 
 const loginSuccess = user => ({
-  type: LOGIN_SUCCESS,
+  type: Actions.LOGIN_SUCCESS,
   isFetching: false,
   isAuthenticated: true,
-  err: undefined,
   user
 });
 
 const loginFailure = err => ({
-  type: LOGIN_FAILURE,
+  type: Actions.LOGIN_FAILURE,
   isFetching: false,
   isAuthenticated: false,
   err
 });
 
 const signupRequest = creds => ({
-  type: SIGNUP_REQUEST,
+  type: Actions.SIGNUP_REQUEST,
   isFetching: true,
   isAuthenticated: false,
-  err: undefined,
-  user: undefined,
   creds
 });
 
 const signupSuccess = user => ({
-  type: SIGNUP_SUCCESS,
+  type: Actions.SIGNUP_SUCCESS,
   isFetching: false,
   isAuthenticated: true,
-  err: undefined,
   user
 });
 
 const signupFailure = err => ({
-  type: SIGNUP_FAILURE,
+  type: Actions.SIGNUP_FAILURE,
   isFetching: false,
   isAuthenticated: false,
   err
 });
 
 const logoutRequest = () => ({
-  type: LOGOUT_REQUEST,
+  type: Actions.LOGOUT_REQUEST,
   isFetching: true,
-  isAuthenticated: true,
-  err: undefined,
-  user: undefined
+  isAuthenticated: true
 });
 
 const logoutSuccess = () => ({
-  type: LOGOUT_SUCCESS,
+  type: Actions.LOGOUT_SUCCESS,
   isFetching: false,
-  isAuthenticated: false,
-  err: undefined,
-  user: undefined
+  isAuthenticated: false
 });
 
 const getUserRequest = token => ({
-  type: GET_USER_REQUEST,
+  type: Actions.GET_USER_REQUEST,
   isFetching: true,
-  err: undefined,
-  user: undefined,
   token
 });
 
 const getUserSuccess = user => ({
-  type: GET_USER_SUCCESS,
+  type: Actions.GET_USER_SUCCESS,
   isAuthenticated: true,
   isFetching: false,
-  err: undefined,
   user
 });
 
 const getUserFailure = err => ({
-  type: GET_USER_FAILURE,
+  type: Actions.GET_USER_FAILURE,
   isAuthenticated: false,
   isFetching: false,
   err

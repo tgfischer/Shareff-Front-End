@@ -18,20 +18,10 @@ const en = {
    */
   modal: {
     success: 'Success!',
-    updatePersonalInfoSuccess: 'Your personal information was successfully updated',
-    uploadPhotosSuccess: 'Your photo(s) were successfully uploaded',
-    uploadItemSuccess: 'Your item was successfully uploaded',
-    requestToRentTitle: 'Request to Rent Item',
-    requestToRentDetails: 'Select the dates that you would like to rent the item on',
-    requestPriceTitle: 'Cost to Rent Item',
-    invalidDates: 'Select valid start and end dates to calculate the price',
-    makeRequest: 'Make Request',
-    makeRentRequestSuccess: 'Your request to rent this item was successful. You will be notified once the owner has reviewed this request',
-    rentRequestMessageLabel: 'Message',
-    rentRequestMessagePlaceholder: 'Enter a message to send to the owner',
     error: 'Error!',
     okay: 'Okay',
-    cancel: 'Cancel'
+    cancel: 'Cancel',
+    close: 'Close'
   },
 
   /**
@@ -44,6 +34,16 @@ const en = {
     endPlaceholder: 'End'
   },
 
+  /**
+   * Full calendar messages
+   */
+  fullCalendar: {
+    today: 'Today'
+  },
+
+  /**
+   * Upload file messages
+   */
   uploadFile: {
     browseButton: 'Browse',
     uploadButton: 'Upload'
@@ -85,15 +85,18 @@ const en = {
     schedule: 'Rent Schedule',
     billing: 'Billing',
     myItems: 'My Items',
-    addItem: 'Add Item'
+    addItem: 'Add Item',
+    incomingRequests: 'Incoming Rent Requests',
+    myRequests: 'My Rent Requests',
+    viewProfileButton: 'View Your Profile'
   },
 
   /**
    * Personal Info messages
    */
   personalInfo: {
-    personalInfoTitle: 'Update your personal information',
-    personalInfoSubTitle: 'Your name and email address will be visible to others',
+    title: 'Update your personal information',
+    subTitle: 'Your name and email address will be visible to others',
     firstName: 'First Name',
     lastName: 'Last Name',
     email: 'Email',
@@ -113,9 +116,14 @@ const en = {
     ccn: 'Credit Card Number',
     cvn: 'CVN',
     expiryDate: 'Expiry Date',
-    uploadProfilePhoto: 'Upload your profile photo',
-    uploadProfilePhotoLabel: 'Choose a new profile photo below',
-    updateInfoButton: 'Update Information'
+    saveChangesButton: 'Save Changes',
+    profilePhoto: {
+      title: 'Upload your profile photo',
+      label: 'Choose a new profile photo below'
+    },
+    modal: {
+      success: 'Your personal information was successfully updated'
+    }
   },
 
   /**
@@ -123,7 +131,7 @@ const en = {
    */
   messages: {
     title: 'Chatting with {firstName} {lastName}',
-    subTitle: 'Email: {email}',
+    requestedItem: 'Requested Item: {item}',
     inputLabel: 'Enter your message',
     inputPlaceholder: 'Enter your message...',
     sendButton: 'Send',
@@ -135,13 +143,20 @@ const en = {
    * Rent Item Info messages
    */
   myItems: {
-    title: 'Items available for rent'
+    title: 'My Items',
+    subTitle: 'Click on a row to view that particular item',
+    columns: {
+      title: 'Title',
+      category: 'Category',
+      price: 'Price'
+    }
   },
+
   /**
    * adding item messages
    */
   addItem: {
-    pageTitle: 'Upload an item for rent',
+    pageTitle: 'Add an Item for Rent',
     title: 'Title',
     description: 'Description',
     costPeriod: 'Cost Period',
@@ -152,7 +167,11 @@ const en = {
     termsPlaceholder: 'Write down your terms and conditions for renting your item. This could include uses of the item, what time you want it by, or anything else you want to mention.',
     uploadPhotoButton: 'Browse',
     addItemButton: 'Add',
-    uploadPhotos: 'Upload Photos of Your Item'
+    uploadPhotos: 'Upload Photos of Your Item',
+    modal: {
+      uploadPhotosSuccess: 'Your photo(s) were successfully uploaded',
+      addItemSuccess: 'Your item was successfully uploaded'
+    }
   },
 
   /**
@@ -201,10 +220,13 @@ const en = {
    * Item messages
    */
   item: {
-    subheader: 'Price: ${price} {costPeriod}, Location: {location}',
+    subheader: 'Price: ${price} per {costPeriod}, Owner: {ownerFirstName} {ownerLastName}, Location: {location}',
     viewItemButton: 'View Item'
   },
 
+  /**
+   * No items found messages
+   */
   noItemsFound: {
     title: 'No Items Found',
     content: 'No items were found. Change your search settings, and try again.'
@@ -216,7 +238,7 @@ const en = {
   rentalItem: {
     ownerTitle: 'Owner',
     priceTitle: 'Price',
-    priceContent: '${price} per day',
+    priceContent: '${price} per {costPeriod}',
     addressTitle: 'Address',
     ratingTitle: 'Owner Rating',
     noRatings: 'No one has rated this owner yet',
@@ -224,7 +246,105 @@ const en = {
     termsOfUse: 'Terms of Use',
     messageOwnerButton: 'Message Owner',
     requestToRentButton: 'Request to Rent',
-    photosTitle: 'Photos of the item'
+    photosTitle: 'Photos of the item',
+    modal: {
+      title: 'Request to Rent Item',
+      description: 'Select the dates that you would like to rent the item on',
+      cost: 'Cost to Rent Item',
+      invalidDates: 'Select valid start and end dates to calculate the price',
+      makeRequestButton: 'Make Request',
+      success: 'Your request to rent this item was successful. You will be notified once the owner has reviewed this request',
+      messageLabel: 'Message',
+      messagePlaceholder: 'Enter a message to send to the owner'
+    }
+  },
+
+  request: {
+    status: {
+      accept: 'Accept',
+      reject: 'Reject'
+    }
+  },
+
+  /**
+   * My Requests messages
+   */
+  myRequests: {
+    title: 'My Rent Requests',
+    subTitle: 'Click on a row delete the request, view the item page, or view the owner\'s profile',
+    columns: {
+      itemTitle: 'Requested Item',
+      ownersName: 'Owner\'s Name',
+      startDate: 'Start Date',
+      endDate: 'End Date',
+      status: 'Status'
+    },
+    modal: {
+      title: 'Delete Rent Request',
+      content: 'Would you like to delete this rent request?',
+      viewItemButton: 'View Rental Item',
+      viewOwnersProfileButton: 'View Owner\'s Profile',
+      cancelRequestButton: 'Delete Request'
+    }
+  },
+
+  /**
+   * Rent schedule messages
+   */
+  schedule: {
+    calendar: {
+      label: 'Rent Schedule'
+    }
+  },
+
+  /**
+   * Incoming rent requests messages
+   */
+  incomingRequests: {
+    title: 'View your incoming rent requests',
+    subTitle: 'Click on a row to accept or decline the request',
+    columns: {
+      itemTitle: 'Requested Item',
+      rentersName: 'Renter\'s Name',
+      startDate: 'Start Date',
+      endDate: 'End Date'
+    },
+    modal: {
+      title: 'Rent Request for \'{itemTitle}\'',
+      updateStatusLabel: 'Choose whether to accept or reject this request',
+      updateStatusButton: 'Update Request Status',
+      viewItemButton: 'View Rental Item',
+      viewRentersProfileButton: 'View Renter\'s Profile'
+    }
+  },
+
+  /**
+   * User profile messages
+   */
+  user: {
+    title: '{firstName} {lastName}\'s Profile',
+    description: 'Description',
+    noDescriptionProvided: 'This user has not provided a description',
+    itemsTitle: 'Available Items',
+    itemsSubTitle: 'Click on a row to view more details about that particular item',
+    noRentalItems: 'This user has not put any of their items up for rent',
+    ratingTitle: 'Rating',
+    noAvgRating: 'No one has rated {firstName} yet',
+    locationTitle: 'Location',
+    columns: {
+      title: 'Title',
+      category: 'Category',
+      price: 'Price'
+    }
+  },
+
+  billing: {
+    title: 'Update your billing information',
+    subTitle: 'Don\'t worry, your information will remain secure!',
+    saveChangesButton: 'Save Changes',
+    modal: {
+      success: 'Your billing information was successfully updated'
+    }
   },
 
   /**

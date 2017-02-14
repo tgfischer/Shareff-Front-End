@@ -16,7 +16,7 @@ class UploadFile extends Component {
     isDisabled: true,
     openModal: false,
     modalTitle: 'modal.success',
-    modalContent: 'modal.uploadPhotosSuccess'
+    modalContent: 'addItem.modal.uploadPhotosSuccess'
   }
   constructor(props) {
     super(props);
@@ -82,7 +82,7 @@ class UploadFile extends Component {
         this.setState({modalTitle: formatMessage({id: title})});
 
         // Set the modal content
-        const content = err ? 'error.general' : 'modal.uploadPhotosSuccess';
+        const content = err ? 'error.general' : 'addItem.modal.uploadPhotosSuccess';
         this.setState({modalContent: formatMessage({id: content})});
 
         // Open the modal
