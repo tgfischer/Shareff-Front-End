@@ -2,6 +2,15 @@
   font-weight: 100 !important;
 }
 
+.fc-day:hover {
+  cursor: pointer;
+}
+
+.fc button {
+  height: inherit !important;
+  line-height: inherit !important;
+}
+
 table.hover tbody tr:hover, table thead tr:hover {
   cursor: pointer;
 }
