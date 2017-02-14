@@ -208,7 +208,7 @@ class PersonalInfo extends Component {
                 </Form.Group>
 
                 <Button
-                  content={formatMessage({id: 'personalInfo.updateInfoButton'})}
+                  content={formatMessage({id: 'personalInfo.saveChangesButton'})}
                   size="huge"
                   type="submit"
                   icon="save"

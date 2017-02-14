@@ -14,6 +14,7 @@ import IncomingRequests from './IncomingRequests';
 import UploadItem from './UploadItem';
 import Messages from './Messages/Messages';
 import Schedule from './Schedule';
+import Billing from './Billing';
 
 const styles = {
   wrapper: {
@@ -131,6 +132,9 @@ class Profile extends Component {
                     }
                     {activeTab === 'schedule' &&
                       <Schedule {...this.props}/>
+                    }
+                    {activeTab === 'billing' &&
+                      <Billing {...this.props}/>
                     }
                   </Segment>
                 </Grid.Column>

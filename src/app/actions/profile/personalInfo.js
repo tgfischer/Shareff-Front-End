@@ -1,44 +1,37 @@
-import {
-  BASE_URL, GET_PERSONAL_INFO_REQUEST, GET_PERSONAL_INFO_SUCCESS, GET_PERSONAL_INFO_FAILURE,
-  UPLOAD_PROFILE_PHOTO_REQUEST, UPLOAD_PROFILE_PHOTO_SUCCESS, UPLOAD_PROFILE_PHOTO_FAILURE
-} from '../../constants/constants';
+import {BASE_URL, Actions} from '../../constants/constants';
 
 const getPersonalInfoRequest = () => ({
-  type: GET_PERSONAL_INFO_REQUEST,
-  isFetching: true,
-  err: undefined
+  type: Actions.GET_PERSONAL_INFO_REQUEST,
+  isFetching: true
 });
 
 const getPersonalInfoSuccess = user => ({
-  type: GET_PERSONAL_INFO_SUCCESS,
+  type: Actions.GET_PERSONAL_INFO_SUCCESS,
   isFetching: false,
   success: true,
-  err: undefined,
   user
 });
 
 const getPersonalInfoFailure = err => ({
-  type: GET_PERSONAL_INFO_FAILURE,
+  type: Actions.GET_PERSONAL_INFO_FAILURE,
   isFetching: false,
   success: false,
   err
 });
 
 const uploadProfilePhotoRequest = () => ({
-  type: UPLOAD_PROFILE_PHOTO_REQUEST,
-  isFetching: true,
-  err: undefined
+  type: Actions.UPLOAD_PROFILE_PHOTO_REQUEST,
+  isFetching: true
 });
 
 const uploadProfilePhotoSuccess = user => ({
-  type: UPLOAD_PROFILE_PHOTO_SUCCESS,
+  type: Actions.UPLOAD_PROFILE_PHOTO_SUCCESS,
   isFetching: false,
-  err: undefined,
   user
 });
 
 const uploadProfilePhotoFailure = err => ({
-  type: UPLOAD_PROFILE_PHOTO_FAILURE,
+  type: Actions.UPLOAD_PROFILE_PHOTO_FAILURE,
   isFetching: false,
   err
 });

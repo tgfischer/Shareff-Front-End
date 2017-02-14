@@ -1,21 +1,17 @@
-import {
-  BASE_URL, UPLOAD_ITEM_REQUEST, UPLOAD_ITEM_SUCCESS, UPLOAD_ITEM_FAILURE
-} from '../../constants/constants';
+import {BASE_URL, Actions} from '../../constants/constants';
 
 const addItemRequest = () => ({
-  type: UPLOAD_ITEM_REQUEST,
-  isFetching: true,
-  err: undefined
+  type: Actions.UPLOAD_ITEM_REQUEST,
+  isFetching: true
 });
 
 const addItemSuccess = () => ({
-  type: UPLOAD_ITEM_SUCCESS,
-  isFetching: false,
-  err: undefined
+  type: Actions.UPLOAD_ITEM_SUCCESS,
+  isFetching: false
 });
 
 const addItemFailure = err => ({
-  type: UPLOAD_ITEM_FAILURE,
+  type: Actions.UPLOAD_ITEM_FAILURE,
   isFetching: false,
   err
 });

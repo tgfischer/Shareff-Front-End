@@ -1,43 +1,30 @@
-import {
-  BASE_URL, GET_CONVERSATIONS_REQUEST, GET_CONVERSATIONS_SUCCESS, GET_CONVERSATIONS_FAILURE,
-  GET_MESSAGES_REQUEST, GET_MESSAGES_SUCCESS, GET_MESSAGES_FAILURE
-} from '../../constants/constants';
+import {BASE_URL, Actions} from '../../constants/constants';
 
 const getConversationsRequest = () => ({
-  type: GET_CONVERSATIONS_REQUEST,
-  isFetching: true,
-  err: undefined,
-  conversations: undefined
+  type: Actions.GET_CONVERSATIONS_REQUEST,
+  isFetching: true
 });
 
 const getConversationsSuccess = conversations => ({
-  type: GET_CONVERSATIONS_SUCCESS,
+  type: Actions.GET_CONVERSATIONS_SUCCESS,
   isFetching: false,
-  err: undefined,
   conversations
 });
 
 const getConversationsFailure = err => ({
-  type: GET_CONVERSATIONS_FAILURE,
+  type: Actions.GET_CONVERSATIONS_FAILURE,
   isFetching: false,
-  conversations: undefined,
   err
 });
 
 const getMessagesRequest = () => ({
-  type: GET_MESSAGES_REQUEST,
-  isFetching: true,
-  err: undefined,
-  messages: undefined,
-  recipient: undefined,
-  rentRequest: undefined,
-  item: undefined
+  type: Actions.GET_MESSAGES_REQUEST,
+  isFetching: true
 });
 
 const getMessagesSuccess = ({messages, recipient, rentRequest, item}) => ({
-  type: GET_MESSAGES_SUCCESS,
+  type: Actions.GET_MESSAGES_SUCCESS,
   isFetching: false,
-  err: undefined,
   messages,
   recipient,
   rentRequest,
@@ -45,12 +32,8 @@ const getMessagesSuccess = ({messages, recipient, rentRequest, item}) => ({
 });
 
 const getMessagesFailure = err => ({
-  type: GET_MESSAGES_FAILURE,
+  type: Actions.GET_MESSAGES_FAILURE,
   isFetching: false,
-  messages: undefined,
-  recipient: undefined,
-  rentRequest: undefined,
-  item: undefined,
   err
 });
 

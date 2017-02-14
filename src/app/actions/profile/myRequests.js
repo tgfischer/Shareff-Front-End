@@ -1,38 +1,35 @@
-import {
-  BASE_URL, GET_MY_REQUESTS_REQUEST, GET_MY_REQUESTS_SUCCESS, GET_MY_REQUESTS_FAILURE,
-  CANCEL_REQUEST_REQUEST, CANCEL_REQUEST_SUCCESS, CANCEL_REQUEST_FAILURE
-} from '../../constants/constants';
+import {BASE_URL, Actions} from '../../constants/constants';
 
 const getMyRequestsRequest = () => ({
-  type: GET_MY_REQUESTS_REQUEST,
+  type: Actions.GET_MY_REQUESTS_REQUEST,
   isFetching: true
 });
 
 const getMyRequestsSuccess = myRequests => ({
-  type: GET_MY_REQUESTS_SUCCESS,
+  type: Actions.GET_MY_REQUESTS_SUCCESS,
   isFetching: false,
   myRequests
 });
 
 const getMyRequestsFailure = err => ({
-  type: GET_MY_REQUESTS_FAILURE,
+  type: Actions.GET_MY_REQUESTS_FAILURE,
   isFetching: false,
   err
 });
 
 const cancelRequestRequest = () => ({
-  type: CANCEL_REQUEST_REQUEST,
+  type: Actions.CANCEL_REQUEST_REQUEST,
   isFetching: true
 });
 
 const cancelRequestSuccess = myRequests => ({
-  type: CANCEL_REQUEST_SUCCESS,
+  type: Actions.CANCEL_REQUEST_SUCCESS,
   isFetching: false,
   myRequests
 });
 
 const cancelRequestFailure = err => ({
-  type: CANCEL_REQUEST_FAILURE,
+  type: Actions.CANCEL_REQUEST_FAILURE,
   isFetching: false,
   err
 });
