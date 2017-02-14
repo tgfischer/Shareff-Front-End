@@ -1,24 +1,24 @@
 import React, {Component} from 'react';
+import moment from 'moment';
+import $ from 'jquery';
 import {connect} from 'react-redux';
 import {withRouter, Link} from 'react-router';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import {Button, Form, Header, Modal} from 'semantic-ui-react';
-import moment from 'moment';
-import validator from 'validator';
-import $ from 'jquery';
+import {Button, Header, Modal} from 'semantic-ui-react';
 import {DataTableSemantic} from '../General/DataTableSemantic';
-import {getIncomingRequests, updateStatus} from '../../actions/profile/incomingRequests';
-import {ACCEPT_RENT_REQUEST, UPDATE_REQUEST_STATUS_OPTIONS} from '../../constants/constants';
+import {getMyRequests, cancelRequest} from '../../actions/profile/myRequests';
 import {Loading} from '../General/Loading';
-import '../../../assets/datatables/datetime-moment.js';
 
 const styles = {
   div: {
-    margin: "15%"
+    margin: '15%'
+  },
+  noBorder: {
+    border: 'none'
   }
 };
 
-class IncomingRequests extends Component {
+class MyRequests extends Component {
   state = {
     selectedRow: null,
     err: null
@@ -27,12 +27,11 @@ class IncomingRequests extends Component {
     super(props);
     this.handleRowClick = this.handleRowClick.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
-    this.handleUpdateStatus = this.handleUpdateStatus.bind(this);
+    this.handleDeleteRequest = this.handleDeleteRequest.bind(this);
   }
   componentWillMount() {
-    // Fetch the list of my items data using the ownerId from the props
     const {user, dispatch} = this.props;
-    dispatch(getIncomingRequests(user));
+    dispatch(getMyRequests(user));
 
     // Tell datatables that we want to use this format for our dates so they
     // can be ordered properly
@@ -44,16 +43,15 @@ class IncomingRequests extends Component {
     this.setState({selectedRow: row, err: null});
   }
   handleCloseModal = () => this.setState({err: null, selectedRow: null})
-  handleUpdateStatus(e, {formData}) {
+  handleDeleteRequest(e) {
     e.preventDefault();
 
-    const {dispatch, requests, user} = this.props;
+    const {dispatch, user} = this.props;
     const {selectedRow} = this.state;
-    const {status} = formData;
     const {userId} = user;
-    const approved = status === ACCEPT_RENT_REQUEST;
+    const {requestId} = selectedRow;
 
-    dispatch(updateStatus({oldRequests: requests, request: selectedRow, userId, approved, status})).then(({err}) => {
+    dispatch(cancelRequest({userId, requestId})).then(({err}) => {
       if (err) {
         return this.setState({err, selectedRow: null});
       }
@@ -62,20 +60,17 @@ class IncomingRequests extends Component {
     });
   }
   render() {
+    const {myRequests, intl} = this.props;
     const {selectedRow, err} = this.state;
-    const {intl, requests} = this.props;
     const {formatMessage} = intl;
-    const {unescape} = validator;
     const columns = [
       {data: 'requestId', visible: false, searchable: false},
       {data: 'itemId', visible: false, searchable: false},
-      {data: 'renterId', visible: false, searchable: false},
-      {data: 'status', visible: false, searchable: false},
-      {data: 'itemTitle', title: formatMessage({id: 'incomingRequests.columns.itemTitle'})},
-      {data: 'rentersName', title: formatMessage({id: 'incomingRequests.columns.rentersName'})},
+      {data: 'ownerId', visible: false, searchable: false},
+      {data: 'itemTitle', title: formatMessage({id: 'myRequests.columns.itemTitle'})},
       {
         data: 'startDate',
-        title: formatMessage({id: 'incomingRequests.columns.startDate'}),
+        title: formatMessage({id: 'myRequests.columns.startDate'}),
         render: data => {
           return moment(data).format('MMM Do YYYY, h:mm a');
         }
@@ -86,30 +81,25 @@ class IncomingRequests extends Component {
         render: data => {
           return moment(data).format('MMM Do YYYY, h:mm a');
         }
-      }
+      },
+      {data: 'status', title: formatMessage({id: 'myRequests.columns.status'})}
     ];
-
-    // Translate the options, and add them to a list to be rendered
-    const options = [];
-    UPDATE_REQUEST_STATUS_OPTIONS.forEach(({key, value}) => {
-      options.push({value, text: formatMessage({id: key})});
-    });
 
     return (
       <div>
-        {requests ?
+        {myRequests ?
           <div>
             <Header as="h1" dividing>
-              <FormattedMessage id="incomingRequests.title"/>
+              <FormattedMessage id="myRequests.title"/>
               <Header.Subheader>
-                <FormattedMessage id="incomingRequests.subTitle"/>
+                <FormattedMessage id="myRequests.subTitle"/>
               </Header.Subheader>
             </Header>
 
             <DataTableSemantic
-              rows={requests}
+              rows={myRequests}
               columns={columns}
-              order={[[4, 'asc'], [6, 'asc'], [7, 'asc'], [5, 'asc']]}
+              order={[[3, 'asc'], [4, 'asc'], [5, 'asc'], [6, 'asc']]}
               onRowClick={this.handleRowClick}
               {...this.props}
               />
@@ -117,49 +107,41 @@ class IncomingRequests extends Component {
           <div style={styles.div}><Loading/></div>
         }
         {selectedRow &&
-          <Modal size="small" dimmer="blurring" open={Boolean(selectedRow)} onClose={this.handleCloseModal}>
-            <Modal.Header>
-              <Header as="h1">
-                <FormattedMessage id="incomingRequests.modal.title" values={{itemTitle: selectedRow.itemTitle}}/>
-              </Header>
-            </Modal.Header>
+          <Modal dimmer="blurring" open={Boolean(selectedRow)} onClose={this.handleCloseModal} basic>
+            <Header style={styles.noBorder} as="h1">
+              <FormattedMessage id="myRequests.modal.title"/>
+            </Header>
             <Modal.Content>
-              <Form size="huge" onSubmit={this.handleUpdateStatus}>
-                <Form.Select
-                  label={formatMessage({id: 'incomingRequests.modal.updateStatusLabel'})}
-                  options={options}
-                  placeholder={unescape(selectedRow.status) || ''}
-                  name="status"
-                  required
-                  />
-                <Button
-                  content={formatMessage({id: 'incomingRequests.modal.updateStatusButton'})}
-                  size="huge"
-                  type="submit"
-                  primary
-                  />
-              </Form>
+              <p>
+                <FormattedMessage id="myRequests.modal.content"/>
+              </p>
             </Modal.Content>
-            <Modal.Actions>
+            <Modal.Actions style={styles.noBorder}>
               <Button
-                content={formatMessage({id: 'incomingRequests.modal.viewItemButton'})}
+                content={formatMessage({id: 'myRequests.modal.cancelRequestButton'})}
+                onClick={this.handleDeleteRequest}
+                size="huge"
+                color="red"
+                />
+              <Button
+                content={formatMessage({id: 'myRequests.modal.viewItemButton'})}
                 as={Link}
                 to={`/listings/${selectedRow.itemId}`}
                 size="huge"
-                basic
+                inverted
                 />
               <Button
-                content={formatMessage({id: 'incomingRequests.modal.viewRentersProfileButton'})}
+                content={formatMessage({id: 'myRequests.modal.viewOwnersProfileButton'})}
                 as={Link}
-                to={`/user/${selectedRow.renterId}`}
+                to={`/user/${selectedRow.ownerId}`}
                 size="huge"
-                basic
+                inverted
                 />
               <Button
                 content={formatMessage({id: 'modal.close'})}
                 onClick={this.handleCloseModal}
                 size="huge"
-                basic
+                inverted
                 />
             </Modal.Actions>
           </Modal>
@@ -191,28 +173,28 @@ class IncomingRequests extends Component {
   }
 }
 
-IncomingRequests.propTypes = {
+MyRequests.propTypes = {
   intl: intlShape.isRequired,
   isAuthenticated: React.PropTypes.bool.isRequired,
   isFetching: React.PropTypes.bool.isRequired,
   err: React.PropTypes.object,
   user: React.PropTypes.object.isRequired,
-  requests: React.PropTypes.array,
+  myRequests: React.PropTypes.array,
   router: React.PropTypes.object.isRequired,
   dispatch: React.PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
   const {reducers} = state;
-  const {isAuthenticated, isFetching, user, requests, err} = reducers;
+  const {isAuthenticated, isFetching, user, myRequests, err} = reducers;
 
   return {
     isAuthenticated,
     isFetching,
     user,
-    requests,
+    myRequests,
     err
   };
 };
 
-export default connect(mapStateToProps)(withRouter(injectIntl(IncomingRequests)));
+export default connect(mapStateToProps)(withRouter(injectIntl(MyRequests)));

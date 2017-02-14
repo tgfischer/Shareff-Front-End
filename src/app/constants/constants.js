@@ -35,6 +35,20 @@ export const ADVANCED_SETTINGS_MAX_PRICE = 2000;
  */
 export const ADVANCED_SETTINGS_MAX_DISTANCE = 100;
 
+export const ACCEPT_RENT_REQUEST = 'RRS_REQUEST_ACCEPTED';
+export const REJECT_RENT_REQUEST = 'RRS_REQUEST_REJECTED';
+
+/**
+ * The list of request statuses the owner can set
+ */
+export const UPDATE_REQUEST_STATUS_OPTIONS = [{
+  value: ACCEPT_RENT_REQUEST,
+  key: 'request.status.accept'
+}, {
+  value: REJECT_RENT_REQUEST,
+  key: 'request.status.reject'
+}];
+
 /**
  * Actions for logging into the application
  */
@@ -126,8 +140,36 @@ export const GET_MESSAGES_SUCCESS = 'GET_MESSAGES_SUCCESS';
 export const GET_MESSAGES_FAILURE = 'GET_MESSAGES_FAILURE';
 
 /**
+ * Actions for getting a list of my rent requests
+ */
+export const GET_MY_REQUESTS_REQUEST = 'GET_MY_REQUESTS_REQUEST';
+export const GET_MY_REQUESTS_SUCCESS = 'GET_MY_REQUESTS_SUCCESS';
+export const GET_MY_REQUESTS_FAILURE = 'GET_MY_REQUESTS_FAILURE';
+
+/**
+ * Actions for deleting a rent request
+ */
+export const CANCEL_REQUEST_REQUEST = 'CANCEL_REQUEST_REQUEST';
+export const CANCEL_REQUEST_SUCCESS = 'CANCEL_REQUEST_SUCCESS';
+export const CANCEL_REQUEST_FAILURE = 'CANCEL_REQUEST_FAILURE';
+
+/**
  * Actions for getting the incoming rent requests
  */
 export const GET_INCOMING_REQUESTS_REQUEST = 'GET_INCOMING_REQUESTS_REQUEST';
 export const GET_INCOMING_REQUESTS_SUCCESS = 'GET_INCOMING_REQUESTS_SUCCESS';
 export const GET_INCOMING_REQUESTS_FAILURE = 'GET_INCOMING_REQUESTS_FAILURE';
+
+/**
+ * Actions for updating the request status
+ */
+export const UPDATE_STATUS_REQUEST = 'UPDATE_STATUS_REQUEST';
+export const UPDATE_STATUS_SUCCESS = 'UPDATE_STATUS_SUCCESS';
+export const UPDATE_STATUS_FAILURE = 'UPDATE_STATUS_FAILURE';
+
+/**
+ * Actions for getting a targetted user to populate their profile
+ */
+export const GET_TARGET_USER_REQUEST = 'GET_TARGET_USER_REQUEST';
+export const GET_TARGET_USER_SUCCESS = 'GET_TARGET_USER_SUCCESS';
+export const GET_TARGET_USER_FAILURE = 'GET_TARGET_USER_FAILURE';

@@ -2,25 +2,25 @@ import {
   BASE_URL, UPLOAD_ITEM_REQUEST, UPLOAD_ITEM_SUCCESS, UPLOAD_ITEM_FAILURE
 } from '../../constants/constants';
 
-const uploadItemRequest = () => ({
+const addItemRequest = () => ({
   type: UPLOAD_ITEM_REQUEST,
   isFetching: true,
   err: undefined
 });
 
-const uploadItemSuccess = () => ({
+const addItemSuccess = () => ({
   type: UPLOAD_ITEM_SUCCESS,
   isFetching: false,
   err: undefined
 });
 
-const uploadItemFailure = err => ({
+const addItemFailure = err => ({
   type: UPLOAD_ITEM_FAILURE,
   isFetching: false,
   err
 });
 
-export const uploadItem = item => {
+export const addItem = item => {
   // Send the token as well so that we can validate that the user that is logged
   // in is only modifying their own data
   item.token = localStorage.getItem('token');
@@ -35,7 +35,7 @@ export const uploadItem = item => {
 
   return dispatch => {
     // kick off request to API
-    dispatch(uploadItemRequest());
+    dispatch(addItemRequest());
 
     return fetch(`${BASE_URL}/profile/upload_item/upload_item`, config).then(res => res.json()).then(json => {
       // Get the user's information, and the error
@@ -43,15 +43,15 @@ export const uploadItem = item => {
 
       if (!err) {
         // Dispatch the success action
-        return dispatch(uploadItemSuccess());
+        return dispatch(addItemSuccess());
       }
 
       // If there was a problem, we want to dispatch the error condition
       console.log(err);
-      return dispatch(uploadItemFailure(err));
+      return dispatch(addItemFailure(err));
     }).catch(err => {
       console.log(err);
-      return dispatch(uploadItemFailure(err));
+      return dispatch(addItemFailure(err));
     });
   };
 };

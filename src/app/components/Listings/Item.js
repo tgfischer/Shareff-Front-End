@@ -39,7 +39,16 @@ class Item extends Component {
                       <Header as="h1">
                         {item.title}
                         <Header.Subheader>
-                          <FormattedMessage id="item.subheader" values={{price: item.price, costPeriod: item.costPeriod, location: item.city}}/>
+                          <FormattedMessage
+                            id="item.subheader"
+                            values={{
+                              price: item.price,
+                              costPeriod: item.costPeriod,
+                              ownerFirstName: item.ownerFirstName,
+                              ownerLastName: item.ownerLastName,
+                              location: item.city
+                            }}
+                            />
                         </Header.Subheader>
                       </Header>
                     </Grid.Column>
