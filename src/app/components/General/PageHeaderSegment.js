@@ -48,14 +48,14 @@ class PageHeaderSegment extends Component {
               </Grid.Column>
             </Grid.Row>
             <Grid.Row verticalAlign="middle">
-              <Grid.Column width={13}>
+              <Grid.Column width={10}>
                 <Header as="h1" size="huge" className="bold" inverted>
                   {title}
                 </Header>
               </Grid.Column>
               {action &&
-                <Grid.Column width={3} floated="right">
-                  <Button onClick={action.handleButtonClick} size="big" color={action.buttonColour} inverted={action.isButtonInverted} fluid>
+                <Grid.Column width={6} floated="right">
+                  <Button onClick={action.handleButtonClick} color={action.buttonColour} inverted={action.isButtonInverted} size="big" floated="right">
                     {action.buttonText}
                   </Button>
                 </Grid.Column>

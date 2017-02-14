@@ -9,6 +9,7 @@ import NavBar from '../General/NavBar';
 import PageHeaderSegment from '../General/PageHeaderSegment';
 import PersonalInfo from './PersonalInfo';
 import MyItems from './MyItems';
+import MyRequests from './MyRequests';
 import IncomingRequests from './IncomingRequests';
 import UploadItem from './UploadItem';
 import Messages from './Messages/Messages';
@@ -26,10 +27,15 @@ const tabs = [
   'schedule',
   'add-item',
   'my-items',
-  'incoming-requests'
+  'incoming-requests',
+  'my-requests'
 ];
 
 class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.handleViewProfileClick = this.handleViewProfileClick.bind(this);
+  }
   componentWillMount() {
     const {router, params} = this.props;
     const {activeTab} = params;
@@ -37,6 +43,12 @@ class Profile extends Component {
     if (!activeTab || !tabs.includes(activeTab)) {
       router.replace('/profile/info');
     }
+  }
+  handleViewProfileClick(e) {
+    e.preventDefault();
+    const {router, user} = this.props;
+
+    router.push(`/user/${user.userId}`);
   }
   render() {
     const {intl, user, params, isFetching} = this.props;
@@ -58,39 +70,41 @@ class Profile extends Component {
           breadcrumbs={breadcrumbs}
           title={formatMessage({id: 'profile.title'}, {firstName: unescape(firstName), lastName: unescape(lastName)})}
           colour="blue"
+          action={{
+            handleButtonClick: this.handleViewProfileClick,
+            buttonText: formatMessage({id: 'profile.viewProfileButton'}),
+            isButtonInverted: true
+          }}
           />
         <Segment className="vertical-segment" vertical>
           <Container>
             <Grid stackable>
               <Grid.Row>
                 <Grid.Column width={4}>
-                  {
-                    /**
-                     * Could defintely do this with tabs.map((tab, i) => {...});,
-                     * but whatever. TODO for later I guess
-                     */
-                  }
                   <Menu size={'huge'} fluid vertical tabular>
                     <Menu.Item as={Link} to="/profile/info" name="info" active={activeTab === 'info'}>
                       <FormattedMessage id="profile.info"/>
                     </Menu.Item>
-                    <Menu.Item as={Link} to="/profile/messages" name="messages" active={activeTab === 'messages'}>
-                      <FormattedMessage id="profile.messages"/>
-                    </Menu.Item>
-                    <Menu.Item as={Link} to="/profile/billing" name="billing" active={activeTab === 'billing'}>
-                      <FormattedMessage id="profile.billing"/>
-                    </Menu.Item>
-                    <Menu.Item as={Link} to="/profile/schedule" name="schedule" active={activeTab === 'schedule'}>
-                      <FormattedMessage id="profile.schedule"/>
+                    <Menu.Item as={Link} to="/profile/add-item" name="add-item" active={activeTab === 'add-item'}>
+                      <FormattedMessage id="profile.addItem"/>
                     </Menu.Item>
                     <Menu.Item as={Link} to="/profile/my-items" name="my-items" active={activeTab === 'my-items'}>
                       <FormattedMessage id="profile.myItems"/>
                     </Menu.Item>
+                    <Menu.Item as={Link} to="/profile/my-requests" name="my-requests" active={activeTab === 'my-requests'}>
+                      <FormattedMessage id="profile.myRequests"/>
+                    </Menu.Item>
                     <Menu.Item as={Link} to="/profile/incoming-requests" name="incoming-requests" active={activeTab === 'incoming-requests'}>
                       <FormattedMessage id="profile.incomingRequests"/>
                     </Menu.Item>
-                    <Menu.Item as={Link} to="/profile/add-item" name="add-item" active={activeTab === 'add-item'}>
-                      <FormattedMessage id="profile.addItem"/>
+                    <Menu.Item as={Link} to="/profile/messages" name="messages" active={activeTab === 'messages'}>
+                      <FormattedMessage id="profile.messages"/>
+                    </Menu.Item>
+                    <Menu.Item as={Link} to="/profile/schedule" name="schedule" active={activeTab === 'schedule'}>
+                      <FormattedMessage id="profile.schedule"/>
+                    </Menu.Item>
+                    <Menu.Item as={Link} to="/profile/billing" name="billing" active={activeTab === 'billing'}>
+                      <FormattedMessage id="profile.billing"/>
                     </Menu.Item>
                   </Menu>
                 </Grid.Column>
@@ -101,6 +115,9 @@ class Profile extends Component {
                     }
                     {activeTab === 'my-items' &&
                       <MyItems {...this.props}/>
+                    }
+                    {activeTab === 'my-requests' &&
+                      <MyRequests {...this.props}/>
                     }
                     {activeTab === 'incoming-requests' &&
                       <IncomingRequests {...this.props}/>
@@ -124,10 +141,10 @@ class Profile extends Component {
 
 Profile.propTypes = {
   intl: intlShape.isRequired,
-  isAuthenticated: React.PropTypes.bool,
+  isAuthenticated: React.PropTypes.bool.isRequired,
   isFetching: React.PropTypes.bool.isRequired,
   user: React.PropTypes.object,
-  router: React.PropTypes.object,
+  router: React.PropTypes.object.isRequired,
   dispatch: React.PropTypes.func.isRequired,
   params: React.PropTypes.object
 };

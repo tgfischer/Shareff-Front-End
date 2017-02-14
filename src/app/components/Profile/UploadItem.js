@@ -5,13 +5,13 @@ import {
   Button, Form, Grid, Header, Modal
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import {uploadItem} from '../../actions/profile/addItem';
+import {addItem} from '../../actions/profile/addItem';
 
 class UploadItem extends Component {
   state = {
     openModal: false,
     modalTitle: 'modal.success',
-    modalContent: 'modal.uploadItemSuccess'
+    modalContent: 'modal.addItemSuccess'
   }
   constructor(props) {
     super(props);
@@ -28,7 +28,7 @@ class UploadItem extends Component {
     formData.addressId = user.addressId;
 
     // Send the new item to the server
-    this.props.dispatch(uploadItem(formData)).then(({err}) => {
+    this.props.dispatch(addItem(formData)).then(({err}) => {
       const {formatMessage} = intl;
 
       // Set the modal title
@@ -36,7 +36,7 @@ class UploadItem extends Component {
       this.setState({modalTitle: formatMessage({id: title})});
 
       // Set the modal content
-      const content = err ? 'error.general' : 'modal.uploadItemSuccess';
+      const content = err ? 'error.general' : 'addItem.modal.addItemSuccess';
       this.setState({modalContent: formatMessage({id: content})});
 
       // Open the modal
@@ -53,45 +53,45 @@ class UploadItem extends Component {
       <Grid>
         <Grid.Column>
           <Header as="h1" dividing>
-            <FormattedMessage id="uploadItem.pageTitle"/>
+            <FormattedMessage id="addItem.pageTitle"/>
           </Header>
 
           <Form size="huge" onSubmit={this.handleSubmit} loading={isFetching}>
             <Form.Input
-              label={formatMessage({id: 'uploadItem.title'})}
+              label={formatMessage({id: 'addItem.title'})}
               name="title"
-              placeholder={formatMessage({id: 'uploadItem.title'})}
+              placeholder={formatMessage({id: 'addItem.title'})}
               type="text"
               required
               />
             <Form.Input
-              label={formatMessage({id: 'uploadItem.category'})}
+              label={formatMessage({id: 'addItem.category'})}
               name="category"
-              placeholder={formatMessage({id: 'uploadItem.category'})}
+              placeholder={formatMessage({id: 'addItem.category'})}
               type="text"
               />
             <Form.Input
-              label={formatMessage({id: 'uploadItem.price'})}
+              label={formatMessage({id: 'addItem.price'})}
               name="price"
-              placeholder={formatMessage({id: 'uploadItem.price'})}
+              placeholder={formatMessage({id: 'addItem.price'})}
               type="number"
               required
               />
             <Form.TextArea
-              label={formatMessage({id: 'uploadItem.description'})}
+              label={formatMessage({id: 'addItem.description'})}
               name="description"
-              placeholder={formatMessage({id: 'uploadItem.descriptionPlaceholder'})}
+              placeholder={formatMessage({id: 'addItem.descriptionPlaceholder'})}
               required
               />
             <Form.TextArea
-              label={formatMessage({id: 'uploadItem.terms'})}
+              label={formatMessage({id: 'addItem.terms'})}
               name="terms"
-              placeholder={formatMessage({id: 'uploadItem.termsPlaceholder'})}
+              placeholder={formatMessage({id: 'addItem.termsPlaceholder'})}
               required
               />
 
             <Button
-              content={formatMessage({id: 'uploadItem.uploadButton'})}
+              content={formatMessage({id: 'addItem.uploadButton'})}
               size="huge"
               type="submit"
               icon="upload"
