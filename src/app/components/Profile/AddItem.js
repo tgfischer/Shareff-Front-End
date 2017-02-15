@@ -134,9 +134,7 @@ class UploadItem extends Component {
                         return (
                           <Grid.Column key={i}>
                             <Card>
-                              <Image
-                                src={BASE_URL + photoUrl}
-                                />
+                              <Image src={BASE_URL + photoUrl}/>
                             </Card>
                           </Grid.Column>
                         );
