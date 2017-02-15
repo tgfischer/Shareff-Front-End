@@ -6,6 +6,7 @@ import {
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {updateBillingInfo} from '../../actions/profile/billing';
+import {Calendar} from '../General/Calendar';
 
 class Billing extends Component {
   state = {
@@ -59,6 +60,31 @@ class Billing extends Component {
               </Header>
 
               <Form size="huge" onSubmit={this.handleBillingSubmit}>
+                <Form.Input
+                  label={formatMessage({id: 'signUp.ccn'})}
+                  name="ccn"
+                  placeholder={formatMessage({id: 'signUp.ccn'})}
+                  type="number"
+                  required
+                  />
+
+                <Form.Group widths="equal">
+                  <Form.Input
+                    label={formatMessage({id: 'signUp.cvn'})}
+                    name="cvn"
+                    placeholder={formatMessage({id: 'signUp.cvn'})}
+                    type="number"
+                    required
+                    />
+                  <Calendar
+                    label={formatMessage({id: 'signUp.expiryDate'})}
+                    name="expiryDate"
+                    placeholder={formatMessage({id: 'signUp.expiryDate'})}
+                    type="month"
+                    required
+                    />
+                </Form.Group>
+
                 <Button
                   content={formatMessage({id: 'billing.saveChangesButton'})}
                   size="huge"

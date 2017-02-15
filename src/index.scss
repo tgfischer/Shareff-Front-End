@@ -2,6 +2,15 @@
   font-weight: 100 !important;
 }
 
+.thumbnail {
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.ui.cards {
+  margin-bottom: 0;
+}
+
 .fc-day:hover {
   cursor: pointer;
 }
