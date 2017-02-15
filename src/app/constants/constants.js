@@ -39,6 +39,27 @@ export const ACCEPT_RENT_REQUEST = 'RRS_REQUEST_ACCEPTED';
 export const REJECT_RENT_REQUEST = 'RRS_REQUEST_REJECTED';
 
 /**
+* Constants for dropdowns
+*/
+
+export const categories = [
+  {key: 'electronics', text: 'Electronics', value: 'electronics'},
+  {key: 'sports', text: 'Sports Equipment', value: 'sports'},
+  {key: 'farm', text: 'Farm Equipment', value: 'farm'},
+  {key: 'utensils', text: 'Utensils', value: 'utensils'},
+  {key: 'appliances', text: 'Appliances', value: 'appliances'},
+  {key: 'education', text: 'Education', value: 'education'},
+  {key: 'other', text: 'Other', value: 'other'}
+];
+
+export const costPeriods = [
+  {text: 'Hour', value: 'hour'},
+  {text: 'Day', value: 'day'},
+  {text: 'Week', value: 'week'},
+  {text: 'Month', value: 'month'}
+];
+
+/**
  * The list of request statuses the owner can set
  */
 export const UPDATE_REQUEST_STATUS_OPTIONS = [{
@@ -94,16 +115,16 @@ export const Actions = {
   /**
    * Actions for uploading a user's profile photo
    */
-  UPLOAD_PROFILE_PHOTO_REQUEST: 'UPLOAD_PROFILE_PHOTO_REQUEST',
-  UPLOAD_PROFILE_PHOTO_SUCCESS: 'UPLOAD_PROFILE_PHOTO_SUCCESS',
-  UPLOAD_PROFILE_PHOTO_FAILURE: 'UPLOAD_PROFILE_PHOTO_FAILURE',
+  UPLOAD_PHOTOS_REQUEST: 'UPLOAD_PHOTOS_REQUEST',
+  UPLOAD_PHOTOS_SUCCESS: 'UPLOAD_PHOTOS_SUCCESS',
+  UPLOAD_PHOTOS_FAILURE: 'UPLOAD_PHOTOS_FAILURE',
 
   /**
    * Actions for uploading items for rent
    */
-  UPLOAD_ITEM_REQUEST: 'UPLOAD_ITEM_REQUEST',
-  UPLOAD_ITEM_SUCCESS: 'UPLOAD_ITEM_SUCCESS',
-  UPLOAD_ITEM_FAILURE: 'UPLOAD_ITEM_FAILURE',
+  ADD_ITEM_REQUEST: 'ADD_ITEM_REQUEST',
+  ADD_ITEM_SUCCESS: 'ADD_ITEM_SUCCESS',
+  ADD_ITEM_FAILURE: 'ADD_ITEM_FAILURE',
 
   /**
    * Actions for getting a rental item

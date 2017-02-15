@@ -19,23 +19,6 @@ const getPersonalInfoFailure = err => ({
   err
 });
 
-const uploadProfilePhotoRequest = () => ({
-  type: Actions.UPLOAD_PROFILE_PHOTO_REQUEST,
-  isFetching: true
-});
-
-const uploadProfilePhotoSuccess = user => ({
-  type: Actions.UPLOAD_PROFILE_PHOTO_SUCCESS,
-  isFetching: false,
-  user
-});
-
-const uploadProfilePhotoFailure = err => ({
-  type: Actions.UPLOAD_PROFILE_PHOTO_FAILURE,
-  isFetching: false,
-  err
-});
-
 /**
  * Get the user's personal information from the database
  */
@@ -71,38 +54,6 @@ export const getPersonalInfo = user => {
     }).catch(err => {
       console.log(err);
       return dispatch(getPersonalInfoFailure(err));
-    });
-  };
-};
-
-/**
- * Get the user's personal information from the database
- */
-export const uploadProfilePhoto = formData => {
-  const config = {
-    method: 'POST',
-    body: formData
-  };
-
-  return dispatch => {
-    // We dispatch request to kickoff the call to the API
-    dispatch(uploadProfilePhotoRequest());
-
-    return fetch(`${BASE_URL}/profile/personal_info/upload_profile_photo`, config).then(res => res.json()).then(json => {
-      // Get the user's information, and the error
-      const {user, err} = json;
-
-      if (err) {
-        // If there was a problem, we want to dispatch the error condition
-        console.log(err);
-        return dispatch(uploadProfilePhotoFailure(err));
-      }
-
-      // Dispatch the success action
-      return dispatch(uploadProfilePhotoSuccess(user));
-    }).catch(err => {
-      console.log(err);
-      return dispatch(uploadProfilePhotoFailure(err));
     });
   };
 };

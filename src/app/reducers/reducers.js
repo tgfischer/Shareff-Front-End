@@ -119,33 +119,33 @@ export const reducers = (state = {
         listings: undefined,
         err: action.err
       });
-    case Actions.UPLOAD_PROFILE_PHOTO_REQUEST:
+    case Actions.UPLOAD_PHOTOS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
         err: undefined
       });
-    case Actions.UPLOAD_PROFILE_PHOTO_SUCCESS:
+    case Actions.UPLOAD_PHOTOS_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         err: undefined,
         user: action.user
       });
-    case Actions.UPLOAD_PROFILE_PHOTO_FAILURE:
+    case Actions.UPLOAD_PHOTOS_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
         err: action.err
       });
-    case Actions.UPLOAD_ITEM_REQUEST:
+    case Actions.ADD_ITEM_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
         err: undefined
       });
-    case Actions.UPLOAD_ITEM_SUCCESS:
+    case Actions.ADD_ITEM_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         err: undefined
       });
-    case Actions.UPLOAD_ITEM_FAILURE:
+    case Actions.ADD_ITEM_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
         err: action.err

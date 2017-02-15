@@ -9,9 +9,9 @@ import NavBar from '../General/NavBar';
 import PageHeaderSegment from '../General/PageHeaderSegment';
 import PersonalInfo from './PersonalInfo';
 import MyItems from './MyItems';
+import AddItem from './AddItem';
 import MyRequests from './MyRequests';
 import IncomingRequests from './IncomingRequests';
-import UploadItem from './UploadItem';
 import Messages from './Messages/Messages';
 import Schedule from './Schedule';
 import Billing from './Billing';
@@ -128,7 +128,7 @@ class Profile extends Component {
                       <Messages {...this.props}/>
                     }
                     {activeTab === 'add-item' &&
-                      <UploadItem {...this.props}/>
+                      <AddItem {...this.props}/>
                     }
                     {activeTab === 'schedule' &&
                       <Schedule {...this.props}/>
