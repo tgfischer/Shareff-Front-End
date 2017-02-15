@@ -6,7 +6,7 @@ import {
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {BASE_URL, categories, costPeriods} from '../../constants/constants';
-import {uploadPhotos} from '../../actions/profile/personalInfo';
+import {uploadPhotos} from '../../actions/uploadPhotos';
 import {addItem} from '../../actions/profile/addItem';
 import UploadFile from '../General/UploadFile';
 

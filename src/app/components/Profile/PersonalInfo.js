@@ -7,7 +7,8 @@ import {
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {BASE_URL} from '../../constants/constants';
-import {getPersonalInfo, uploadPhotos} from '../../actions/profile/personalInfo';
+import {getPersonalInfo} from '../../actions/profile/personalInfo';
+import {uploadPhotos} from '../../actions/uploadPhotos';
 import UploadFile from '../General/UploadFile';
 
 class PersonalInfo extends Component {
