@@ -108,6 +108,7 @@ class RentalItem extends Component {
       itemId: rentalItem.itemId,
       renterId: user.userId,
       ownerId: rentalItem.ownerId,
+      userId: user.userId,
       startDate: startDate.date,
       endDate: endDate.date,
       message: $('.rent-request-modal textarea').val()

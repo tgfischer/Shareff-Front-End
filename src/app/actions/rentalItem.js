@@ -71,6 +71,8 @@ export const getRentalItem = itemId => {
  * Get the rental rentalItem from the database
  */
 export const makeRentRequest = body => {
+  body.token = localStorage.getItem('token');
+
   const config = {
     method: 'POST',
     headers: {
