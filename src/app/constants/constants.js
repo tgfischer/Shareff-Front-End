@@ -39,6 +39,27 @@ export const ACCEPT_RENT_REQUEST = 'RRS_REQUEST_ACCEPTED';
 export const REJECT_RENT_REQUEST = 'RRS_REQUEST_REJECTED';
 
 /**
+* Constants for dropdowns
+*/
+
+export const categories = [
+  {key: 'electronics', text: 'Electronics', value: 'electronics'},
+  {key: 'sports', text: 'Sports Equipment', value: 'sports'},
+  {key: 'farm', text: 'Farm Equipment', value: 'farm'},
+  {key: 'utensils', text: 'Utensils', value: 'utensils'},
+  {key: 'appliances', text: 'Appliances', value: 'appliances'},
+  {key: 'education', text: 'Education', value: 'education'},
+  {key: 'other', text: 'Other', value: 'other'}
+];
+
+export const costPeriods = [
+  {text: 'Hour', value: 'hour'},
+  {text: 'Day', value: 'day'},
+  {text: 'Week', value: 'week'},
+  {text: 'Month', value: 'month'}
+];
+
+/**
  * The list of request statuses the owner can set
  */
 export const UPDATE_REQUEST_STATUS_OPTIONS = [{
@@ -49,127 +70,136 @@ export const UPDATE_REQUEST_STATUS_OPTIONS = [{
   key: 'request.status.reject'
 }];
 
-/**
- * Actions for logging into the application
- */
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const Actions = {
+  /**
+   * Actions for logging into the application
+   */
+  LOGIN_REQUEST: 'LOGIN_REQUEST',
+  LOGIN_SUCCESS: 'LOGIN_SUCCESS',
+  LOGIN_FAILURE: 'LOGIN_FAILURE',
 
-/**
- * Actions for signing up for the application
- */
-export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
-export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
-export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
+  /**
+   * Actions for signing up for the application
+   */
+  SIGNUP_REQUEST: 'SIGNUP_REQUEST',
+  SIGNUP_SUCCESS: 'SIGNUP_SUCCESS',
+  SIGNUP_FAILURE: 'SIGNUP_FAILURE',
 
-/**
- * Actions for logging out of the application
- */
-export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+  /**
+   * Actions for logging out of the application
+   */
+  LOGOUT_REQUEST: 'LOGOUT_REQUEST',
+  LOGOUT_SUCCESS: 'LOGOUT_SUCCESS',
 
-/**
- * Actions for retreiving the user information from the database
- */
-export const GET_USER_REQUEST = 'GET_USER_REQUEST';
-export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
-export const GET_USER_FAILURE = 'GET_USER_FAILURE';
+  /**
+   * Actions for retreiving the user information from the database
+   */
+  GET_USER_REQUEST: 'GET_USER_REQUEST',
+  GET_USER_SUCCESS: 'GET_USER_SUCCESS',
+  GET_USER_FAILURE: 'GET_USER_FAILURE',
 
-/**
- * Actions for getting the rental listings
- */
-export const GET_LISTINGS_REQUEST = 'GET_LISTINGS_REQUEST';
-export const GET_LISTINGS_SUCCESS = 'GET_LISTINGS_SUCCESS';
-export const GET_LISTINGS_FAILURE = 'GET_LISTINGS_FAILURE';
+  /**
+   * Actions for getting the rental listings
+   */
+  GET_LISTINGS_REQUEST: 'GET_LISTINGS_REQUEST',
+  GET_LISTINGS_SUCCESS: 'GET_LISTINGS_SUCCESS',
+  GET_LISTINGS_FAILURE: 'GET_LISTINGS_FAILURE',
 
-/**
- * Actions for getting the user's personal information
- */
-export const GET_PERSONAL_INFO_REQUEST = 'GET_PERSONAL_INFO_REQUEST';
-export const GET_PERSONAL_INFO_SUCCESS = 'GET_PERSONAL_INFO_SUCCESS';
-export const GET_PERSONAL_INFO_FAILURE = 'GET_PERSONAL_INFO_FAILURE';
+  /**
+   * Actions for getting the user's personal information
+   */
+  GET_PERSONAL_INFO_REQUEST: 'GET_PERSONAL_INFO_REQUEST',
+  GET_PERSONAL_INFO_SUCCESS: 'GET_PERSONAL_INFO_SUCCESS',
+  GET_PERSONAL_INFO_FAILURE: 'GET_PERSONAL_INFO_FAILURE',
 
-/**
- * Actions for uploading a user's profile photo
- */
-export const UPLOAD_PROFILE_PHOTO_REQUEST = 'UPLOAD_PROFILE_PHOTO_REQUEST';
-export const UPLOAD_PROFILE_PHOTO_SUCCESS = 'UPLOAD_PROFILE_PHOTO_SUCCESS';
-export const UPLOAD_PROFILE_PHOTO_FAILURE = 'UPLOAD_PROFILE_PHOTO_FAILURE';
+  /**
+   * Actions for uploading a user's profile photo
+   */
+  UPLOAD_PHOTOS_REQUEST: 'UPLOAD_PHOTOS_REQUEST',
+  UPLOAD_PHOTOS_SUCCESS: 'UPLOAD_PHOTOS_SUCCESS',
+  UPLOAD_PHOTOS_FAILURE: 'UPLOAD_PHOTOS_FAILURE',
 
-/**
- * Actions for uploading items for rent
- */
-export const UPLOAD_ITEM_REQUEST = 'UPLOAD_ITEM_REQUEST';
-export const UPLOAD_ITEM_SUCCESS = 'UPLOAD_ITEM_SUCCESS';
-export const UPLOAD_ITEM_FAILURE = 'UPLOAD_ITEM_FAILURE';
+  /**
+   * Actions for uploading items for rent
+   */
+  ADD_ITEM_REQUEST: 'ADD_ITEM_REQUEST',
+  ADD_ITEM_SUCCESS: 'ADD_ITEM_SUCCESS',
+  ADD_ITEM_FAILURE: 'ADD_ITEM_FAILURE',
 
-/**
- * Actions for getting a rental item
- */
-export const GET_RENTAL_ITEM_REQUEST = 'GET_RENTAL_ITEM_REQUEST';
-export const GET_RENTAL_ITEM_SUCCESS = 'GET_RENTAL_ITEM_SUCCESS';
-export const GET_RENTAL_ITEM_FAILURE = 'GET_RENTAL_ITEM_FAILURE';
+  /**
+   * Actions for getting a rental item
+   */
+  GET_RENTAL_ITEM_REQUEST: 'GET_RENTAL_ITEM_REQUEST',
+  GET_RENTAL_ITEM_SUCCESS: 'GET_RENTAL_ITEM_SUCCESS',
+  GET_RENTAL_ITEM_FAILURE: 'GET_RENTAL_ITEM_FAILURE',
 
-/**
- * Actions for getting a list of my items
- */
-export const GET_MY_ITEMS_REQUEST = 'GET_MY_ITEMS_REQUEST';
-export const GET_MY_ITEMS_SUCCESS = 'GET_MY_ITEMS_SUCCESS';
-export const GET_MY_ITEMS_FAILURE = 'GET_MY_ITEMS_FAILURE';
+  /**
+   * Actions for getting a list of my items
+   */
+  GET_MY_ITEMS_REQUEST: 'GET_MY_ITEMS_REQUEST',
+  GET_MY_ITEMS_SUCCESS: 'GET_MY_ITEMS_SUCCESS',
+  GET_MY_ITEMS_FAILURE: 'GET_MY_ITEMS_FAILURE',
 
-/**
- * Actions for making a rent request
- */
-export const MAKE_RENT_REQUEST_REQUEST = 'MAKE_RENT_REQUEST_REQUEST';
-export const MAKE_RENT_REQUEST_SUCCESS = 'MAKE_RENT_REQUEST_SUCCESS';
-export const MAKE_RENT_REQUEST_FAILURE = 'MAKE_RENT_REQUEST_FAILURE';
+  /**
+   * Actions for making a rent request
+   */
+  MAKE_RENT_REQUEST_REQUEST: 'MAKE_RENT_REQUEST_REQUEST',
+  MAKE_RENT_REQUEST_SUCCESS: 'MAKE_RENT_REQUEST_SUCCESS',
+  MAKE_RENT_REQUEST_FAILURE: 'MAKE_RENT_REQUEST_FAILURE',
 
-/**
- * Actions for getting conversations
- */
-export const GET_CONVERSATIONS_REQUEST = 'GET_CONVERSATIONS_REQUEST';
-export const GET_CONVERSATIONS_SUCCESS = 'GET_CONVERSATIONS_SUCCESS';
-export const GET_CONVERSATIONS_FAILURE = 'GET_CONVERSATIONS_FAILURE';
+  /**
+   * Actions for getting conversations
+   */
+  GET_CONVERSATIONS_REQUEST: 'GET_CONVERSATIONS_REQUEST',
+  GET_CONVERSATIONS_SUCCESS: 'GET_CONVERSATIONS_SUCCESS',
+  GET_CONVERSATIONS_FAILURE: 'GET_CONVERSATIONS_FAILURE',
 
-/**
- * Actions for getting messages
- */
-export const GET_MESSAGES_REQUEST = 'GET_MESSAGES_REQUEST';
-export const GET_MESSAGES_SUCCESS = 'GET_MESSAGES_SUCCESS';
-export const GET_MESSAGES_FAILURE = 'GET_MESSAGES_FAILURE';
+  /**
+   * Actions for getting messages
+   */
+  GET_MESSAGES_REQUEST: 'GET_MESSAGES_REQUEST',
+  GET_MESSAGES_SUCCESS: 'GET_MESSAGES_SUCCESS',
+  GET_MESSAGES_FAILURE: 'GET_MESSAGES_FAILURE',
 
-/**
- * Actions for getting a list of my rent requests
- */
-export const GET_MY_REQUESTS_REQUEST = 'GET_MY_REQUESTS_REQUEST';
-export const GET_MY_REQUESTS_SUCCESS = 'GET_MY_REQUESTS_SUCCESS';
-export const GET_MY_REQUESTS_FAILURE = 'GET_MY_REQUESTS_FAILURE';
+  /**
+   * Actions for getting a list of my rent requests
+   */
+  GET_MY_REQUESTS_REQUEST: 'GET_MY_REQUESTS_REQUEST',
+  GET_MY_REQUESTS_SUCCESS: 'GET_MY_REQUESTS_SUCCESS',
+  GET_MY_REQUESTS_FAILURE: 'GET_MY_REQUESTS_FAILURE',
 
-/**
- * Actions for deleting a rent request
- */
-export const CANCEL_REQUEST_REQUEST = 'CANCEL_REQUEST_REQUEST';
-export const CANCEL_REQUEST_SUCCESS = 'CANCEL_REQUEST_SUCCESS';
-export const CANCEL_REQUEST_FAILURE = 'CANCEL_REQUEST_FAILURE';
+  /**
+   * Actions for deleting a rent request
+   */
+  CANCEL_REQUEST_REQUEST: 'CANCEL_REQUEST_REQUEST',
+  CANCEL_REQUEST_SUCCESS: 'CANCEL_REQUEST_SUCCESS',
+  CANCEL_REQUEST_FAILURE: 'CANCEL_REQUEST_FAILURE',
 
-/**
- * Actions for getting the incoming rent requests
- */
-export const GET_INCOMING_REQUESTS_REQUEST = 'GET_INCOMING_REQUESTS_REQUEST';
-export const GET_INCOMING_REQUESTS_SUCCESS = 'GET_INCOMING_REQUESTS_SUCCESS';
-export const GET_INCOMING_REQUESTS_FAILURE = 'GET_INCOMING_REQUESTS_FAILURE';
+  /**
+   * Actions for getting the incoming rent requests
+   */
+  GET_INCOMING_REQUESTS_REQUEST: 'GET_INCOMING_REQUESTS_REQUEST',
+  GET_INCOMING_REQUESTS_SUCCESS: 'GET_INCOMING_REQUESTS_SUCCESS',
+  GET_INCOMING_REQUESTS_FAILURE: 'GET_INCOMING_REQUESTS_FAILURE',
 
-/**
- * Actions for updating the request status
- */
-export const UPDATE_STATUS_REQUEST = 'UPDATE_STATUS_REQUEST';
-export const UPDATE_STATUS_SUCCESS = 'UPDATE_STATUS_SUCCESS';
-export const UPDATE_STATUS_FAILURE = 'UPDATE_STATUS_FAILURE';
+  /**
+   * Actions for updating the request status
+   */
+  UPDATE_STATUS_REQUEST: 'UPDATE_STATUS_REQUEST',
+  UPDATE_STATUS_SUCCESS: 'UPDATE_STATUS_SUCCESS',
+  UPDATE_STATUS_FAILURE: 'UPDATE_STATUS_FAILURE',
 
-/**
- * Actions for getting a targetted user to populate their profile
- */
-export const GET_TARGET_USER_REQUEST = 'GET_TARGET_USER_REQUEST';
-export const GET_TARGET_USER_SUCCESS = 'GET_TARGET_USER_SUCCESS';
-export const GET_TARGET_USER_FAILURE = 'GET_TARGET_USER_FAILURE';
+  /**
+   * Actions for getting a targetted user to populate their profile
+   */
+  GET_TARGET_USER_REQUEST: 'GET_TARGET_USER_REQUEST',
+  GET_TARGET_USER_SUCCESS: 'GET_TARGET_USER_SUCCESS',
+  GET_TARGET_USER_FAILURE: 'GET_TARGET_USER_FAILURE',
+
+  /**
+   * Actions for updating your billing information
+   */
+  UPDATE_BILLING_INFO_REQUEST: 'UPDATE_BILLING_INFO_REQUEST',
+  UPDATE_BILLING_INFO_SUCCESS: 'UPDATE_BILLING_INFO_SUCCESS',
+  UPDATE_BILLING_INFO_FAILURE: 'UPDATE_BILLING_INFO_FAILURE'
+};

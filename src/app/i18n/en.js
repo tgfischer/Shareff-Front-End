@@ -85,7 +85,7 @@ const en = {
     schedule: 'Rent Schedule',
     billing: 'Billing',
     myItems: 'My Items',
-    addItem: 'Upload Item',
+    addItem: 'Add Item',
     incomingRequests: 'Incoming Rent Requests',
     myRequests: 'My Rent Requests',
     viewProfileButton: 'View Your Profile'
@@ -116,7 +116,7 @@ const en = {
     ccn: 'Credit Card Number',
     cvn: 'CVN',
     expiryDate: 'Expiry Date',
-    updateInfoButton: 'Update Information',
+    saveChangesButton: 'Save Changes',
     profilePhoto: {
       title: 'Upload your profile photo',
       label: 'Choose a new profile photo below'
@@ -153,19 +153,21 @@ const en = {
   },
 
   /**
-   * Upload Item messages
+   * adding item messages
    */
   addItem: {
-    pageTitle: 'Upload an item for rent',
+    pageTitle: 'Add an Item for Rent',
     title: 'Title',
     description: 'Description',
+    costPeriod: 'Cost Period',
     descriptionPlaceholder: 'Tell us about your item. This can include condition of the item, how long you\'ve had it for, or anything that can help your potential renter learn more about the item.',
     category: 'Category',
     price: 'Price',
     terms: 'Terms of Use',
     termsPlaceholder: 'Write down your terms and conditions for renting your item. This could include uses of the item, what time you want it by, or anything else you want to mention.',
     uploadPhotoButton: 'Browse',
-    uploadButton: 'Upload',
+    addItemButton: 'Add Item',
+    uploadPhotos: 'Upload Photos of Your Item',
     modal: {
       uploadPhotosSuccess: 'Your photo(s) were successfully uploaded',
       addItemSuccess: 'Your item was successfully uploaded'
@@ -316,6 +318,9 @@ const en = {
     }
   },
 
+  /**
+   * User profile messages
+   */
   user: {
     title: '{firstName} {lastName}\'s Profile',
     description: 'Description',
@@ -330,6 +335,15 @@ const en = {
       title: 'Title',
       category: 'Category',
       price: 'Price'
+    }
+  },
+
+  billing: {
+    title: 'Update your billing information',
+    subTitle: 'Don\'t worry, your information will remain secure!',
+    saveChangesButton: 'Save Changes',
+    modal: {
+      success: 'Your billing information was successfully updated'
     }
   },
 

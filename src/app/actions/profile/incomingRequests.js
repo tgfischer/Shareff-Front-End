@@ -1,38 +1,35 @@
-import {
-  BASE_URL, GET_INCOMING_REQUESTS_REQUEST, GET_INCOMING_REQUESTS_SUCCESS, GET_INCOMING_REQUESTS_FAILURE,
-  UPDATE_STATUS_REQUEST, UPDATE_STATUS_SUCCESS, UPDATE_STATUS_FAILURE
-} from '../../constants/constants';
+import {BASE_URL, Actions} from '../../constants/constants';
 
 const getIncomingRequestsRequest = () => ({
-  type: GET_INCOMING_REQUESTS_REQUEST,
+  type: Actions.GET_INCOMING_REQUESTS_REQUEST,
   isFetching: true
 });
 
 const getIncomingRequestsSuccess = requests => ({
-  type: GET_INCOMING_REQUESTS_SUCCESS,
+  type: Actions.GET_INCOMING_REQUESTS_SUCCESS,
   isFetching: false,
   requests
 });
 
 const getIncomingRequestsFailure = err => ({
-  type: GET_INCOMING_REQUESTS_FAILURE,
+  type: Actions.GET_INCOMING_REQUESTS_FAILURE,
   isFetching: false,
   err
 });
 
 const updateStatusRequest = () => ({
-  type: UPDATE_STATUS_REQUEST,
+  type: Actions.UPDATE_STATUS_REQUEST,
   isFetching: true
 });
 
 const updateStatusSuccess = requests => ({
-  type: UPDATE_STATUS_SUCCESS,
+  type: Actions.UPDATE_STATUS_SUCCESS,
   isFetching: false,
   requests
 });
 
 const updateStatusFailure = (err, requests) => ({
-  type: UPDATE_STATUS_FAILURE,
+  type: Actions.UPDATE_STATUS_FAILURE,
   isFetching: false,
   requests,
   err
