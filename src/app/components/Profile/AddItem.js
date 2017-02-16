@@ -2,20 +2,22 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {
-  Button, Form, Grid, Header, Modal, Dropdown, Image, Card
+  Button, Form, Grid, Header, Modal, Dropdown, Card
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {BASE_URL, categories, costPeriods} from '../../constants/constants';
 import {uploadPhotos} from '../../actions/uploadPhotos';
 import {addItem} from '../../actions/profile/addItem';
 import UploadFile from '../General/UploadFile';
+import {Thumbnail} from '../General/Thumbnail';
 
 class UploadItem extends Component {
   state = {
     openModal: false,
     modalTitle: 'modal.success',
     modalContent: 'addItem.modal.addItemSuccess',
-    photoUrls: null
+    photoUrls: null,
+    itemId: null
   }
   constructor(props) {
     super(props);
@@ -26,7 +28,7 @@ class UploadItem extends Component {
   handleSubmit(e, {formData}) {
     e.preventDefault();
 
-    const {intl, user} = this.props;
+    const {intl, dispatch, user} = this.props;
 
     // Add the userId to the object that will be sent to the server
     formData.userId = user.userId;
@@ -34,7 +36,7 @@ class UploadItem extends Component {
     formData.photos = this.state.photoUrls;
 
     // Send the new item to the server
-    this.props.dispatch(addItem(formData)).then(({err}) => {
+    dispatch(addItem(formData)).then(({err, itemId}) => {
       const {formatMessage} = intl;
 
       // Set the modal title
@@ -46,10 +48,18 @@ class UploadItem extends Component {
       this.setState({modalContent: formatMessage({id: content})});
 
       // Open the modal
-      this.setState({openModal: true});
+      this.setState({openModal: true, itemId});
     });
   }
-  handleCloseModal = () => this.setState({openModal: false});
+  handleCloseModal = () => {
+    const {itemId} = this.state;
+    const {router} = this.props;
+    this.setState({openModal: false});
+
+    if (itemId) {
+      router.push(`/listings/${itemId}`);
+    }
+  }
   handlePhotosUpload = photoUrls => this.setState({photoUrls});
   render() {
     const {intl} = this.props;
@@ -77,10 +87,10 @@ class UploadItem extends Component {
                   required
                   />
                 <Form.Field>
-                  <label> {formatMessage({id: 'addItem.category'})} </label>
                   <Dropdown
                     name="category"
                     placeholder={formatMessage({id: 'addItem.category'})}
+                    label={formatMessage({id: 'addItem.category'})}
                     fluid
                     multiple
                     labeled
@@ -124,35 +134,26 @@ class UploadItem extends Component {
                   placeholder={formatMessage({id: 'addItem.termsPlaceholder'})}
                   required
                   />
-                <Grid.Column>
-                  <Header as="h1" dividing>
-                    <FormattedMessage id="addItem.uploadPhotos"/>
-                  </Header>
-                  <Grid stackable columns="4">
-                    {
-                      photoUrls ? photoUrls.map((photoUrl, i) => {
-                        return (
-                          <Grid.Column key={i}>
-                            <Card>
-                              <Image src={BASE_URL + photoUrl}/>
-                            </Card>
-                          </Grid.Column>
-                        );
-                      }) : ""
-                    }
-                    <Grid.Row columns="1">
-                      <Grid.Column>
-                        <UploadFile
-                          uploadAction={uploadPhotos}
-                          name="uploadPhotos"
-                          fluid
-                          multiple
-                          onPhotosChange={this.handlePhotosUpload}
-                          />
-                      </Grid.Column>
-                    </Grid.Row>
-                  </Grid>
-                </Grid.Column>
+                <Header as="h1" dividing>
+                  <FormattedMessage id="addItem.uploadPhotos"/>
+                </Header>
+                {photoUrls &&
+                  <Card.Group itemsPerRow={3}>
+                    {photoUrls.map((photoUrl, i) => {
+                      return (
+                        <Thumbnail key={i} src={BASE_URL + photoUrl} height={250}/>
+                      );
+                    })}
+                  </Card.Group>
+                }
+                <UploadFile
+                  uploadAction={uploadPhotos}
+                  uploadRoute="upload_item_photos"
+                  name="uploadPhotos"
+                  fluid
+                  multiple
+                  onPhotosChange={this.handlePhotosUpload}
+                  />
                 <Grid.Row>
                   <Grid.Column>
                     <Button

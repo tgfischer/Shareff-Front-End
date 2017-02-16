@@ -236,6 +236,7 @@ class PersonalInfo extends Component {
                       <UploadFile
                         label={formatMessage({id: 'personalInfo.profilePhoto.label'})}
                         uploadAction={uploadPhotos}
+                        uploadRoute="upload_profile_photo"
                         name="uploadProfilePhoto"
                         fluid
                         isProfilePhoto

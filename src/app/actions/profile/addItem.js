@@ -5,9 +5,10 @@ const addItemRequest = () => ({
   isFetching: true
 });
 
-const addItemSuccess = () => ({
+const addItemSuccess = ({itemId}) => ({
   type: Actions.ADD_ITEM_SUCCESS,
-  isFetching: false
+  isFetching: false,
+  itemId
 });
 
 const addItemFailure = err => ({
@@ -33,13 +34,10 @@ export const addItem = item => {
     // kick off request to API
     dispatch(addItemRequest());
 
-    return fetch(`${BASE_URL}/profile/add_item/add_item`, config).then(res => res.json()).then(json => {
-      // Get the user's information, and the error
-      const {err} = json;
-
+    return fetch(`${BASE_URL}/profile/add_item/add_item`, config).then(res => res.json()).then(({err, itemId}) => {
       if (!err) {
         // Dispatch the success action
-        return dispatch(addItemSuccess());
+        return dispatch(addItemSuccess({itemId}));
       }
 
       // If there was a problem, we want to dispatch the error condition
