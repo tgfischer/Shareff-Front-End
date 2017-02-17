@@ -10,7 +10,15 @@ const en = {
   breadcrumb: {
     home: 'Home',
     profile: 'Profile',
-    listings: 'Rental Listings'
+    listings: 'Rental Listings',
+    myComponent: 'My Component'
+  },
+
+  myComponent: {
+    title: 'My Component Title',
+    header: 'My Component Header',
+    subHeader: 'This is a subheader for my component',
+    getUserButton: 'Get User'
   },
 
   /**
