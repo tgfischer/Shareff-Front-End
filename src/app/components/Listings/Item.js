@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {
-  Button, Container, Grid, Header, Image, Segment
+  Button, Container, Grid, Header, Image, Label, Segment
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import {PHOTO_PLACEHOLDER_URL} from '../../constants/constants';
+import {BASE_URL} from '../../constants/constants';
 
 const styles = {
   itemSegment: {
@@ -28,9 +28,9 @@ class Item extends Component {
       <Segment style={isAlternate % 2 === 0 ? styles.itemSegment : styles.altItemSegment} vertical>
         <Container>
           <Grid stackable>
-            <Grid.Row>
+            <Grid.Row verticalAlign="middle">
               <Grid.Column width={4}>
-                <Image src={PHOTO_PLACEHOLDER_URL} shape="rounded" bordered fluid/>
+                <Image src={BASE_URL + item.photo[0]} shape="rounded" bordered fluid/>
               </Grid.Column>
               <Grid.Column width={12}>
                 <Grid stackable>
@@ -76,6 +76,17 @@ class Item extends Component {
                           <span>...</span>
                         }
                       </p>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Label.Group size="large">
+                        {item.category.map((category, i) => {
+                          return (
+                            <Label key={i} basic>{category}</Label>
+                          );
+                        })}
+                      </Label.Group>
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
