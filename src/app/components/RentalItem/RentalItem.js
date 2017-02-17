@@ -7,16 +7,17 @@ import GoogleMap from 'google-map-react';
 import moment from 'moment';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {
-  Button, Container, Form, Grid, Header, Icon, Image, Modal, Segment, Statistic
+  Button, Card, Container, Form, Grid, Header, Icon, Image, Modal, Segment, Statistic
 } from 'semantic-ui-react';
 import NavBar from '../General/NavBar';
 import CalendarRange from '../General/CalendarRange';
 import PageHeaderSegment from '../General/PageHeaderSegment';
 import {Loading} from '../General/Loading';
 import {Marker} from '../General/Marker';
+import {Thumbnail} from '../General/Thumbnail';
 import {getRentalItem, makeRentRequest} from '../../actions/rentalItem';
 import {getUser} from '../../actions/auth';
-import {PHOTO_PLACEHOLDER_URL} from '../../constants/constants';
+import {BASE_URL} from '../../constants/constants';
 
 const styles = {
   wrapper: {
@@ -252,13 +253,13 @@ class RentalItem extends Component {
                       </p>
                     </Grid.Column>
                     <Grid.Column width={6}>
-                      <Image src={PHOTO_PLACEHOLDER_URL} shape="rounded" bordered/>
+                      <Image src={BASE_URL + rentalItem.photo[0]} shape="rounded" bordered/>
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
               </Container>
             </Segment>
-            {rentalItem.photos && rentalItem.photos.length !== 0 &&
+            {rentalItem.photo && rentalItem.photo.length !== 0 &&
               <Segment vertical>
                 <Container style={styles.container}>
                   <Grid stackable>
@@ -269,9 +270,15 @@ class RentalItem extends Component {
                         </Header>
                       </Grid.Column>
                     </Grid.Row>
-                    <Grid.Row columns={5}>
+                    <Grid.Row columns={1}>
                       <Grid.Column>
-                        <Image src={PHOTO_PLACEHOLDER_URL} shape="rounded" bordered/>
+                        <Card.Group itemsPerRow={5}>
+                          {rentalItem.photo.map((photo, i) => {
+                            return (
+                              <Thumbnail key={i} src={BASE_URL + photo} height={250}/>
+                            );
+                          })}
+                        </Card.Group>
                       </Grid.Column>
                     </Grid.Row>
                   </Grid>

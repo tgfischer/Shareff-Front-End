@@ -87,10 +87,12 @@ class UploadItem extends Component {
                   required
                   />
                 <Form.Field>
+                  <label>
+                    <FormattedMessage id="addItem.category"/>
+                  </label>
                   <Dropdown
                     name="category"
                     placeholder={formatMessage({id: 'addItem.category'})}
-                    label={formatMessage({id: 'addItem.category'})}
                     fluid
                     multiple
                     labeled
