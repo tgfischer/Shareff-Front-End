@@ -258,7 +258,9 @@ const en = {
    * Listings messages
    */
   listings: {
-    title: 'Search Results for: \'{q}\''
+    title: 'Search Results for: \'{q}\'',
+    prev: 'Prev Page',
+    next: 'Next Page'
   },
 
   /**

@@ -30,21 +30,28 @@ const styles = {
 class Listings extends Component {
   state = {
     listings: null,
-    advancedSettings: 'hidden'
+    advancedSettings: 'hidden',
+    numPerPage: 0,
+    totalNumListings: 0
   }
   constructor(props) {
     super(props);
     this.handleToggleAdvancedSettings = ::this.handleToggleAdvancedSettings;
     this.handleOnSubmit = ::this.handleOnSubmit;
+    this.handlePrevClick = ::this.handlePrevClick;
+    this.handleNextClick = ::this.handleNextClick;
+    this.navigateToPage = ::this.navigateToPage;
     this.handleInputOnChange = ::this.handleInputOnChange;
     this.getInputRef = ::this.getInputRef;
   }
   componentWillMount() {
-    const {q, startDate, endDate, location, maxPrice, maxDistance} = this.props.location.query;
+    const {query} = this.props.location;
 
-    this.props.dispatch(getListings({
-      q, startDate, endDate, location, maxPrice, maxDistance
-    })).then(result => this.setState({listings: result.listings}));
+    this.props.dispatch(getListings(query)).then(({listings, numPerPage, totalNumListings}) => this.setState({
+      listings,
+      numPerPage,
+      totalNumListings
+    }));
   }
   handleToggleAdvancedSettings() {
     // Get the class name
@@ -54,33 +61,62 @@ class Listings extends Component {
     this.setState({advancedSettings: advancedSettings ? null : 'hidden'});
   }
   handleOnSubmit(e, {formData}) {
+    // Reset the search to page 0
+    formData.page = 0;
+
+    this.navigateToPage(e, {
+      formData
+    });
+  }
+  handleInputOnChange(e, {value}) {
+    this.input.value = value;
+  }
+  handlePrevClick(e) {
+    const {query} = this.props.location;
+
+    // Go to the previous page
+    query.page = query.page ? --query.page : 0;
+
+    this.navigateToPage(e, {
+      formData: query
+    });
+  }
+  handleNextClick(e) {
+    const {query} = this.props.location;
+
+    // Go to the next page
+    query.page = query.page ? ++query.page : 0;
+
+    this.navigateToPage(e, {
+      formData: query
+    });
+  }
+  navigateToPage(e, {formData}) {
     e.preventDefault();
 
-    const {q, startDate, endDate, location, maxPrice, maxDistance} = formData;
     const {router, dispatch} = this.props;
 
+    // Update the url and add it to the history
     router.push({
       pathname: '/listings',
       query: formData
     });
 
-    dispatch(getListings({
-      q, startDate, endDate, location, maxPrice, maxDistance
-    })).then(result => {
-      this.setState({listings: result.listings});
-    });
-  }
-  handleInputOnChange(e, {value}) {
-    this.input.value = value;
+    // Get the search results
+    dispatch(getListings(formData)).then(({listings, numPerPage, totalNumListings}) => this.setState({
+      listings,
+      numPerPage,
+      totalNumListings
+    }));
   }
   getInputRef(input) {
     this.input = input;
   }
   render() {
     const {intl, isFetching} = this.props;
-    const {listings, advancedSettings} = this.state;
+    const {listings, numPerPage, totalNumListings, advancedSettings} = this.state;
     const {formatMessage} = intl;
-    const {q, startDate, endDate, location, maxPrice, maxDistance} = this.props.location.query;
+    const {q, startDate, endDate, location, maxPrice, maxDistance, page} = this.props.location.query;
 
     const breadcrumbs = [{
       text: formatMessage({id: 'breadcrumb.home'}),
@@ -142,11 +178,11 @@ class Listings extends Component {
                 </Form>
               </Container>
             </Segment>
-            {listings.length === 0 &&
-              <NoItemsFound/>
-            }
             {isFetching &&
               <Segment style={{paddingTop: '3em'}} size="huge" basic loading/>
+            }
+            {!isFetching && listings.length === 0 &&
+              <NoItemsFound/>
             }
             {!isFetching && listings.map((item, i) => {
               return (
@@ -158,6 +194,38 @@ class Listings extends Component {
                   />
               );
             })}
+            {!isFetching && listings.length > 0 &&
+              <Segment vertical>
+                <Container>
+                  <Grid stackable>
+                    <Grid.Row>
+                      <Grid.Column>
+                        <Button
+                          content={formatMessage({id: 'listings.prev'})}
+                          onClick={this.handlePrevClick}
+                          disabled={Number(page) === 0}
+                          icon="left arrow"
+                          labelPosition="left"
+                          floated="left"
+                          size="huge"
+                          basic
+                          />
+                        <Button
+                          content={formatMessage({id: 'listings.next'})}
+                          onClick={this.handleNextClick}
+                          disabled={(Number(page) + 1) * numPerPage >= totalNumListings}
+                          icon="right arrow"
+                          labelPosition="right"
+                          floated="right"
+                          size="huge"
+                          basic
+                          />
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
+                </Container>
+              </Segment>
+            }
           </div> :
           <Loading/>
         }

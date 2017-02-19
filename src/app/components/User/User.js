@@ -53,12 +53,24 @@ class User extends Component {
       {data: 'itemId', visible: false, searchable: false},
       {data: 'costPeriod', visible: false, searchable: false},
       {data: 'title', title: formatMessage({id: 'user.columns.title'})},
-      {data: 'category', title: formatMessage({id: 'user.columns.category'})},
+      {
+        data: 'category',
+        title: formatMessage({id: 'myItems.columns.category'}),
+        render: data => {
+          let labels = '';
+
+          data.forEach(category => {
+            labels += `<div class="ui basic label">${formatMessage({id: category})}</div>`;
+          });
+
+          return `<div class="ui large labels">${labels}</div>`;
+        }
+      },
       {
         data: 'price',
         title: formatMessage({id: 'user.columns.price'}),
         render: (data, type, {costPeriod}) => {
-          return `$${data} per ${costPeriod}`;
+          return `$${data} per ${formatMessage({id: costPeriod})}`;
         }
       }
     ];
