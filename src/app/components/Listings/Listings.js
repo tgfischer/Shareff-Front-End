@@ -59,13 +59,14 @@ class Listings extends Component {
     const {q, startDate, endDate, location, maxPrice, maxDistance} = formData;
     const {router, dispatch} = this.props;
 
+    router.push({
+      pathname: '/listings',
+      query: formData
+    });
+
     dispatch(getListings({
       q, startDate, endDate, location, maxPrice, maxDistance
     })).then(result => {
-      router.push({
-        pathname: '/listings',
-        query: formData
-      });
       this.setState({listings: result.listings});
     });
   }
