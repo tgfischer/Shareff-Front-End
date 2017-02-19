@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {
   Button, Container, Form, Grid, Header, Icon, Popup, Segment
@@ -33,8 +34,10 @@ class Listings extends Component {
   }
   constructor(props) {
     super(props);
-    this.handleToggleAdvancedSettings = this.handleToggleAdvancedSettings.bind(this);
-    this.handleOnSubmit = this.handleOnSubmit.bind(this);
+    this.handleToggleAdvancedSettings = ::this.handleToggleAdvancedSettings;
+    this.handleOnSubmit = ::this.handleOnSubmit;
+    this.handleInputOnChange = ::this.handleInputOnChange;
+    this.getInputRef = ::this.getInputRef;
   }
   componentWillMount() {
     const {q, startDate, endDate, location, maxPrice, maxDistance} = this.props.location.query;
@@ -54,10 +57,23 @@ class Listings extends Component {
     e.preventDefault();
 
     const {q, startDate, endDate, location, maxPrice, maxDistance} = formData;
+    const {router, dispatch} = this.props;
 
-    this.props.dispatch(getListings({
+    dispatch(getListings({
       q, startDate, endDate, location, maxPrice, maxDistance
-    })).then(result => this.setState({listings: result.listings}));
+    })).then(result => {
+      router.push({
+        pathname: '/listings',
+        query: formData
+      });
+      this.setState({listings: result.listings});
+    });
+  }
+  handleInputOnChange(e, {value}) {
+    this.input.value = value;
+  }
+  getInputRef(input) {
+    this.input = input;
   }
   render() {
     const {intl, isFetching} = this.props;
@@ -74,12 +90,12 @@ class Listings extends Component {
 
     return (
       <div style={styles.wrapper}>
-        {listings ?
+        {listings && !isFetching ?
           <div>
             <NavBar/>
             <PageHeaderSegment
               breadcrumbs={breadcrumbs}
-              title={formatMessage({id: 'listings.title'}, {q: unescape(q)})}
+              title={formatMessage({id: 'listings.title'}, {q: unescape(q || '')})}
               colour="blue"
               />
             <Segment className="dark blue" loading={isFetching} inverted vertical>
@@ -88,8 +104,8 @@ class Listings extends Component {
                   <Grid verticalAlign="middle" stackable>
                     <Grid.Row>
                       <Grid.Column>
-                        <Form.Input defaultValue={unescape(q || '')} name="q" type="text" action fluid>
-                          <input/>
+                        <Form.Input name="q" type="text" action fluid>
+                          <input onChange={this.handleInputOnChange} value={unescape(q || '')} ref={this.getInputRef}/>
                           <Popup
                             trigger={
                               <Button onClick={this.handleToggleAdvancedSettings} size="huge" type="button" icon inverted>
@@ -148,11 +164,11 @@ class Listings extends Component {
 
 Listings.propTypes = {
   intl: intlShape.isRequired,
-  isFetching: React.PropTypes.bool,
-  router: React.PropTypes.object,
+  isFetching: React.PropTypes.bool.isRequired,
+  router: React.PropTypes.object.isRequired,
   dispatch: React.PropTypes.func.isRequired,
   err: React.PropTypes.object,
-  location: React.PropTypes.object
+  location: React.PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
@@ -165,4 +181,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(injectIntl(Listings));
+export default connect(mapStateToProps)(withRouter(injectIntl(Listings)));

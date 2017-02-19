@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Editor, EditorState} from 'draft-js';
-import {stateToHTML} from 'draft-js-export-html';
+import {convertToHTML} from 'draft-convert';
 
 const styles = {
   input: {
@@ -40,7 +40,7 @@ export class DraftEditor extends Component {
           <input
             name={name}
             style={styles.input}
-            value={stateToHTML(editorState.getCurrentContent())}
+            value={convertToHTML(editorState.getCurrentContent())}
             type="text"
             readOnly
             />

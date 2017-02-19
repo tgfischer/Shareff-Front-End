@@ -4,6 +4,7 @@ import {
   Button, Container, Grid, Header, Image, Label, Segment
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
+import {convertFromHTML} from 'draft-convert';
 import {BASE_URL} from '../../constants/constants';
 
 const styles = {
@@ -23,6 +24,14 @@ class Item extends Component {
   render() {
     const {intl, item, isAlternate, search} = this.props;
     const {formatMessage} = intl;
+
+    // This is horrifying, but I tried for half a day to get it to work using
+    // better methods...
+    let description = convertFromHTML(unescape(item.description).replace(/&lt;/g, '<').replace(/&gt;/g, '>')).getPlainText();
+
+    if (description.length >= 250) {
+      description = `${description.substring(0, 250)}...`;
+    }
 
     return (
       <Segment style={isAlternate % 2 === 0 ? styles.itemSegment : styles.altItemSegment} vertical>
@@ -71,10 +80,7 @@ class Item extends Component {
                   <Grid.Row>
                     <Grid.Column>
                       <p style={styles.paragraph}>
-                        {item.description}
-                        {item.description.length === 250 &&
-                          <span>...</span>
-                        }
+                        {description}
                       </p>
                     </Grid.Column>
                   </Grid.Row>
