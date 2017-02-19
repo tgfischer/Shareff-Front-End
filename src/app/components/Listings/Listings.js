@@ -90,7 +90,7 @@ class Listings extends Component {
 
     return (
       <div style={styles.wrapper}>
-        {listings && !isFetching ?
+        {listings ?
           <div>
             <NavBar/>
             <PageHeaderSegment
@@ -98,7 +98,7 @@ class Listings extends Component {
               title={formatMessage({id: 'listings.title'}, {q: unescape(q || '')})}
               colour="blue"
               />
-            <Segment className="dark blue" loading={isFetching} inverted vertical>
+            <Segment className="dark blue" inverted vertical>
               <Container>
                 <Form onSubmit={this.handleOnSubmit} size="huge" className="inverted">
                   <Grid verticalAlign="middle" stackable>
@@ -144,7 +144,10 @@ class Listings extends Component {
             {listings.length === 0 &&
               <NoItemsFound/>
             }
-            {listings.map((item, i) => {
+            {isFetching &&
+              <Segment style={{paddingTop: '3em'}} size="huge" basic loading/>
+            }
+            {!isFetching && listings.map((item, i) => {
               return (
                 <Item
                   isAlternate={i % 2 !== 0}
