@@ -52,7 +52,7 @@ class Item extends Component {
                             id="item.subheader"
                             values={{
                               price: item.price,
-                              costPeriod: item.costPeriod,
+                              costPeriod: formatMessage({id: item.costPeriod}),
                               ownerFirstName: item.ownerFirstName,
                               ownerLastName: item.ownerLastName,
                               location: item.city
@@ -89,7 +89,9 @@ class Item extends Component {
                       <Label.Group size="large">
                         {item.category.map((category, i) => {
                           return (
-                            <Label key={i} basic>{category}</Label>
+                            <Label key={i} basic>
+                              {formatMessage({id: category})}
+                            </Label>
                           );
                         })}
                       </Label.Group>

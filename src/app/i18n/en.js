@@ -5,6 +5,50 @@ import {flatten} from './i18n';
  */
 const en = {
   /**
+   * Category messages
+   */
+  category: {
+    appliances: 'Appliances',
+    atvs: 'ATVs',
+    automobiles: 'Automobiles',
+    baby: 'Baby Items',
+    bicycles: 'Bicycles',
+    books: 'Books',
+    clothing: 'Clothing',
+    computer: 'Computers',
+    computerAccessories: 'Computer Accesories',
+    costumes: 'Costumes',
+    electronics: 'Electronics',
+    entertainment: 'Entertainment',
+    farm: 'Farm Equipment',
+    furniture: 'Furniture',
+    heavyMachinery: 'Heavy Machinery',
+    hobbies: 'Hobbies',
+    horse: 'Horse Equipment',
+    office: 'Office Supplies',
+    pet: 'Pet Supplies',
+    school: 'School Supplies',
+    snowmobiles: 'Snowmobiles',
+    sports: 'Sporting Goods',
+    tent: 'Tents',
+    tools: 'Tools',
+    toys: 'Toys',
+    trailer: 'Trailers',
+    tv: 'Televisions',
+    videoGames: 'Video Games'
+  },
+
+  /**
+   * Cost period messages
+   */
+  costPeriod: {
+    hour: 'Hour',
+    day: 'Day',
+    week: 'Week',
+    month: 'Month'
+  },
+
+  /**
    * Breadcrumb messages
    */
   breadcrumb: {

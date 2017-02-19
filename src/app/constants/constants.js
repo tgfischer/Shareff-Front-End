@@ -38,25 +38,45 @@ export const ADVANCED_SETTINGS_MAX_DISTANCE = 100;
 export const ACCEPT_RENT_REQUEST = 'RRS_REQUEST_ACCEPTED';
 export const REJECT_RENT_REQUEST = 'RRS_REQUEST_REJECTED';
 
-/**
-* Constants for dropdowns
-*/
-
 export const categories = [
-  {key: 'electronics', text: 'Electronics', value: 'electronics'},
-  {key: 'sports', text: 'Sports Equipment', value: 'sports'},
-  {key: 'farm', text: 'Farm Equipment', value: 'farm'},
-  {key: 'utensils', text: 'Utensils', value: 'utensils'},
-  {key: 'appliances', text: 'Appliances', value: 'appliances'},
-  {key: 'education', text: 'Education', value: 'education'},
-  {key: 'other', text: 'Other', value: 'other'}
+  'category.appliances',
+  'category.atvs',
+  'category.automobiles',
+  'category.baby',
+  'category.bicycles',
+  'category.books',
+  'category.clothing',
+  'category.computer',
+  'category.computerAccessories',
+  'category.costumes',
+  'category.electronics',
+  'category.entertainment',
+  'category.farm',
+  'category.furniture',
+  'category.heavyMachinery',
+  'category.hobbies',
+  'category.horse',
+  'category.office',
+  'category.pet',
+  'category.school',
+  'category.snowmobiles',
+  'category.sports',
+  'category.tent',
+  'category.tools',
+  'category.toys',
+  'category.trailer',
+  'category.tv',
+  'category.videoGames'
 ];
 
+/**
+ * Cost period messages
+ */
 export const costPeriods = [
-  {text: 'Hour', value: 'hour'},
-  {text: 'Day', value: 'day'},
-  {text: 'Week', value: 'week'},
-  {text: 'Month', value: 'month'}
+  'costPeriod.hour',
+  'costPeriod.day',
+  'costPeriod.week',
+  'costPeriod.month'
 ];
 
 /**

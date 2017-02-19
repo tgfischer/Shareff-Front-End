@@ -135,12 +135,14 @@ class RentalItem extends Component {
     });
   }
   getCategories(categories) {
+    const {formatMessage} = this.props.intl;
+
     return (
       <Label.Group size="large">
         {categories.map((category, i) => {
           return (
             <Label key={i} className="dark blue">
-              {category}
+              {formatMessage({id: category})}
             </Label>
           );
         })}
@@ -226,7 +228,13 @@ class RentalItem extends Component {
                         <Header.Content>
                           <FormattedMessage id="rentalItem.priceTitle"/>
                           <Header.Subheader>
-                            <FormattedMessage id="rentalItem.priceContent" values={{price: rentalItem.price, costPeriod: unescape(rentalItem.costPeriod)}}/>
+                            <FormattedMessage
+                              id="rentalItem.priceContent"
+                              values={{
+                                price: rentalItem.price,
+                                costPeriod: formatMessage({id: unescape(rentalItem.costPeriod)})
+                              }}
+                              />
                           </Header.Subheader>
                         </Header.Content>
                       </Header>

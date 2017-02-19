@@ -22,9 +22,9 @@ class UploadItem extends Component {
   }
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
-    this.handlePhotosUpload = this.handlePhotosUpload.bind(this);
+    this.handleSubmit = ::this.handleSubmit;
+    this.handleCloseModal = ::this.handleCloseModal;
+    this.handlePhotosUpload = ::this.handlePhotosUpload;
   }
   handleSubmit(e, {formData}) {
     e.preventDefault();
@@ -60,6 +60,21 @@ class UploadItem extends Component {
     if (itemId) {
       router.push(`/listings/${itemId}`);
     }
+  }
+  getOptions(values) {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
+
+    const options = [];
+
+    for (let i = 0; i < values.length; i++) {
+      options.push({
+        text: formatMessage({id: values[i]}),
+        value: values[i]
+      });
+    }
+
+    return options;
   }
   handlePhotosUpload = photoUrls => this.setState({photoUrls});
   render() {
@@ -101,7 +116,7 @@ class UploadItem extends Component {
                     labeled
                     selection
                     search
-                    options={categories}
+                    options={this.getOptions(categories)}
                     />
                 </div>
                 <Form.Group>
@@ -124,7 +139,7 @@ class UploadItem extends Component {
                       search
                       labeled
                       selection
-                      options={costPeriods}
+                      options={this.getOptions(costPeriods)}
                       />
                   </div>
                 </Form.Group>
