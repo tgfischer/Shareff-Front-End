@@ -9,6 +9,7 @@ import {BASE_URL, categories, costPeriods} from '../../constants/constants';
 import {uploadPhotos} from '../../actions/uploadPhotos';
 import {addItem} from '../../actions/profile/addItem';
 import UploadFile from '../General/UploadFile';
+import {DraftEditor} from '../General/DraftEditor';
 import {Thumbnail} from '../General/Thumbnail';
 
 class UploadItem extends Component {
@@ -63,7 +64,9 @@ class UploadItem extends Component {
   handlePhotosUpload = photoUrls => this.setState({photoUrls});
   render() {
     const {intl} = this.props;
-    const {openModal, modalTitle, modalContent, photoUrls} = this.state;
+    const {
+      openModal, modalTitle, modalContent, photoUrls
+    } = this.state;
     const {formatMessage} = intl;
 
     return (
@@ -86,7 +89,7 @@ class UploadItem extends Component {
                   type="text"
                   required
                   />
-                <Form.Field>
+                <div className="required field">
                   <label>
                     <FormattedMessage id="addItem.category"/>
                   </label>
@@ -100,18 +103,20 @@ class UploadItem extends Component {
                     search
                     options={categories}
                     />
-                </Form.Field>
+                </div>
                 <Form.Group>
                   <Form.Input
                     width="10"
+                    icon="dollar"
+                    iconPosition="left"
                     label={formatMessage({id: 'addItem.price'})}
                     name="price"
                     placeholder={formatMessage({id: 'addItem.price'})}
                     type="number"
                     required
                     />
-                  <Form.Field width="6">
-                    <label> {formatMessage({id: 'addItem.costPeriod'})} </label>
+                  <div className="required six wide field">
+                    <label> {formatMessage({id: 'addItem.per'})} </label>
                     <Dropdown
                       name="costPeriod"
                       placeholder={formatMessage({id: 'addItem.costPeriod'})}
@@ -120,20 +125,17 @@ class UploadItem extends Component {
                       labeled
                       selection
                       options={costPeriods}
-                      required
                       />
-                  </Form.Field>
+                  </div>
                 </Form.Group>
-                <Form.TextArea
+                <DraftEditor
                   label={formatMessage({id: 'addItem.description'})}
                   name="description"
-                  placeholder={formatMessage({id: 'addItem.descriptionPlaceholder'})}
                   required
                   />
-                <Form.TextArea
+                <DraftEditor
                   label={formatMessage({id: 'addItem.terms'})}
                   name="terms"
-                  placeholder={formatMessage({id: 'addItem.termsPlaceholder'})}
                   required
                   />
                 <Header as="h1" dividing>

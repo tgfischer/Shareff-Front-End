@@ -160,6 +160,7 @@ const en = {
     title: 'Title',
     description: 'Description',
     costPeriod: 'Cost Period',
+    per: 'Per',
     descriptionPlaceholder: 'Tell us about your item. This can include condition of the item, how long you\'ve had it for, or anything that can help your potential renter learn more about the item.',
     category: 'Category',
     price: 'Price',

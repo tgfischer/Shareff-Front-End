@@ -39,6 +39,8 @@ const styles = {
   }
 };
 
+/* eslint-disable react/no-danger */
+
 class RentalItem extends Component {
   state = {
     openModal: false,
@@ -195,7 +197,7 @@ class RentalItem extends Component {
                           <FormattedMessage id="rentalItem.ownerTitle"/>
                           <Header.Subheader>
                             <Link to={`/user/${rentalItem.owner.userId}`}>
-                              {rentalItem.owner.firstName} {rentalItem.owner.lastName}
+                              {unescape(rentalItem.owner.firstName)} {unescape(rentalItem.owner.lastName)}
                             </Link>
                           </Header.Subheader>
                         </Header.Content>
@@ -207,7 +209,7 @@ class RentalItem extends Component {
                         <Header.Content>
                           <FormattedMessage id="rentalItem.priceTitle"/>
                           <Header.Subheader>
-                            <FormattedMessage id="rentalItem.priceContent" values={{price: rentalItem.price, costPeriod: rentalItem.costPeriod}}/>
+                            <FormattedMessage id="rentalItem.priceContent" values={{price: rentalItem.price, costPeriod: unescape(rentalItem.costPeriod)}}/>
                           </Header.Subheader>
                         </Header.Content>
                       </Header>
@@ -231,7 +233,7 @@ class RentalItem extends Component {
                         <Header.Content>
                           <FormattedMessage id="rentalItem.addressTitle"/>
                           <Header.Subheader>
-                            {rentalItem.line1} {rentalItem.line2}, {rentalItem.city} {rentalItem.province}, {rentalItem.postalCode}
+                            {unescape(rentalItem.line1)} {unescape(rentalItem.line2 || '')}, {unescape(rentalItem.city)} {unescape(rentalItem.province)}, {unescape(rentalItem.postalCode)}
                           </Header.Subheader>
                         </Header.Content>
                       </Header>
@@ -248,9 +250,10 @@ class RentalItem extends Component {
                       <Header as="h1" size="huge">
                         <FormattedMessage id="rentalItem.description"/>
                       </Header>
-                      <p style={styles.paragraph}>
-                        {unescape(rentalItem.description)}
-                      </p>
+                      <div
+                        dangerouslySetInnerHTML={{__html: unescape(rentalItem.description)}}
+                        className="description"
+                        />
                     </Grid.Column>
                     <Grid.Column width={6}>
                       <Image src={BASE_URL + rentalItem.photo[0]} shape="rounded" bordered/>
@@ -303,9 +306,10 @@ class RentalItem extends Component {
                       <Header as="h1" size="huge">
                         <FormattedMessage id="rentalItem.termsOfUse"/>
                       </Header>
-                      <p style={styles.paragraph}>
-                        {unescape(rentalItem.termsOfUse)}
-                      </p>
+                      <div
+                        dangerouslySetInnerHTML={{__html: unescape(rentalItem.termsOfUse)}}
+                        className="terms"
+                        />
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
@@ -389,6 +393,8 @@ class RentalItem extends Component {
     );
   }
 }
+
+/* eslint-enable react/no-danger */
 
 RentalItem.propTypes = {
   intl: intlShape.isRequired,
