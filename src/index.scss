@@ -2,6 +2,14 @@
   font-weight: 100 !important;
 }
 
+.sub.header .labels > .label:first-child {
+  margin-left: 0 !important;
+}
+
+.sub.header .labels {
+  padding-top: 0.5em;
+}
+
 .editor {
   margin: 0;
   outline: 0;
@@ -80,7 +88,7 @@ table.hover tbody tr:hover, table thead tr:hover {
   background: rgba(0, 0, 0, 0.05);
 }
 
-.ui.inverted.dark.blue.segment {
+.ui.inverted.dark.blue.segment, .dark.blue.label {
   background-color: #1E76B9 !important;
 }
 

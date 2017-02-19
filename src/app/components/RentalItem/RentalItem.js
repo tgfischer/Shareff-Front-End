@@ -7,7 +7,8 @@ import GoogleMap from 'google-map-react';
 import moment from 'moment';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {
-  Button, Card, Container, Form, Grid, Header, Icon, Image, Modal, Segment, Statistic
+  Button, Card, Container, Form, Grid, Header, Icon, Image, Label, Modal,
+  Segment, Statistic
 } from 'semantic-ui-react';
 import NavBar from '../General/NavBar';
 import CalendarRange from '../General/CalendarRange';
@@ -54,10 +55,11 @@ class RentalItem extends Component {
   }
   constructor(props) {
     super(props);
-    this.handleRequestToRentButton = this.handleRequestToRentButton.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
-    this.handleOnChange = this.handleOnChange.bind(this);
-    this.handleMakeRentRequest = this.handleMakeRentRequest.bind(this);
+    this.handleRequestToRentButton = ::this.handleRequestToRentButton;
+    this.handleCloseModal = ::this.handleCloseModal;
+    this.handleOnChange = ::this.handleOnChange;
+    this.handleMakeRentRequest = ::this.handleMakeRentRequest;
+    this.getCategories = ::this.getCategories;
   }
   componentWillMount() {
     // Fetch the rental item using the item ID in the params
@@ -132,6 +134,19 @@ class RentalItem extends Component {
       });
     });
   }
+  getCategories(categories) {
+    return (
+      <Label.Group size="large">
+        {categories.map((category, i) => {
+          return (
+            <Label key={i} className="dark blue">
+              {category}
+            </Label>
+          );
+        })}
+      </Label.Group>
+    );
+  }
   render() {
     const {rentalItem, intl, user, isFetching} = this.props;
     const {
@@ -173,6 +188,7 @@ class RentalItem extends Component {
               <PageHeaderSegment
                 breadcrumbs={breadcrumbs}
                 title={unescape(rentalItem.title)}
+                subTitle={this.getCategories(rentalItem.category)}
                 colour="blue"
                 action={{
                   handleButtonClick: this.handleRequestToRentButton,
@@ -183,6 +199,7 @@ class RentalItem extends Component {
               <PageHeaderSegment
                 breadcrumbs={breadcrumbs}
                 title={unescape(rentalItem.title)}
+                subTitle={this.getCategories(rentalItem.category)}
                 colour="blue"
                 />
             }

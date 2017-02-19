@@ -147,7 +147,7 @@ const en = {
     subTitle: 'Click on a row to view that particular item',
     columns: {
       title: 'Title',
-      category: 'Category',
+      category: 'Categories',
       price: 'Price'
     }
   },

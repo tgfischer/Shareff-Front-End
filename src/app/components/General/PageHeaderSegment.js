@@ -13,7 +13,7 @@ const styles = {
 
 class PageHeaderSegment extends Component {
   render() {
-    const {title, colour, action, breadcrumbs} = this.props;
+    const {title, subTitle, colour, action, breadcrumbs} = this.props;
 
     return (
       <Segment className="page-header" color={colour} inverted vertical>
@@ -51,6 +51,11 @@ class PageHeaderSegment extends Component {
               <Grid.Column width={10}>
                 <Header as="h1" size="huge" className="bold" inverted>
                   {title}
+                  {subTitle &&
+                    <Header.Subheader>
+                      {subTitle}
+                    </Header.Subheader>
+                  }
                 </Header>
               </Grid.Column>
               {action &&
@@ -73,6 +78,7 @@ PageHeaderSegment.propTypes = {
   colour: React.PropTypes.string.isRequired,
   breadcrumbs: React.PropTypes.array.isRequired,
   title: React.PropTypes.string.isRequired,
+  subTitle: React.PropTypes.node,
   action: React.PropTypes.object
 };
 
