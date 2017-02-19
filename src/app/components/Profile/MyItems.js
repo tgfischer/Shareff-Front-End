@@ -42,7 +42,7 @@ class MyItems extends Component {
           let labels = '';
 
           data.forEach(category => {
-            labels += `<div class="ui label">${category}</div>`;
+            labels += `<div class="ui basic label">${formatMessage({id: category})}</div>`;
           });
 
           return `<div class="ui large labels">${labels}</div>`;
@@ -52,7 +52,7 @@ class MyItems extends Component {
         data: 'price',
         title: formatMessage({id: 'myItems.columns.price'}),
         render: (data, type, {costPeriod}) => {
-          return `$${data} per ${costPeriod}`;
+          return `$${data} per ${formatMessage({id: costPeriod})}`;
         }
       }
     ];
