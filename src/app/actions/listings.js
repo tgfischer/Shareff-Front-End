@@ -6,9 +6,11 @@ const getListingsRequest = request => ({
   request
 });
 
-const getListingsSuccess = listings => ({
+const getListingsSuccess = ({listings, numPerPage, totalNumListings}) => ({
   type: Actions.GET_LISTINGS_SUCCESS,
   isFetching: false,
+  totalNumListings,
+  numPerPage,
   listings
 });
 
@@ -25,23 +27,20 @@ export const getListings = request => {
   const config = {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json'
     },
     // Note the quotes for the templating
-    body: `q=${request.q}&startDate=${request.startDate}&endDate=${request.endDate}&location=${request.location}`
+    body: JSON.stringify(request)
   };
 
   return dispatch => {
     // We dispatch loginRequest to kickoff the call to the API
-    dispatch(getListingsRequest);
+    dispatch(getListingsRequest());
 
-    return fetch(`${BASE_URL}/listings`, config).then(res => res.json()).then(json => {
-      // Get the user object
-      const {listings, err} = json;
-
+    return fetch(`${BASE_URL}/listings`, config).then(res => res.json()).then(({listings, numPerPage, totalNumListings, err}) => {
       if (listings) {
         // Dispatch the success action
-        return dispatch(getListingsSuccess(listings));
+        return dispatch(getListingsSuccess({listings, numPerPage, totalNumListings}));
       }
 
       // If there was a problem, we want to dispatch the error condition

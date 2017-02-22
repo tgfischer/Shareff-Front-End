@@ -2,9 +2,41 @@
   font-weight: 100 !important;
 }
 
+.sub.header .labels > .label:first-child {
+  margin-left: 0 !important;
+}
+
+.sub.header .labels {
+  padding-top: 0.5em;
+}
+
+.editor {
+  margin: 0;
+  outline: 0;
+  -webkit-appearance: none;
+  line-height: 1.2142em;
+  padding: .67861429em 1em;
+  font-size: 1em;
+  background: #FFF;
+  border: 1px solid rgba(34,36,38,.15);
+  color: rgba(0,0,0,.87);
+  border-radius: .28571429rem;
+  box-shadow: 0 0 0 0 transparent inset;
+  -webkit-transition: color .1s ease,border-color .1s ease;
+  transition: color .1s ease,border-color .1s ease;
+  min-height: 250px;
+  max-height: 500px;
+  overflow: auto;
+  cursor: text;
+}
+
 .thumbnail {
   background-size: cover !important;
   background-position: center !important;
+}
+
+.ui.label {
+  margin-bottom: 0 !important;
 }
 
 .ui.cards {
@@ -56,7 +88,7 @@ table.hover tbody tr:hover, table thead tr:hover {
   background: rgba(0, 0, 0, 0.05);
 }
 
-.ui.inverted.dark.blue.segment {
+.ui.inverted.dark.blue.segment, .dark.blue.label {
   background-color: #1E76B9 !important;
 }
 

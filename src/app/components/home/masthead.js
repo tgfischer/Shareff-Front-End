@@ -93,6 +93,7 @@ class Masthead extends Component {
                 </Grid.Column>
               </Grid.Row>
             </Grid>
+            <input name="page" type="text" defaultValue="0" style={{display: 'none'}}/>
           </Form>
         </Container>
       </Segment>

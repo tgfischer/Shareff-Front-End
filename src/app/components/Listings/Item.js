@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {
-  Button, Container, Grid, Header, Image, Segment
+  Button, Container, Grid, Header, Image, Label, Segment
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import {PHOTO_PLACEHOLDER_URL} from '../../constants/constants';
+import {convertFromHTML} from 'draft-convert';
+import {BASE_URL} from '../../constants/constants';
 
 const styles = {
   itemSegment: {
@@ -24,13 +25,21 @@ class Item extends Component {
     const {intl, item, isAlternate, search} = this.props;
     const {formatMessage} = intl;
 
+    // This is horrifying, but I tried for half a day to get it to work using
+    // better methods...
+    let description = convertFromHTML(unescape(item.description).replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#x2F;/, '/')).getPlainText();
+
+    if (description.length >= 250) {
+      description = `${description.substring(0, 250)}...`;
+    }
+
     return (
       <Segment style={isAlternate % 2 === 0 ? styles.itemSegment : styles.altItemSegment} vertical>
         <Container>
           <Grid stackable>
-            <Grid.Row>
+            <Grid.Row verticalAlign="middle">
               <Grid.Column width={4}>
-                <Image src={PHOTO_PLACEHOLDER_URL} shape="rounded" bordered fluid/>
+                <Image src={BASE_URL + item.photo[0]} shape="rounded" bordered fluid/>
               </Grid.Column>
               <Grid.Column width={12}>
                 <Grid stackable>
@@ -43,7 +52,7 @@ class Item extends Component {
                             id="item.subheader"
                             values={{
                               price: item.price,
-                              costPeriod: item.costPeriod,
+                              costPeriod: formatMessage({id: item.costPeriod}),
                               ownerFirstName: item.ownerFirstName,
                               ownerLastName: item.ownerLastName,
                               location: item.city
@@ -71,11 +80,21 @@ class Item extends Component {
                   <Grid.Row>
                     <Grid.Column>
                       <p style={styles.paragraph}>
-                        {item.description}
-                        {item.description.length === 250 &&
-                          <span>...</span>
-                        }
+                        {description}
                       </p>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Label.Group size="large">
+                        {item.category.map((category, i) => {
+                          return (
+                            <Label key={i} basic>
+                              {formatMessage({id: category})}
+                            </Label>
+                          );
+                        })}
+                      </Label.Group>
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>

@@ -7,16 +7,18 @@ import GoogleMap from 'google-map-react';
 import moment from 'moment';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {
-  Button, Container, Form, Grid, Header, Icon, Image, Modal, Segment, Statistic
+  Button, Card, Container, Form, Grid, Header, Icon, Image, Label, Modal,
+  Segment, Statistic
 } from 'semantic-ui-react';
 import NavBar from '../General/NavBar';
 import CalendarRange from '../General/CalendarRange';
 import PageHeaderSegment from '../General/PageHeaderSegment';
 import {Loading} from '../General/Loading';
 import {Marker} from '../General/Marker';
+import {Thumbnail} from '../General/Thumbnail';
 import {getRentalItem, makeRentRequest} from '../../actions/rentalItem';
 import {getUser} from '../../actions/auth';
-import {PHOTO_PLACEHOLDER_URL} from '../../constants/constants';
+import {BASE_URL} from '../../constants/constants';
 
 const styles = {
   wrapper: {
@@ -38,6 +40,8 @@ const styles = {
   }
 };
 
+/* eslint-disable react/no-danger */
+
 class RentalItem extends Component {
   state = {
     openModal: false,
@@ -51,10 +55,11 @@ class RentalItem extends Component {
   }
   constructor(props) {
     super(props);
-    this.handleRequestToRentButton = this.handleRequestToRentButton.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
-    this.handleOnChange = this.handleOnChange.bind(this);
-    this.handleMakeRentRequest = this.handleMakeRentRequest.bind(this);
+    this.handleRequestToRentButton = ::this.handleRequestToRentButton;
+    this.handleCloseModal = ::this.handleCloseModal;
+    this.handleOnChange = ::this.handleOnChange;
+    this.handleMakeRentRequest = ::this.handleMakeRentRequest;
+    this.getCategories = ::this.getCategories;
   }
   componentWillMount() {
     // Fetch the rental item using the item ID in the params
@@ -129,6 +134,21 @@ class RentalItem extends Component {
       });
     });
   }
+  getCategories(categories) {
+    const {formatMessage} = this.props.intl;
+
+    return (
+      <Label.Group size="large">
+        {categories.map((category, i) => {
+          return (
+            <Label key={i} className="dark blue">
+              {formatMessage({id: category})}
+            </Label>
+          );
+        })}
+      </Label.Group>
+    );
+  }
   render() {
     const {rentalItem, intl, user, isFetching} = this.props;
     const {
@@ -170,6 +190,7 @@ class RentalItem extends Component {
               <PageHeaderSegment
                 breadcrumbs={breadcrumbs}
                 title={unescape(rentalItem.title)}
+                subTitle={this.getCategories(rentalItem.category)}
                 colour="blue"
                 action={{
                   handleButtonClick: this.handleRequestToRentButton,
@@ -180,6 +201,7 @@ class RentalItem extends Component {
               <PageHeaderSegment
                 breadcrumbs={breadcrumbs}
                 title={unescape(rentalItem.title)}
+                subTitle={this.getCategories(rentalItem.category)}
                 colour="blue"
                 />
             }
@@ -194,7 +216,7 @@ class RentalItem extends Component {
                           <FormattedMessage id="rentalItem.ownerTitle"/>
                           <Header.Subheader>
                             <Link to={`/user/${rentalItem.owner.userId}`}>
-                              {rentalItem.owner.firstName} {rentalItem.owner.lastName}
+                              {unescape(rentalItem.owner.firstName)} {unescape(rentalItem.owner.lastName)}
                             </Link>
                           </Header.Subheader>
                         </Header.Content>
@@ -206,7 +228,13 @@ class RentalItem extends Component {
                         <Header.Content>
                           <FormattedMessage id="rentalItem.priceTitle"/>
                           <Header.Subheader>
-                            <FormattedMessage id="rentalItem.priceContent" values={{price: rentalItem.price, costPeriod: rentalItem.costPeriod}}/>
+                            <FormattedMessage
+                              id="rentalItem.priceContent"
+                              values={{
+                                price: rentalItem.price,
+                                costPeriod: formatMessage({id: unescape(rentalItem.costPeriod)})
+                              }}
+                              />
                           </Header.Subheader>
                         </Header.Content>
                       </Header>
@@ -230,7 +258,7 @@ class RentalItem extends Component {
                         <Header.Content>
                           <FormattedMessage id="rentalItem.addressTitle"/>
                           <Header.Subheader>
-                            {rentalItem.line1} {rentalItem.line2}, {rentalItem.city} {rentalItem.province}, {rentalItem.postalCode}
+                            {unescape(rentalItem.line1)} {unescape(rentalItem.line2 || '')}, {unescape(rentalItem.city)} {unescape(rentalItem.province)}, {unescape(rentalItem.postalCode)}
                           </Header.Subheader>
                         </Header.Content>
                       </Header>
@@ -247,18 +275,19 @@ class RentalItem extends Component {
                       <Header as="h1" size="huge">
                         <FormattedMessage id="rentalItem.description"/>
                       </Header>
-                      <p style={styles.paragraph}>
-                        {unescape(rentalItem.description)}
-                      </p>
+                      <div
+                        dangerouslySetInnerHTML={{__html: unescape(rentalItem.description)}}
+                        className="description"
+                        />
                     </Grid.Column>
                     <Grid.Column width={6}>
-                      <Image src={PHOTO_PLACEHOLDER_URL} shape="rounded" bordered/>
+                      <Image src={BASE_URL + rentalItem.photo[0]} shape="rounded" bordered/>
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
               </Container>
             </Segment>
-            {rentalItem.photos && rentalItem.photos.length !== 0 &&
+            {rentalItem.photo && rentalItem.photo.length !== 0 &&
               <Segment vertical>
                 <Container style={styles.container}>
                   <Grid stackable>
@@ -269,9 +298,15 @@ class RentalItem extends Component {
                         </Header>
                       </Grid.Column>
                     </Grid.Row>
-                    <Grid.Row columns={5}>
+                    <Grid.Row columns={1}>
                       <Grid.Column>
-                        <Image src={PHOTO_PLACEHOLDER_URL} shape="rounded" bordered/>
+                        <Card.Group itemsPerRow={5}>
+                          {rentalItem.photo.map((photo, i) => {
+                            return (
+                              <Thumbnail key={i} src={BASE_URL + photo} height={250}/>
+                            );
+                          })}
+                        </Card.Group>
                       </Grid.Column>
                     </Grid.Row>
                   </Grid>
@@ -296,9 +331,10 @@ class RentalItem extends Component {
                       <Header as="h1" size="huge">
                         <FormattedMessage id="rentalItem.termsOfUse"/>
                       </Header>
-                      <p style={styles.paragraph}>
-                        {unescape(rentalItem.termsOfUse)}
-                      </p>
+                      <div
+                        dangerouslySetInnerHTML={{__html: unescape(rentalItem.termsOfUse)}}
+                        className="terms"
+                        />
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
@@ -382,6 +418,8 @@ class RentalItem extends Component {
     );
   }
 }
+
+/* eslint-enable react/no-danger */
 
 RentalItem.propTypes = {
   intl: intlShape.isRequired,

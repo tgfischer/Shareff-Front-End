@@ -1,20 +1,44 @@
 import React, {Component} from 'react';
-import {Card} from 'semantic-ui-react';
+import {Button, Card, Image, Modal} from 'semantic-ui-react';
 
 export class Thumbnail extends Component {
+  state = {
+    openModal: false
+  }
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+  }
+  handleClick = () => this.setState({openModal: true})
+  handleCloseModal = () => this.setState({openModal: false})
   render() {
     const {src, height} = this.props;
     const styles = {
       thumbnail: {
         height: `${height}px`,
         background: `url('${src}') no-repeat`
+      },
+      image: {
+        maxHeight: '75vh',
+        margin: '0 auto'
       }
     };
 
     return (
-      <Card>
-        <div className="ui thumbnail image" style={styles.thumbnail}/>
-      </Card>
+      <Modal
+        trigger={
+          <Card onClick={this.handleClick}>
+            <div className="ui thumbnail image" style={styles.thumbnail}/>
+          </Card>
+        }
+        closeIcon={<Button icon="remove" floated="right" inverted circular/>}
+        basic
+        >
+        <Modal.Content>
+          <Image src={src.replace('_thumbnail', '')} style={styles.image} shape="rounded"/>
+        </Modal.Content>
+      </Modal>
     );
   }
 }
