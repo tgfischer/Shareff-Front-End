@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
 import 'datatables.net';
-import 'datatables.net-se/js/dataTables.semanticui';
+import 'datatables.net-se/js/dataTables.semanticui.js';
 import 'datatables.net-se/css/dataTables.semanticui.css';
-import 'datatables.net-fixedheader';
+import 'datatables.net-fixedheader/js/dataTables.fixedHeader.js';
 import 'datatables.net-fixedheader-se/css/fixedHeader.semanticui.css';
 import {Segment} from 'semantic-ui-react';
 import {connect} from 'react-redux';

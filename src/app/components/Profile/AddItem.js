@@ -11,6 +11,7 @@ import {addItem} from '../../actions/profile/addItem';
 import UploadFile from '../General/UploadFile';
 import {DraftEditor} from '../General/DraftEditor';
 import {Thumbnail} from '../General/Thumbnail';
+import {getOptions} from '../../utils/Utils';
 
 class UploadItem extends Component {
   state = {
@@ -61,21 +62,6 @@ class UploadItem extends Component {
       router.push(`/listings/${itemId}`);
     }
   }
-  getOptions(values) {
-    const {intl} = this.props;
-    const {formatMessage} = intl;
-
-    const options = [];
-
-    for (let i = 0; i < values.length; i++) {
-      options.push({
-        text: formatMessage({id: values[i]}),
-        value: values[i]
-      });
-    }
-
-    return options;
-  }
   handlePhotosUpload = photoUrls => this.setState({photoUrls});
   render() {
     const {intl} = this.props;
@@ -116,7 +102,7 @@ class UploadItem extends Component {
                     labeled
                     selection
                     search
-                    options={this.getOptions(categories)}
+                    options={getOptions({values: categories, intl})}
                     />
                 </div>
                 <Form.Group>
@@ -139,7 +125,7 @@ class UploadItem extends Component {
                       search
                       labeled
                       selection
-                      options={this.getOptions(costPeriods)}
+                      options={getOptions({values: costPeriods, intl})}
                       />
                   </div>
                 </Form.Group>

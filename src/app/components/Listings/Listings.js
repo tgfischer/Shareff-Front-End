@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {
-  Button, Container, Form, Grid, Header, Icon, Popup, Segment
+  Button, Container, Form, Grid, Header, Icon, Popup, Segment, Dropdown
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
@@ -14,6 +14,8 @@ import NoItemsFound from './NoItemsFound';
 import Item from './Item';
 import {Loading} from '../General/Loading';
 import {getListings} from '../../actions/listings';
+import {categories} from '../../constants/constants';
+import {getOptions} from '../../utils/Utils';
 
 const styles = {
   wrapper: {
@@ -32,7 +34,8 @@ class Listings extends Component {
     listings: null,
     advancedSettings: 'hidden',
     numPerPage: 0,
-    totalNumListings: 0
+    totalNumListings: 0,
+    options: []
   }
   constructor(props) {
     super(props);
@@ -45,12 +48,14 @@ class Listings extends Component {
     this.getInputRef = ::this.getInputRef;
   }
   componentWillMount() {
-    const {query} = this.props.location;
+    const {intl, location} = this.props;
+    const {query} = location;
 
     this.props.dispatch(getListings(query)).then(({listings, numPerPage, totalNumListings}) => this.setState({
       listings,
       numPerPage,
-      totalNumListings
+      totalNumListings,
+      options: getOptions({values: categories, intl})
     }));
   }
   handleToggleAdvancedSettings() {
@@ -114,7 +119,7 @@ class Listings extends Component {
   }
   render() {
     const {intl, isFetching} = this.props;
-    const {listings, numPerPage, totalNumListings, advancedSettings} = this.state;
+    const {listings, numPerPage, totalNumListings, advancedSettings, options} = this.state;
     const {formatMessage} = intl;
     const {q, startDate, endDate, location, maxPrice, maxDistance, page} = this.props.location.query;
 
@@ -165,7 +170,30 @@ class Listings extends Component {
                             <Header as="h2" className="bold" inverted>
                               <FormattedMessage id="masthead.advancedSettings"/>
                             </Header>
-                            <Form.Input name="location" defaultValue={unescape(location || '')} label={formatMessage({id: 'masthead.location'})} type="text"/>
+                            <Form.Group widths="equal">
+                              <Form.Input
+                                name="location"
+                                placeholder={formatMessage({id: 'masthead.location'})}
+                                defaultValue={unescape(location || '')}
+                                label={formatMessage({id: 'masthead.location'})}
+                                type="text"
+                                />
+                              <div className="field">
+                                <label>
+                                  <FormattedMessage id="addItem.category"/>
+                                </label>
+                                <Dropdown
+                                  name="category"
+                                  placeholder={formatMessage({id: 'addItem.category'})}
+                                  fluid
+                                  multiple
+                                  labeled
+                                  selection
+                                  search
+                                  options={options}
+                                  />
+                              </div>
+                            </Form.Group>
                             <Form.Group widths="equal">
                               <MaxPriceSlider colour="green" defaultValue={unescape(maxPrice || '')}/>
                               <MaxDistanceSlider colour="green" defaultValue={unescape(maxDistance || '')}/>

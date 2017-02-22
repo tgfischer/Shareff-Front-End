@@ -11,3 +11,20 @@ export const bodyBuilder = payload => {
   // Remove the trailing &
   return body.substring(0, body.length - 1);
 };
+
+/**
+ * Get the options from the list of values
+ */
+export const getOptions = ({values, intl}) => {
+  const {formatMessage} = intl;
+  const options = [];
+
+  for (let i = 0; i < values.length; i++) {
+    options.push({
+      text: formatMessage({id: values[i]}),
+      value: values[i]
+    });
+  }
+
+  return options;
+};

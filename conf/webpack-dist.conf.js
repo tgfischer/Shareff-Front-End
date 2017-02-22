@@ -3,49 +3,49 @@ const conf = require('./gulp.conf');
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FailPlugin = require('webpack-fail-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const pkg = require('../package.json');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
   module: {
-    preLoaders: [
-      {
-        test: /\.js$/,
-        exclude: [
-          path.resolve(__dirname, "node_modules"),
-          path.resolve(__dirname, "app/semantic")
-        ],
-        loader: 'eslint'
-      }
-    ],
-
     loaders: [
       {
         test: /.json$/,
         loaders: [
-          'json'
+          'json-loader'
         ]
+      },
+      {
+        test: /.js$/,
+        exclude: /(node_modules|assets)/,
+        loader: 'eslint-loader',
+        enforce: 'pre'
       },
       {
         test: /\.(css|scss)$/,
-        loaders: ExtractTextPlugin.extract({
-          fallbackLoader: 'style',
-          loader: 'css?minimize!sass!postcss'
-        })
+        loaders: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+          'postcss-loader'
+        ]
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: /(node_modules|assets)/,
         loaders: [
-          'babel'
+          'babel-loader?presets[]=react,presets[]=es2015,presets[]=stage-0'
         ]
       }
-    ]
+    ],
+    noParse: /ws/
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    FailPlugin,
     new HtmlWebpackPlugin({
       template: conf.path.src('index.html')
     }),
@@ -56,9 +56,14 @@ module.exports = {
       compress: {unused: true, dead_code: true, warnings: false} // eslint-disable-line camelcase
     }),
     new ExtractTextPlugin('index-[contenthash].css'),
-    new webpack.optimize.CommonsChunkPlugin({name: 'vendor'})
+    new webpack.optimize.CommonsChunkPlugin({name: 'vendor'}),
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        postcss: () => [autoprefixer]
+      }
+    })
   ],
-  postcss: () => [autoprefixer],
+  externals: ['ws'],
   output: {
     path: path.join(process.cwd(), conf.paths.dist),
     filename: '[name]-[hash].js'
@@ -66,5 +71,11 @@ module.exports = {
   entry: {
     app: `./${conf.path.src('index')}`,
     vendor: Object.keys(pkg.dependencies)
+  },
+  node: {
+    console: true,
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
   }
 };

@@ -4,7 +4,7 @@ import {ADVANCED_SETTINGS_MAX_PRICE} from '../../../constants/constants';
 import {Slider} from './Slider';
 
 class MaxPriceSlider extends Component {
-  state ={
+  state = {
     sliderValue: `${ADVANCED_SETTINGS_MAX_PRICE}+`
   }
   constructor(props) {

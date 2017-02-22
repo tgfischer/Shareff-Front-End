@@ -4,7 +4,7 @@ import {ADVANCED_SETTINGS_MAX_DISTANCE} from '../../../constants/constants';
 import {Slider} from './Slider';
 
 class MaxDistanceSlider extends Component {
-  state ={
+  state = {
     sliderValue: `${ADVANCED_SETTINGS_MAX_DISTANCE}+`
   }
   constructor(props) {

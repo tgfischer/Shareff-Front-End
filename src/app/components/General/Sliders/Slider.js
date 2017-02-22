@@ -4,7 +4,7 @@ import '../../../../assets/semantic-ui/components/range.js';
 import '../../../../assets/semantic-ui/components/range.css';
 
 export class Slider extends Component {
-  state ={
+  state = {
     maxed: true
   }
   componentWillMount() {
