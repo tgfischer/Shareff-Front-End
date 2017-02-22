@@ -17,7 +17,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: /(node_modules|assets)/,
         loader: 'eslint-loader',
         enforce: 'pre'
       },
@@ -32,14 +32,13 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: /(node_modules|assets)/,
         loaders: [
           'react-hot-loader',
-          'babel-loader?presets[]=react,presets[]=es2015,presets[]=stage-0'
+          'babel-loader'
         ]
       }
-    ],
-    noParse: /ws/
+    ]
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
@@ -49,6 +48,12 @@ module.exports = {
       template: conf.path.src('index.html')
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        postcss: () => [autoprefixer]
+      },
+      debug: true
+    }),
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"
@@ -57,7 +62,6 @@ module.exports = {
       'GOOGLE_MAPS_API_KEY'
     ])
   ],
-  externals: ['ws'],
   devtool: 'source-map',
   output: {
     path: path.join(process.cwd(), conf.paths.tmp),
@@ -67,11 +71,5 @@ module.exports = {
     'webpack/hot/dev-server',
     'webpack-hot-middleware/client',
     `./${conf.path.src('index')}`
-  ],
-  node: {
-    console: true,
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty'
-  }
+  ]
 };

@@ -19,15 +19,16 @@ const styles = {
 };
 
 class IncomingRequests extends Component {
-  state = {
-    selectedRow: null,
-    err: null
-  }
   constructor(props) {
     super(props);
     this.handleRowClick = this.handleRowClick.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleUpdateStatus = this.handleUpdateStatus.bind(this);
+
+    this.state = {
+      selectedRow: null,
+      err: null
+    };
   }
   componentWillMount() {
     // Fetch the list of my items data using the ownerId from the props
@@ -43,7 +44,9 @@ class IncomingRequests extends Component {
 
     this.setState({selectedRow: row, err: null});
   }
-  handleCloseModal = () => this.setState({err: null, selectedRow: null})
+  handleCloseModal() {
+    this.setState({err: null, selectedRow: null});
+  }
   handleUpdateStatus(e, {formData}) {
     e.preventDefault();
 

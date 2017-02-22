@@ -43,23 +43,24 @@ const styles = {
 /* eslint-disable react/no-danger */
 
 class RentalItem extends Component {
-  state = {
-    openModal: false,
-    openResponseModal: false,
-    modalTitle: 'modal.error',
-    modalContent: 'error.general',
-    isMakeRequestButtonDisabled: true,
-    startDate: {},
-    endDate: {},
-    totalPrice: null
-  }
   constructor(props) {
     super(props);
-    this.handleRequestToRentButton = ::this.handleRequestToRentButton;
-    this.handleCloseModal = ::this.handleCloseModal;
-    this.handleOnChange = ::this.handleOnChange;
-    this.handleMakeRentRequest = ::this.handleMakeRentRequest;
-    this.getCategories = ::this.getCategories;
+    this.handleRequestToRentButton = this.handleRequestToRentButton.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleMakeRentRequest = this.handleMakeRentRequest.bind(this);
+    this.getCategories = this.getCategories.bind(this);
+
+    this.state = {
+      openModal: false,
+      openResponseModal: false,
+      modalTitle: 'modal.error',
+      modalContent: 'error.general',
+      isMakeRequestButtonDisabled: true,
+      startDate: {},
+      endDate: {},
+      totalPrice: null
+    };
   }
   componentWillMount() {
     // Fetch the rental item using the item ID in the params
@@ -73,7 +74,9 @@ class RentalItem extends Component {
       }
     });
   }
-  handleRequestToRentButton = () => this.setState({openModal: true})
+  handleRequestToRentButton() {
+    this.setState({openModal: true});
+  }
   handleOnChange(startDate, endDate) {
     this.setState({
       isMakeRequestButtonDisabled: !(startDate.date && endDate.date),
@@ -90,11 +93,15 @@ class RentalItem extends Component {
       this.setState({totalPrice});
     }
   }
-  handleCloseModal = () => this.setState({
-    openModal: false,
-    isMakeRequestButtonDisabled: true
-  })
-  handleCloseResponseModal = () => this.setState({openResponseModal: false})
+  handleCloseModal() {
+    this.setState({
+      openModal: false,
+      isMakeRequestButtonDisabled: true
+    });
+  }
+  handleCloseResponseModal() {
+    this.setState({openResponseModal: false});
+  }
   handleMakeRentRequest(e) {
     e.preventDefault();
 

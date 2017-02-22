@@ -4,12 +4,13 @@ import {ADVANCED_SETTINGS_MAX_DISTANCE} from '../../../constants/constants';
 import {Slider} from './Slider';
 
 class MaxDistanceSlider extends Component {
-  state = {
-    sliderValue: `${ADVANCED_SETTINGS_MAX_DISTANCE}+`
-  }
   constructor(props) {
     super(props);
     this.handleSliderOnChange = this.handleSliderOnChange.bind(this);
+
+    this.state = {
+      sliderValue: `${ADVANCED_SETTINGS_MAX_DISTANCE}+`
+    };
   }
   handleSliderOnChange(value, maxed) {
     if (maxed) {

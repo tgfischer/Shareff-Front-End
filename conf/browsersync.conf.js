@@ -28,8 +28,6 @@ module.exports = function () {
         webpackHotMiddleware(webpackBundler)
       ]
     },
-    open: false,
-    notify: false,
-    ghostMode: false
+    open: false
   };
 };

@@ -9,17 +9,22 @@ const styles = {
 };
 
 export class DraftEditor extends Component {
-  state = {
-    editorState: EditorState.createEmpty()
-  }
   constructor(props) {
     super(props);
-    this.handleOnChange = ::this.handleOnChange;
-    this.handleOnClick = ::this.handleOnClick;
-    this.editorRef = ::this.editorRef;
+    this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
+    this.editorRef = this.editorRef.bind(this);
+
+    this.state = {
+      editorState: EditorState.createEmpty()
+    };
   }
-  handleOnChange = editorState => this.setState({editorState});
-  handleOnClick = () => this.editor.focus();
+  handleOnChange(editorState) {
+    this.setState({editorState});
+  }
+  handleOnClick() {
+    this.editor.focus();
+  }
   editorRef(editor) {
     this.editor = editor;
   }

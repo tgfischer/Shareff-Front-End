@@ -3,16 +3,18 @@ import $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-se/js/dataTables.semanticui.js';
 import 'datatables.net-se/css/dataTables.semanticui.css';
-import 'datatables.net-fixedheader/js/dataTables.fixedHeader.js';
-import 'datatables.net-fixedheader-se/css/fixedHeader.semanticui.css';
 import {Segment} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {injectIntl} from 'react-intl';
 
 export class DataTableSemantic extends Component {
-  state = {
-    isTableInitialized: false
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isTableInitialized: false
+    };
   }
   componentDidMount() {
     const {rows, columns, order, onRowClick} = this.props;

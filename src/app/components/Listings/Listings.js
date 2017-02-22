@@ -30,22 +30,23 @@ const styles = {
 };
 
 class Listings extends Component {
-  state = {
-    listings: null,
-    advancedSettings: 'hidden',
-    numPerPage: 0,
-    totalNumListings: 0,
-    options: []
-  }
   constructor(props) {
     super(props);
-    this.handleToggleAdvancedSettings = ::this.handleToggleAdvancedSettings;
-    this.handleOnSubmit = ::this.handleOnSubmit;
-    this.handlePrevClick = ::this.handlePrevClick;
-    this.handleNextClick = ::this.handleNextClick;
-    this.navigateToPage = ::this.navigateToPage;
-    this.handleInputOnChange = ::this.handleInputOnChange;
-    this.getInputRef = ::this.getInputRef;
+    this.handleToggleAdvancedSettings = this.handleToggleAdvancedSettings.bind(this);
+    this.handleOnSubmit = this.handleOnSubmit.bind(this);
+    this.handlePrevClick = this.handlePrevClick.bind(this);
+    this.handleNextClick = this.handleNextClick.bind(this);
+    this.navigateToPage = this.navigateToPage.bind(this);
+    this.handleInputOnChange = this.handleInputOnChange.bind(this);
+    this.getInputRef = this.getInputRef.bind(this);
+
+    this.state = {
+      listings: null,
+      advancedSettings: 'hidden',
+      numPerPage: 0,
+      totalNumListings: 0,
+      options: []
+    };
   }
   componentWillMount() {
     const {intl, location} = this.props;

@@ -12,35 +12,32 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /.json$/,
+        test: /\.json$/,
         loaders: [
           'json-loader'
         ]
       },
       {
-        test: /.js$/,
+        test: /\.js$/,
         exclude: /(node_modules|assets)/,
         loader: 'eslint-loader',
         enforce: 'pre'
       },
       {
         test: /\.(css|scss)$/,
-        loaders: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-          'postcss-loader'
-        ]
+        loaders: ExtractTextPlugin.extract({
+          fallbackLoader: 'style-loader',
+          loader: 'css-loader?minimize!sass-loader!postcss-loader'
+        })
       },
       {
         test: /\.js$/,
         exclude: /(node_modules|assets)/,
         loaders: [
-          'babel-loader?presets[]=react,presets[]=es2015,presets[]=stage-0'
+          'babel-loader'
         ]
       }
-    ],
-    noParse: /ws/
+    ]
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
@@ -55,27 +52,27 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       compress: {unused: true, dead_code: true, warnings: false} // eslint-disable-line camelcase
     }),
-    new ExtractTextPlugin('index-[contenthash].css'),
+    new ExtractTextPlugin('/index-[contenthash].css'),
     new webpack.optimize.CommonsChunkPlugin({name: 'vendor'}),
     new webpack.LoaderOptionsPlugin({
       options: {
         postcss: () => [autoprefixer]
       }
-    })
+    }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    }),
+    new webpack.EnvironmentPlugin([
+      'GOOGLE_MAPS_API_KEY'
+    ])
   ],
-  externals: ['ws'],
   output: {
     path: path.join(process.cwd(), conf.paths.dist),
-    filename: '[name]-[hash].js'
+    filename: '/[name]-[hash].js'
   },
   entry: {
     app: `./${conf.path.src('index')}`,
     vendor: Object.keys(pkg.dependencies)
-  },
-  node: {
-    console: true,
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty'
   }
 };

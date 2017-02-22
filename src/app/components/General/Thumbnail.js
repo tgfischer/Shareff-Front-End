@@ -2,16 +2,21 @@ import React, {Component} from 'react';
 import {Button, Card, Image, Modal} from 'semantic-ui-react';
 
 export class Thumbnail extends Component {
-  state = {
-    openModal: false
-  }
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+
+    this.state = {
+      openModal: false
+    };
   }
-  handleClick = () => this.setState({openModal: true})
-  handleCloseModal = () => this.setState({openModal: false})
+  handleClick() {
+    this.setState({openModal: true});
+  }
+  handleCloseModal() {
+    this.setState({openModal: false});
+  }
   render() {
     const {src, height} = this.props;
     const styles = {

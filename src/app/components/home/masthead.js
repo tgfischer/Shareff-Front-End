@@ -19,13 +19,14 @@ const styles = {
 };
 
 class Masthead extends Component {
-  state = {
-    showAdvancedSettings: false
-  }
   constructor(props) {
     super(props);
     this.handleOnSubmit = this.handleOnSubmit.bind(this);
     this.handleToggleAdvancedSettings = this.handleToggleAdvancedSettings.bind(this);
+
+    this.state = {
+      showAdvancedSettings: false
+    };
   }
   handleOnSubmit(e, {formData}) {
     e.preventDefault();
@@ -36,7 +37,9 @@ class Masthead extends Component {
       query: formData
     });
   }
-  handleToggleAdvancedSettings = () => this.setState({showAdvancedSettings: !this.state.showAdvancedSettings})
+  handleToggleAdvancedSettings() {
+    this.setState({showAdvancedSettings: !this.state.showAdvancedSettings});
+  }
   render() {
     const {showAdvancedSettings} = this.state;
     const {formatMessage} = this.props.intl;

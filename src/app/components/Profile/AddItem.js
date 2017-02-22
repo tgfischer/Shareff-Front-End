@@ -14,18 +14,19 @@ import {Thumbnail} from '../General/Thumbnail';
 import {getOptions} from '../../utils/Utils';
 
 class UploadItem extends Component {
-  state = {
-    openModal: false,
-    modalTitle: 'modal.success',
-    modalContent: 'addItem.modal.addItemSuccess',
-    photoUrls: null,
-    itemId: null
-  }
   constructor(props) {
     super(props);
-    this.handleSubmit = ::this.handleSubmit;
-    this.handleCloseModal = ::this.handleCloseModal;
-    this.handlePhotosUpload = ::this.handlePhotosUpload;
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handlePhotosUpload = this.handlePhotosUpload.bind(this);
+
+    this.state = {
+      openModal: false,
+      modalTitle: 'modal.success',
+      modalContent: 'addItem.modal.addItemSuccess',
+      photoUrls: null,
+      itemId: null
+    };
   }
   handleSubmit(e, {formData}) {
     e.preventDefault();
@@ -53,7 +54,7 @@ class UploadItem extends Component {
       this.setState({openModal: true, itemId});
     });
   }
-  handleCloseModal = () => {
+  handleCloseModal() {
     const {itemId} = this.state;
     const {router} = this.props;
     this.setState({openModal: false});
@@ -62,7 +63,9 @@ class UploadItem extends Component {
       router.push(`/listings/${itemId}`);
     }
   }
-  handlePhotosUpload = photoUrls => this.setState({photoUrls});
+  handlePhotosUpload(photoUrls) {
+    this.setState({photoUrls});
+  }
   render() {
     const {intl} = this.props;
     const {
