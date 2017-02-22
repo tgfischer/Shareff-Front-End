@@ -3,11 +3,24 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {intlShape, injectIntl} from 'react-intl';
 import FullCalendar from '../General/FullCalendar';
+import {getMySchedule} from '../../actions/profile/schedule';
+import {Loading} from '../General/Loading';
+
+const styles = {
+  div: {
+    margin: '15%'
+  }
+};
 
 class Schedule extends Component {
   constructor(props) {
     super(props);
     this.handleDayClick = this.handleDayClick.bind(this);
+  }
+  componentWillMount() {
+    // Fetch the list of my items data using the ownerId from the props
+    const {user, dispatch} = this.props;
+    dispatch(getMySchedule(user));
   }
   handleDayClick(date, e) {
     e.preventDefault();
@@ -15,7 +28,10 @@ class Schedule extends Component {
   render() {
     return (
       <div>
-        <FullCalendar onDayClick={this.handleDayClick}/>
+        {Schedule ?
+          <FullCalendar onDayClick={this.handleDayClick}/> :
+          <div style={styles.div}><Loading/></div>
+        }
       </div>
     );
   }

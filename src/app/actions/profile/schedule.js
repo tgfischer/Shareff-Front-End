@@ -22,7 +22,7 @@ const getScheduleFailure = err => ({
 /**
  * Get the user's schedule information from the database
  */
-export const getSchedule = user => {
+export const getMySchedule = user => {
   // Send the token as well so that we can validate that the user that is logged
   // in is only modifying their own data
   user.token = localStorage.getItem('token');
@@ -39,7 +39,7 @@ export const getSchedule = user => {
     // We dispatch request to kickoff the call to the API
     dispatch(getScheduleRequest());
 
-    return fetch(`${BASE_URL}/profile/user_schedule/get_user_schedule`, config).then(res => res.json()).then(json => {
+    return fetch(`${BASE_URL}/profile/my_schedule/my_schedule`, config).then(res => res.json()).then(json => {
       // Get the user's information, and the error
       const {user, err} = json;
 
