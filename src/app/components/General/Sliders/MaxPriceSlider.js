@@ -4,12 +4,13 @@ import {ADVANCED_SETTINGS_MAX_PRICE} from '../../../constants/constants';
 import {Slider} from './Slider';
 
 class MaxPriceSlider extends Component {
-  state ={
-    sliderValue: `${ADVANCED_SETTINGS_MAX_PRICE}+`
-  }
   constructor(props) {
     super(props);
     this.handleSliderOnChange = this.handleSliderOnChange.bind(this);
+
+    this.state = {
+      sliderValue: `${ADVANCED_SETTINGS_MAX_PRICE}+`
+    };
   }
   handleSliderOnChange(value, maxed) {
     if (maxed) {

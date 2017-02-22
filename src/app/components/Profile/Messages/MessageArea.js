@@ -13,24 +13,22 @@ import io from 'socket.io-client';
 const socket = io.connect(BASE_URL);
 
 class MessageArea extends Component {
-  state = {
-    navBarHeight: 0,
-    pageHeaderHeight: 0,
-    verticalSegmentPadding: 0,
-    contentColumnPadding: 0,
-    contentSegmentBorderWidth: 0,
-    conversationHeaderHeight: 0,
-    messageInputHeight: 0,
-    dividerBorderWidth: 0,
-    messages: [],
-    err: null
-  }
   constructor(props) {
     super(props);
     this.handleSendMessage = this.handleSendMessage.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+
     this.state = {
-      messages: props.messages
+      navBarHeight: 0,
+      pageHeaderHeight: 0,
+      verticalSegmentPadding: 0,
+      contentColumnPadding: 0,
+      contentSegmentBorderWidth: 0,
+      conversationHeaderHeight: 0,
+      messageInputHeight: 0,
+      dividerBorderWidth: 0,
+      messages: props.messages,
+      err: null
     };
   }
   componentDidMount() {
@@ -103,7 +101,9 @@ class MessageArea extends Component {
     // Clear the input
     e.target[0].value = "";
   }
-  handleCloseModal = () => this.setState({err: null})
+  handleCloseModal() {
+    this.setState({err: null});
+  }
   render() {
     const {
       navBarHeight, pageHeaderHeight, verticalSegmentPadding,

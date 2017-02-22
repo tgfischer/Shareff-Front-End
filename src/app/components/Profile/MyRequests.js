@@ -19,15 +19,16 @@ const styles = {
 };
 
 class MyRequests extends Component {
-  state = {
-    selectedRow: null,
-    err: null
-  }
   constructor(props) {
     super(props);
     this.handleRowClick = this.handleRowClick.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleDeleteRequest = this.handleDeleteRequest.bind(this);
+
+    this.state = {
+      selectedRow: null,
+      err: null
+    };
   }
   componentWillMount() {
     const {user, dispatch} = this.props;
@@ -42,7 +43,9 @@ class MyRequests extends Component {
 
     this.setState({selectedRow: row, err: null});
   }
-  handleCloseModal = () => this.setState({err: null, selectedRow: null})
+  handleCloseModal() {
+    this.setState({err: null, selectedRow: null});
+  }
   handleDeleteRequest(e) {
     e.preventDefault();
 

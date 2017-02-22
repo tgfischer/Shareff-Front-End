@@ -11,20 +11,22 @@ import {addItem} from '../../actions/profile/addItem';
 import UploadFile from '../General/UploadFile';
 import {DraftEditor} from '../General/DraftEditor';
 import {Thumbnail} from '../General/Thumbnail';
+import {getOptions} from '../../utils/Utils';
 
 class UploadItem extends Component {
-  state = {
-    openModal: false,
-    modalTitle: 'modal.success',
-    modalContent: 'addItem.modal.addItemSuccess',
-    photoUrls: null,
-    itemId: null
-  }
   constructor(props) {
     super(props);
-    this.handleSubmit = ::this.handleSubmit;
-    this.handleCloseModal = ::this.handleCloseModal;
-    this.handlePhotosUpload = ::this.handlePhotosUpload;
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handlePhotosUpload = this.handlePhotosUpload.bind(this);
+
+    this.state = {
+      openModal: false,
+      modalTitle: 'modal.success',
+      modalContent: 'addItem.modal.addItemSuccess',
+      photoUrls: null,
+      itemId: null
+    };
   }
   handleSubmit(e, {formData}) {
     e.preventDefault();
@@ -52,7 +54,7 @@ class UploadItem extends Component {
       this.setState({openModal: true, itemId});
     });
   }
-  handleCloseModal = () => {
+  handleCloseModal() {
     const {itemId} = this.state;
     const {router} = this.props;
     this.setState({openModal: false});
@@ -61,22 +63,9 @@ class UploadItem extends Component {
       router.push(`/listings/${itemId}`);
     }
   }
-  getOptions(values) {
-    const {intl} = this.props;
-    const {formatMessage} = intl;
-
-    const options = [];
-
-    for (let i = 0; i < values.length; i++) {
-      options.push({
-        text: formatMessage({id: values[i]}),
-        value: values[i]
-      });
-    }
-
-    return options;
+  handlePhotosUpload(photoUrls) {
+    this.setState({photoUrls});
   }
-  handlePhotosUpload = photoUrls => this.setState({photoUrls});
   render() {
     const {intl} = this.props;
     const {
@@ -116,7 +105,7 @@ class UploadItem extends Component {
                     labeled
                     selection
                     search
-                    options={this.getOptions(categories)}
+                    options={getOptions({values: categories, intl})}
                     />
                 </div>
                 <Form.Group>
@@ -139,7 +128,7 @@ class UploadItem extends Component {
                       search
                       labeled
                       selection
-                      options={this.getOptions(costPeriods)}
+                      options={getOptions({values: costPeriods, intl})}
                       />
                   </div>
                 </Form.Group>
