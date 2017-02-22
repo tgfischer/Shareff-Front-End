@@ -9,6 +9,7 @@ import {BASE_URL, categories, costPeriods} from '../../constants/constants';
 import {uploadPhotos} from '../../actions/uploadPhotos';
 import {addItem} from '../../actions/profile/addItem';
 import UploadFile from '../General/UploadFile';
+import {DraftEditor} from '../General/DraftEditor';
 import {Thumbnail} from '../General/Thumbnail';
 
 class UploadItem extends Component {
@@ -21,9 +22,9 @@ class UploadItem extends Component {
   }
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
-    this.handlePhotosUpload = this.handlePhotosUpload.bind(this);
+    this.handleSubmit = ::this.handleSubmit;
+    this.handleCloseModal = ::this.handleCloseModal;
+    this.handlePhotosUpload = ::this.handlePhotosUpload;
   }
   handleSubmit(e, {formData}) {
     e.preventDefault();
@@ -60,10 +61,27 @@ class UploadItem extends Component {
       router.push(`/listings/${itemId}`);
     }
   }
+  getOptions(values) {
+    const {intl} = this.props;
+    const {formatMessage} = intl;
+
+    const options = [];
+
+    for (let i = 0; i < values.length; i++) {
+      options.push({
+        text: formatMessage({id: values[i]}),
+        value: values[i]
+      });
+    }
+
+    return options;
+  }
   handlePhotosUpload = photoUrls => this.setState({photoUrls});
   render() {
     const {intl} = this.props;
-    const {openModal, modalTitle, modalContent, photoUrls} = this.state;
+    const {
+      openModal, modalTitle, modalContent, photoUrls
+    } = this.state;
     const {formatMessage} = intl;
 
     return (
@@ -86,30 +104,34 @@ class UploadItem extends Component {
                   type="text"
                   required
                   />
-                <Form.Field>
+                <div className="required field">
+                  <label>
+                    <FormattedMessage id="addItem.category"/>
+                  </label>
                   <Dropdown
                     name="category"
                     placeholder={formatMessage({id: 'addItem.category'})}
-                    label={formatMessage({id: 'addItem.category'})}
                     fluid
                     multiple
                     labeled
                     selection
                     search
-                    options={categories}
+                    options={this.getOptions(categories)}
                     />
-                </Form.Field>
+                </div>
                 <Form.Group>
                   <Form.Input
                     width="10"
+                    icon="dollar"
+                    iconPosition="left"
                     label={formatMessage({id: 'addItem.price'})}
                     name="price"
                     placeholder={formatMessage({id: 'addItem.price'})}
                     type="number"
                     required
                     />
-                  <Form.Field width="6">
-                    <label> {formatMessage({id: 'addItem.costPeriod'})} </label>
+                  <div className="required six wide field">
+                    <label> {formatMessage({id: 'addItem.per'})} </label>
                     <Dropdown
                       name="costPeriod"
                       placeholder={formatMessage({id: 'addItem.costPeriod'})}
@@ -117,21 +139,18 @@ class UploadItem extends Component {
                       search
                       labeled
                       selection
-                      options={costPeriods}
-                      required
+                      options={this.getOptions(costPeriods)}
                       />
-                  </Form.Field>
+                  </div>
                 </Form.Group>
-                <Form.TextArea
+                <DraftEditor
                   label={formatMessage({id: 'addItem.description'})}
                   name="description"
-                  placeholder={formatMessage({id: 'addItem.descriptionPlaceholder'})}
                   required
                   />
-                <Form.TextArea
+                <DraftEditor
                   label={formatMessage({id: 'addItem.terms'})}
                   name="terms"
-                  placeholder={formatMessage({id: 'addItem.termsPlaceholder'})}
                   required
                   />
                 <Header as="h1" dividing>

@@ -5,6 +5,50 @@ import {flatten} from './i18n';
  */
 const en = {
   /**
+   * Category messages
+   */
+  category: {
+    appliances: 'Appliances',
+    atvs: 'ATVs',
+    automobiles: 'Automobiles',
+    baby: 'Baby Items',
+    bicycles: 'Bicycles',
+    books: 'Books',
+    clothing: 'Clothing',
+    computer: 'Computers',
+    computerAccessories: 'Computer Accesories',
+    costumes: 'Costumes',
+    electronics: 'Electronics',
+    entertainment: 'Entertainment',
+    farm: 'Farm Equipment',
+    furniture: 'Furniture',
+    heavyMachinery: 'Heavy Machinery',
+    hobbies: 'Hobbies',
+    horse: 'Horse Equipment',
+    office: 'Office Supplies',
+    pet: 'Pet Supplies',
+    school: 'School Supplies',
+    snowmobiles: 'Snowmobiles',
+    sports: 'Sporting Goods',
+    tent: 'Tents',
+    tools: 'Tools',
+    toys: 'Toys',
+    trailer: 'Trailers',
+    tv: 'Televisions',
+    videoGames: 'Video Games'
+  },
+
+  /**
+   * Cost period messages
+   */
+  costPeriod: {
+    hour: 'Hour',
+    day: 'Day',
+    week: 'Week',
+    month: 'Month'
+  },
+
+  /**
    * Breadcrumb messages
    */
   breadcrumb: {
@@ -147,7 +191,7 @@ const en = {
     subTitle: 'Click on a row to view that particular item',
     columns: {
       title: 'Title',
-      category: 'Category',
+      category: 'Categories',
       price: 'Price'
     }
   },
@@ -160,6 +204,7 @@ const en = {
     title: 'Title',
     description: 'Description',
     costPeriod: 'Cost Period',
+    per: 'Per',
     descriptionPlaceholder: 'Tell us about your item. This can include condition of the item, how long you\'ve had it for, or anything that can help your potential renter learn more about the item.',
     category: 'Category',
     price: 'Price',
@@ -213,7 +258,9 @@ const en = {
    * Listings messages
    */
   listings: {
-    title: 'Search Results for: \'{q}\''
+    title: 'Search Results for: \'{q}\'',
+    prev: 'Prev Page',
+    next: 'Next Page'
   },
 
   /**
