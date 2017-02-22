@@ -15,7 +15,33 @@ class FullCalendar extends Component {
       dayClick: onDayClick,
       buttonText: {
         today: formatMessage({id: 'fullCalendar.today'})
-      }
+      },
+      eventSources: [{
+        events: [
+          {
+            title: 'event1',
+            start: '2017-02-10'
+          },
+          {
+            title: 'event2',
+            start: '2017-02-10',
+            end: '2017-02-25'
+          }
+        ],
+        color: '#b6e1fc',
+        textColor: 'white'
+      },
+      {
+        events: [
+          {
+            title: 'event3',
+            start: '2017-02-03T12:30:00',
+            allDay: false // will make the time show
+          }
+        ],
+        color: '#087cc4',
+        textColor: 'white'
+      }]
     });
 
     // Add the Semantic UI button classes
