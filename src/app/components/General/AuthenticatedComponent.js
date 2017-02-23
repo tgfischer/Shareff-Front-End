@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
 import {getUser} from '../../actions/auth';
 import {Loading} from './Loading';
 
@@ -58,10 +59,10 @@ export function requireAuthentication(Component, required) {
   }
 
   AuthenticatedComponent.propTypes = {
-    isAuthenticated: React.PropTypes.bool,
-    isFetching: React.PropTypes.bool,
+    isAuthenticated: React.PropTypes.bool.isRequired,
+    isFetching: React.PropTypes.bool.isRequired,
     user: React.PropTypes.object,
-    router: React.PropTypes.object,
+    router: React.PropTypes.object.isRequired,
     dispatch: React.PropTypes.func.isRequired
   };
 
@@ -76,5 +77,5 @@ export function requireAuthentication(Component, required) {
     };
   };
 
-  return connect(mapStateToProps)(AuthenticatedComponent);
+  return connect(mapStateToProps)(withRouter(AuthenticatedComponent));
 }
