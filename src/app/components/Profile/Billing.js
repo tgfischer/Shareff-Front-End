@@ -9,16 +9,17 @@ import {updateBillingInfo} from '../../actions/profile/billing';
 import {Calendar} from '../General/Calendar';
 
 class Billing extends Component {
-  state = {
-    openModal: false,
-    modalTitle: 'modal.success',
-    modalContent: 'billing.modal.success',
-    billingInfo: null
-  }
   constructor(props) {
     super(props);
     this.handleBillingSubmit = this.handleBillingSubmit.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+
+    this.state = {
+      openModal: false,
+      modalTitle: 'modal.success',
+      modalContent: 'billing.modal.success',
+      billingInfo: null
+    };
   }
   handleBillingSubmit(e, {formData}) {
     e.preventDefault();
@@ -41,7 +42,9 @@ class Billing extends Component {
       this.setState({openModal: true, billingInfo});
     });
   }
-  handleCloseModal = () => this.setState({openModal: false})
+  handleCloseModal() {
+    this.setState({openModal: false});
+  }
   render() {
     const {intl} = this.props;
     const {openModal, modalTitle, modalContent} = this.state;

@@ -21,13 +21,14 @@ const styles = {
 };
 
 class User extends Component {
-  state = {
-    err: null
-  }
   constructor(props) {
     super(props);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleRowClick = this.handleRowClick.bind(this);
+
+    this.state = {
+      err: null
+    };
   }
   componentWillMount() {
     const {dispatch, params} = this.props;
@@ -39,7 +40,9 @@ class User extends Component {
       }
     });
   }
-  handleCloseModal = () => this.setState({err: null})
+  handleCloseModal() {
+    this.setState({err: null});
+  }
   handleRowClick(e, row) {
     e.preventDefault();
 

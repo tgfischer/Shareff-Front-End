@@ -4,14 +4,17 @@ import {Icon} from 'semantic-ui-react';
 import $ from 'jquery';
 import '../../../assets/semantic-ui/components/popup.min.js';
 import '../../../assets/semantic-ui/components/transition.min.js';
-import '../../../../node_modules/semantic-ui-calendar/dist/calendar.min.js';
-
-import '../../../../node_modules/semantic-ui-calendar/dist/calendar.min.css';
+import '../../../assets/semantic-ui/components/calendar.min.js';
+import '../../../assets/semantic-ui/components/calendar.min.css';
 
 class CalendarRange extends Component {
-  state = {
-    startDate: {},
-    endDate: {}
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      startDate: {},
+      endDate: {}
+    };
   }
   componentDidMount() {
     const {defaultValues, onChange} = this.props;

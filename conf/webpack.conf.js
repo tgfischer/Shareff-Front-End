@@ -3,51 +3,57 @@ const conf = require('./gulp.conf');
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const FailPlugin = require('webpack-fail-plugin');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
   module: {
-    preLoaders: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'eslint'
-      }
-    ],
-
     loaders: [
       {
-        test: /.json$/,
+        test: /\.json$/,
         loaders: [
-          'json'
+          'json-loader'
         ]
+      },
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|assets)/,
+        loader: 'eslint-loader',
+        enforce: 'pre'
       },
       {
         test: /\.(css|scss)$/,
         loaders: [
-          'style',
-          'css',
-          'sass',
-          'postcss'
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+          'postcss-loader'
         ]
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: /(node_modules|assets)/,
         loaders: [
-          'react-hot',
-          'babel?presets[]=react,presets[]=es2015,presets[]=stage-0'
+          'react-hot-loader',
+          'babel-loader'
         ]
       }
     ]
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    FailPlugin,
     new HtmlWebpackPlugin({
       template: conf.path.src('index.html')
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        postcss: () => [autoprefixer]
+      },
+      debug: true
+    }),
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"
@@ -56,8 +62,6 @@ module.exports = {
       'GOOGLE_MAPS_API_KEY'
     ])
   ],
-  postcss: () => [autoprefixer],
-  debug: true,
   devtool: 'source-map',
   output: {
     path: path.join(process.cwd(), conf.paths.tmp),

@@ -10,18 +10,19 @@ import MessageArea from './MessageArea';
 import {getConversations, getMessages} from '../../../actions/profile/messages';
 
 class Messages extends Component {
-  state = {
-    conversationId: null
-  }
   constructor(props) {
     super(props);
     this.handleRecipientClick = this.handleRecipientClick.bind(this);
+
+    this.state = {
+      conversationId: null
+    };
   }
   componentWillMount() {
     const {user, dispatch} = this.props;
     dispatch(getConversations(user));
   }
-  handleRecipientClick = ({conversationId, requestId, recipientId}) => {
+  handleRecipientClick({conversationId, requestId, recipientId}) {
     const {userId} = this.props.user;
 
     // Get the messages

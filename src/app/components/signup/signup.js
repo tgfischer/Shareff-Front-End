@@ -22,12 +22,13 @@ const styles = {
 };
 
 class SignUp extends Component {
-  state = {
-    err: undefined
-  }
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+
+    this.state = {
+      err: undefined
+    };
   }
   handleSubmit(e, {formData}) {
     // Prevent the default form action

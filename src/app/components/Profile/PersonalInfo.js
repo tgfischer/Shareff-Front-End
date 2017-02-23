@@ -12,15 +12,16 @@ import {uploadPhotos} from '../../actions/uploadPhotos';
 import UploadFile from '../General/UploadFile';
 
 class PersonalInfo extends Component {
-  state = {
-    openModal: false,
-    modalTitle: 'modal.success',
-    modalContent: 'personalInfo.modal.success'
-  }
   constructor(props) {
     super(props);
     this.handlePersonalInfoSubmit = this.handlePersonalInfoSubmit.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+
+    this.state = {
+      openModal: false,
+      modalTitle: 'modal.success',
+      modalContent: 'personalInfo.modal.success'
+    };
   }
   handlePersonalInfoSubmit(e, {formData}) {
     e.preventDefault();
@@ -48,7 +49,9 @@ class PersonalInfo extends Component {
       this.setState({openModal: true});
     });
   }
-  handleCloseModal = () => this.setState({openModal: false})
+  handleCloseModal() {
+    this.setState({openModal: false});
+  }
   render() {
     const {intl, user} = this.props;
     const {openModal, modalTitle, modalContent} = this.state;

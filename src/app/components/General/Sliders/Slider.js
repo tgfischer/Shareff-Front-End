@@ -4,8 +4,12 @@ import '../../../../assets/semantic-ui/components/range.js';
 import '../../../../assets/semantic-ui/components/range.css';
 
 export class Slider extends Component {
-  state ={
-    maxed: true
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      maxed: true
+    };
   }
   componentWillMount() {
     const {start, max} = this.props;

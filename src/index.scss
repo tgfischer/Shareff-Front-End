@@ -119,3 +119,11 @@ p {
 .inverted a:hover {
   color: white !important;
 }
+
+.inverted a.ui.label:hover {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.inverted a.ui.label {
+  color: rgba(0, 0, 0, 0.6) !important;
+}

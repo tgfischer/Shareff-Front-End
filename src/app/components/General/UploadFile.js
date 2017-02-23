@@ -12,12 +12,6 @@ const styles = {
 };
 
 class UploadFile extends Component {
-  state = {
-    isDisabled: true,
-    openModal: false,
-    modalTitle: 'modal.success',
-    modalContent: 'addItem.modal.uploadPhotosSuccess'
-  }
   constructor(props) {
     super(props);
 
@@ -26,6 +20,13 @@ class UploadFile extends Component {
     this.handlePhotoChange = this.handlePhotoChange.bind(this);
     this.handleUploadClick = this.handleUploadClick.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+
+    this.state = {
+      isDisabled: true,
+      openModal: false,
+      modalTitle: 'modal.success',
+      modalContent: 'addItem.modal.uploadPhotosSuccess'
+    };
   }
   handleBrowseClick() {
     // Programmically click the hidden input
@@ -91,7 +92,7 @@ class UploadFile extends Component {
       });
     }
   }
-  handleCloseModal = () => {
+  handleCloseModal() {
     // Close the modal, disable the button
     this.setState({openModal: false, isDisabled: true});
 
