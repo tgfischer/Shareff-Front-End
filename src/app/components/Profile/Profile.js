@@ -13,7 +13,7 @@ import AddItem from './AddItem';
 import MyRequests from './MyRequests';
 import IncomingRequests from './IncomingRequests';
 import Messages from './Messages/Messages';
-import Schedule from './Schedule';
+import MySchedule from './MySchedule';
 import Billing from './Billing';
 
 const styles = {
@@ -26,7 +26,7 @@ const tabs = [
   'info',
   'messages',
   'billing',
-  'schedule',
+  'my-schedule',
   'add-item',
   'my-items',
   'incoming-requests',
@@ -102,8 +102,8 @@ class Profile extends Component {
                     <Menu.Item as={Link} to="/profile/messages" name="messages" active={activeTab === 'messages'}>
                       <FormattedMessage id="profile.messages"/>
                     </Menu.Item>
-                    <Menu.Item as={Link} to="/profile/schedule" name="schedule" active={activeTab === 'schedule'}>
-                      <FormattedMessage id="profile.schedule"/>
+                    <Menu.Item as={Link} to="/profile/my-schedule" name="my-schedule" active={activeTab === 'my-schedule'}>
+                      <FormattedMessage id="profile.mySchedule"/>
                     </Menu.Item>
                     <Menu.Item as={Link} to="/profile/billing" name="billing" active={activeTab === 'billing'}>
                       <FormattedMessage id="profile.billing"/>
@@ -130,8 +130,8 @@ class Profile extends Component {
                     {activeTab === 'add-item' &&
                       <AddItem {...this.props}/>
                     }
-                    {activeTab === 'schedule' &&
-                      <Schedule {...this.props}/>
+                    {activeTab === 'my-schedule' &&
+                      <MySchedule {...this.props}/>
                     }
                     {activeTab === 'billing' &&
                       <Billing {...this.props}/>

@@ -1,19 +1,19 @@
 import {BASE_URL, Actions} from '../../constants/constants';
 
-const getScheduleRequest = () => ({
-  type: Actions.GET_SCHEDULE_REQUEST,
+const getMyScheduleRequest = () => ({
+  type: Actions.GET_MY_SCHEDULE_REQUEST,
   isFetching: true
 });
 
-const getScheduleSuccess = user => ({
-  type: Actions.GET_SCHEDULE_SUCCESS,
+const getMyScheduleSuccess = mySchedule => ({
+  type: Actions.GET_MY_SCHEDULE_SUCCESS,
   isFetching: false,
   success: true,
-  user
+  mySchedule
 });
 
-const getScheduleFailure = err => ({
-  type: Actions.GET_SCHEDULE_FAILURE,
+const getMyScheduleFailure = err => ({
+  type: Actions.GET_MY_SCHEDULE_FAILURE,
   isFetching: false,
   success: false,
   err
@@ -37,23 +37,23 @@ export const getMySchedule = user => {
 
   return dispatch => {
     // We dispatch request to kickoff the call to the API
-    dispatch(getScheduleRequest());
+    dispatch(getMyScheduleRequest());
 
     return fetch(`${BASE_URL}/profile/my_schedule/my_schedule`, config).then(res => res.json()).then(json => {
       // Get the user's information, and the error
-      const {user, err} = json;
+      const {mySchedule, err} = json;
 
       if (err) {
         // If there was a problem, we want to dispatch the error condition
         console.log(err);
-        return dispatch(getScheduleFailure(err));
+        return dispatch(getMyScheduleFailure(err));
       }
 
       // Dispatch the success action
-      return dispatch(getScheduleSuccess(user));
+      return dispatch(getMyScheduleSuccess(mySchedule));
     }).catch(err => {
       console.log(err);
-      return dispatch(getScheduleFailure(err));
+      return dispatch(getMyScheduleFailure(err));
     });
   };
 };

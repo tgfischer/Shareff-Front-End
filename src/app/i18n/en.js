@@ -126,7 +126,7 @@ const en = {
     title: 'Welcome back, {firstName} {lastName}',
     info: 'Personal Infomation',
     messages: 'Messages',
-    schedule: 'Rent Schedule',
+    mySchedule: 'My Schedule',
     billing: 'Billing',
     myItems: 'My Items',
     addItem: 'Add Item',
