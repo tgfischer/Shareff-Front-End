@@ -31,7 +31,7 @@ class MySchedule extends Component {
     return (
       <div>
         {mySchedule ?
-          <FullCalendar onDayClick={this.handleDayClick} {...this.props}/> :
+          <FullCalendar onDayClick={this.handleDayClick}/> :
           <div style={styles.div}><Loading/></div>
         }
       </div>
