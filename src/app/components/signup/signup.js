@@ -146,6 +146,7 @@ class SignUp extends Component {
                       name="province"
                       placeholder={formatMessage({id: 'signUp.province'})}
                       options={provinces}
+                      search
                       required
                       />
 
