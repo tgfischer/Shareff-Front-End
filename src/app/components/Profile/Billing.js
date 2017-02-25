@@ -2,11 +2,17 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {
-  Button, Form, Grid, Header, Modal
+  Button, Form, Grid, Header, Modal, Icon
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {updateBillingInfo} from '../../actions/profile/billing';
-import {Calendar} from '../General/Calendar';
+
+const styles = {
+  paymentIcon: {
+    marginTop: '30px',
+    marginLeft: '15px'
+  }
+};
 
 class Billing extends Component {
   constructor(props) {
@@ -46,9 +52,47 @@ class Billing extends Component {
     this.setState({openModal: false});
   }
   render() {
-    const {intl} = this.props;
+    const {intl, user} = this.props;
     const {openModal, modalTitle, modalContent} = this.state;
     const {formatMessage} = intl;
+    const {ccLast4Digits, ccExpiryDate} = user;
+
+    const ccn = `XXXX-${ccLast4Digits}`;
+    const ccBrand = user.ccBrand ? user.ccBrand.toLowerCase() : '';
+
+    const months = [{
+      text: 'January', value: '1'
+    }, {
+      text: 'February', value: '2'
+    }, {
+      text: 'March', value: '3'
+    }, {
+      text: 'April', value: '4'
+    }, {
+      text: 'May', value: '5'
+    }, {
+      text: 'June', value: '6'
+    }, {
+      text: 'July', value: '7'
+    }, {
+      text: 'August', value: '8'
+    }, {
+      text: 'September', value: '9'
+    }, {
+      text: 'October', value: '10'
+    }, {
+      text: 'November', value: '11'
+    }, {
+      text: 'December', value: '12'
+    }];
+
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const years = [];
+
+    for (let i = currentYear; i < currentYear + 100; i++) {
+      years[i - currentYear] = {text: i, value: i.toString()};
+    }
 
     return (
       <div>
@@ -63,29 +107,46 @@ class Billing extends Component {
               </Header>
 
               <Form size="huge" onSubmit={this.handleBillingSubmit}>
-                <Form.Input
-                  label={formatMessage({id: 'signUp.ccn'})}
-                  name="ccn"
-                  placeholder={formatMessage({id: 'signUp.ccn'})}
-                  defaultValue="xxxx-1234"
-                  type="text"
-                  disabled
-                  />
-
-                <Form.Group widths="equal">
+                <Form.Group>
                   <Form.Input
-                    label={formatMessage({id: 'signUp.cvn'})}
-                    name="cvn"
-                    placeholder={formatMessage({id: 'signUp.cvn'})}
-                    value="xxx"
+                    label={formatMessage({id: 'signUp.ccn'})}
+                    name="ccn"
+                    placeholder={formatMessage({id: 'signUp.ccn'})}
+                    defaultValue={unescape(ccn || '')}
                     type="text"
+                    width="14"
                     disabled
                     />
-                  <Calendar
-                    label={formatMessage({id: 'signUp.expiryDate'})}
-                    name="expiryDate"
-                    placeholder={formatMessage({id: 'signUp.expiryDate'})}
-                    type="month"
+                  {ccBrand &&
+                    <Icon
+                      style={styles.paymentIcon}
+                      name={unescape(ccBrand || '')}
+                      size="big"
+                      width="2"
+                      />
+                  }
+                </Form.Group>
+
+                <Header as="h2">
+                  <FormattedMessage id="billing.expiryDate"/>
+                </Header>
+                <Form.Group widths="equal">
+                  <Form.Select
+                    label={formatMessage({id: 'billing.month'})}
+                    name="month"
+                    placeholder={formatMessage({id: 'billing.month'})}
+                    defaultValue={unescape(ccExpiryDate.month || '')}
+                    options={months}
+                    search
+                    required
+                    />
+                  <Form.Select
+                    label={formatMessage({id: 'billing.year'})}
+                    name="year"
+                    placeholder={formatMessage({id: 'billing.year'})}
+                    defaultValue={unescape(ccExpiryDate.year || '')}
+                    options={years}
+                    search
                     required
                     />
                 </Form.Group>
