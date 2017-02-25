@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {Editor, EditorState} from 'draft-js';
-import {convertToHTML} from 'draft-convert';
+import validator from 'validator';
+import {Editor, EditorState, ContentState} from 'draft-js';
+import {convertToHTML, convertFromHTML} from 'draft-convert';
 
 const styles = {
   input: {
@@ -15,9 +16,19 @@ export class DraftEditor extends Component {
     this.handleOnClick = this.handleOnClick.bind(this);
     this.editorRef = this.editorRef.bind(this);
 
-    this.state = {
-      editorState: EditorState.createEmpty()
-    };
+    let editorState;
+
+    // If there is a default value, insert it in the editor
+    if (props.defaultValue) {
+      const blockArray = convertFromHTML(validator.unescape(props.defaultValue));
+      const contentState = ContentState.createFromBlockArray(blockArray.getBlocksAsArray());
+
+      editorState = EditorState.createWithContent(contentState);
+    } else {
+      editorState = EditorState.createEmpty();
+    }
+
+    this.state = {editorState};
   }
   handleOnChange(editorState) {
     this.setState({editorState});
@@ -59,5 +70,6 @@ DraftEditor.propTypes = {
   label: React.PropTypes.string.isRequired,
   name: React.PropTypes.string.isRequired,
   placeholder: React.PropTypes.string,
-  required: React.PropTypes.bool
+  required: React.PropTypes.bool,
+  defaultValue: React.PropTypes.string
 };
