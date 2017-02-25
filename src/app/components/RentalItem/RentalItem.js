@@ -46,6 +46,7 @@ class RentalItem extends Component {
   constructor(props) {
     super(props);
     this.handleRequestToRentButton = this.handleRequestToRentButton.bind(this);
+    this.handleRequestToEditButton = this.handleRequestToEditButton.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleMakeRentRequest = this.handleMakeRentRequest.bind(this);
@@ -76,6 +77,11 @@ class RentalItem extends Component {
   }
   handleRequestToRentButton() {
     this.setState({openModal: true});
+  }
+  handleRequestToEditButton() {
+    const {itemId} = this.props.params;
+    console.log("edit");
+    this.props.router.push(`/listings/edit/${itemId}`);
   }
   handleOnChange(startDate, endDate) {
     this.setState({
@@ -193,7 +199,18 @@ class RentalItem extends Component {
         {rentalItem && user ?
           <div>
             <NavBar/>
-            {user && user.userId !== rentalItem.ownerId ?
+            {user && user.userId === rentalItem.ownerId ?
+              <PageHeaderSegment
+                breadcrumbs={breadcrumbs}
+                title={unescape(rentalItem.title)}
+                subTitle={this.getCategories(rentalItem.category)}
+                colour="blue"
+                action={{
+                  handleButtonClick: this.handleRequestToEditButton,
+                  buttonText: formatMessage({id: 'rentalItem.requestToEditButton'}),
+                  isButtonInverted: true
+                }}
+                /> :
               <PageHeaderSegment
                 breadcrumbs={breadcrumbs}
                 title={unescape(rentalItem.title)}
@@ -204,12 +221,6 @@ class RentalItem extends Component {
                   buttonText: formatMessage({id: 'rentalItem.requestToRentButton'}),
                   isButtonInverted: true
                 }}
-                /> :
-              <PageHeaderSegment
-                breadcrumbs={breadcrumbs}
-                title={unescape(rentalItem.title)}
-                subTitle={this.getCategories(rentalItem.category)}
-                colour="blue"
                 />
             }
             <Segment className="dark blue" inverted vertical>
