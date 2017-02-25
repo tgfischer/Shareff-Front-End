@@ -67,8 +67,9 @@ class Billing extends Component {
                   label={formatMessage({id: 'signUp.ccn'})}
                   name="ccn"
                   placeholder={formatMessage({id: 'signUp.ccn'})}
-                  type="number"
-                  required
+                  defaultValue="xxxx-1234"
+                  type="text"
+                  disabled
                   />
 
                 <Form.Group widths="equal">
@@ -76,8 +77,9 @@ class Billing extends Component {
                     label={formatMessage({id: 'signUp.cvn'})}
                     name="cvn"
                     placeholder={formatMessage({id: 'signUp.cvn'})}
-                    type="number"
-                    required
+                    value="xxx"
+                    type="text"
+                    disabled
                     />
                   <Calendar
                     label={formatMessage({id: 'signUp.expiryDate'})}
