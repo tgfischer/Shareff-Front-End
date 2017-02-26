@@ -5,6 +5,7 @@ import {
   Button, Form, Grid, Header, Modal, Icon
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
+import {months} from '../../constants/constants';
 import {updateBillingInfo} from '../../actions/profile/billing';
 
 const styles = {
@@ -30,22 +31,26 @@ class Billing extends Component {
   handleBillingSubmit(e, {formData}) {
     e.preventDefault();
 
+    delete formData.ccn;
+    delete formData['month-search'];
+    delete formData['year-search'];
+
     const {intl, user} = this.props;
 
     // Send the updated billing information to the server
-    this.props.dispatch(updateBillingInfo(formData, user)).then(({billingInfo}) => {
+    this.props.dispatch(updateBillingInfo(formData, user)).then(({user}) => {
       const {formatMessage} = intl;
 
       // Set the modal title
-      const title = billingInfo ? 'modal.success' : 'modal.error';
+      const title = user ? 'modal.success' : 'modal.error';
       this.setState({modalTitle: formatMessage({id: title})});
 
       // Set the modal content
-      const content = billingInfo ? 'billing.modal.success' : 'err.general';
+      const content = user ? 'billing.modal.success' : 'error.general';
       this.setState({modalContent: formatMessage({id: content})});
 
       // Open the modal
-      this.setState({openModal: true, billingInfo});
+      this.setState({openModal: true, user});
     });
   }
   handleCloseModal() {
@@ -57,35 +62,23 @@ class Billing extends Component {
     const {formatMessage} = intl;
     const {ccLast4Digits, ccExpiryDate} = user;
 
+    // only show last 4 digits of card to user
     const ccn = `XXXX-${ccLast4Digits}`;
-    const ccBrand = user.ccBrand ? user.ccBrand.toLowerCase() : '';
 
-    const months = [{
-      text: 'January', value: '1'
-    }, {
-      text: 'February', value: '2'
-    }, {
-      text: 'March', value: '3'
-    }, {
-      text: 'April', value: '4'
-    }, {
-      text: 'May', value: '5'
-    }, {
-      text: 'June', value: '6'
-    }, {
-      text: 'July', value: '7'
-    }, {
-      text: 'August', value: '8'
-    }, {
-      text: 'September', value: '9'
-    }, {
-      text: 'October', value: '10'
-    }, {
-      text: 'November', value: '11'
-    }, {
-      text: 'December', value: '12'
-    }];
+    // all the credit cards stripe supports are the same name
+    // as the semantic-ui icon name except:
+    // stripe = JCB, semantic-ui = japan credit bureau
+    // stripe = uknown, semantic-ui = credit card alternative
+    // an icon should always show up beside the ccn
+    let ccBrand = user.ccBrand ? user.ccBrand.toLowerCase() : '';
+    if (ccBrand === 'jcb') {
+      ccBrand = 'japan credit bureau';
+    } else if (ccBrand === 'unknown') {
+      ccBrand = 'credit card alternative';
+    }
 
+    // years for expiry date are generated based on the current year,
+    // and go up to 100 years from now
     const now = new Date();
     const currentYear = now.getFullYear();
     const years = [];

@@ -337,6 +337,20 @@ export const reducers = (state = {
         targetItems: undefined,
         err: action.err
       });
+    case Actions.UPDATE_BILLING_INFO_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case Actions.UPDATE_BILLING_INFO_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        user: action.user
+      });
+    case Actions.UPDATE_BILLING_INFO_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: action.err
+      });
     default:
       return state;
   }
