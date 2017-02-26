@@ -410,7 +410,13 @@ const en = {
   editItem: {
     saveChangesButton: 'Save Changes',
     removeItemButton: 'Remove Item',
-    cancelButton: 'Cancel Changes'
+    cancelButton: 'Cancel Changes',
+    removeModal: {
+      success: 'Your rental item has been successfully removed.'
+    },
+    updateModal: {
+      success: 'Your rental item was successfully updated.'
+    }
   }
 };
 

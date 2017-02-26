@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import validator from 'validator';
-import {Form, Grid, Image, Label, Segment, Container, Button} from 'semantic-ui-react';
+import {Form, Grid, Image, Label, Segment, Container, Button, Modal, Header} from 'semantic-ui-react';
 import NavBar from '../General/NavBar';
 import PageHeaderSegment from '../General/PageHeaderSegment';
 import {Loading} from '../General/Loading';
 import {intlShape, injectIntl} from 'react-intl';
-import {getRentalItem, removeMyItem} from '../../actions/rentalItem';
+import {getRentalItem, removeMyItem, updateMyItem} from '../../actions/rentalItem';
 import {getUser} from '../../actions/auth';
 import {getOptions} from '../../utils/Utils';
 import {DraftEditor} from '../General/DraftEditor';
@@ -18,8 +18,18 @@ class EditItem extends Component {
     super(props);
     this.getCategories = this.getCategories.bind(this);
     this.handleRequestToRemoveButton = this.handleRequestToRemoveButton.bind(this);
-  }
+    this.handleRequestToSaveButton = this.handleRequestToSaveButton.bind(this);
+    this.handleCloseRemoveModal = this.handleCloseRemoveModal.bind(this);
+    this.handleCloseUpdateModal = this.handleCloseUpdateModal.bind(this);
 
+    this.state = {
+      openRemoveModal: false,
+      openUpdateModal: false,
+      modalTitle: 'modal.success',
+      modalContent: 'editItem.removeModal.success',
+      updateModalContent: 'editItem.updateModal.success'
+    };
+  }
   componentWillMount() {
     // Fetch the rental item using the item ID in the params
     const {itemId} = this.props.params;
@@ -32,17 +42,57 @@ class EditItem extends Component {
       }
     });
   }
-
   handleRequestToRemoveButton() {
-    console.log("Remove current item");
      // Fetch the rental item using the item ID in the params
     const {itemId} = this.props.params;
     const {userId} = this.props.user;
-    this.props.dispatch(removeMyItem({itemId, userId}));
-    console.log("Removed item completed.");
+    this.props.dispatch(removeMyItem({itemId, userId})).then(({err}) => {
+      const {formatMessage} = this.props.intl;
+
+      // Set the modal title
+      const title = err ? 'modal.error' : 'modal.success';
+      this.setState({modalTitle: formatMessage({id: title})});
+
+      // Set the modal content
+      const content = err ? 'error.general' : 'editItem.removeModal.success';
+      this.setState({modalContent: formatMessage({id: content})});
+
+      // Open the modal
+      this.setState({openRemoveModal: true});
+    });
+  }
+  handleRequestToSaveButton(e, {formData}) {
+    e.preventDefault();
+
+    // Add the userId and the itemId to the object that will be sent to the
+    // server
+    const {itemId} = this.props.params;
+    const {userId} = this.props.user;
+    formData.itemId = itemId;
+    formData.userId = userId;
+    this.props.dispatch(updateMyItem(formData)).then(({err}) => {
+      const {formatMessage} = this.props.intl;
+
+      // Set the modal title
+      const title = err ? 'modal.error' : 'modal.success';
+      this.setState({modalTitle: formatMessage({id: title})});
+
+      // Set the modal content
+      const content = err ? 'error.general' : 'editItem.updateModal.success';
+      this.setState({updateModalContent: formatMessage({id: content})});
+
+      // Open the modal
+      this.setState({openUpdateModal: true});
+    });
+  }
+  handleCloseRemoveModal() {
+    this.setState({openRemoveModal: false});
     this.props.router.push(`/profile/my-items`);
   }
-
+  handleCloseUpdateModal() {
+    this.setState({openUpdateModal: false});
+    this.props.router.push(`/profile/my-items`);
+  }
   getCategories(categories) {
     const {formatMessage} = this.props.intl;
 
@@ -58,16 +108,19 @@ class EditItem extends Component {
       </Label.Group>
     );
   }
-
   render() {
     const {rentalItem, user, intl} = this.props;
+    const {openRemoveModal, openUpdateModal, modalTitle, modalContent, updateModalContent} = this.state;
     const {formatMessage} = intl;
-    const {title, price, category, description, termsOfUse} = rentalItem;
     const {unescape} = validator;
     const breadcrumbs = [{
       text: formatMessage({id: 'breadcrumb.home'}),
       to: '/'
     }];
+
+    breadcrumbs.push({
+      text: unescape(rentalItem.title)
+    });
 
     return (
       <div>
@@ -87,7 +140,7 @@ class EditItem extends Component {
               />
             <Segment>
               <Container>
-                <Form size="huge">
+                <Form size="huge" onSubmit={this.handleRequestToSaveButton}>
                   <Grid verticalAlign="middle">
                     <Grid.Row>
                       <Grid.Column width={6}>
@@ -99,16 +152,22 @@ class EditItem extends Component {
                             label={formatMessage({id: 'addItem.title'})}
                             name="title"
                             placeholder=""
-                            defaultValue={title || ''}
+                            defaultValue={rentalItem.title || ''}
                             type="text"
                             required
                             />
                         </Form.Field>
                         <Form.Field>
-                          <Form.Select
+                          <Form.Dropdown
                             label={formatMessage({id: 'addItem.category'})}
                             placeholder=""
-                            defaultValue={category[0]}
+                            fluid
+                            multiple
+                            labeled
+                            selection
+                            search
+                            defaultValue={rentalItem.category}
+                            name="category"
                             options={getOptions({values: categories, intl})}
                             required
                             />
@@ -121,7 +180,7 @@ class EditItem extends Component {
                               label={formatMessage({id: 'addItem.price'})}
                               name="price"
                               placeholder=""
-                              defaultValue={price || ''}
+                              defaultValue={rentalItem.price || ''}
                               type="number"
                               required
                               />
@@ -144,7 +203,7 @@ class EditItem extends Component {
                         <DraftEditor
                           label={formatMessage({id: 'addItem.description'})}
                           name="description"
-                          placeholder={unescape(description)}
+                          defaultValue={rentalItem.description}
                           required
                           />
                       </Grid.Column>
@@ -154,7 +213,7 @@ class EditItem extends Component {
                         <DraftEditor
                           label={formatMessage({id: 'addItem.terms'})}
                           name="terms"
-                          placeholder={unescape(termsOfUse)}
+                          defaultValue={rentalItem.termsOfUse}
                           required
                           />
                       </Grid.Column>
@@ -183,6 +242,46 @@ class EditItem extends Component {
                 </Form>
               </Container>
             </Segment>
+            <Modal size="small" dimmer="blurring" open={openRemoveModal} onClose={this.handleCloseRemoveModal}>
+              <Modal.Header>
+                <Header as="h1">
+                  {modalTitle}
+                </Header>
+              </Modal.Header>
+              <Modal.Content>
+                <Header as="h3">
+                  {modalContent}
+                </Header>
+              </Modal.Content>
+              <Modal.Actions>
+                <Button
+                  content={formatMessage({id: 'modal.okay'})}
+                  onClick={this.handleCloseRemoveModal}
+                  size="huge"
+                  primary
+                  />
+              </Modal.Actions>
+            </Modal>
+            <Modal size="small" dimmer="blurring" open={openUpdateModal} onClose={this.handleCloseUpdateModal}>
+              <Modal.Header>
+                <Header as="h1">
+                  {modalTitle}
+                </Header>
+              </Modal.Header>
+              <Modal.Content>
+                <Header as="h3">
+                  {updateModalContent}
+                </Header>
+              </Modal.Content>
+              <Modal.Actions>
+                <Button
+                  content={formatMessage({id: 'modal.okay'})}
+                  onClick={this.handleCloseUpdateModal}
+                  size="huge"
+                  primary
+                  />
+              </Modal.Actions>
+            </Modal>
           </div> :
           <Loading/>
         }

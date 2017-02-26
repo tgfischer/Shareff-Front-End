@@ -80,7 +80,6 @@ class RentalItem extends Component {
   }
   handleRequestToEditButton() {
     const {itemId} = this.props.params;
-    console.log("edit");
     this.props.router.push(`/listings/edit/${itemId}`);
   }
   handleOnChange(startDate, endDate) {

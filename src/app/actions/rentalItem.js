@@ -49,6 +49,22 @@ const removeMyItemFailure = err => ({
   err
 });
 
+const updateMyItemRequest = () => ({
+  type: Actions.UPDATE_MY_ITEM_REQUEST,
+  isFetching: true
+});
+
+const updateMyItemSuccess = () => ({
+  type: Actions.UPDATE_MY_ITEM_SUCCESS,
+  isFetching: false
+});
+
+const updateMyItemFailure = err => ({
+  type: Actions.UPDATE_MY_ITEM_FAILURE,
+  isFetching: false,
+  err
+});
+
 /**
  * Get the rentalItem from the database
  */
@@ -149,10 +165,47 @@ export const removeMyItem = body => {
       }
 
       // Dispatch the success action
-      return dispatch(removeMyItemSuccess);
+      return dispatch(removeMyItemSuccess());
     }).catch(err => {
       console.log(err);
       return dispatch(removeMyItemFailure(err));
+    });
+  };
+};
+
+/**
+ * Update the rental rentalItem from the database
+ */
+export const updateMyItem = body => {
+  body.token = localStorage.getItem('token');
+
+  const config = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    // Note the quotes for the templating
+    body: JSON.stringify(body)
+  };
+
+  return dispatch => {
+    // We dispatch loginRequest to kickoff the call to the API
+    dispatch(updateMyItemRequest());
+
+    return fetch(`${BASE_URL}/profile/my_items/update_my_item`, config).then(res => res.json()).then(json => {
+      // Get the user object
+      const {err} = json;
+
+      if (err) {
+        // If there was a problem, we want to dispatch the error condition
+        return dispatch(updateMyItemFailure(err));
+      }
+
+      // Dispatch the success action
+      return dispatch(updateMyItemSuccess());
+    }).catch(err => {
+      console.log(err);
+      return dispatch(updateMyItemFailure(err));
     });
   };
 };

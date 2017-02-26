@@ -352,6 +352,21 @@ export const reducers = (state = {
         isFetching: false,
         err: action.err
       });
+    case Actions.UPDATE_MY_ITEM_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        err: undefined
+      });
+    case Actions.UPDATE_MY_ITEM_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: undefined
+      });
+    case Actions.UPDATE_MY_ITEM_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: action.err
+      });
     default:
       return state;
   }
