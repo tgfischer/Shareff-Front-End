@@ -7,7 +7,7 @@ import '../../../../node_modules/moment/moment.js';
 
 class FullCalendar extends Component {
   componentDidMount() {
-    const {onDayClick, intl} = this.props;
+    const {onDayClick, rentedItems, myItems, intl} = this.props;
     const {formatMessage} = intl;
 
     // Initialize the calendar
@@ -17,28 +17,12 @@ class FullCalendar extends Component {
         today: formatMessage({id: 'fullCalendar.today'})
       },
       eventSources: [{
-        events: [
-          {
-            title: 'event1',
-            start: '2017-02-10'
-          },
-          {
-            title: 'event2',
-            start: '2017-02-10',
-            end: '2017-02-25'
-          }
-        ],
+        events: rentedItems,
         color: '#b6e1fc',
         textColor: 'white'
       },
       {
-        events: [
-          {
-            title: 'event3',
-            start: '2017-02-03T12:30:00',
-            allDay: false // will make the time show
-          }
-        ],
+        events: myItems,
         color: '#087cc4',
         textColor: 'white'
       }]
@@ -58,7 +42,9 @@ class FullCalendar extends Component {
 
 FullCalendar.propTypes = {
   intl: intlShape.isRequired,
-  onDayClick: React.PropTypes.func.isRequired
+  onDayClick: React.PropTypes.func.isRequired,
+  rentedItems: React.PropTypes.array,
+  myItems: React.PropTypes.array
 };
 
 export default injectIntl(FullCalendar);

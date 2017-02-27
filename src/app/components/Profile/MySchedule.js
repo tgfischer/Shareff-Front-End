@@ -26,12 +26,24 @@ class MySchedule extends Component {
     e.preventDefault();
   }
   render() {
-    const {mySchedule} = this.props;
+    const {mySchedule, user} = this.props;
+    const rentedItems = [];
+    const myItems = [];
+    if (mySchedule) {
+      mySchedule.forEach(booking => {
+        booking.allDay = false;
+        if (booking.userId === user) {
+          rentedItems.push(booking);
+        } else {
+          myItems.push(booking);
+        }
+      });
+    }
 
     return (
       <div>
         {mySchedule ?
-          <FullCalendar onDayClick={this.handleDayClick}/> :
+          <FullCalendar onDayClick={this.handleDayClick} rentedItems={rentedItems} myItems={myItems} {...this.props}/> :
           <div style={styles.div}><Loading/></div>
         }
       </div>
@@ -46,6 +58,8 @@ MySchedule.propTypes = {
   err: React.PropTypes.object,
   user: React.PropTypes.object.isRequired,
   mySchedule: React.PropTypes.array,
+  rentedItems: React.PropTypes.array,
+  myItems: React.PropTypes.array,
   router: React.PropTypes.object.isRequired,
   dispatch: React.PropTypes.func.isRequired
 };
