@@ -67,7 +67,6 @@ class MyItems extends Component {
                 <FormattedMessage id="myItems.subTitle"/>
               </Header.Subheader>
             </Header>
-
             <DataTableSemantic
               rows={myItems}
               columns={columns}

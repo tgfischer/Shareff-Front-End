@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Icon} from 'semantic-ui-react';
+import {numberToWord} from 'semantic-ui-react/src/lib/numberToWord';
 import $ from 'jquery';
 import '../../../assets/semantic-ui/components/popup.min.js';
 import '../../../assets/semantic-ui/components/transition.min.js';
@@ -16,14 +17,16 @@ export class Calendar extends Component {
     });
 
     if (defaultValue) {
-      $(".ui.calendar").calendar(`set ${name}`, defaultValue);
+      $(".ui.calendar").calendar('set date', defaultValue);
     }
   }
   render() {
-    const {required, label, name, placeholder} = this.props;
+    const {required, label, name, placeholder, width} = this.props;
+    let classNameBuilder = required ? "required " : "";
+    classNameBuilder += `${numberToWord(width)} wide field`;
 
     return (
-      <div className={required ? "required field" : "field"}>
+      <div className={classNameBuilder}>
         <label>{label}</label>
         <div className="ui calendar">
           <div className="ui input left icon">
@@ -40,8 +43,9 @@ Calendar.propTypes = {
   label: React.PropTypes.string.isRequired,
   name: React.PropTypes.string.isRequired,
   placeholder: React.PropTypes.string,
-  defaultValue: React.PropTypes.object,
+  defaultValue: React.PropTypes.string,
   type: React.PropTypes.string,
   required: React.PropTypes.bool,
-  inline: React.PropTypes.bool
+  inline: React.PropTypes.bool,
+  width: React.PropTypes.string
 };

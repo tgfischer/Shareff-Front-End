@@ -293,6 +293,7 @@ const en = {
     termsOfUse: 'Terms of Use',
     messageOwnerButton: 'Message Owner',
     requestToRentButton: 'Request to Rent',
+    requestToEditButton: 'Edit Rental Item Infomation',
     photosTitle: 'Photos of the item',
     modal: {
       title: 'Request to Rent Item',
@@ -404,6 +405,21 @@ const en = {
     error: 'Error',
     general: 'Something went wrong while trying to fulfill your request. Please try again later',
     unauthorized: 'You are unauthorized to perform this action. Try logging out, and logging back in'
+  },
+
+  /**
+   * Edit Item
+   */
+  editItem: {
+    saveChangesButton: 'Save Changes',
+    removeItemButton: 'Remove Item',
+    cancelButton: 'Cancel Changes',
+    removeModal: {
+      success: 'Your rental item has been successfully removed.'
+    },
+    updateModal: {
+      success: 'Your rental item was successfully updated.'
+    }
   }
 };
 

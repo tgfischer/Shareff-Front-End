@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {
-  Button, Form, Grid, Header, Modal, Icon, Calendar
+  Button, Form, Grid, Header, Modal, Icon
 } from 'semantic-ui-react';
+import {Calendar} from '../General/Calendar';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import {months} from '../../constants/constants';
 import {updateBillingInfo} from '../../actions/profile/billing';
 
 const styles = {
@@ -77,16 +77,6 @@ class Billing extends Component {
       ccBrand = 'credit card alternative';
     }
 
-    // years for expiry date are generated based on the current year,
-    // and go up to 100 years from now
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const years = [];
-
-    for (let i = currentYear; i < currentYear + 100; i++) {
-      years[i - currentYear] = {text: i, value: i.toString()};
-    }
-
     return (
       <div>
         <Grid>
@@ -120,43 +110,23 @@ class Billing extends Component {
                   }
                 </Form.Group>
 
-                <Form.Input
-                  label={formatMessage({id: 'signUp.cvn'})}
-                  name="cvn"
-                  placeholder={formatMessage({id: 'signUp.cvn'})}
-                  defaultValue={"XXX"}
-                  type="text"
-                  width="4"
-                  required
-                  />
-                <Calendar
-                  label={formatMessage({id: 'signUp.expiryDate'})}
-                  name="expiryDate"
-                  placeholder={formatMessage({id: 'signUp.expiryDate'})}
-                  defaultValue={"April 2017"}
-                  type="month"
-                  required
-                  />
-                <Header as="h2">
-                  <FormattedMessage id="billing.expiryDate"/>
-                </Header>
-                <Form.Group widths="equal">
-                  <Form.Select
-                    label={formatMessage({id: 'billing.month'})}
-                    name="month"
-                    placeholder={formatMessage({id: 'billing.month'})}
-                    defaultValue={unescape(ccExpiryDate.month || '')}
-                    options={months}
-                    search
+                <Form.Group>
+                  <Form.Input
+                    label={formatMessage({id: 'signUp.cvn'})}
+                    name="cvn"
+                    placeholder={formatMessage({id: 'signUp.cvn'})}
+                    defaultValue={"XXX"}
+                    type="text"
+                    width="6"
                     required
                     />
-                  <Form.Select
-                    label={formatMessage({id: 'billing.year'})}
-                    name="year"
-                    placeholder={formatMessage({id: 'billing.year'})}
-                    defaultValue={unescape(ccExpiryDate.year || '')}
-                    options={years}
-                    search
+                  <Calendar
+                    label={formatMessage({id: 'signUp.expiryDate'})}
+                    name="expiryDate"
+                    placeholder={formatMessage({id: 'signUp.expiryDate'})}
+                    type="month"
+                    defaultValue={unescape(JSON.stringify(ccExpiryDate) || '')}
+                    width="8"
                     required
                     />
                 </Form.Group>

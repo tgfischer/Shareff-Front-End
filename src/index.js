@@ -17,6 +17,7 @@ import Login from './app/components/Login/Login';
 import SignUp from './app/components/SignUp/SignUp';
 import Listings from './app/components/Listings/Listings';
 import RentalItem from './app/components/RentalItem/RentalItem';
+import EditItem from './app/components/RentalItem/EditItem';
 import User from './app/components/User/User';
 import {requireAuthentication} from './app/components/General/AuthenticatedComponent';
 import {reducers} from './app/reducers/reducers';
@@ -49,6 +50,7 @@ ReactDOM.render(
         <Route path="/signup" component={requireAuthentication(SignUp, false)}/>
         <Route path="/listings" component={Listings}/>
         <Route path="/listings/:itemId" component={RentalItem}/>
+        <Route path="/listings/edit/:itemId" component={EditItem}/>
         <Route path="/user/:userId" component={User}/>
       </Router>
     </IntlProvider>
