@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {
-  Button, Form, Grid, Header, Modal, Icon
+  Button, Form, Grid, Header, Modal, Icon, Calendar
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {months} from '../../constants/constants';
@@ -108,7 +108,7 @@ class Billing extends Component {
                     defaultValue={unescape(ccn || '')}
                     type="text"
                     width="14"
-                    disabled
+                    required
                     />
                   {ccBrand &&
                     <Icon
@@ -120,6 +120,23 @@ class Billing extends Component {
                   }
                 </Form.Group>
 
+                <Form.Input
+                  label={formatMessage({id: 'signUp.cvn'})}
+                  name="cvn"
+                  placeholder={formatMessage({id: 'signUp.cvn'})}
+                  defaultValue={"XXX"}
+                  type="text"
+                  width="4"
+                  required
+                  />
+                <Calendar
+                  label={formatMessage({id: 'signUp.expiryDate'})}
+                  name="expiryDate"
+                  placeholder={formatMessage({id: 'signUp.expiryDate'})}
+                  defaultValue={"April 2017"}
+                  type="month"
+                  required
+                  />
                 <Header as="h2">
                   <FormattedMessage id="billing.expiryDate"/>
                 </Header>
