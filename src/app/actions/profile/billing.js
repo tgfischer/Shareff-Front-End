@@ -5,10 +5,10 @@ const updateBillingInfoRequest = () => ({
   isFetching: true
 });
 
-const updateBillingInfoSuccess = billingInfo => ({
+const updateBillingInfoSuccess = user => ({
   type: Actions.UPDATE_BILLING_INFO_SUCCESS,
   isFetching: false,
-  billingInfo
+  user
 });
 
 const updateBillingInfoFailure = err => ({
@@ -17,27 +17,28 @@ const updateBillingInfoFailure = err => ({
   err
 });
 
-export const updateBillingInfo = (info, {userId}) => {
+export const updateBillingInfo = (info, {userId, stripeCustomerId}) => {
   // Send the token as well so that we can validate that the user that is logged
   // in is only modifying their own data
   const token = localStorage.getItem('token');
+  const {expiryDate, ccn, cvn} = info;
 
   const config = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({info, userId, token})
+    body: JSON.stringify({expiryDate, ccn, cvn, userId, stripeCustomerId, token})
   };
 
   return dispatch => {
     // kick off request to API
     dispatch(updateBillingInfoRequest());
 
-    return fetch(`${BASE_URL}/profile/billing/update_billing_info`, config).then(res => res.json()).then(({billingInfo, err}) => {
+    return fetch(`${BASE_URL}/profile/billing/update_billing_info`, config).then(res => res.json()).then(({user, err}) => {
       if (!err) {
         // Dispatch the success action
-        return dispatch(updateBillingInfoSuccess(billingInfo));
+        return dispatch(updateBillingInfoSuccess(user));
       }
 
       // If there was a problem, we want to dispatch the error condition

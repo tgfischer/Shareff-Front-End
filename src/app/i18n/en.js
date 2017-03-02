@@ -387,11 +387,15 @@ const en = {
   },
 
   billing: {
-    title: 'Update your billing information',
-    subTitle: 'Don\'t worry, your information will remain secure!',
+    title: 'Billing Information',
+    subTitle: 'Don\'t worry, your information is stored securely!',
+    month: 'Month',
+    year: 'Year',
+    expiryDate: 'Expiry Date',
     saveChangesButton: 'Save Changes',
     modal: {
-      success: 'Your billing information was successfully updated'
+      success: 'Your billing information was successfully updated',
+      creditCardError: 'Make sure to properly fill out the CNN and CVN fields'
     }
   },
 
