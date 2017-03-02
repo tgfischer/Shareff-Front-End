@@ -2,6 +2,11 @@
   font-weight: 100 !important;
 }
 
+.terms p,
+.description p {
+  margin: 0;
+}
+
 .sub.header .labels > .label:first-child {
   margin-left: 0 !important;
 }
