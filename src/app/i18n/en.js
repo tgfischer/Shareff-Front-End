@@ -336,6 +336,20 @@ const en = {
   },
 
   /**
+   * My Schedule messages
+   */
+  mySchedule: {
+    modal: {
+      title: 'Rental Item: {itemName}',
+      startDate: 'Start Date:',
+      endDate: 'End Date:',
+      viewBookingButton: 'View Booking Information',
+      viewItemButton: 'View Item',
+      close: 'Close'
+    }
+  },
+
+  /**
    * Rent schedule messages
    */
   schedule: {
