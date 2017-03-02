@@ -394,7 +394,8 @@ const en = {
     expiryDate: 'Expiry Date',
     saveChangesButton: 'Save Changes',
     modal: {
-      success: 'Your billing information was successfully updated'
+      success: 'Your billing information was successfully updated',
+      creditCardError: 'Make sure to properly fill out the CNN and CVN fields'
     }
   },
 

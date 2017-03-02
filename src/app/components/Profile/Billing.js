@@ -7,6 +7,7 @@ import {
 import {Calendar} from '../General/Calendar';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {updateBillingInfo} from '../../actions/profile/billing';
+// import $ from 'jquery';
 
 const styles = {
   paymentIcon: {
@@ -31,11 +32,21 @@ class Billing extends Component {
   handleBillingSubmit(e, {formData}) {
     e.preventDefault();
 
-    delete formData.ccn;
-    delete formData['month-search'];
-    delete formData['year-search'];
-
     const {intl, user} = this.props;
+
+    // if one of the CCN or CVN fields have changed from the loaded values,
+    // and if one of them is not a number, show an error modal
+    if (formData.ccn !== `XXXX-${user.ccLast4Digits}` || formData.cvn !== `XXX`) {
+      if (isNaN(parseInt(formData.ccn, 10)) || isNaN(parseInt(formData.cvn, 10))) {
+        const {formatMessage} = intl;
+        this.setState({modalTitle: formatMessage({id: 'modal.error'})});
+
+        const content = 'billing.modal.creditCardError';
+        this.setState({modalContent: formatMessage({id: content})});
+        this.setState({openModal: true, user});
+        return;
+      }
+    }
 
     // Send the updated billing information to the server
     this.props.dispatch(updateBillingInfo(formData, user)).then(({user}) => {
@@ -125,7 +136,7 @@ class Billing extends Component {
                     name="expiryDate"
                     placeholder={formatMessage({id: 'signUp.expiryDate'})}
                     type="month"
-                    defaultValue={unescape(JSON.stringify(ccExpiryDate) || '')}
+                    defaultValue={unescape(ccExpiryDate || '')}
                     width="8"
                     required
                     />

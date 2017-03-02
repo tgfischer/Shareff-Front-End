@@ -21,14 +21,14 @@ export const updateBillingInfo = (info, {userId, stripeCustomerId}) => {
   // Send the token as well so that we can validate that the user that is logged
   // in is only modifying their own data
   const token = localStorage.getItem('token');
-  const expiryDate = info;
+  const {expiryDate, ccn, cvn} = info;
 
   const config = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({expiryDate, userId, stripeCustomerId, token})
+    body: JSON.stringify({expiryDate, ccn, cvn, userId, stripeCustomerId, token})
   };
 
   return dispatch => {
