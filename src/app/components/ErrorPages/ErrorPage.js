@@ -27,7 +27,7 @@ class ErrorPage extends Component {
       <div style={styles.container}>
         <NavBar/>
         <Container style={styles.container}>
-          <Grid verticalAlign="middle" style={styles.grid}>
+          <Grid verticalAlign="middle" style={styles.grid} stackable>
             <Grid.Column width={2}/>
             <Grid.Column width={12} style={styles.column}>
               <Header as="h1" size="huge">
