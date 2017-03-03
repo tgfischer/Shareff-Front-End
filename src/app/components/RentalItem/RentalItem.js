@@ -74,6 +74,12 @@ class RentalItem extends Component {
         const token = localStorage.getItem('token');
         this.props.dispatch(getUser(token));
       }
+
+      // If the item is archived, we don't want the user to view this page
+      // TODO: Redirec user to a 404 page instead
+      if (this.props.rentalItem.status === "Archived") {
+        this.props.router.push(`/`);
+      }
     });
   }
   handleRequestToRentButton() {
