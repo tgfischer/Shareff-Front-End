@@ -5,10 +5,10 @@ const getBookingRequest = () => ({
   isFetching: true
 });
 
-const getBookingSuccess = booking => ({
+const getBookingSuccess = bookingInfo => ({
   type: Actions.GET_BOOKING_SUCCESS,
   isFetching: false,
-  booking
+  bookingInfo
 });
 
 const getBookingFailure = err => ({
@@ -35,11 +35,10 @@ export const getBooking = bookingId => {
 
     return fetch(`${BASE_URL}/booking/get_booking_info`, config).then(res => res.json()).then(json => {
       // Get the booking object
-      const {booking, err} = json;
-
-      if (booking) {
+      const {bookingInfo, err} = json;
+      if (bookingInfo) {
         // Dispatch the success action
-        return dispatch(getBookingSuccess(booking));
+        return dispatch(getBookingSuccess(bookingInfo));
       }
 
       // If there was a problem, we want to dispatch the error condition

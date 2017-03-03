@@ -1,8 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import {intlShape, injectIntl} from 'react-intl';
+import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
+import {
+  Container, Grid, Header, Segment
+} from 'semantic-ui-react';
 import NavBar from '../General/NavBar';
+import {Loading} from '../General/Loading';
 import {getUser} from '../../actions/auth';
 import {getBooking} from '../../actions/booking';
 
@@ -17,12 +21,11 @@ const styles = {
     paddingTop: '2em',
     paddingBottom: '2em'
   },
-  paragraph: {
-    fontSize: '1.5em'
+  header: {
+    fontSize: "2em"
   },
-  mapSegment: {
-    height: '450px',
-    padding: '0'
+  subHeader: {
+    fontSize: "1.5em"
   }
 };
 
@@ -43,18 +46,43 @@ class Booking extends Component {
   }
   render() {
     // const {bookingInfo, intl, user, isFetching} = this.props;
+    const {bookingInfo, user} = this.props;
+
     return (
       <div style={styles.wrapper}>
-        <div>
-          <NavBar/>
-        </div>
+        {bookingInfo && user ?
+          <div>
+            <NavBar/>
+            <Segment vertical>
+              <Container style={styles.container}>
+                <Grid verticalAlign="midle" columns={1}>
+                  <Grid.Row centered>
+                    <Grid.Column>
+                      {bookingInfo.booking && bookingInfo.booking.status === 'Pending' ?
+                        <div>
+                          <Header as="h1" size="huge" className="bold" style={styles.header}>
+                            <FormattedMessage id="booking.statusHeader"/>
+                            <Header.SubHeader style={styles.subHeader}>
+
+                            </Header.SubHeader>
+                          </Header>
+                        </div> :
+                        <Loading/>
+                      }
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Container>
+            </Segment>
+          </div> :
+          <Loading/>
+        }
       </div>
     );
   }
 }
 
 /* eslint-enable react/no-danger */
-
 Booking.propTypes = {
   intl: intlShape.isRequired,
   isAuthenticated: React.PropTypes.bool,
