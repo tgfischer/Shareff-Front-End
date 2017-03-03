@@ -126,7 +126,7 @@ const en = {
     title: 'Welcome back, {firstName} {lastName}',
     info: 'Personal Infomation',
     messages: 'Messages',
-    schedule: 'Rent Schedule',
+    mySchedule: 'My Schedule',
     billing: 'Billing',
     myItems: 'My Items',
     addItem: 'Add Item',
@@ -333,6 +333,20 @@ const en = {
       viewItemButton: 'View Rental Item',
       viewOwnersProfileButton: 'View Owner\'s Profile',
       cancelRequestButton: 'Delete Request'
+    }
+  },
+
+  /**
+   * My Schedule messages
+   */
+  mySchedule: {
+    modal: {
+      title: 'Rental Item: {itemName}',
+      startDate: 'Start Date:',
+      endDate: 'End Date:',
+      viewBookingButton: 'View Booking Information',
+      viewItemButton: 'View Item',
+      close: 'Close'
     }
   },
 

@@ -161,6 +161,13 @@ export const Actions = {
   GET_MY_ITEMS_FAILURE: 'GET_MY_ITEMS_FAILURE',
 
   /**
+   * Actions for getting a list item schedules
+   */
+  GET_MY_SCHEDULE_REQUEST: 'GET_MY_SCHEDULE_REQUEST',
+  GET_MY_SCHEDULE_SUCCESS: 'GET_MY_SCHEDULE_SUCCESS',
+  GET_MY_SCHEDULE_FAILURE: 'GET_MY_SCHEDULE_FAILURE',
+
+  /**
    * Actions for making a rent request
    */
   MAKE_RENT_REQUEST_REQUEST: 'MAKE_RENT_REQUEST_REQUEST',
