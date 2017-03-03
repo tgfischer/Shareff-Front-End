@@ -39,7 +39,7 @@ class Item extends Component {
           <Grid stackable>
             <Grid.Row verticalAlign="middle">
               <Grid.Column width={4}>
-                <Image src={BASE_URL + item.photo[0]} shape="rounded" bordered fluid/>
+                <Image src={BASE_URL + item.photos[0]} shape="rounded" bordered fluid/>
               </Grid.Column>
               <Grid.Column width={12}>
                 <Grid stackable>

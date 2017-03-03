@@ -144,7 +144,7 @@ class EditItem extends Component {
                   <Grid verticalAlign="middle">
                     <Grid.Row>
                       <Grid.Column width={6}>
-                        <Image src={BASE_URL + rentalItem.photo[0]} shape="rounded" bordered/>
+                        <Image src={BASE_URL + rentalItem.photos[0]} shape="rounded" bordered/>
                       </Grid.Column>
                       <Grid.Column width={10}>
                         <Form.Field>
