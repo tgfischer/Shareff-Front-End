@@ -6,11 +6,15 @@ import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import FullCalendar from '../General/FullCalendar';
 import {getMySchedule} from '../../actions/profile/mySchedule';
 import {Loading} from '../General/Loading';
-import {Button, Header, Modal} from 'semantic-ui-react';
+import {Button, Grid, Header, Modal} from 'semantic-ui-react';
 
 const styles = {
   div: {
     margin: '15%'
+  },
+  extpadding: {
+    paddingTop: '2em',
+    paddingBottom: '2em'
   }
 };
 class MySchedule extends Component {
@@ -20,6 +24,7 @@ class MySchedule extends Component {
     this.state = {
       openModal: false,
       modalItemId: -1,
+      modalBookingId: -1,
       modalRentalStatus: '',
       modalTitle: '',
       modalStart: '',
@@ -46,6 +51,7 @@ class MySchedule extends Component {
     // populate the modal with the booking information if it exists
     if (event.id) {
       this.setState({modalTitle: event.title});
+      this.setState({modalBookingId: event.id});
       this.setState({modalItemId: event.itemId});
       this.setState({modalStart: moment(event.start).format('MMM Do YYYY, h:mm a')});
       this.setState({modalEnd: moment(event.end).format('MMM Do YYYY, h:mm a')});
@@ -54,7 +60,8 @@ class MySchedule extends Component {
   }
   handleViewBooking(e) {
     e.preventDefault();
-    // Will call booking page when it has been created
+
+    this.props.router.push(`/booking/${this.state.modalBookingId}`);
   }
   handleViewItem(e) {
     e.preventDefault();
@@ -99,14 +106,24 @@ class MySchedule extends Component {
                 </Header>
               </Modal.Header>
               <Modal.Content>
-                <Header as="h2" display="inline">
-                  <FormattedMessage id="mySchedule.modal.startDate"/>
-                </Header>
-                <Header as="h3" display="inline">{modalStart}</Header>
-                <Header as="h2" display="inline">
-                  <FormattedMessage id="mySchedule.modal.endDate"/>
-                </Header>
-                <Header as="h3" display="inline">{modalEnd}</Header>
+                <div style={styles.extpadding}>
+                  <Grid stackable verticalAlign="middle">
+                    <Grid.Row columns={2}>
+                      <Grid.Column textAlign="center">
+                        <Header as="h3" display="inline">
+                          <FormattedMessage id="mySchedule.modal.startDate"/>
+                        </Header>
+                        <Header as="h1" display="inline">{modalStart}</Header>
+                      </Grid.Column>
+                      <Grid.Column textAlign="center">
+                        <Header as="h3" display="inline">
+                          <FormattedMessage id="mySchedule.modal.endDate"/>
+                        </Header>
+                        <Header as="h1" display="inline">{modalEnd}</Header>
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
+                </div>
               </Modal.Content>
               <Modal.Actions>
                 <Button

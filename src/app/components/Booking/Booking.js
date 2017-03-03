@@ -31,9 +31,10 @@ const styles = {
 
 /* eslint-disable react/no-danger */
 class Booking extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {name: 'Booking'};
+  }
   componentWillMount() {
     const {bookingId} = this.props.params;
 
@@ -47,7 +48,8 @@ class Booking extends Component {
   render() {
     // const {bookingInfo, intl, user, isFetching} = this.props;
     const {bookingInfo, user} = this.props;
-
+    console.log(bookingInfo);
+    console.log(user);
     return (
       <div style={styles.wrapper}>
         {bookingInfo && user ?
@@ -55,10 +57,10 @@ class Booking extends Component {
             <NavBar/>
             <Segment vertical>
               <Container style={styles.container}>
-                <Grid verticalAlign="midle" columns={1}>
+                <Grid verticalAlign="middle" columns={1}>
                   <Grid.Row centered>
                     <Grid.Column>
-                      {bookingInfo.booking && bookingInfo.booking.status === 'Pending' ?
+                      {bookingInfo.booking ?
                         <div>
                           <Header as="h1" size="huge" className="bold" style={styles.header}>
                             <FormattedMessage id="booking.statusHeader"/>

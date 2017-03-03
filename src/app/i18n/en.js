@@ -341,7 +341,7 @@ const en = {
    */
   mySchedule: {
     modal: {
-      title: 'Rental Item: {itemName}',
+      title: 'Booking for \'{itemName}\'',
       startDate: 'Start Date:',
       endDate: 'End Date:',
       viewBookingButton: 'View Booking Information',
@@ -436,6 +436,13 @@ const en = {
     updateModal: {
       success: 'Your rental item was successfully updated.'
     }
+  },
+
+  /**
+   * Booking Page
+   */
+  booking: {
+    statusHeader: 'Booking Status'
   }
 };
 
