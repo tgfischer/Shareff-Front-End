@@ -405,7 +405,8 @@ const en = {
   error: {
     error: 'Error',
     general: 'Something went wrong while trying to fulfill your request. Please try again later',
-    unauthorized: 'You are unauthorized to perform this action. Try logging out, and logging back in'
+    unauthorized: 'You are unauthorized to perform this action. Try logging out, and logging back in',
+    notFound: 'The page that you are looking for could not be found'
   },
 
   /**
