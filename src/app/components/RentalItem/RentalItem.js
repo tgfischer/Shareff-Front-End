@@ -18,7 +18,7 @@ import {Marker} from '../General/Marker';
 import {Thumbnail} from '../General/Thumbnail';
 import {getRentalItem, makeRentRequest} from '../../actions/rentalItem';
 import {getUser} from '../../actions/auth';
-import {BASE_URL} from '../../constants/constants';
+import {BASE_URL, ERROR_PAGE} from '../../constants/constants';
 
 const styles = {
   wrapper: {
@@ -77,7 +77,7 @@ class RentalItem extends Component {
 
       // If the item is archived, we don't want the user to view this page
       if (this.props.rentalItem.status === "Archived") {
-        this.props.router.push(`/ErrorPage`);
+        this.props.router.push(ERROR_PAGE);
       }
     });
   }

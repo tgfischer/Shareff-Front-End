@@ -4,6 +4,11 @@
 export const BASE_URL = '//localhost:4000';
 
 /**
+ * The route to the error page. Could technically be anything
+ */
+export const ERROR_PAGE = '/error-page';
+
+/**
  * The path to the static photos folder on the server
  */
 export const PHOTOS_URL = `${BASE_URL}/photos`;

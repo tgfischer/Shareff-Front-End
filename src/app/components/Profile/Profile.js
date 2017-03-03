@@ -7,6 +7,7 @@ import {
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
 import PageHeaderSegment from '../General/PageHeaderSegment';
+import {ERROR_PAGE} from '../../constants/constants';
 import PersonalInfo from './PersonalInfo';
 import MyItems from './MyItems';
 import AddItem from './AddItem';
@@ -22,6 +23,17 @@ const styles = {
   }
 };
 
+const tabs = [
+  'info',
+  'messages',
+  'billing',
+  'my-schedule',
+  'add-item',
+  'my-items',
+  'incoming-requests',
+  'my-requests'
+];
+
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -33,6 +45,8 @@ class Profile extends Component {
 
     if (!activeTab) {
       router.replace('/profile/info');
+    } else if (!tabs.includes(activeTab)) {
+      router.replace(ERROR_PAGE);
     }
   }
   handleViewProfileClick(e) {
