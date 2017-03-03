@@ -31,10 +31,9 @@ const styles = {
 
 /* eslint-disable react/no-danger */
 class Booking extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {name: 'Booking'};
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
   componentWillMount() {
     const {bookingId} = this.props.params;
 
@@ -57,10 +56,10 @@ class Booking extends Component {
             <NavBar/>
             <Segment vertical>
               <Container style={styles.container}>
-                <Grid verticalAlign="middle" columns={1}>
+                <Grid verticalAlign="midle" columns={1}>
                   <Grid.Row centered>
                     <Grid.Column>
-                      {bookingInfo.booking ?
+                      {bookingInfo.booking && bookingInfo.booking.status === 'Pending' ?
                         <div>
                           <Header as="h1" size="huge" className="bold" style={styles.header}>
                             <FormattedMessage id="booking.statusHeader"/>
