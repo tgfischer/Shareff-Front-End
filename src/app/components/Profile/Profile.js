@@ -121,6 +121,9 @@ class Profile extends Component {
                     {activeTab === 'my-requests' &&
                       <MyRequests {...this.props}/>
                     }
+                    {activeTab === 'my-schedule' &&
+                      <MySchedule {...this.props}/>
+                    }
                     {activeTab === 'incoming-requests' &&
                       <IncomingRequests {...this.props}/>
                     }
@@ -129,9 +132,6 @@ class Profile extends Component {
                     }
                     {activeTab === 'add-item' &&
                       <AddItem {...this.props}/>
-                    }
-                    {activeTab === 'my-schedule' &&
-                      <MySchedule {...this.props}/>
                     }
                     {activeTab === 'billing' &&
                       <Billing {...this.props}/>
