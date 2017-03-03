@@ -153,19 +153,19 @@ export const reducers = (state = {
     case Actions.GET_BOOKING_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
-        booking: undefined,
+        bookingInfo: undefined,
         err: undefined
       });
     case Actions.GET_BOOKING_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         err: undefined,
-        booking: action.booking
+        bookingInfo: action.bookingInfo
       });
     case Actions.GET_BOOKING_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
-        booking: undefined,
+        bookingInfo: undefined,
         err: action.err
       });
     case Actions.GET_RENTAL_ITEM_REQUEST:
