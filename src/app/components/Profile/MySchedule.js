@@ -16,19 +16,21 @@ const styles = {
 class MySchedule extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      openModal: false,
+      modalItemId: -1,
+      modalRentalStatus: '',
+      modalTitle: '',
+      modalStart: '',
+      modalEnd: ''
+    };
+
     this.handleDayClick = this.handleDayClick.bind(this);
     this.handleEventClick = this.handleEventClick.bind(this);
     this.handleViewBooking = this.handleViewBooking.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleViewItem = this.handleViewItem.bind(this);
-  }
-  state = {
-    openModal: false,
-    modalItemId: -1,
-    modalRentalStatus: '',
-    modalTitle: '',
-    modalStart: '',
-    modalEnd: ''
   }
   componentWillMount() {
     // Fetch the list of my booking data using the userId from the props

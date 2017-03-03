@@ -19,6 +19,7 @@ import Listings from './app/components/Listings/Listings';
 import RentalItem from './app/components/RentalItem/RentalItem';
 import EditItem from './app/components/RentalItem/EditItem';
 import User from './app/components/User/User';
+import NotFoundError from './app/components/ErrorPages/NotFoundError';
 import {requireAuthentication} from './app/components/General/AuthenticatedComponent';
 import {reducers} from './app/reducers/reducers';
 import {i18n} from './app/i18n/i18n';
@@ -52,6 +53,7 @@ ReactDOM.render(
         <Route path="/listings/:itemId" component={RentalItem}/>
         <Route path="/listings/edit/:itemId" component={EditItem}/>
         <Route path="/user/:userId" component={User}/>
+        <Route path="*" component={NotFoundError}/>
       </Router>
     </IntlProvider>
   </Provider>,
