@@ -48,6 +48,7 @@ class RentalItem extends Component {
     this.handleRequestToRentButton = this.handleRequestToRentButton.bind(this);
     this.handleRequestToEditButton = this.handleRequestToEditButton.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleCloseResponseModal = this.handleCloseResponseModal.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleMakeRentRequest = this.handleMakeRentRequest.bind(this);
     this.getCategories = this.getCategories.bind(this);
