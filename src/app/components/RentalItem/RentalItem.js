@@ -74,6 +74,11 @@ class RentalItem extends Component {
         const token = localStorage.getItem('token');
         this.props.dispatch(getUser(token));
       }
+
+      // If the item is archived, we don't want the user to view this page
+      if (this.props.rentalItem.status === "Archived") {
+        this.props.router.push(`/ErrorPage`);
+      }
     });
   }
   handleRequestToRentButton() {
@@ -299,13 +304,13 @@ class RentalItem extends Component {
                         />
                     </Grid.Column>
                     <Grid.Column width={6}>
-                      <Image src={BASE_URL + rentalItem.photo[0]} shape="rounded" bordered/>
+                      <Image src={BASE_URL + rentalItem.photos[0]} shape="rounded" bordered/>
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
               </Container>
             </Segment>
-            {rentalItem.photo && rentalItem.photo.length !== 0 &&
+            {rentalItem.photos && rentalItem.photos.length !== 0 &&
               <Segment vertical>
                 <Container style={styles.container}>
                   <Grid stackable>
@@ -319,7 +324,7 @@ class RentalItem extends Component {
                     <Grid.Row columns={1}>
                       <Grid.Column>
                         <Card.Group itemsPerRow={5}>
-                          {rentalItem.photo.map((photo, i) => {
+                          {rentalItem.photos.map((photo, i) => {
                             return (
                               <Thumbnail key={i} src={BASE_URL + photo} height={250}/>
                             );
