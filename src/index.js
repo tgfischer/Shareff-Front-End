@@ -16,6 +16,7 @@ import Profile from './app/components/Profile/Profile';
 import Login from './app/components/Login/Login';
 import SignUp from './app/components/SignUp/SignUp';
 import Listings from './app/components/Listings/Listings';
+import Booking from './app/components/Booking/Booking';
 import RentalItem from './app/components/RentalItem/RentalItem';
 import EditItem from './app/components/RentalItem/EditItem';
 import User from './app/components/User/User';
@@ -51,6 +52,7 @@ ReactDOM.render(
         <Route path="/listings" component={Listings}/>
         <Route path="/listings/:itemId" component={RentalItem}/>
         <Route path="/listings/edit/:itemId" component={EditItem}/>
+        <Route path="/booking/:bookingId" component={Booking}/>
         <Route path="/user/:userId" component={User}/>
       </Router>
     </IntlProvider>

@@ -154,6 +154,13 @@ export const Actions = {
   GET_RENTAL_ITEM_FAILURE: 'GET_RENTAL_ITEM_FAILURE',
 
   /**
+   * Actions for getting a booking
+   */
+  GET_BOOKING_REQUEST: 'GET_BOOKING_REQUEST',
+  GET_BOOKING_SUCCESS: 'GET_BOOKING_SUCCESS',
+  GET_BOOKING_FAILURE: 'GET_BOOKING_FAILURE',
+
+  /**
    * Actions for getting a list of my items
    */
   GET_MY_ITEMS_REQUEST: 'GET_MY_ITEMS_REQUEST',
