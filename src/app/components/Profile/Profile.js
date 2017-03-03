@@ -22,17 +22,6 @@ const styles = {
   }
 };
 
-const tabs = [
-  'info',
-  'messages',
-  'billing',
-  'my-schedule',
-  'add-item',
-  'my-items',
-  'incoming-requests',
-  'my-requests'
-];
-
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -42,7 +31,7 @@ class Profile extends Component {
     const {router, params} = this.props;
     const {activeTab} = params;
 
-    if (!activeTab || !tabs.includes(activeTab)) {
+    if (!activeTab) {
       router.replace('/profile/info');
     }
   }
