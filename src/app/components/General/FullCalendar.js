@@ -7,7 +7,7 @@ import '../../../../node_modules/moment/moment.js';
 
 class FullCalendar extends Component {
   componentDidMount() {
-    const {onDayClick, intl} = this.props;
+    const {onDayClick, onEventClick, rentedItems, myItems, intl} = this.props;
     const {formatMessage} = intl;
 
     // Initialize the calendar
@@ -15,7 +15,18 @@ class FullCalendar extends Component {
       dayClick: onDayClick,
       buttonText: {
         today: formatMessage({id: 'fullCalendar.today'})
-      }
+      },
+      eventSources: [{
+        events: rentedItems,
+        color: '#b6e1fc',
+        textColor: 'white'
+      },
+      {
+        events: myItems,
+        color: '#087cc4',
+        textColor: 'white'
+      }],
+      eventClick: onEventClick
     });
 
     // Add the Semantic UI button classes
@@ -32,7 +43,10 @@ class FullCalendar extends Component {
 
 FullCalendar.propTypes = {
   intl: intlShape.isRequired,
-  onDayClick: React.PropTypes.func.isRequired
+  onDayClick: React.PropTypes.func.isRequired,
+  onEventClick: React.PropTypes.func.isRequired,
+  rentedItems: React.PropTypes.array,
+  myItems: React.PropTypes.array
 };
 
 export default injectIntl(FullCalendar);

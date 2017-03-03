@@ -186,6 +186,24 @@ export const reducers = (state = {
         myItems: undefined,
         err: action.err
       });
+    case Actions.GET_MY_SCHEDULE_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        mySchedule: undefined,
+        err: undefined
+      });
+    case Actions.GET_MY_SCHEDULE_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: undefined,
+        mySchedule: action.mySchedule
+      });
+    case Actions.GET_MY_SCHEDULE_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        mySchedule: undefined,
+        err: action.err
+      });
     case Actions.MAKE_RENT_REQUEST_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
