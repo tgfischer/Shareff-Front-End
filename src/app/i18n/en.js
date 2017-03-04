@@ -319,7 +319,7 @@ const en = {
    */
   myRequests: {
     title: 'My Rent Requests',
-    subTitle: 'Click on a row delete the request, view the item page, or view the owner\'s profile',
+    subTitle: 'Click on a row cancel the request, view the item page, or view the owner\'s profile',
     columns: {
       itemTitle: 'Requested Item',
       ownersName: 'Owner\'s Name',
@@ -329,10 +329,10 @@ const en = {
     },
     modal: {
       title: 'Delete Rent Request',
-      content: 'Would you like to delete this rent request?',
+      content: 'Would you like to cancel this rent request?',
       viewItemButton: 'View Rental Item',
       viewOwnersProfileButton: 'View Owner\'s Profile',
-      cancelRequestButton: 'Delete Request'
+      cancelRequestButton: 'Cancel Request'
     }
   },
 

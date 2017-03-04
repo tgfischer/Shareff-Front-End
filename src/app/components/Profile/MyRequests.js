@@ -23,7 +23,7 @@ class MyRequests extends Component {
     super(props);
     this.handleRowClick = this.handleRowClick.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
-    this.handleDeleteRequest = this.handleDeleteRequest.bind(this);
+    this.handleCancelRequest = this.handleCancelRequest.bind(this);
 
     this.state = {
       selectedRow: null,
@@ -46,7 +46,7 @@ class MyRequests extends Component {
   handleCloseModal() {
     this.setState({err: null, selectedRow: null});
   }
-  handleDeleteRequest(e) {
+  handleCancelRequest(e) {
     e.preventDefault();
 
     const {dispatch, user} = this.props;
@@ -122,7 +122,7 @@ class MyRequests extends Component {
             <Modal.Actions style={styles.noBorder}>
               <Button
                 content={formatMessage({id: 'myRequests.modal.cancelRequestButton'})}
-                onClick={this.handleDeleteRequest}
+                onClick={this.handleCancelRequest}
                 size="huge"
                 color="red"
                 />
