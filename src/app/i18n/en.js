@@ -309,6 +309,13 @@ const en = {
 
   request: {
     status: {
+      notificationPending: 'Notification Pending',
+      pending: 'Pending',
+      accepted: 'Accepted',
+      rejected: 'Rejected',
+      cancelled: 'Cancelled'
+    },
+    ownerActions: {
       accept: 'Accept',
       reject: 'Reject'
     }
@@ -328,8 +335,8 @@ const en = {
       status: 'Status'
     },
     modal: {
-      title: 'Delete Rent Request',
-      content: 'Would you like to cancel this rent request?',
+      title: 'Rent Request Actions',
+      content: 'Use the actions below to cancel the rent request, or view details about the request. Note, you cannot cancel a request that has already been accepted or cancelled',
       viewItemButton: 'View Rental Item',
       viewOwnersProfileButton: 'View Owner\'s Profile',
       cancelRequestButton: 'Cancel Request'

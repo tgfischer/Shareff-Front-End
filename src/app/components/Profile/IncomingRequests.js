@@ -131,7 +131,7 @@ class IncomingRequests extends Component {
                 <Form.Select
                   label={formatMessage({id: 'incomingRequests.modal.updateStatusLabel'})}
                   options={options}
-                  placeholder={unescape(selectedRow.status) || ''}
+                  placeholder={formatMessage({id: unescape(selectedRow.status || '')})}
                   name="status"
                   required
                   />

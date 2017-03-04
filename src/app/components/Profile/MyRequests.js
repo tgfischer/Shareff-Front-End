@@ -85,7 +85,13 @@ class MyRequests extends Component {
           return moment(data).format('MMM Do YYYY, h:mm a');
         }
       },
-      {data: 'status', title: formatMessage({id: 'myRequests.columns.status'})}
+      {
+        data: 'status',
+        title: formatMessage({id: 'myRequests.columns.status'}),
+        render: id => {
+          return formatMessage({id});
+        }
+      }
     ];
 
     return (
@@ -121,6 +127,7 @@ class MyRequests extends Component {
             </Modal.Content>
             <Modal.Actions style={styles.noBorder}>
               <Button
+                disabled={selectedRow.status === 'request.status.accepted' || selectedRow.status === 'request.status.cancelled'}
                 content={formatMessage({id: 'myRequests.modal.cancelRequestButton'})}
                 onClick={this.handleCancelRequest}
                 size="huge"

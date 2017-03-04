@@ -99,14 +99,14 @@ class Profile extends Component {
                     <Menu.Item as={Link} to="/profile/my-requests" name="my-requests" active={activeTab === 'my-requests'}>
                       <FormattedMessage id="profile.myRequests"/>
                     </Menu.Item>
+                    <Menu.Item as={Link} to="/profile/my-schedule" name="my-schedule" active={activeTab === 'my-schedule'}>
+                      <FormattedMessage id="profile.mySchedule"/>
+                    </Menu.Item>
                     <Menu.Item as={Link} to="/profile/incoming-requests" name="incoming-requests" active={activeTab === 'incoming-requests'}>
                       <FormattedMessage id="profile.incomingRequests"/>
                     </Menu.Item>
                     <Menu.Item as={Link} to="/profile/messages" name="messages" active={activeTab === 'messages'}>
                       <FormattedMessage id="profile.messages"/>
-                    </Menu.Item>
-                    <Menu.Item as={Link} to="/profile/my-schedule" name="my-schedule" active={activeTab === 'my-schedule'}>
-                      <FormattedMessage id="profile.mySchedule"/>
                     </Menu.Item>
                     <Menu.Item as={Link} to="/profile/billing" name="billing" active={activeTab === 'billing'}>
                       <FormattedMessage id="profile.billing"/>
