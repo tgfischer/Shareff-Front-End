@@ -430,6 +430,7 @@ const en = {
     saveChangesButton: 'Save Changes',
     removeItemButton: 'Remove Item',
     cancelButton: 'Cancel Changes',
+    photosTitle: 'Photos of Your Item',
     removeModal: {
       success: 'Your rental item has been successfully removed.'
     },

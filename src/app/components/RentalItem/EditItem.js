@@ -2,15 +2,18 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import validator from 'validator';
-import {Form, Grid, Image, Label, Segment, Container, Button, Modal, Header} from 'semantic-ui-react';
+import {Form, Grid, Image, Label, Segment, Container, Button, Modal, Header, Card} from 'semantic-ui-react';
 import NavBar from '../General/NavBar';
 import PageHeaderSegment from '../General/PageHeaderSegment';
 import {Loading} from '../General/Loading';
-import {intlShape, injectIntl} from 'react-intl';
+import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {getRentalItem, removeMyItem, updateMyItem} from '../../actions/rentalItem';
 import {getUser} from '../../actions/auth';
 import {getOptions} from '../../utils/Utils';
 import {DraftEditor} from '../General/DraftEditor';
+import {Thumbnail} from '../General/Thumbnail';
+import {uploadPhotos} from '../../actions/uploadPhotos';
+import UploadFile from '../General/UploadFile';
 import {BASE_URL, categories, costPeriods} from '../../constants/constants';
 
 class EditItem extends Component {
@@ -21,13 +24,16 @@ class EditItem extends Component {
     this.handleRequestToSaveButton = this.handleRequestToSaveButton.bind(this);
     this.handleCloseRemoveModal = this.handleCloseRemoveModal.bind(this);
     this.handleCloseUpdateModal = this.handleCloseUpdateModal.bind(this);
+    this.handleRemovePhoto = this.handleRemovePhoto.bind(this);
+    this.handlePhotosUpload = this.handlePhotosUpload.bind(this);
 
     this.state = {
       openRemoveModal: false,
       openUpdateModal: false,
       modalTitle: 'modal.success',
       modalContent: 'editItem.removeModal.success',
-      updateModalContent: 'editItem.updateModal.success'
+      updateModalContent: 'editItem.updateModal.success',
+      photoUrls: null
     };
   }
   componentWillMount() {
@@ -40,6 +46,7 @@ class EditItem extends Component {
         const token = localStorage.getItem('token');
         this.props.dispatch(getUser(token));
       }
+      this.setState({photoUrls: this.props.rentalItem.photos});
     });
   }
   handleRequestToRemoveButton() {
@@ -70,6 +77,8 @@ class EditItem extends Component {
     const {userId} = this.props.user;
     formData.itemId = itemId;
     formData.userId = userId;
+    formData.photos = this.state.photoUrls;
+    console.log(this.state.photoUrls);
     this.props.dispatch(updateMyItem(formData)).then(({err}) => {
       const {formatMessage} = this.props.intl;
 
@@ -93,6 +102,22 @@ class EditItem extends Component {
     this.setState({openUpdateModal: false});
     this.props.router.push(`/profile/my-items`);
   }
+  handleRemovePhoto(selectedPhotoUrl) {
+    const {photoUrls} = this.state;
+    const i = photoUrls.indexOf(selectedPhotoUrl);
+    if (i !== -1) {
+      photoUrls.splice(i, 1);
+      this.setState({photoUrls});
+    }
+  }
+  handlePhotosUpload(newPhotoUrls) {
+    console.log(newPhotoUrls);
+    let {photoUrls} = this.state;
+    console.log(photoUrls);
+    photoUrls = photoUrls.concat(newPhotoUrls);
+    console.log(photoUrls);
+    this.setState({photoUrls});
+  }
   getCategories(categories) {
     const {formatMessage} = this.props.intl;
 
@@ -110,7 +135,7 @@ class EditItem extends Component {
   }
   render() {
     const {rentalItem, user, intl} = this.props;
-    const {openRemoveModal, openUpdateModal, modalTitle, modalContent, updateModalContent} = this.state;
+    const {openRemoveModal, openUpdateModal, modalTitle, modalContent, updateModalContent, photoUrls} = this.state;
     const {formatMessage} = intl;
     const {unescape} = validator;
     const breadcrumbs = [{
@@ -118,10 +143,11 @@ class EditItem extends Component {
       to: '/'
     }];
 
-    breadcrumbs.push({
-      text: unescape(rentalItem.title)
-    });
-
+    if (rentalItem) {
+      breadcrumbs.push({
+        text: unescape(rentalItem.title)
+      });
+    }
     return (
       <div>
         {rentalItem && user ?
@@ -215,6 +241,37 @@ class EditItem extends Component {
                           name="terms"
                           defaultValue={rentalItem.termsOfUse}
                           required
+                          />
+                      </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                      <Grid.Column>
+                        <Header as="h2">
+                          <FormattedMessage id="editItem.photosTitle"/>
+                        </Header>
+                        {photoUrls &&
+                          <Card.Group itemsPerRow={3}>
+                            {photoUrls.map((photoUrl, i) => {
+                              return (
+                                <Thumbnail
+                                  key={i}
+                                  src={BASE_URL + photoUrl}
+                                  height={200}
+                                  removeEnable={"true"}
+                                  photoUrl={photoUrl}
+                                  onRemovePhotoRequest={this.handleRemovePhoto}
+                                  />
+                              );
+                            })}
+                          </Card.Group>
+                        }
+                        <UploadFile
+                          uploadAction={uploadPhotos}
+                          uploadRoute="upload_item_photos"
+                          name="uploadPhotos"
+                          fluid
+                          multiple
+                          onPhotosChange={this.handlePhotosUpload}
                           />
                       </Grid.Column>
                     </Grid.Row>

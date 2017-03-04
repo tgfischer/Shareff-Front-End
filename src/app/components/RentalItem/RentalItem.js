@@ -366,7 +366,7 @@ class RentalItem extends Component {
           </div> :
           <Loading/>
         }
-        <Modal className="rent-request-modal" dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
+        <Modal size="small" dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
           <Modal.Header>
             <Header as="h1">
               <FormattedMessage id="rentalItem.modal.title"/>

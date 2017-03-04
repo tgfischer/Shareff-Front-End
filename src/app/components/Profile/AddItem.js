@@ -149,7 +149,7 @@ class UploadItem extends Component {
                   <Card.Group itemsPerRow={3}>
                     {photoUrls.map((photoUrl, i) => {
                       return (
-                        <Thumbnail key={i} src={BASE_URL + photoUrl} height={250}/>
+                        <Thumbnail key={i} src={BASE_URL + photoUrl} height={200}/>
                       );
                     })}
                   </Card.Group>
