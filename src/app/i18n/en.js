@@ -442,7 +442,30 @@ const en = {
    * Booking Page
    */
   booking: {
-    statusHeader: 'Booking Status'
+    statusHeader: 'BOOKING STATUS',
+    status: '{status}',
+    startDate: 'Start Date',
+    endDate: 'End Date',
+    startDateVal: '{startDate}',
+    endDateVal: '{endDate}',
+    pending: 'Pending',
+    active: 'Active',
+    complete: 'Complete',
+    owner: '{fName} {lName}',
+    renter: '{fName} {lName}',
+    item: '{item}',
+    totalCostHeader: 'TOTAL RENTAL COST',
+    totalCost: '$ 100',
+    paymentStatusHeader: 'PAYMENT STATUS',
+    paymentStatus: 'Pending',
+    activeResponses: {
+      ownerDelivered: 'Did you deliver this rental item to the renter?',
+      renterReceived: 'Did you receive your rental item from the owner?',
+      ownerReceived: 'Did you receive your rental item back from the renter?',
+      renterDelivered: 'Did you return this rental item to the owner?'
+    },
+    provideRating: 'Please rate your experience with {otherUserName}:',
+    thanksForRating: 'Thank you for your feedback!'
   }
 };
 

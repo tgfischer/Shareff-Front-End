@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
+import moment from 'moment';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router';
+import {withRouter, Link} from 'react-router';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {
-  Container, Grid, Header, Segment
+  Button, Container, Grid, Header, Icon, Image, Progress, Rating, Segment
 } from 'semantic-ui-react';
 import NavBar from '../General/NavBar';
 import {Loading} from '../General/Loading';
 import {getUser} from '../../actions/auth';
 import {getBooking} from '../../actions/booking';
+import {BASE_URL} from '../../constants/constants';
 
 const styles = {
   wrapper: {
@@ -25,15 +27,49 @@ const styles = {
     fontSize: "2em"
   },
   subHeader: {
+    paddingTop: "0.5em",
+    paddingBottom: "0.5em",
     fontSize: "1.5em"
+  },
+  miniHeader: {
+    fontSize: "1.5em"
+  },
+  miniSubHeader: {
+    paddingTop: "0.4em",
+    paddingBottom: "0.4em",
+    fontSize: "1.5em"
+  },
+  largePadding: {
+    paddingTop: "5em",
+    paddingBottom: "5em"
   }
 };
 
 /* eslint-disable react/no-danger */
 class Booking extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+    this.handleOwnerStartConfirmation = this.handleOwnerStartConfirmation.bind(this);
+    this.handleOwnerStartReject = this.handleOwnerStartReject.bind(this);
+    this.handleRenterStartConfirmation = this.handleRenterStartConfirmation.bind(this);
+    this.handleRenterStartReject = this.handleRenterStartReject.bind(this);
+    this.handleOwnerEndConfirmation = this.handleOwnerEndConfirmation.bind(this);
+    this.handleOwnerEndReject = this.handleOwnerEndReject.bind(this);
+    this.handleRenterEndConfirmation = this.handleRenterEndConfirmation.bind(this);
+    this.handleRenterEndReject = this.handleRenterEndReject.bind(this);
+    this.handleOwnerRatingSubmit = this.handleOwnerRatingSubmit.bind(this);
+    this.handleRenterRatingSubmit = this.handleRenterRatingSubmit.bind(this);
+
+    this.state = {
+      statusBarPercent: 0,
+      ownerStartConfirmationRequired: true,
+      renterStartConfirmationRequired: true,
+      ownerEndConfirmationRequired: true,
+      renterEndConfirmationRequired: true,
+      ownerRatingRequired: true,
+      renterRatingRequired: true
+    };
+  }
   componentWillMount() {
     const {bookingId} = this.props.params;
 
@@ -44,11 +80,58 @@ class Booking extends Component {
       }
     });
   }
+  handleOwnerStartConfirmation() {
+    this.setState({ownerStartConfirmationRequired: false});
+
+    // Dispatch to update the booking to know that owner start confirmation is no longer required - confirm
+  }
+  handleOwnerStartReject() {
+    this.setState({ownerStartConfirmationRequired: false});
+
+    // Dispatch to update the booking to know that owner start confirmation is no longer required - reject
+  }
+  handleRenterStartConfirmation() {
+    this.setState({renterStartConfirmationRequired: false});
+
+    // Dispatch to update the booking to know that renter start confirmation is no longer required - confirm
+  }
+  handleRenterStartReject() {
+    this.setState({renterStartConfirmationRequired: false});
+
+    // Dispatch to update the booking to know that renter start confirmation is no longer required - reject
+  }
+  handleOwnerEndConfirmation() {
+    this.setState({ownerEndConfirmationRequired: false});
+
+    // Dispatch to update the booking to know that owner end confirmation is no longer required - confirm
+  }
+  handleOwnerEndReject() {
+    this.setState({ownerEndConfirmationRequired: false});
+
+    // Dispatch to update the booking to know that owner end confirmation is no longer required - reject
+  }
+  handleRenterEndConfirmation() {
+    this.setState({renterEndConfirmationRequired: false});
+
+    // Dispatch to update the booking to know that owner end confirmation is no longer required - confirm
+  }
+  handleRenterEndReject() {
+    this.setState({renterEndConfirmationRequired: false});
+
+    // Dispatch to update the booking to know that owner end confirmation is no longer required - confirm
+  }
+  handleOwnerRatingSubmit(event, data) {
+    this.setState({ownerRatingRequired: false});
+    console.log(data.rating);
+    // Dispatch to update the booking to create a new userReview for this booking
+  }
+  handleRenterRatingSubmit(event, data) {
+    this.setState({renterRatingRequired: false});
+    console.log(data.rating);
+    // Dispatch to update the booking to create a new userReview for this booking
+  }
   render() {
-    // const {bookingInfo, intl, user, isFetching} = this.props;
     const {bookingInfo, user} = this.props;
-    console.log(bookingInfo);
-    console.log(user);
     return (
       <div style={styles.wrapper}>
         {bookingInfo && user ?
@@ -56,23 +139,387 @@ class Booking extends Component {
             <NavBar/>
             <Segment vertical>
               <Container style={styles.container}>
-                <Grid verticalAlign="midle" columns={1}>
-                  <Grid.Row centered>
-                    <Grid.Column>
-                      {bookingInfo.booking && bookingInfo.booking.status === 'Pending' ?
+                <Grid verticalAlign="middle" columns={3}>
+                  {bookingInfo.booking && bookingInfo.booking.status &&
+                    <Grid.Row centered>
+                      <Grid.Column width={4}>
+                        <div>
+                          <Header as="h2" size="huge" className="bold" style={styles.miniHeader}>
+                            <FormattedMessage id="booking.totalCostHeader"/>
+                            <Header.Subheader style={styles.miniSubHeader}>
+                              <FormattedMessage
+                                id="booking.totalCost"
+                                values={{
+                                  cost: bookingInfo.booking.totalCost
+                                }}
+                                />
+                            </Header.Subheader>
+                          </Header>
+                        </div>
+                      </Grid.Column>
+                      <Grid.Column width={8}>
                         <div>
                           <Header as="h1" size="huge" className="bold" style={styles.header}>
                             <FormattedMessage id="booking.statusHeader"/>
-                            <Header.SubHeader style={styles.subHeader}>
-
-                            </Header.SubHeader>
+                            <Header.Subheader style={styles.subHeader}>
+                              <FormattedMessage
+                                id="booking.status"
+                                values={{
+                                  status: bookingInfo.booking.status
+                                }}
+                                />
+                            </Header.Subheader>
                           </Header>
-                        </div> :
-                        <Loading/>
-                      }
-                    </Grid.Column>
-                  </Grid.Row>
+                        </div>
+                      </Grid.Column>
+                      <Grid.Column width={4}>
+                        <div>
+                          <Header as="h2" size="huge" className="bold" style={styles.miniHeader}>
+                            <FormattedMessage id="booking.paymentStatusHeader"/>
+                            <Header.Subheader style={styles.miniSubHeader}>
+                              <FormattedMessage
+                                id="booking.paymentStatus"
+                                values={{
+                                  status: bookingInfo.booking.totalCost
+                                }}
+                                />
+                            </Header.Subheader>
+                          </Header>
+                        </div>
+                      </Grid.Column>
+                    </Grid.Row>
+                  }
                 </Grid>
+                {bookingInfo.booking && bookingInfo.booking.status && bookingInfo.booking.status === 'Booking Complete' &&
+                  <Progress percent={10} size="large" color="blue">
+                    <FormattedMessage id="booking.pending"/>
+                  </Progress>
+                }
+                {bookingInfo.booking && bookingInfo.booking.status && bookingInfo.booking.status === 'Booking Active' &&
+                  <div>
+                    <Progress percent={55} size="large" color="blue">
+                      <FormattedMessage id="booking.active"/>
+                    </Progress>
+                    {bookingInfo.renter && bookingInfo.renter.userId && user.userId && bookingInfo.renter.userId === user.userId &&
+                      <div style={styles.largePadding}>
+                        <Grid verticalAlign="middle" columns={3}>
+                          {bookingInfo.renter.startConfirmationRequired &&
+                            <Grid.Row centered>
+                              <Grid.Column width={10}>
+                                <Header as="h2" size="huge" style={styles.header}>
+                                  <FormattedMessage id="booking.activeResponses.renterReceived"/>
+                                </Header>
+                              </Grid.Column>
+                              <Grid.Column width={6}>
+                                <Button
+                                  content="Confirm"
+                                  icon="checkmark"
+                                  labelPosition="right"
+                                  onClick={this.handleRenterStartConfirmation}
+                                  positive
+                                  />
+                                <Button
+                                  content="Reject"
+                                  icon="delete"
+                                  labelPosition="right"
+                                  onClick={this.handleRenterStartReject}
+                                  negative
+                                  />
+                              </Grid.Column>
+                            </Grid.Row>
+                          }
+                        </Grid>
+                      </div>
+                    }
+                    {bookingInfo.owner && bookingInfo.owner.userId && user.userId && bookingInfo.owner.userId === user.userId &&
+                      <div style={styles.largePadding}>
+                        <Grid verticalAlign="middle" columns={3}>
+                          {bookingInfo.owner.startConfirmationRequired &&
+                            <Grid.Row centered>
+                              <Grid.Column width={10}>
+                                <Header as="h2" size="huge" style={styles.header}>
+                                  <FormattedMessage id="booking.activeResponses.ownerDelivered"/>
+                                </Header>
+                              </Grid.Column>
+                              <Grid.Column width={6}>
+                                <Button
+                                  content="Confirm"
+                                  icon="checkmark"
+                                  labelPosition="right"
+                                  onClick={this.handleOwnerStartConfirmation}
+                                  positive
+                                  />
+                                <Button
+                                  content="Reject"
+                                  icon="delete"
+                                  labelPosition="right"
+                                  onClick={this.handleOwnerStartReject}
+                                  negative
+                                  />
+                              </Grid.Column>
+                            </Grid.Row>
+                          }
+                        </Grid>
+                      </div>
+                    }
+                  </div>
+                }
+                {bookingInfo.booking && bookingInfo.booking.status && bookingInfo.booking.status === 'Booking Pending' &&
+                  <div>
+                    <Progress percent={100} size="large" color="blue">
+                      <FormattedMessage id="booking.complete"/>
+                    </Progress>
+                    {bookingInfo.renter && bookingInfo.renter.userId && user.userId && bookingInfo.renter.userId === user.userId &&
+                      <div style={styles.largePadding}>
+                        <Grid verticalAlign="middle" columns={3}>
+                          {bookingInfo.renter.endConfirmationRequired &&
+                            <Grid.Row centered>
+                              <Grid.Column width={10}>
+                                <Header as="h2" size="huge" style={styles.header}>
+                                  <FormattedMessage id="booking.activeResponses.renterDelivered"/>
+                                </Header>
+                              </Grid.Column>
+                              <Grid.Column width={6}>
+                                <Button
+                                  content="Confirm"
+                                  icon="checkmark"
+                                  labelPosition="right"
+                                  onClick={this.handleRenterEndConfirmation}
+                                  positive
+                                  />
+                                <Button
+                                  content="Reject"
+                                  icon="delete"
+                                  labelPosition="right"
+                                  onClick={this.handleRenterEndReject}
+                                  negative
+                                  />
+                              </Grid.Column>
+                            </Grid.Row>
+                          }
+                          <Grid.Row centered>
+                            {bookingInfo.renter.rating ?
+                              <div>
+                                <Grid.Column width={10}>
+                                  <Header as="h1" size="huge" style={styles.header}>
+                                    <FormattedMessage id="booking.thanksForRating"/>
+                                  </Header>
+                                </Grid.Column>
+                                <Grid.Column width={6}>
+                                  <Rating
+                                    maxRating={5}
+                                    defaultRating={bookingInfo.renter.rating}
+                                    icon="star"
+                                    size="massive"
+                                    disabled
+                                    />
+                                </Grid.Column>
+                              </div> :
+                              <div>
+                                <Grid.Column width={10}>
+                                  <Header as="h1" size="huge" style={styles.header}>
+                                    <FormattedMessage
+                                      id="booking.provideRating"
+                                      values={{
+                                        otherUserName: bookingInfo.owner.firstName
+                                      }}
+                                      />
+                                  </Header>
+                                </Grid.Column>
+                                <Grid.Column width={6}>
+                                  <Rating
+                                    maxRating={5}
+                                    defaultRating={0}
+                                    icon="star"
+                                    size="massive"
+                                    onRate={this.handleRenterRatingSubmit}
+                                    />
+                                </Grid.Column>
+                              </div>
+                            }
+                          </Grid.Row>
+                        </Grid>
+                      </div>
+                    }
+                    {bookingInfo.owner && bookingInfo.owner.userId && user.userId && bookingInfo.owner.userId === user.userId &&
+                      <div style={styles.largePadding}>
+                        <Grid verticalAlign="middle" columns={2}>
+                          {bookingInfo.owner.endConfirmationRequired &&
+                            <Grid.Row centered>
+                              <Grid.Column width={10}>
+                                <Header as="h2" size="huge" style={styles.header}>
+                                  <FormattedMessage id="booking.activeResponses.ownerReceived"/>
+                                </Header>
+                              </Grid.Column>
+                              <Grid.Column width={6}>
+                                <Button
+                                  content="Confirm"
+                                  icon="checkmark"
+                                  labelPosition="right"
+                                  onClick={this.handleOwnerEndConfirmation}
+                                  positive
+                                  />
+                                <Button
+                                  content="Reject"
+                                  icon="delete"
+                                  labelPosition="right"
+                                  onClick={this.handleOwnerEndReject}
+                                  negative
+                                  />
+                              </Grid.Column>
+                            </Grid.Row>
+                          }
+                          {bookingInfo.owner.rating ?
+                            <Grid.Row centered>
+                              <Grid.Column width={10}>
+                                <Header as="h1" size="huge" style={styles.header}>
+                                  <FormattedMessage id="booking.thanksForRating"/>
+                                </Header>
+                              </Grid.Column>
+                              <Grid.Column width={6}>
+                                <Rating
+                                  maxRating={5}
+                                  defaultRating={bookingInfo.owner.rating}
+                                  icon="star"
+                                  size="massive"
+                                  disabled
+                                  />
+                              </Grid.Column>
+                            </Grid.Row> :
+                            <Grid.Row centered>
+                              <Grid.Column width={10}>
+                                <Header as="h1" size="huge" style={styles.header}>
+                                  <FormattedMessage
+                                    id="booking.provideRating"
+                                    values={{
+                                      otherUserName: bookingInfo.renter.firstName
+                                    }}
+                                    />
+                                </Header>
+                              </Grid.Column>
+                              <Grid.Column width={6}>
+                                <Rating
+                                  maxRating={5}
+                                  defaultRating={0}
+                                  icon="star"
+                                  size="massive"
+                                  onRate={this.handleRenterRatingSubmit}
+                                  />
+                              </Grid.Column>
+                            </Grid.Row>
+                          }
+                        </Grid>
+                      </div>
+                    }
+                  </div>
+                }
+                <div style={styles.largePadding}>
+                  <Grid verticalAlign="middle">
+                    <Grid.Row centered columns={2}>
+                      <Grid.Column textAlign="center">
+                        {bookingInfo.booking && bookingInfo.booking.startDate &&
+                          <div>
+                            <Header as="h2" size="huge" style={styles.header} icon>
+                              <Icon name="checked calendar"/>
+                              <FormattedMessage id="booking.startDate"/>
+                              <Header.Subheader style={styles.subHeader}>
+                                <FormattedMessage
+                                  id="booking.startDateVal"
+                                  values={{
+                                    startDate: moment(bookingInfo.booking.startDate).format('MMM Do YYYY, h:mm a')
+                                  }}
+                                  />
+                              </Header.Subheader>
+                            </Header>
+                          </div>
+                        }
+                      </Grid.Column>
+                      <Grid.Column textAlign="center">
+                        {bookingInfo.booking && bookingInfo.booking.endDate &&
+                          <div>
+                            <Header as="h2" size="huge" style={styles.header} icon>
+                              <Icon name="checked calendar"/>
+                              <FormattedMessage id="booking.endDate"/>
+                              <Header.Subheader style={styles.subHeader}>
+                                <FormattedMessage
+                                  id="booking.endDateVal"
+                                  values={{
+                                    endDate: moment(bookingInfo.booking.endDate).format('MMM Do YYYY, h:mm a')
+                                  }}
+                                  />
+                              </Header.Subheader>
+                            </Header>
+                          </div>
+                        }
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
+                </div>
+                <div style={styles.container}>
+                  <Grid verticalAlign="middle">
+                    <Grid.Row centered columns={5}>
+                      <Grid.Column textAlign="center" width={4}>
+                        {bookingInfo.renter && bookingInfo.renter.photoUrl &&
+                          <div>
+                            <Header as="h2" style={styles.header}>
+                              <FormattedMessage
+                                id="booking.renter"
+                                values={{
+                                  fName: bookingInfo.renter.firstName,
+                                  lName: bookingInfo.renter.lastName
+                                }}
+                                />
+                            </Header>
+                            <Link to={`/user/${bookingInfo.renter.userId}`}>
+                              <Image src={BASE_URL + bookingInfo.renter.photoUrl} shape="rounded" bordered fluid/>
+                            </Link>
+                          </div>
+                        }
+                      </Grid.Column>
+                      <Grid.Column textAlign="center" width={2}>
+                        <Icon name="long arrow left" size="huge"/>
+                      </Grid.Column>
+                      <Grid.Column textAlign="center" width={4}>
+                        {bookingInfo.rentalItem && bookingInfo.rentalItem.photos &&
+                          <div>
+                            <Header as="h3" style={styles.header}>
+                              <FormattedMessage
+                                id="booking.item"
+                                values={{
+                                  item: bookingInfo.rentalItem.title
+                                }}
+                                />
+                            </Header>
+                            <Link to={`/listings/${bookingInfo.rentalItem.itemId}`}>
+                              <Image src={BASE_URL + bookingInfo.rentalItem.photos[0]} shape="rounded" bordered fluid/>
+                            </Link>
+                          </div>
+                        }
+                      </Grid.Column>
+                      <Grid.Column textAlign="center" width={2}>
+                        <Icon name="long arrow left" size="huge"/>
+                      </Grid.Column>
+                      <Grid.Column textAlign="center" width={4}>
+                        {bookingInfo.owner && bookingInfo.owner.photoUrl &&
+                          <div>
+                            <Header as="h2" style={styles.header}>
+                              <FormattedMessage
+                                id="booking.owner"
+                                values={{
+                                  fName: bookingInfo.owner.firstName,
+                                  lName: bookingInfo.owner.lastName
+                                }}
+                                />
+                            </Header>
+                            <Link to={`/user/${bookingInfo.owner.userId}`}>
+                              <Image src={BASE_URL + bookingInfo.owner.photoUrl} shape="rounded" bordered fluid/>
+                            </Link>
+                          </div>
+                        }
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
+                </div>
               </Container>
             </Segment>
           </div> :
@@ -93,8 +540,7 @@ Booking.propTypes = {
   err: React.PropTypes.object,
   dispatch: React.PropTypes.func.isRequired,
   user: React.PropTypes.object,
-  params: React.PropTypes.object.isRequired,
-  location: React.PropTypes.object
+  params: React.PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
