@@ -15,16 +15,27 @@ export class DataTableSemantic extends Component {
     this.state = {
       isTableInitialized: false
     };
+
+    this.initTable = this.initTable.bind(this);
   }
   componentDidMount() {
-    const {rows, columns, order, onRowClick} = this.props;
+    this.initTable(this.props);
+  }
+  componentDidUpdate(prevProps) {
+    const {rows} = this.props;
 
+    if (rows !== prevProps.rows) {
+      this.initTable(this.props);
+    }
+  }
+  initTable({rows, columns, order, onRowClick}) {
     // Initialize the table. We have to disable eslint for the next line because
     // it complains that Datatables names their function 'DataTable'
     // eslint-disable-next-line babel/new-cap
     const table = $(".ui.table").DataTable({
       data: rows,
       order: order ? order : [[1, 'asc']],
+      destroy: true,
       columns,
       initComplete: this.setState({isTableInitialized: true})
     });
