@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {withRouter, Link} from 'react-router';
 import validator from 'validator';
 import GoogleMap from 'google-map-react';
-import moment from 'moment';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {
   Button, Card, Container, Form, Grid, Header, Icon, Image, Label, Modal,
@@ -19,6 +18,7 @@ import {Thumbnail} from '../General/Thumbnail';
 import {getRentalItem, makeRentRequest} from '../../actions/rentalItem';
 import {getUser} from '../../actions/auth';
 import {BASE_URL, ERROR_PAGE} from '../../constants/constants';
+import {calculatePrice} from '../../utils/Utils';
 
 const styles = {
   wrapper: {
@@ -96,11 +96,7 @@ class RentalItem extends Component {
     });
 
     if (this.state.startDate.date && this.state.endDate.date) {
-      const start = moment(this.state.startDate.date);
-      const end = moment(this.state.endDate.date);
-      const duration = moment.duration(end.diff(start)).asDays();
-      const totalPrice = (duration * this.props.rentalItem.price).toFixed(2);
-
+      const totalPrice = calculatePrice(this.state.startDate, this.state.endDate, this.state.price);
       this.setState({totalPrice});
     }
   }
