@@ -12,20 +12,31 @@ import UploadFile from '../General/UploadFile';
 import {DraftEditor} from '../General/DraftEditor';
 import {Thumbnail} from '../General/Thumbnail';
 import {getOptions} from '../../utils/Utils';
+import FullCalendar from '../General/FullCalendar';
+import CalendarRange from '../General/CalendarRange';
 
 class UploadItem extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleCloseSuccessModal = this.handleCloseSuccessModal.bind(this);
     this.handlePhotosUpload = this.handlePhotosUpload.bind(this);
+    this.handleDayClick = this.handleDayClick.bind(this);
+    this.handleEventClick = this.handleEventClick.bind(this);
+    this.handleUnavailableRequest = this.handleUnavailableRequest.bind(this);
+    this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleAvailabilityRequest = this.handleAvailabilityRequest.bind(this);
+    this.handleCloseAvailabilityModal = this.handleCloseAvailabilityModal.bind(this);
 
     this.state = {
-      openModal: false,
+      openSuccessModal: false,
+      openAvailabilityModal: false,
       modalTitle: 'modal.success',
       modalContent: 'addItem.modal.addItemSuccess',
       photoUrls: null,
-      itemId: null
+      itemId: null,
+      startDate: {},
+      endDate: {}
     };
   }
   handleSubmit(e, {formData}) {
@@ -51,13 +62,13 @@ class UploadItem extends Component {
       this.setState({modalContent: formatMessage({id: content})});
 
       // Open the modal
-      this.setState({openModal: true, itemId});
+      this.setState({openSuccessModal: true, itemId});
     });
   }
-  handleCloseModal() {
+  handleCloseSuccessModal() {
     const {itemId} = this.state;
     const {router} = this.props;
-    this.setState({openModal: false});
+    this.setState({openSuccessModal: false});
 
     if (itemId) {
       router.push(`/listings/${itemId}`);
@@ -66,10 +77,36 @@ class UploadItem extends Component {
   handlePhotosUpload(photoUrls) {
     this.setState({photoUrls});
   }
+  handleDayClick(date, e) {
+    e.preventDefault();
+    this.setState({startDate: date.format()});
+    this.setState({endDate: date.format()});
+    console.log(this.state.startDate);
+    this.setState({openAvailabilityModal: true});
+  }
+  handleEventClick(event, e) {
+    e.preventDefault();
+  }
+  handleUnavailableRequest(e) {
+    e.preventDefault();
+  }
+  handleOnChange(startDate, endDate) {
+    this.setState({
+      startDate,
+      endDate
+    });
+  }
+  handleAvailabilityRequest(e) {
+    e.preventDefault();
+  }
+  handleCloseAvailabilityModal(e) {
+    e.preventDefault();
+    this.setState({openAvailabilityModal: false});
+  }
   render() {
-    const {intl} = this.props;
+    const {intl, isFetching} = this.props;
     const {
-      openModal, modalTitle, modalContent, photoUrls
+      openSuccessModal, openAvailabilityModal, modalTitle, modalContent, photoUrls, startDate, endDate
     } = this.state;
     const {formatMessage} = intl;
 
@@ -143,6 +180,17 @@ class UploadItem extends Component {
                   required
                   />
                 <Header as="h1" dividing>
+                  <FormattedMessage id="addItem.itemAvailablitiy"/>
+                </Header>
+                <Header as="h3">
+                  <FormattedMessage id="addItem.availabilityDescription"/>
+                </Header>
+                <FullCalendar
+                  onDayClick={this.handleDayClick}
+                  onEventClick={this.handleEventClick}
+                  {...this.props}
+                  />
+                <Header as="h1" dividing>
                   <FormattedMessage id="addItem.uploadPhotos"/>
                 </Header>
                 {photoUrls &&
@@ -179,7 +227,7 @@ class UploadItem extends Component {
           </Grid.Row>
         </Grid>
 
-        <Modal size="small" dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
+        <Modal size="small" dimmer="blurring" open={openSuccessModal} onClose={this.handleCloseSuccessModal}>
           <Modal.Header>
             <Header as="h1">
               {modalTitle}
@@ -193,9 +241,50 @@ class UploadItem extends Component {
           <Modal.Actions>
             <Button
               content={formatMessage({id: 'modal.okay'})}
-              onClick={this.handleCloseModal}
+              onClick={this.handleCloseSuccessModal}
               size="huge"
               primary
+              />
+          </Modal.Actions>
+        </Modal>
+
+        <Modal dimmer="blurring" open={openAvailabilityModal} onClose={this.handleCloseAvailabilityModal}>
+          <Modal.Header>
+            <Header as="h1">
+              <FormattedMessage id="addItem.availabilityModal.title"/>
+            </Header>
+          </Modal.Header>
+          <Modal.Content>
+            <Form onSubmit={this.handleUnavailableRequest} loading={isFetching} size="huge">
+              <Grid stackable>
+                <Grid.Row columns={1}>
+                  <Grid.Column>
+                    <Header as="h3">
+                      <FormattedMessage id="addItem.availabilityModal.description"/>
+                    </Header>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row columns={1}>
+                  <Grid.Column>
+                    <CalendarRange defaultValues={{startDate, endDate}} onChange={this.handleOnChange}/>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </Form>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button
+              content={formatMessage({id: 'addItem.availabilityModal.markUnavailable'})}
+              onClick={this.handleAvailabilityRequest}
+              size="huge"
+              type="submit"
+              primary
+              />
+            <Button
+              content={formatMessage({id: 'modal.close'})}
+              onClick={this.handleCloseAvailabilityModal}
+              size="huge"
+              basic
               />
           </Modal.Actions>
         </Modal>

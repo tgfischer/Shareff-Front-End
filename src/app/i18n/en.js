@@ -212,10 +212,17 @@ const en = {
     termsPlaceholder: 'Write down your terms and conditions for renting your item. This could include uses of the item, what time you want it by, or anything else you want to mention.',
     uploadPhotoButton: 'Browse',
     addItemButton: 'Add Item',
+    itemAvailablitiy: 'Item Availablitiy',
+    availabilityDescription: 'Select the days your item will be unavailable to rent',
     uploadPhotos: 'Upload Photos of Your Item',
     modal: {
       uploadPhotosSuccess: 'Your photo(s) were successfully uploaded',
       addItemSuccess: 'Your item was successfully uploaded'
+    },
+    availabilityModal: {
+      title: 'Mark Item Unavailable',
+      description: 'Select the date range your item will be unavailable to rent',
+      markUnavailable: 'Mark Unavailable'
     }
   },
 
