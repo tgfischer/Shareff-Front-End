@@ -127,7 +127,7 @@ class MyRequests extends Component {
             </Modal.Content>
             <Modal.Actions style={styles.noBorder}>
               <Button
-                disabled={selectedRow.status === 'request.status.accepted' || selectedRow.status === 'request.status.cancelled'}
+                disabled={selectedRow.status === 'request.status.accepted' || selectedRow.status === 'request.status.cancelled' || selectedRow.status === 'request.status.rejected'}
                 content={formatMessage({id: 'myRequests.modal.cancelRequestButton'})}
                 onClick={this.handleCancelRequest}
                 size="huge"

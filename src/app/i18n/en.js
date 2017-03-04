@@ -336,7 +336,7 @@ const en = {
     },
     modal: {
       title: 'Rent Request Actions',
-      content: 'Use the actions below to cancel the rent request, or view details about the request. Note, you cannot cancel a request that has already been accepted or cancelled',
+      content: 'Use the actions below to cancel the rent request, or view details about the request. Note, you cannot cancel a request that has already been accepted, rejected, or cancelled',
       viewItemButton: 'View Rental Item',
       viewOwnersProfileButton: 'View Owner\'s Profile',
       cancelRequestButton: 'Cancel Request'
