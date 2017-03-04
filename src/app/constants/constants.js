@@ -89,10 +89,10 @@ export const costPeriods = [
  */
 export const UPDATE_REQUEST_STATUS_OPTIONS = [{
   value: ACCEPT_RENT_REQUEST,
-  key: 'request.status.accept'
+  key: 'request.ownerActions.accept'
 }, {
   value: REJECT_RENT_REQUEST,
-  key: 'request.status.reject'
+  key: 'request.ownerActions.reject'
 }];
 
 export const Actions = {
