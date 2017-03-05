@@ -10,15 +10,15 @@ import '../../../assets/semantic-ui/components/calendar.min.css';
 export class Calendar extends Component {
   componentDidMount() {
     const {type, inline, defaultValue, name} = this.props;
-    const calendarIndetifier = `.ui.calendar.${name}`;
+    const calendarIdentifier = `.ui.calendar.${name}`;
 
-    $(calendarIndetifier).calendar({
+    $(calendarIdentifier).calendar({
       type,
       inline
     });
 
     if (defaultValue) {
-      $(calendarIndetifier).calendar('set date', defaultValue);
+      $(calendarIdentifier).calendar('set date', defaultValue);
     }
   }
   render() {
