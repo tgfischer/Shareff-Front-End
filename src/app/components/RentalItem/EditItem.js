@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import validator from 'validator';
-import {Form, Grid, Image, Label, Segment, Container, Button, Modal, Header, Card} from 'semantic-ui-react';
+import {Form, Grid, Label, Segment, Container, Button, Modal, Header, Card} from 'semantic-ui-react';
 import NavBar from '../General/NavBar';
 import PageHeaderSegment from '../General/PageHeaderSegment';
 import {Loading} from '../General/Loading';
@@ -138,6 +138,9 @@ class EditItem extends Component {
     const {openRemoveModal, openUpdateModal, modalTitle, modalContent, updateModalContent, photoUrls} = this.state;
     const {formatMessage} = intl;
     const {unescape} = validator;
+    const styles = {
+      photos: {margin: '0 auto'}
+    };
     const breadcrumbs = [{
       text: formatMessage({id: 'breadcrumb.home'}),
       to: '/'
@@ -169,10 +172,7 @@ class EditItem extends Component {
                 <Form size="huge" onSubmit={this.handleRequestToSaveButton}>
                   <Grid verticalAlign="middle">
                     <Grid.Row>
-                      <Grid.Column width={6}>
-                        <Image src={BASE_URL + rentalItem.photos[0]} shape="rounded" bordered/>
-                      </Grid.Column>
-                      <Grid.Column width={10}>
+                      <Grid.Column>
                         <Form.Field>
                           <Form.Input
                             label={formatMessage({id: 'addItem.title'})}
@@ -246,11 +246,11 @@ class EditItem extends Component {
                     </Grid.Row>
                     <Grid.Row>
                       <Grid.Column>
-                        <Header as="h2">
+                        <Header as="h3">
                           <FormattedMessage id="editItem.photosTitle"/>
                         </Header>
                         {photoUrls &&
-                          <Card.Group itemsPerRow={3}>
+                          <Card.Group itemsPerRow={3} style={styles.photos}>
                             {photoUrls.map((photoUrl, i) => {
                               return (
                                 <Thumbnail
