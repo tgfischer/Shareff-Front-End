@@ -5,7 +5,6 @@ import {
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
-import {Calendar} from '../General/Calendar';
 import {signup} from '../../actions/auth';
 
 const styles = {
@@ -180,31 +179,6 @@ class SignUp extends Component {
                       name="confirmPassword"
                       placeholder={formatMessage({id: 'signUp.confirmPassword'})}
                       type="password"
-                      required
-                      />
-                  </Form.Group>
-                  <Form.Group widths="equal">
-                    <Form.Input
-                      label={formatMessage({id: 'signUp.ccn'})}
-                      name="ccn"
-                      placeholder={formatMessage({id: 'signUp.ccn'})}
-                      type="number"
-                      required
-                      />
-
-                    <Form.Input
-                      label={formatMessage({id: 'signUp.cvn'})}
-                      name="cvn"
-                      placeholder={formatMessage({id: 'signUp.cvn'})}
-                      type="number"
-                      required
-                      />
-
-                    <Calendar
-                      label={formatMessage({id: 'signUp.expiryDate'})}
-                      name="expiryDate"
-                      placeholder={formatMessage({id: 'signUp.expiryDate'})}
-                      type="month"
                       required
                       />
                   </Form.Group>

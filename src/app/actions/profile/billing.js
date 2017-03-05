@@ -17,18 +17,23 @@ const updateBillingInfoFailure = err => ({
   err
 });
 
-export const updateBillingInfo = (info, {userId, stripeCustomerId}) => {
+export const updateBillingInfo = (info, {
+  userId, stripeCustomerId, stripeAccountId, line1, postalCode,
+   province, firstName, city, lastName, email
+}) => {
   // Send the token as well so that we can validate that the user that is logged
   // in is only modifying their own data
   const token = localStorage.getItem('token');
-  const {expiryDate, ccn, cvn} = info;
 
   const config = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({expiryDate, ccn, cvn, userId, stripeCustomerId, token})
+    body: JSON.stringify({
+      info, userId, token, stripeCustomerId, stripeAccountId, line1,
+      postalCode, province, city, firstName, lastName, email
+    })
   };
 
   return dispatch => {

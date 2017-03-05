@@ -19,6 +19,7 @@ class UploadItem extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handlePhotosUpload = this.handlePhotosUpload.bind(this);
+    this.handleBillingClick = this.handleBillingClick.bind(this);
 
     this.state = {
       openModal: false,
@@ -27,6 +28,10 @@ class UploadItem extends Component {
       photoUrls: null,
       itemId: null
     };
+  }
+  handleBillingClick(e) {
+    e.preventDefault();
+    this.props.router.push(`/profile/billing`);
   }
   handleSubmit(e, {formData}) {
     e.preventDefault();
@@ -66,12 +71,31 @@ class UploadItem extends Component {
   handlePhotosUpload(photoUrls) {
     this.setState({photoUrls});
   }
+  componentDidMount() {
+    const {user, intl} = this.props;
+    if (!user.stripeAccountId) {
+      const {formatMessage} = intl;
+
+      // Set the modal title
+      const title = 'modal.error';
+      this.setState({modalTitle: formatMessage({id: title})});
+
+      // Set the modal content
+      const content = 'addItem.modal.noBankAccount';
+      this.setState({modalContent: formatMessage({id: content})});
+
+      // Open the modal
+      this.setState({openModal: true});
+    }
+  }
   render() {
-    const {intl} = this.props;
+    const {intl, user} = this.props;
     const {
       openModal, modalTitle, modalContent, photoUrls
     } = this.state;
     const {formatMessage} = intl;
+
+    const buttonDisabled = user.stripeAccountId === null;
 
     return (
       <div>
@@ -171,6 +195,7 @@ class UploadItem extends Component {
                       icon="plus"
                       labelPosition="right"
                       primary
+                      disabled={buttonDisabled}
                       />
                   </Grid.Column>
                 </Grid.Row>
@@ -189,6 +214,13 @@ class UploadItem extends Component {
             <Header as="h3">
               {modalContent}
             </Header>
+            <Button
+              content={formatMessage({id: 'addItem.goToBillingButton'})}
+              size="large"
+              onClick={this.handleBillingClick}
+              color="blue"
+              basic
+              />
           </Modal.Content>
           <Modal.Actions>
             <Button
