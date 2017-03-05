@@ -78,7 +78,7 @@ class EditItem extends Component {
     formData.itemId = itemId;
     formData.userId = userId;
     formData.photos = this.state.photoUrls;
-    console.log(this.state.photoUrls);
+
     this.props.dispatch(updateMyItem(formData)).then(({err}) => {
       const {formatMessage} = this.props.intl;
 
@@ -113,9 +113,7 @@ class EditItem extends Component {
   handlePhotosUpload(newPhotoUrls) {
     console.log(newPhotoUrls);
     let {photoUrls} = this.state;
-    console.log(photoUrls);
     photoUrls = photoUrls.concat(newPhotoUrls);
-    console.log(photoUrls);
     this.setState({photoUrls});
   }
   getCategories(categories) {

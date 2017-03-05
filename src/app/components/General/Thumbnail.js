@@ -75,7 +75,7 @@ export class Thumbnail extends Component {
 Thumbnail.propTypes = {
   src: React.PropTypes.string.isRequired,
   height: React.PropTypes.number.isRequired,
-  removeEnable: React.PropTypes.boolean,
+  removeEnable: React.PropTypes.string,
   photoUrl: React.PropTypes.string,
   onRemovePhotoRequest: React.PropTypes.func
 };
