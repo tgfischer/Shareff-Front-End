@@ -312,6 +312,13 @@ const en = {
 
   request: {
     status: {
+      notificationPending: 'Notification Pending',
+      pending: 'Pending',
+      accepted: 'Accepted',
+      rejected: 'Rejected',
+      cancelled: 'Cancelled'
+    },
+    ownerActions: {
       accept: 'Accept',
       reject: 'Reject'
     }
@@ -322,7 +329,7 @@ const en = {
    */
   myRequests: {
     title: 'My Rent Requests',
-    subTitle: 'Click on a row delete the request, view the item page, or view the owner\'s profile',
+    subTitle: 'Click on a row to cancel the request, view the item page, or view the owner\'s profile',
     columns: {
       itemTitle: 'Requested Item',
       ownersName: 'Owner\'s Name',
@@ -331,11 +338,11 @@ const en = {
       status: 'Status'
     },
     modal: {
-      title: 'Delete Rent Request',
-      content: 'Would you like to delete this rent request?',
+      title: 'Rent Request Actions',
+      content: 'Use the actions below to cancel the rent request, or view details about the request. Note, you cannot cancel a request that has already been accepted, rejected, or cancelled',
       viewItemButton: 'View Rental Item',
       viewOwnersProfileButton: 'View Owner\'s Profile',
-      cancelRequestButton: 'Delete Request'
+      cancelRequestButton: 'Cancel Request'
     }
   },
 
