@@ -432,7 +432,8 @@ const en = {
       success: 'Your billing information was successfully updated',
       creditCardError: 'The credit card fields are not filled out properly. Make sure the CCN and CVN fields are numbers',
       bankAccountError: 'The bank details are not filled out properly. Make sure the Account Number, Transit Number, and Institution Number are numbers',
-      noNewValuesError: 'Nothing has changed.'
+      noNewValuesError: 'All fields remained the same, nothing was saved',
+      allFieldsAreEmpty: 'All fields are empty, nothing was saved'
     }
   },
 

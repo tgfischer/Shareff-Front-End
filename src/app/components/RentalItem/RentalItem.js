@@ -452,13 +452,15 @@ class RentalItem extends Component {
             <Header as="h3">
               {modalContent}
             </Header>
-            <Button
-              content={formatMessage({id: 'addItem.goToBillingButton'})}
-              size="large"
-              onClick={this.handleBillingClick}
-              color="blue"
-              basic
-              />
+            {buttonDisabled &&
+              <Button
+                content={formatMessage({id: 'addItem.goToBillingButton'})}
+                size="large"
+                onClick={this.handleBillingClick}
+                color="blue"
+                basic
+                />
+            }
           </Modal.Content>
           <Modal.Actions>
             <Button

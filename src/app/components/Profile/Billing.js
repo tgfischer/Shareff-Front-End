@@ -85,11 +85,25 @@ class Billing extends Component {
       }
     }
 
+    /**
+     *  error checking for empty fields and old values
+     */
+
     if (!bankFieldsChanged && !ccFieldsChanged) {
       const {formatMessage} = intl;
-      this.setState({modalTitle: formatMessage({id: 'modal.error'})});
+      this.setState({modalTitle: formatMessage({id: 'modal.success'})});
 
       const content = 'billing.modal.noNewValuesError';
+      this.setState({modalContent: formatMessage({id: content})});
+      this.setState({openModal: true, user});
+      return;
+    }
+
+    if (bankFieldsAreEmpty && ccFieldsAreEmpty) {
+      const {formatMessage} = intl;
+      this.setState({modalTitle: formatMessage({id: 'modal.success'})});
+
+      const content = 'billing.modal.allFieldsAreEmpty';
       this.setState({modalContent: formatMessage({id: content})});
       this.setState({openModal: true, user});
       return;
