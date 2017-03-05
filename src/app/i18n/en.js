@@ -213,9 +213,12 @@ const en = {
     uploadPhotoButton: 'Browse',
     addItemButton: 'Add Item',
     uploadPhotos: 'Upload Photos of Your Item',
+    goToBillingButton: 'Take Me to Billing',
     modal: {
       uploadPhotosSuccess: 'Your photo(s) were successfully uploaded',
-      addItemSuccess: 'Your item was successfully uploaded'
+      addItemSuccess: 'Your item was successfully uploaded',
+      noBankAccount: 'It seems that you have no bank account on file. You must update your banking information on the billing page in order to add items',
+      noCreditCard: 'It seems that you do not have a credit card on file. You must update your credit card information on the billing page in order to request to rent'
     }
   },
 
@@ -410,13 +413,27 @@ const en = {
   billing: {
     title: 'Billing Information',
     subTitle: 'Don\'t worry, your information is stored securely!',
+    creditCardInfo: 'Credit Card Information',
+    creditCardInfoSubtitle: 'If you plan on renting items, we\'ll need to know what credit card to charge',
+    bankAccountInfo: 'Bank Account Information',
+    bankAccountInfoSubtitle: 'If you plan on putting items up for rent, we\'ll need to know where to transfer funds',
+    accountHolderName: 'Account Holder Name',
+    accountNumber: 'Account Number',
+    institutionNumber: 'Institution Number',
+    transitNumber: 'Transit Numner',
+    dob: 'Date of Birth',
     month: 'Month',
     year: 'Year',
     expiryDate: 'Expiry Date',
     saveChangesButton: 'Save Changes',
+    noCreditCard: 'You currently do not have a credit card on file',
+    noBankAccount: 'You currently do not have a bank account connected',
     modal: {
       success: 'Your billing information was successfully updated',
-      creditCardError: 'Make sure to properly fill out the CNN and CVN fields'
+      creditCardError: 'The credit card fields are not filled out properly. Make sure the CCN and CVN fields are numbers',
+      bankAccountError: 'The bank details are not filled out properly. Make sure the Account Number, Transit Number, and Institution Number are numbers',
+      noNewValuesError: 'All fields remained the same, nothing was saved',
+      allFieldsAreEmpty: 'All fields are empty, nothing was saved'
     }
   },
 

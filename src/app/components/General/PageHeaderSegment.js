@@ -60,7 +60,7 @@ class PageHeaderSegment extends Component {
               </Grid.Column>
               {action &&
                 <Grid.Column width={6} floated="right">
-                  <Button onClick={action.handleButtonClick} color={action.buttonColour} inverted={action.isButtonInverted} size="big" floated="right">
+                  <Button onClick={action.handleButtonClick} color={action.buttonColour} inverted={action.isButtonInverted} disabled={action.disabled} size="big" floated="right">
                     {action.buttonText}
                   </Button>
                 </Grid.Column>

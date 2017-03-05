@@ -13,6 +13,12 @@ const styles = {
   paymentIcon: {
     marginTop: '30px',
     marginLeft: '15px'
+  },
+  billinglabel: {
+    color: 'red',
+    marginTop: '20px',
+    marginBottom: '20px',
+    marginLeft: '20px'
   }
 };
 
@@ -34,10 +40,41 @@ class Billing extends Component {
 
     const {intl, user} = this.props;
 
-    // if one of the CCN or CVN fields have changed from the loaded values,
-    // and if one of them is not a number, show an error modal
-    if (formData.ccn !== `XXXX-${user.ccLast4Digits}` || formData.cvn !== `XXX`) {
-      if (isNaN(parseInt(formData.ccn, 10)) || isNaN(parseInt(formData.cvn, 10))) {
+    /** error checking for bank account information
+     *
+     * if all fields are empty, do not show modal
+     * if all fiels are same as props, do not show modal
+     * if fields are not numeric, show modal
+     */
+
+    const bankFieldsAreEmpty = (!formData.accountNumber && !formData.transitNumber && !formData.institutionNumber && !formData.dob);
+    const bankFieldsChanged = (formData.accountNumber !== `XXXXXXX` || formData.transitNumber !== `XXXXX` || formData.institutionNumber !== `XXX` || formData.dob !== user.dob);
+    const bankFieldsNotNumeric = (isNaN(parseInt(formData.accountNumber, 10)) || isNaN(parseInt(formData.transitNumber, 10)) || isNaN(parseInt(formData.institutionNumber, 10)));
+
+    if (bankFieldsChanged && !bankFieldsAreEmpty) {
+      if (bankFieldsNotNumeric) {
+        const {formatMessage} = intl;
+        this.setState({modalTitle: formatMessage({id: 'modal.error'})});
+
+        const content = 'billing.modal.bankAccountError';
+        this.setState({modalContent: formatMessage({id: content})});
+        this.setState({openModal: true, user});
+        return;
+      }
+    }
+
+    /** error checking for credi card information
+     *
+     * if all fields are empty, do not show modal
+     * if all fiels are same as props, do not show modal
+     * if fields are not numeric, show modal
+     */
+    const ccFieldsAreEmpty = (!formData.ccn && !formData.cvn && !formData.ccExpiryDate);
+    const ccFieldsChanged = (formData.ccn !== `XXXX-${user.ccLast4Digits}` || formData.cvn !== `XXX` || formData.expiryDate !== user.ccExpiryDate);
+    const ccFieldsNotNumeric = (isNaN(parseInt(formData.ccn, 10)) || isNaN(parseInt(formData.cvn, 10)));
+
+    if (ccFieldsChanged && !ccFieldsAreEmpty) {
+      if (ccFieldsNotNumeric) {
         const {formatMessage} = intl;
         this.setState({modalTitle: formatMessage({id: 'modal.error'})});
 
@@ -46,6 +83,30 @@ class Billing extends Component {
         this.setState({openModal: true, user});
         return;
       }
+    }
+
+    /**
+     *  error checking for empty fields and old values
+     */
+
+    if (!bankFieldsChanged && !ccFieldsChanged) {
+      const {formatMessage} = intl;
+      this.setState({modalTitle: formatMessage({id: 'modal.success'})});
+
+      const content = 'billing.modal.noNewValuesError';
+      this.setState({modalContent: formatMessage({id: content})});
+      this.setState({openModal: true, user});
+      return;
+    }
+
+    if (bankFieldsAreEmpty && ccFieldsAreEmpty) {
+      const {formatMessage} = intl;
+      this.setState({modalTitle: formatMessage({id: 'modal.success'})});
+
+      const content = 'billing.modal.allFieldsAreEmpty';
+      this.setState({modalContent: formatMessage({id: content})});
+      this.setState({openModal: true, user});
+      return;
     }
 
     // Send the updated billing information to the server
@@ -71,10 +132,22 @@ class Billing extends Component {
     const {intl, user} = this.props;
     const {openModal, modalTitle, modalContent} = this.state;
     const {formatMessage} = intl;
-    const {ccLast4Digits, ccExpiryDate} = user;
+    const {
+      firstName, lastName, dob, ccLast4Digits, ccExpiryDate,
+      stripeCustomerId, stripeAccountId
+    } = user;
+    const fullName = `${firstName} ${lastName}`;
 
-    // only show last 4 digits of card to user
-    const ccn = `XXXX-${ccLast4Digits}`;
+    // credit card default values
+    const ccn = stripeCustomerId ? `XXXX-${ccLast4Digits}` : ``;
+    const cvn = stripeCustomerId ? `XXX` : ``;
+    const ccnWidth = stripeCustomerId ? "14" : "16";
+    const ccExpiryDateWidth = stripeCustomerId ? "8" : "10";
+
+    // bank account default values
+    const accountNumber = stripeAccountId ? `XXXXXXX` : ``;
+    const transitNumber = stripeAccountId ? `XXXXX` : ``;
+    const institutionNumber = stripeAccountId ? `XXX` : ``;
 
     // all the credit cards stripe supports are the same name
     // as the semantic-ui icon name except:
@@ -100,6 +173,19 @@ class Billing extends Component {
                 </Header.Subheader>
               </Header>
 
+              <Header as="h2">
+                <FormattedMessage id="billing.creditCardInfo"/>
+                <Header.Subheader>
+                  <FormattedMessage id="billing.creditCardInfoSubtitle"/>
+                </Header.Subheader>
+              </Header>
+
+              {!stripeCustomerId &&
+                <Header as="h3" style={styles.billinglabel}>
+                  <FormattedMessage id="billing.noCreditCard"/>
+                </Header>
+              }
+
               <Form size="huge" onSubmit={this.handleBillingSubmit}>
                 <Form.Group>
                   <Form.Input
@@ -108,8 +194,7 @@ class Billing extends Component {
                     placeholder={formatMessage({id: 'signUp.ccn'})}
                     defaultValue={unescape(ccn || '')}
                     type="text"
-                    width="14"
-                    required
+                    width={unescape(ccnWidth || '')}
                     />
                   {ccBrand &&
                     <Icon
@@ -126,10 +211,9 @@ class Billing extends Component {
                     label={formatMessage({id: 'signUp.cvn'})}
                     name="cvn"
                     placeholder={formatMessage({id: 'signUp.cvn'})}
-                    defaultValue={"XXX"}
+                    defaultValue={unescape(cvn || '')}
                     type="text"
                     width="6"
-                    required
                     />
                   <Calendar
                     label={formatMessage({id: 'signUp.expiryDate'})}
@@ -137,10 +221,62 @@ class Billing extends Component {
                     placeholder={formatMessage({id: 'signUp.expiryDate'})}
                     type="month"
                     defaultValue={unescape(ccExpiryDate || '')}
-                    width="8"
-                    required
+                    width={unescape(ccExpiryDateWidth || '')}
                     />
                 </Form.Group>
+
+                <Header as="h2">
+                  <FormattedMessage id="billing.bankAccountInfo"/>
+                  <Header.Subheader>
+                    <FormattedMessage id="billing.bankAccountInfoSubtitle"/>
+                  </Header.Subheader>
+                </Header>
+
+                {!stripeAccountId &&
+                  <Header as="h3" style={styles.billinglabel}>
+                    <FormattedMessage id="billing.noBankAccount"/>
+                  </Header>
+                }
+
+                <Form.Input
+                  label={formatMessage({id: 'billing.accountHolderName'})}
+                  name="accountHolderName"
+                  placeholder={formatMessage({id: 'billing.accountHolderName'})}
+                  defaultValue={unescape(fullName || '')}
+                  type="text"
+                  />
+                <Form.Input
+                  label={formatMessage({id: 'billing.accountNumber'})}
+                  name="accountNumber"
+                  placeholder={formatMessage({id: 'billing.accountNumber'})}
+                  defaultValue={unescape(accountNumber || '')}
+                  type="text"
+                  />
+                <Form.Group>
+                  <Form.Input
+                    label={formatMessage({id: 'billing.transitNumber'})}
+                    name="transitNumber"
+                    placeholder={formatMessage({id: 'billing.transitNumber'})}
+                    defaultValue={unescape(transitNumber || '')}
+                    type="text"
+                    width="10"
+                    />
+                  <Form.Input
+                    label={formatMessage({id: 'billing.institutionNumber'})}
+                    name="institutionNumber"
+                    placeholder={formatMessage({id: 'billing.institutionNumber'})}
+                    defaultValue={unescape(institutionNumber || '')}
+                    type="text"
+                    width="6"
+                    />
+                </Form.Group>
+                <Calendar
+                  label={formatMessage({id: 'billing.dob'})}
+                  name="dob"
+                  placeholder={formatMessage({id: 'billing.dob'})}
+                  type="date"
+                  defaultValue={unescape(dob || '')}
+                  />
 
                 <Button
                   content={formatMessage({id: 'billing.saveChangesButton'})}

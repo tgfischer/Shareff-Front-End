@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const bodyBuilder = payload => {
   let body = '';
 
@@ -27,4 +29,15 @@ export const getOptions = ({values, intl}) => {
   }
 
   return options;
+};
+
+/**
+ * Calcualte the total cost of a rent request
+ */
+export const calculatePrice = (startDate, endDate, price) => {
+  const start = moment(startDate.date);
+  const end = moment(endDate.date);
+  const duration = moment.duration(end.diff(start)).asDays();
+  const totalPrice = (duration * price).toFixed(2);
+  return totalPrice;
 };
