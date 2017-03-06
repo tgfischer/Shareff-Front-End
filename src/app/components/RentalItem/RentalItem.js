@@ -202,7 +202,7 @@ class RentalItem extends Component {
         {rentalItem && (!token && !user || token && user) ?
           <div>
             <NavBar/>
-            {user && user.userId === rentalItem.ownerId && user.stripeCustomerId ?
+            {user && user.userId === rentalItem.ownerId &&
               <PageHeaderSegment
                 breadcrumbs={breadcrumbs}
                 title={unescape(rentalItem.title)}
@@ -213,7 +213,22 @@ class RentalItem extends Component {
                   buttonText: formatMessage({id: 'rentalItem.requestToEditButton'}),
                   isButtonInverted: true
                 }}
-                /> :
+                />
+            }
+            {user && user.userId !== rentalItem.ownerId && user.stripeCustomerId &&
+              <PageHeaderSegment
+                breadcrumbs={breadcrumbs}
+                title={unescape(rentalItem.title)}
+                subTitle={this.getCategories(rentalItem.category)}
+                colour="blue"
+                action={{
+                  handleButtonClick: this.handleRequestToRentButton,
+                  buttonText: formatMessage({id: 'rentalItem.requestToRentButton'}),
+                  isButtonInverted: true
+                }}
+                />
+            }
+            {(!user || (user && user.userId !== rentalItem.ownerId && !user.stripeCustomerId)) &&
               <PageHeaderSegment
                 breadcrumbs={breadcrumbs}
                 title={unescape(rentalItem.title)}
