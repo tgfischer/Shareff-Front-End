@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {
-  Button, Form, Grid, Header, Modal, Icon
+  Button, Form, Grid, Header, Message, Modal, Icon
 } from 'semantic-ui-react';
 import {Calendar} from '../General/Calendar';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
@@ -166,27 +166,31 @@ class Billing extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column>
-              <Header as="h1" dividing>
-                <FormattedMessage id="billing.title"/>
-                <Header.Subheader>
-                  <FormattedMessage id="billing.subTitle"/>
-                </Header.Subheader>
-              </Header>
-
-              <Header as="h2">
-                <FormattedMessage id="billing.creditCardInfo"/>
-                <Header.Subheader>
-                  <FormattedMessage id="billing.creditCardInfoSubtitle"/>
-                </Header.Subheader>
-              </Header>
-
-              {!stripeCustomerId &&
-                <Header as="h3" style={styles.billinglabel}>
-                  <FormattedMessage id="billing.noCreditCard"/>
-                </Header>
-              }
-
               <Form size="huge" onSubmit={this.handleBillingSubmit}>
+                <Header as="h1" dividing>
+                  <FormattedMessage id="billing.title"/>
+                  <Header.Subheader>
+                    <FormattedMessage id="billing.subTitle"/>
+                  </Header.Subheader>
+                </Header>
+
+                <Header as="h2">
+                  <FormattedMessage id="billing.creditCardInfo"/>
+                  <Header.Subheader>
+                    <FormattedMessage id="billing.creditCardInfoSubtitle"/>
+                  </Header.Subheader>
+                </Header>
+
+                {!stripeCustomerId &&
+                  <Message
+                    icon="warning"
+                    header={formatMessage({id: 'billing.noCreditCardTitle'})}
+                    content={formatMessage({id: 'billing.noCreditCardContent'})}
+                    warning
+                    visible
+                    />
+                }
+
                 <Form.Group>
                   <Form.Input
                     label={formatMessage({id: 'signUp.ccn'})}
@@ -233,9 +237,13 @@ class Billing extends Component {
                 </Header>
 
                 {!stripeAccountId &&
-                  <Header as="h3" style={styles.billinglabel}>
-                    <FormattedMessage id="billing.noBankAccount"/>
-                  </Header>
+                  <Message
+                    icon="warning"
+                    header={formatMessage({id: 'billing.noBankAccountTitle'})}
+                    content={formatMessage({id: 'billing.noBankAccountContent'})}
+                    warning
+                    visible
+                    />
                 }
 
                 <Form.Input

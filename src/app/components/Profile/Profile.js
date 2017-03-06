@@ -114,7 +114,7 @@ class Profile extends Component {
                   </Menu>
                 </Grid.Column>
                 <Grid.Column className="content-column" width={12}>
-                  <Segment className="content-segment" loading={isFetching}>
+                  <Segment className="content-segment" size="huge" loading={isFetching}>
                     {activeTab === 'info' &&
                       <PersonalInfo {...this.props}/>
                     }

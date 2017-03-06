@@ -214,23 +214,32 @@ class UploadItem extends Component {
             <Header as="h3">
               {modalContent}
             </Header>
+          </Modal.Content>
+          <Modal.Actions>
             {buttonDisabled &&
               <Button
-                content={formatMessage({id: 'addItem.goToBillingButton'})}
-                size="large"
+                content={formatMessage({id: 'addItem.modal.updateBillingInfo'})}
+                size="huge"
                 onClick={this.handleBillingClick}
-                color="blue"
+                primary
+                />
+            }
+            {buttonDisabled &&
+              <Button
+                content={formatMessage({id: 'addItem.modal.continueAnyways'})}
+                onClick={this.handleCloseModal}
+                size="huge"
                 basic
                 />
             }
-          </Modal.Content>
-          <Modal.Actions>
-            <Button
-              content={formatMessage({id: 'modal.okay'})}
-              onClick={this.handleCloseModal}
-              size="huge"
-              primary
-              />
+            {!buttonDisabled &&
+              <Button
+                content={formatMessage({id: 'modal.okay'})}
+                size="huge"
+                onClick={this.handleCloseModal}
+                primary
+                />
+            }
           </Modal.Actions>
         </Modal>
       </div>
