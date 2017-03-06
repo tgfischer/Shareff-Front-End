@@ -7,7 +7,7 @@ import '../../../../node_modules/moment/moment.js';
 
 class FullCalendar extends Component {
   componentDidMount() {
-    const {onDayClick, onEventClick, rentedItems, myItems, intl} = this.props;
+    const {onDayClick, onEventClick, rentedItems, myItems, unavailableDays, intl} = this.props;
     const {formatMessage} = intl;
 
     // Initialize the calendar
@@ -25,6 +25,11 @@ class FullCalendar extends Component {
         events: myItems,
         color: '#087cc4',
         textColor: 'white'
+      },
+      {
+        events: unavailableDays,
+        color: '#a8b8c1',
+        textColor: 'white'
       }],
       eventClick: onEventClick
     });
@@ -33,6 +38,34 @@ class FullCalendar extends Component {
     $('.fc').find('.fc-button-group').addClass('ui buttons');
     $('.fc').find('.fc-today-button').addClass('ui basic button');
     $('.fc').find('.fc-button-group').find('button').addClass('ui primary button');
+  }
+  componentDidUpdate() {
+    const {onDayClick, onEventClick, rentedItems, myItems, unavailableDays, intl} = this.props;
+    const {formatMessage} = intl;
+
+    // Initialize the calendar
+    $(".full-calendar").fullCalendar({
+      dayClick: onDayClick,
+      buttonText: {
+        today: formatMessage({id: 'fullCalendar.today'})
+      },
+      eventSources: [{
+        events: rentedItems,
+        color: '#b6e1fc',
+        textColor: 'white'
+      },
+      {
+        events: myItems,
+        color: '#087cc4',
+        textColor: 'white'
+      },
+      {
+        events: unavailableDays,
+        color: '#a8b8c1',
+        textColor: 'white'
+      }],
+      eventClick: onEventClick
+    });
   }
   render() {
     return (
@@ -46,7 +79,8 @@ FullCalendar.propTypes = {
   onDayClick: React.PropTypes.func.isRequired,
   onEventClick: React.PropTypes.func.isRequired,
   rentedItems: React.PropTypes.array,
-  myItems: React.PropTypes.array
+  myItems: React.PropTypes.array,
+  unavailableDays: React.PropTypes.array
 };
 
 export default injectIntl(FullCalendar);

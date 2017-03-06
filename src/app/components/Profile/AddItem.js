@@ -4,6 +4,7 @@ import {withRouter} from 'react-router';
 import {
   Button, Form, Grid, Header, Modal, Dropdown, Card
 } from 'semantic-ui-react';
+import moment from 'moment';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {BASE_URL, categories, costPeriods} from '../../constants/constants';
 import {uploadPhotos} from '../../actions/uploadPhotos';
@@ -35,6 +36,7 @@ class UploadItem extends Component {
       modalContent: 'addItem.modal.addItemSuccess',
       photoUrls: null,
       itemId: null,
+      unavailableDays: [],
       startDate: {},
       endDate: {}
     };
@@ -48,6 +50,7 @@ class UploadItem extends Component {
     formData.userId = user.userId;
     formData.addressId = user.addressId;
     formData.photos = this.state.photoUrls;
+    formData.unavailableDays = this.state.unavailableDays;
 
     // Send the new item to the server
     dispatch(addItem(formData)).then(({err, itemId}) => {
@@ -89,6 +92,7 @@ class UploadItem extends Component {
   }
   handleUnavailableRequest(e) {
     e.preventDefault();
+    console.log("Puppies");
   }
   handleOnChange(startDate, endDate) {
     this.setState({
@@ -98,6 +102,13 @@ class UploadItem extends Component {
   }
   handleAvailabilityRequest(e) {
     e.preventDefault();
+    this.state.unavailableDays.push({
+      title: 'Unavailable',
+      start: moment(this.state.startDate.date).format(),
+      end: moment(this.state.endDate.date).format(),
+      allDay: false
+    });
+    this.handleCloseAvailabilityModal(e);
   }
   handleCloseAvailabilityModal(e) {
     e.preventDefault();
@@ -106,7 +117,7 @@ class UploadItem extends Component {
   render() {
     const {intl, isFetching} = this.props;
     const {
-      openSuccessModal, openAvailabilityModal, modalTitle, modalContent, photoUrls, startDate, endDate
+      openSuccessModal, openAvailabilityModal, modalTitle, modalContent, photoUrls, unavailableDays, startDate, endDate
     } = this.state;
     const {formatMessage} = intl;
 
@@ -188,6 +199,7 @@ class UploadItem extends Component {
                 <FullCalendar
                   onDayClick={this.handleDayClick}
                   onEventClick={this.handleEventClick}
+                  unavailableDays={unavailableDays}
                   {...this.props}
                   />
                 <Header as="h1" dividing>
