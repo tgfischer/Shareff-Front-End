@@ -110,7 +110,7 @@ class Billing extends Component {
     }
 
     // Send the updated billing information to the server
-    this.props.dispatch(updateBillingInfo(formData, user)).then(({user}) => {
+    this.props.dispatch(updateBillingInfo(formData, user)).then(({err, user}) => {
       const {formatMessage} = intl;
 
       // Set the modal title
@@ -118,7 +118,7 @@ class Billing extends Component {
       this.setState({modalTitle: formatMessage({id: title})});
 
       // Set the modal content
-      const content = user ? 'billing.modal.success' : 'error.general';
+      const content = user ? 'billing.modal.success' : err.message;
       this.setState({modalContent: formatMessage({id: content})});
 
       // Open the modal
