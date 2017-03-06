@@ -6,6 +6,7 @@ export class Thumbnail extends Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleDeleteButton = this.handleDeleteButton.bind(this);
 
     this.state = {
       openModal: false
@@ -17,9 +18,20 @@ export class Thumbnail extends Component {
   handleCloseModal() {
     this.setState({openModal: false});
   }
+  handleDeleteButton(e) {
+    e.preventDefault();
+    const {onRemovePhotoRequest, photoUrl} = this.props;
+    if (onRemovePhotoRequest && photoUrl) {
+      onRemovePhotoRequest(photoUrl);
+    }
+  }
   render() {
-    const {src, height} = this.props;
+    const {src, height, removeEnable} = this.props;
+    const {openModal} = this.state;
     const styles = {
+      card: {
+        margin: '0.5em'
+      },
       thumbnail: {
         height: `${height}px`,
         background: `url('${src}') no-repeat`
@@ -27,28 +39,43 @@ export class Thumbnail extends Component {
       image: {
         maxHeight: '75vh',
         margin: '0 auto'
+      },
+      center: {
+        textAlign: 'center'
       }
     };
 
     return (
-      <Modal
-        trigger={
-          <Card onClick={this.handleClick}>
-            <div className="ui thumbnail image" style={styles.thumbnail}/>
-          </Card>
-        }
-        closeIcon={<Button icon="remove" floated="right" inverted circular/>}
-        basic
-        >
-        <Modal.Content>
-          <Image src={src.replace('_thumbnail', '')} style={styles.image} shape="rounded"/>
-        </Modal.Content>
-      </Modal>
+      <div>
+        <Card style={styles.card}>
+          <Card.Content className="ui thumbnail image" onClick={this.handleClick} style={styles.thumbnail}/>
+          {removeEnable &&
+            <Card.Content style={styles.center}>
+              <Button basic content="Remove Image" icon="trash" labelPosition="left" onClick={this.handleDeleteButton}/>
+            </Card.Content>
+          }
+        </Card>
+        <Modal
+          className="rent-request-modal"
+          dimmer="blurring"
+          open={openModal}
+          onClose={this.handleCloseModal}
+          closeIcon={<Button icon="remove" floated="right" inverted circular/>}
+          basic
+          >
+          <Modal.Content>
+            <Image src={src.replace('_thumbnail', '')} style={styles.image} shape="rounded"/>
+          </Modal.Content>
+        </Modal>
+      </div>
     );
   }
 }
 
 Thumbnail.propTypes = {
   src: React.PropTypes.string.isRequired,
-  height: React.PropTypes.number.isRequired
+  height: React.PropTypes.number.isRequired,
+  removeEnable: React.PropTypes.string,
+  photoUrl: React.PropTypes.string,
+  onRemovePhotoRequest: React.PropTypes.func
 };
