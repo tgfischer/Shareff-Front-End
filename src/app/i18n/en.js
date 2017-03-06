@@ -213,12 +213,13 @@ const en = {
     uploadPhotoButton: 'Browse',
     addItemButton: 'Add Item',
     uploadPhotos: 'Upload Photos of Your Item',
-    goToBillingButton: 'Take Me to Billing',
     modal: {
       uploadPhotosSuccess: 'Your photo(s) were successfully uploaded',
       addItemSuccess: 'Your item was successfully uploaded',
       noBankAccount: 'It seems that you have no bank account on file. You must update your banking information on the billing page in order to add items',
-      noCreditCard: 'It seems that you do not have a credit card on file. You must update your credit card information on the billing page in order to request to rent'
+      noCreditCard: 'It seems that you do not have a credit card on file. You must update your credit card information on the billing page in order to request to rent',
+      updateBillingInfo: 'Update Billing Information',
+      continueAnyways: 'Continue Anyways'
     }
   },
 
@@ -426,8 +427,10 @@ const en = {
     year: 'Year',
     expiryDate: 'Expiry Date',
     saveChangesButton: 'Save Changes',
-    noCreditCard: 'You currently do not have a credit card on file',
-    noBankAccount: 'You currently do not have a bank account connected',
+    noCreditCardTitle: 'No Credit Card',
+    noCreditCardContent: 'You currently do not have a credit card on file',
+    noBankAccountTitle: 'No Bank Account',
+    noBankAccountContent: 'You currently do not have a bank account connected',
     modal: {
       success: 'Your billing information was successfully updated',
       creditCardError: 'The credit card fields are not filled out properly. Make sure the CCN and CVN fields are numbers',

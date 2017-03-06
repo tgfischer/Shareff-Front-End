@@ -50,8 +50,8 @@ export class Thumbnail extends Component {
         <Card style={styles.card}>
           <Card.Content className="ui thumbnail image" onClick={this.handleClick} style={styles.thumbnail}/>
           {removeEnable &&
-            <Card.Content style={styles.center}>
-              <Button basic content="Remove Image" icon="trash" labelPosition="left" onClick={this.handleDeleteButton}/>
+            <Card.Content style={styles.center} extra>
+              <Button content="Remove Image" icon="trash" labelPosition="left" size="large" color="red" onClick={this.handleDeleteButton}/>
             </Card.Content>
           }
         </Card>
