@@ -188,9 +188,9 @@ class UploadItem extends Component {
                 <Header as="h1" dividing>
                   <FormattedMessage id="addItem.itemAvailablitiy"/>
                 </Header>
-                <Header as="h3">
+                <Header.Subheader as="h3">
                   <FormattedMessage id="addItem.availabilityDescription"/>
-                </Header>
+                </Header.Subheader>
                 <FullCalendar
                   onDayClick={this.handleDayClick}
                   onEventClick={this.handleEventClick}
