@@ -88,7 +88,6 @@ class UploadItem extends Component {
     e.preventDefault();
     this.setState({startDate: date.format()});
     this.setState({endDate: date.format()});
-    console.log(this.state.startDate);
     this.setState({openAvailabilityModal: true});
   }
   handleEventClick(event, e) {
