@@ -2,6 +2,32 @@
   font-weight: 100 !important;
 }
 
+.ui.menu .header.item:after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 1px;
+  background: rgba(34,36,38,.1);
+}
+
+.nav-bar .hamburger.item {
+  display: none !important;
+  cursor: pointer
+}
+
+@media only screen and (max-width: 1000px) {
+  .nav-bar .item,
+  .nav-bar .right.menu {
+    display: none !important;
+  }
+
+  .nav-bar .hamburger.item {
+    display: block !important;
+  }
+}
+
 .fc-content {
   cursor: pointer;
 }

@@ -4,7 +4,7 @@ import {
   Button, Container, Form, Grid, Header, Message, Segment
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import NavBar from '../General/NavBar';
+import CoreLayout from '../../layouts/CoreLayout';
 import {signup} from '../../actions/auth';
 
 const styles = {
@@ -90,127 +90,128 @@ class SignUp extends Component {
     }];
 
     return (
-      <div style={styles.root}>
-        <NavBar/>
-        <Container style={styles.container}>
-          <Grid verticalAlign="middle" style={styles.grid}>
-            <Grid.Column>
-              <Header as="h1">
-                <FormattedMessage id="signUp.title"/>
-              </Header>
+      <CoreLayout>
+        <div style={styles.root}>
+          <Container style={styles.container}>
+            <Grid verticalAlign="middle" style={styles.grid}>
+              <Grid.Column>
+                <Header as="h1">
+                  <FormattedMessage id="signUp.title"/>
+                </Header>
 
-              <Segment basic>
-                <Form size="huge" onSubmit={this.handleSubmit} loading={this.props.isFetching} error={Boolean(err)}>
-                  <Form.Group widths="equal">
+                <Segment basic>
+                  <Form size="huge" onSubmit={this.handleSubmit} loading={this.props.isFetching} error={Boolean(err)}>
+                    <Form.Group widths="equal">
+                      <Form.Input
+                        label={formatMessage({id: 'signUp.firstName'})}
+                        name="firstName"
+                        placeholder={formatMessage({id: 'signUp.firstName'})}
+                        type="text"
+                        required
+                        />
+
+                      <Form.Input
+                        label={formatMessage({id: 'signUp.lastName'})}
+                        name="lastName"
+                        placeholder={formatMessage({id: 'signUp.lastName'})}
+                        type="text"
+                        required
+                        />
+                    </Form.Group>
                     <Form.Input
-                      label={formatMessage({id: 'signUp.firstName'})}
-                      name="firstName"
-                      placeholder={formatMessage({id: 'signUp.firstName'})}
+                      label={formatMessage({id: 'signUp.addressOne'})}
+                      name="addressOne"
+                      placeholder={formatMessage({id: 'signUp.addressOne'})}
                       type="text"
                       required
                       />
-
                     <Form.Input
-                      label={formatMessage({id: 'signUp.lastName'})}
-                      name="lastName"
-                      placeholder={formatMessage({id: 'signUp.lastName'})}
+                      label={formatMessage({id: 'signUp.addressTwo'})}
+                      name="addressTwo"
+                      placeholder={formatMessage({id: 'signUp.addressTwo'})}
                       type="text"
-                      required
                       />
-                  </Form.Group>
-                  <Form.Input
-                    label={formatMessage({id: 'signUp.addressOne'})}
-                    name="addressOne"
-                    placeholder={formatMessage({id: 'signUp.addressOne'})}
-                    type="text"
-                    required
-                    />
-                  <Form.Input
-                    label={formatMessage({id: 'signUp.addressTwo'})}
-                    name="addressTwo"
-                    placeholder={formatMessage({id: 'signUp.addressTwo'})}
-                    type="text"
-                    />
-                  <Form.Group widths="equal">
-                    <Form.Input
-                      label={formatMessage({id: 'signUp.city'})}
-                      name="city"
-                      placeholder={formatMessage({id: 'signUp.city'})}
-                      type="text"
-                      required
-                      />
+                    <Form.Group widths="equal">
+                      <Form.Input
+                        label={formatMessage({id: 'signUp.city'})}
+                        name="city"
+                        placeholder={formatMessage({id: 'signUp.city'})}
+                        type="text"
+                        required
+                        />
 
-                    <Form.Select
-                      label={formatMessage({id: 'signUp.province'})}
-                      name="province"
-                      placeholder={formatMessage({id: 'signUp.province'})}
-                      options={provinces}
-                      search
-                      required
-                      />
+                      <Form.Select
+                        label={formatMessage({id: 'signUp.province'})}
+                        name="province"
+                        placeholder={formatMessage({id: 'signUp.province'})}
+                        options={provinces}
+                        search
+                        required
+                        />
 
-                    <Form.Input
-                      label={formatMessage({id: 'signUp.postalCode'})}
-                      name="postalCode"
-                      placeholder={formatMessage({id: 'signUp.postalCode'})}
-                      type="text"
-                      required
-                      />
-                  </Form.Group>
-                  <Form.Group widths="equal">
-                    <Form.Input
-                      label={formatMessage({id: 'signUp.email'})}
-                      name="email"
-                      placeholder={formatMessage({id: 'signUp.email'})}
-                      type="text"
-                      required
-                      />
+                      <Form.Input
+                        label={formatMessage({id: 'signUp.postalCode'})}
+                        name="postalCode"
+                        placeholder={formatMessage({id: 'signUp.postalCode'})}
+                        type="text"
+                        required
+                        />
+                    </Form.Group>
+                    <Form.Group widths="equal">
+                      <Form.Input
+                        label={formatMessage({id: 'signUp.email'})}
+                        name="email"
+                        placeholder={formatMessage({id: 'signUp.email'})}
+                        type="text"
+                        required
+                        />
 
-                    <Form.Input
-                      label={formatMessage({id: 'signUp.password'})}
-                      name="password"
-                      placeholder={formatMessage({id: 'signUp.password'})}
-                      type="password"
-                      required
-                      />
+                      <Form.Input
+                        label={formatMessage({id: 'signUp.password'})}
+                        name="password"
+                        placeholder={formatMessage({id: 'signUp.password'})}
+                        type="password"
+                        required
+                        />
 
-                    <Form.Input
-                      label={formatMessage({id: 'signUp.confirmPassword'})}
-                      name="confirmPassword"
-                      placeholder={formatMessage({id: 'signUp.confirmPassword'})}
-                      type="password"
-                      required
-                      />
-                  </Form.Group>
+                      <Form.Input
+                        label={formatMessage({id: 'signUp.confirmPassword'})}
+                        name="confirmPassword"
+                        placeholder={formatMessage({id: 'signUp.confirmPassword'})}
+                        type="password"
+                        required
+                        />
+                    </Form.Group>
 
-                  {err &&
-                    <Message
-                      header={formatMessage({id: 'error.error'})}
-                      content={
-                        err.message ? err.message : formatMessage({id: 'error.general'})
-                      }
-                      error
-                      />
-                  }
+                    {err &&
+                      <Message
+                        header={formatMessage({id: 'error.error'})}
+                        content={
+                          err.message ? err.message : formatMessage({id: 'error.general'})
+                        }
+                        error
+                        />
+                    }
 
-                  <Button size="huge" type="submit" primary>
-                    <FormattedMessage id="signUp.signUpButton"/>
-                  </Button>
-                </Form>
-              </Segment>
+                    <Button size="huge" type="submit" primary>
+                      <FormattedMessage id="signUp.signUpButton"/>
+                    </Button>
+                  </Form>
+                </Segment>
 
-              <Message info>
-                <Message.Header>
-                  <FormattedMessage id="signUp.infoMessageTitle"/>
-                </Message.Header>
-                <p>
-                  <FormattedMessage id="signUp.infoMessageContent"/>
-                </p>
-              </Message>
-            </Grid.Column>
-          </Grid>
-        </Container>
-      </div>
+                <Message info>
+                  <Message.Header>
+                    <FormattedMessage id="signUp.infoMessageTitle"/>
+                  </Message.Header>
+                  <p>
+                    <FormattedMessage id="signUp.infoMessageContent"/>
+                  </p>
+                </Message>
+              </Grid.Column>
+            </Grid>
+          </Container>
+        </div>
+      </CoreLayout>
     );
   }
 }

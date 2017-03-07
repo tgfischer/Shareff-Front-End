@@ -5,7 +5,7 @@ import {
   Button, Container, Form, Grid, Header, Icon, Popup, Segment, Dropdown
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import NavBar from '../General/NavBar';
+import CoreLayout from '../../layouts/CoreLayout';
 import CalendarRange from '../General/CalendarRange';
 import MaxPriceSlider from '../General/Sliders/MaxPriceSlider';
 import MaxDistanceSlider from '../General/Sliders/MaxDistanceSlider';
@@ -134,8 +134,7 @@ class Listings extends Component {
     return (
       <div style={styles.wrapper}>
         {listings ?
-          <div>
-            <NavBar/>
+          <CoreLayout>
             <PageHeaderSegment
               breadcrumbs={breadcrumbs}
               title={formatMessage({id: 'listings.title'}, {q: unescape(q || '')})}
@@ -255,7 +254,7 @@ class Listings extends Component {
                 </Container>
               </Segment>
             }
-          </div> :
+          </CoreLayout> :
           <Loading/>
         }
       </div>

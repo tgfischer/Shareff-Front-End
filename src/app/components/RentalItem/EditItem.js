@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import validator from 'validator';
 import {Form, Grid, Label, Segment, Container, Button, Modal, Header, Card} from 'semantic-ui-react';
-import NavBar from '../General/NavBar';
+import CoreLayout from '../../layouts/CoreLayout';
 import PageHeaderSegment from '../General/PageHeaderSegment';
 import {Loading} from '../General/Loading';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
@@ -152,8 +152,7 @@ class EditItem extends Component {
     return (
       <div>
         {rentalItem && user ?
-          <div>
-            <NavBar/>
+          <CoreLayout>
             <PageHeaderSegment
               breadcrumbs={breadcrumbs}
               title={unescape(rentalItem.title)}
@@ -337,7 +336,7 @@ class EditItem extends Component {
                   />
               </Modal.Actions>
             </Modal>
-          </div> :
+          </CoreLayout> :
           <Loading/>
         }
       </div>

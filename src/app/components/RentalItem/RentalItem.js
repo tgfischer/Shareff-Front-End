@@ -9,7 +9,7 @@ import {
   Button, Card, Container, Form, Grid, Header, Icon, Image, Label, Modal,
   Segment, Statistic
 } from 'semantic-ui-react';
-import NavBar from '../General/NavBar';
+import CoreLayout from '../../layouts/CoreLayout';
 import CalendarRange from '../General/CalendarRange';
 import PageHeaderSegment from '../General/PageHeaderSegment';
 import {Loading} from '../General/Loading';
@@ -200,8 +200,7 @@ class RentalItem extends Component {
     return (
       <div style={styles.wrapper}>
         {rentalItem && (!token && !user || token && user) ?
-          <div>
-            <NavBar/>
+          <CoreLayout>
             {user && user.userId === rentalItem.ownerId &&
               <PageHeaderSegment
                 breadcrumbs={breadcrumbs}
@@ -371,7 +370,7 @@ class RentalItem extends Component {
                 </Grid>
               </Container>
             </Segment>
-          </div> :
+          </CoreLayout> :
           <Loading/>
         }
         <Modal className="rent-request-modal" dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
