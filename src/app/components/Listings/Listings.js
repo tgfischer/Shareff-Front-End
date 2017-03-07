@@ -38,6 +38,7 @@ class Listings extends Component {
     this.handleNextClick = this.handleNextClick.bind(this);
     this.navigateToPage = this.navigateToPage.bind(this);
     this.handleInputOnChange = this.handleInputOnChange.bind(this);
+    this.getListings = this.getListings.bind(this);
     this.getInputRef = this.getInputRef.bind(this);
 
     this.state = {
@@ -101,11 +102,31 @@ class Listings extends Component {
     e.preventDefault();
 
     const {router, dispatch} = this.props;
+    const {advancedSettings} = this.state;
 
     // Delete this random field thatis added
     delete formData["category-search"];
 
-    // Update the url and add it to the history
+    if (advancedSettings === 'hidden') {
+      this.getListings({router, dispatch, formData});
+    } else {
+      navigator.geolocation.getCurrentPosition(({coords}) => {
+        // Add the geolocation to the request
+        formData.latitude = coords.latitude;
+        formData.longitude = coords.longitude;
+
+        this.getListings({router, dispatch, formData});
+      }, err => {
+        console.error(err);
+      }, {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      });
+    }
+  }
+  getListings({router, dispatch, formData}) {
+    // Transition to the listings page, with the query params
     router.push({
       pathname: '/listings',
       query: formData
