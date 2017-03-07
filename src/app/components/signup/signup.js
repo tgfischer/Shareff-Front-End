@@ -8,12 +8,11 @@ import CoreLayout from '../../layouts/CoreLayout';
 import {signup} from '../../actions/auth';
 
 const styles = {
-  root: {
-    height: 'calc(100% - 2.85714286em)'
-  },
   container: {
-    paddingTop: '1.5em',
-    height: 'calc(100% - 2.85714286em)'
+    display: 'flex',
+    justifyContent: 'center',
+    flex: '1',
+    padding: '1em 0'
   },
   grid: {
     minHeight: '100%'
@@ -91,8 +90,8 @@ class SignUp extends Component {
 
     return (
       <CoreLayout>
-        <div style={styles.root}>
-          <Container style={styles.container}>
+        <div style={styles.container}>
+          <Container>
             <Grid verticalAlign="middle" style={styles.grid}>
               <Grid.Column>
                 <Header as="h1">

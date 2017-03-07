@@ -9,7 +9,10 @@ import {login} from '../../actions/auth';
 
 const styles = {
   container: {
-    height: 'calc(100% - 2.85714286em)'
+    display: 'flex',
+    justifyContent: 'center',
+    flex: '1',
+    padding: '1em 0'
   },
   grid: {
     minHeight: '100%'
@@ -49,7 +52,7 @@ class Login extends Component {
     return (
       <CoreLayout>
         <div style={styles.container}>
-          <Container style={styles.container} text>
+          <Container text>
             <Grid verticalAlign="middle" style={styles.grid}>
               <Grid.Column>
                 <Header as="h1">

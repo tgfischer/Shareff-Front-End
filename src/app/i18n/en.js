@@ -299,6 +299,10 @@ const en = {
     requestToRentButton: 'Request to Rent',
     requestToEditButton: 'Edit Rental Item Infomation',
     photosTitle: 'Photos of the item',
+    tooltip: {
+      notLoggedIn: 'You must be logged in to rent this item',
+      noCreditCard: 'You must have a credit card attached to your account in order to rent this item'
+    },
     modal: {
       title: 'Request to Rent Item',
       description: 'Select the dates that you would like to rent the item on',

@@ -227,12 +227,34 @@ class RentalItem extends Component {
                 }}
                 />
             }
-            {(!user || (user && user.userId !== rentalItem.ownerId && !user.stripeCustomerId)) &&
+            {!user &&
               <PageHeaderSegment
                 breadcrumbs={breadcrumbs}
                 title={unescape(rentalItem.title)}
                 subTitle={this.getCategories(rentalItem.category)}
                 colour="blue"
+                action={{
+                  handleButtonClick: this.handleRequestToRentButton,
+                  buttonText: formatMessage({id: 'rentalItem.requestToRentButton'}),
+                  isButtonInverted: true,
+                  disabled: true,
+                  tooltip: formatMessage({id: 'rentalItem.tooltip.notLoggedIn'})
+                }}
+                />
+            }
+            {user && user.userId !== rentalItem.ownerId && !user.stripeCustomerId &&
+              <PageHeaderSegment
+                breadcrumbs={breadcrumbs}
+                title={unescape(rentalItem.title)}
+                subTitle={this.getCategories(rentalItem.category)}
+                colour="blue"
+                action={{
+                  handleButtonClick: this.handleRequestToRentButton,
+                  buttonText: formatMessage({id: 'rentalItem.requestToRentButton'}),
+                  isButtonInverted: true,
+                  disabled: true,
+                  tooltip: formatMessage({id: 'rentalItem.tooltip.noCreditCard'})
+                }}
                 />
             }
             <Segment className="dark blue" inverted vertical>

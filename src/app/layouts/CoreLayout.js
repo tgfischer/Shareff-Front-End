@@ -5,6 +5,13 @@ import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {Sidebar, Menu, Segment} from 'semantic-ui-react';
 import NavBar from '../components/General/NavBar';
 
+const styles = {
+  pusher: {
+    display: 'flex',
+    flexDirection: 'column'
+  }
+};
+
 class CoreLayout extends Component {
   constructor(props) {
     super(props);
@@ -57,7 +64,7 @@ class CoreLayout extends Component {
             </Menu.Item>
           }
         </Sidebar>
-        <Sidebar.Pusher onClick={sidebarVisible ? this.handleSidebarClose : null} dimmed={sidebarVisible}>
+        <Sidebar.Pusher style={styles.pusher} onClick={sidebarVisible ? this.handleSidebarClose : null} dimmed={sidebarVisible}>
           <NavBar onSidebarOpen={this.handleSidebarOpen}/>
           {children}
         </Sidebar.Pusher>

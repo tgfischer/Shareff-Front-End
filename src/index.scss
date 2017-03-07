@@ -2,6 +2,17 @@
   font-weight: 100 !important;
 }
 
+.ui.button.disabled.tooltip {
+  pointer-events: auto !important;
+}
+
+.ui.button.disabled.tooltip:hover {
+  background: 0 0;
+  color: #FFF;
+  text-shadow: none !important;
+  box-shadow: 0 0 0 1px #FFF inset !important;
+}
+
 .ui.menu .header.item:after {
   position: absolute;
   content: '';
