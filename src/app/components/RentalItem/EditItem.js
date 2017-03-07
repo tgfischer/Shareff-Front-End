@@ -137,7 +137,13 @@ class EditItem extends Component {
     const {formatMessage} = intl;
     const {unescape} = validator;
     const styles = {
-      photos: {margin: '0 auto'}
+      photos: {margin: '0 auto'},
+      child: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+      }
     };
     const breadcrumbs = [{
       text: formatMessage({id: 'breadcrumb.home'}),
@@ -337,7 +343,9 @@ class EditItem extends Component {
               </Modal.Actions>
             </Modal>
           </CoreLayout> :
-          <Loading/>
+          <div style={styles.child}>
+            <Loading/>
+          </div>
         }
       </div>
     );

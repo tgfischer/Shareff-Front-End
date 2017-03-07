@@ -39,6 +39,9 @@ class Masthead extends Component {
   handleOnSubmit(e, {formData}) {
     e.preventDefault();
 
+    // Delete this random field that is added
+    delete formData['category-search'];
+
     // Transition to the listings page, with the query params
     this.props.router.push({
       pathname: '/listings',

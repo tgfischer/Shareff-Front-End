@@ -102,6 +102,9 @@ class Listings extends Component {
 
     const {router, dispatch} = this.props;
 
+    // Delete this random field thatis added
+    delete formData["category-search"];
+
     // Update the url and add it to the history
     router.push({
       pathname: '/listings',
