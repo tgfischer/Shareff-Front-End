@@ -24,7 +24,6 @@ class UploadItem extends Component {
     this.handlePhotosUpload = this.handlePhotosUpload.bind(this);
     this.handleDayClick = this.handleDayClick.bind(this);
     this.handleEventClick = this.handleEventClick.bind(this);
-    this.handleUnavailableRequest = this.handleUnavailableRequest.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleAvailabilityRequest = this.handleAvailabilityRequest.bind(this);
     this.handleCloseAvailabilityModal = this.handleCloseAvailabilityModal.bind(this);
@@ -89,10 +88,6 @@ class UploadItem extends Component {
   }
   handleEventClick(event, e) {
     e.preventDefault();
-  }
-  handleUnavailableRequest(e) {
-    e.preventDefault();
-    console.log("Puppies");
   }
   handleOnChange(startDate, endDate) {
     this.setState({
@@ -267,7 +262,7 @@ class UploadItem extends Component {
             </Header>
           </Modal.Header>
           <Modal.Content>
-            <Form onSubmit={this.handleUnavailableRequest} loading={isFetching} size="huge">
+            <Form loading={isFetching} size="huge">
               <Grid stackable>
                 <Grid.Row columns={1}>
                   <Grid.Column>
