@@ -132,7 +132,7 @@ class UploadItem extends Component {
     }
   }
   render() {
-    const {intl, user} = this.props;
+    const {intl, user, isFetching} = this.props;
     const {
       openSuccessModal, openAvailabilityModal, modalTitle, modalContent, photoUrls, unavailableDays, startDate, endDate
     } = this.state;
