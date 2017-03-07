@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router';
-import {Container, Button, Menu} from 'semantic-ui-react';
+import {Container, Button, Icon, Menu} from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {logOut} from '../../actions/auth';
 
@@ -22,9 +22,14 @@ class NavBar extends Component {
     this.props.router.push('/login');
   }
   render() {
+    const {onSidebarOpen} = this.props;
+
     return (
       <Menu size="huge" className="nav-bar no-shadow" style={styles.menu}>
         <Container>
+          <Menu.Item onClickCapture={onSidebarOpen} className="hamburger" icon>
+            <Icon name="sidebar"/>
+          </Menu.Item>
           <Menu.Item as={Link} to="/" className="bold" activeClassName="active" header>
             <FormattedMessage id="navBar.title"/>
           </Menu.Item>
@@ -67,7 +72,8 @@ NavBar.propTypes = {
   isAuthenticated: React.PropTypes.bool,
   user: React.PropTypes.object,
   router: React.PropTypes.object,
-  dispatch: React.PropTypes.func.isRequired
+  dispatch: React.PropTypes.func.isRequired,
+  onSidebarOpen: React.PropTypes.func
 };
 
 const mapStateToProps = state => {

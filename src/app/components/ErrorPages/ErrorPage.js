@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Container, Grid, Header, Icon} from 'semantic-ui-react';
 import {intlShape, injectIntl} from 'react-intl';
-import NavBar from '../General/NavBar';
+import CoreLayout from '../../layouts/CoreLayout';
 
 const styles = {
   container: {
@@ -24,25 +24,26 @@ class ErrorPage extends Component {
     const {title, message} = this.props;
 
     return (
-      <div style={styles.container}>
-        <NavBar/>
-        <Container style={styles.container}>
-          <Grid verticalAlign="middle" style={styles.grid} stackable>
-            <Grid.Column width={2}/>
-            <Grid.Column width={12} style={styles.column}>
-              <Header as="h1" size="huge">
-                <Icon name="remove"/>
-                <Header.Content>
-                  {title}
-                  <Header.Subheader style={styles.subHeader}>
-                    {message}
-                  </Header.Subheader>
-                </Header.Content>
-              </Header>
-            </Grid.Column>
-          </Grid>
-        </Container>
-      </div>
+      <CoreLayout>
+        <div style={styles.container}>
+          <Container style={styles.container}>
+            <Grid verticalAlign="middle" style={styles.grid} stackable>
+              <Grid.Column width={2}/>
+              <Grid.Column width={12} style={styles.column}>
+                <Header as="h1" size="huge">
+                  <Icon name="remove"/>
+                  <Header.Content>
+                    {title}
+                    <Header.Subheader style={styles.subHeader}>
+                      {message}
+                    </Header.Subheader>
+                  </Header.Content>
+                </Header>
+              </Grid.Column>
+            </Grid>
+          </Container>
+        </div>
+      </CoreLayout>
     );
   }
 }

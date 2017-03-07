@@ -4,7 +4,7 @@ import {withRouter} from 'react-router';
 import validator from 'validator';
 import {Container, Grid, Header, Icon, Image, Segment} from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import NavBar from '../General/NavBar';
+import CoreLayout from '../../layouts/CoreLayout';
 import {Loading} from '../General/Loading';
 import PageHeaderSegment from '../General/PageHeaderSegment';
 import {DataTableSemantic} from '../General/DataTableSemantic';
@@ -81,8 +81,7 @@ class User extends Component {
     return (
       <div style={styles.wrapper}>
         {targetUser ?
-          <div>
-            <NavBar/>
+          <CoreLayout>
             <PageHeaderSegment
               breadcrumbs={[{
                 text: formatMessage({id: 'breadcrumb.home'}),
@@ -180,7 +179,7 @@ class User extends Component {
                 </Grid.Row>
               </Grid>
             </Container>
-          </div> :
+          </CoreLayout> :
           <Loading/>
         }
       </div>

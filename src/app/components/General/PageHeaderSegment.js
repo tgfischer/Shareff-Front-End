@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {intlShape, injectIntl} from 'react-intl';
 import {
-  Breadcrumb, Button, Container, Grid, Header, Segment
+  Breadcrumb, Button, Container, Grid, Header, Segment, Popup
 } from 'semantic-ui-react';
 
 const styles = {
@@ -60,9 +60,31 @@ class PageHeaderSegment extends Component {
               </Grid.Column>
               {action &&
                 <Grid.Column width={6} floated="right">
-                  <Button onClick={action.handleButtonClick} color={action.buttonColour} inverted={action.isButtonInverted} disabled={action.disabled} size="big" floated="right">
-                    {action.buttonText}
-                  </Button>
+                  {!action.tooltip &&
+                    <Button onClick={action.handleButtonClick} color={action.buttonColour} inverted={action.isButtonInverted} disabled={action.disabled} size="big" floated="right">
+                      {action.buttonText}
+                    </Button>
+                  }
+                  {action.tooltip &&
+                    <Popup
+                      trigger={
+                        <Button
+                          className="tooltip"
+                          onClick={action.handleButtonClick}
+                          color={action.buttonColour}
+                          disabled={action.disabled}
+                          inverted={action.isButtonInverted}
+                          size="big"
+                          floated="right"
+                          >
+                          {action.buttonText}
+                        </Button>
+                      }
+                      content={action.tooltip}
+                      wide
+                      inverted
+                      />
+                  }
                 </Grid.Column>
               }
             </Grid.Row>
