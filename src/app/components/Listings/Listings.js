@@ -125,7 +125,7 @@ class Listings extends Component {
     const {intl, isFetching} = this.props;
     const {listings, numPerPage, totalNumListings, advancedSettings, options} = this.state;
     const {formatMessage} = intl;
-    const {q, startDate, endDate, location, maxPrice, maxDistance, page} = this.props.location.query;
+    const {q, startDate, endDate, category, location, maxPrice, maxDistance, page} = this.props.location.query;
 
     const breadcrumbs = [{
       text: formatMessage({id: 'breadcrumb.home'}),
@@ -187,6 +187,7 @@ class Listings extends Component {
                                   selection
                                   search
                                   options={options}
+                                  defaultValue={category}
                                   />
                               </div>
                               <Form.Input
