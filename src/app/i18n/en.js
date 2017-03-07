@@ -455,7 +455,7 @@ const en = {
     renter: '{fName} {lName}',
     item: '{item}',
     totalCostHeader: 'TOTAL RENTAL COST',
-    totalCost: '$ 100',
+    totalCost: '$ {cost}',
     paymentStatusHeader: 'PAYMENT STATUS',
     paymentStatus: 'Pending',
     activeResponses: {

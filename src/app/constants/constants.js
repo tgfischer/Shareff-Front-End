@@ -160,6 +160,20 @@ export const Actions = {
   GET_BOOKING_SUCCESS: 'GET_BOOKING_SUCCESS',
   GET_BOOKING_FAILURE: 'GET_BOOKING_FAILURE',
 
+/**
+ * Actions for creating a new user review
+ */
+  CREATE_USER_REVIEW_REQUEST: 'CREATE_USER_REVIEW_REQUEST',
+  CREATE_USER_REVIEW_SUCCESS: 'CREATE_USER_REVIEW_SUCCESS',
+  CREATE_USER_REVIEW_FAILURE: 'CREATE_USER_REVIEW_FAILURE',
+
+/**
+ * Actions for confirming/rejecting the rental item status
+ */
+  CONFIRM_ITEM_REQUEST: 'CONFIRM_ITEM_REQUEST',
+  CONFIRM_ITEM_SUCCESS: 'CONFIRM_ITEM_SUCCESS',
+  CONFIRM_ITEM_FAILURE: 'CONFIRM_ITEM_FAILURE',
+
   /**
    * Actions for getting a list of my items
    */

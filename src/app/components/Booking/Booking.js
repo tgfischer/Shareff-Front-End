@@ -9,7 +9,7 @@ import {
 import NavBar from '../General/NavBar';
 import {Loading} from '../General/Loading';
 import {getUser} from '../../actions/auth';
-import {getBooking} from '../../actions/booking';
+import {getBooking, createUserReview, confirmItem} from '../../actions/booking';
 import {BASE_URL} from '../../constants/constants';
 
 const styles = {
@@ -49,23 +49,12 @@ const styles = {
 class Booking extends Component {
   constructor(props) {
     super(props);
-    this.handleOwnerStartConfirmation = this.handleOwnerStartConfirmation.bind(this);
-    this.handleOwnerStartReject = this.handleOwnerStartReject.bind(this);
-    this.handleRenterStartConfirmation = this.handleRenterStartConfirmation.bind(this);
-    this.handleRenterStartReject = this.handleRenterStartReject.bind(this);
-    this.handleOwnerEndConfirmation = this.handleOwnerEndConfirmation.bind(this);
-    this.handleOwnerEndReject = this.handleOwnerEndReject.bind(this);
-    this.handleRenterEndConfirmation = this.handleRenterEndConfirmation.bind(this);
-    this.handleRenterEndReject = this.handleRenterEndReject.bind(this);
-    this.handleOwnerRatingSubmit = this.handleOwnerRatingSubmit.bind(this);
-    this.handleRenterRatingSubmit = this.handleRenterRatingSubmit.bind(this);
+    this.handleItemConfirm = this.handleItemConfirm.bind(this);
+    this.handleItemReject = this.handleItemReject.bind(this);
+    this.handleRatingSubmit = this.handleRatingSubmit.bind(this);
 
     this.state = {
-      statusBarPercent: 0,
-      ownerStartConfirmationRequired: true,
-      renterStartConfirmationRequired: true,
-      ownerEndConfirmationRequired: true,
-      renterEndConfirmationRequired: true,
+      bookingInfo: null,
       ownerRatingRequired: true,
       renterRatingRequired: true
     };
@@ -74,64 +63,66 @@ class Booking extends Component {
     const {bookingId} = this.props.params;
 
     this.props.dispatch(getBooking(bookingId)).then(() => {
+      const {bookingInfo} = this.props;
+      this.setState({bookingInfo});
       if (!this.props.user) {
         const token = localStorage.getItem('token');
         this.props.dispatch(getUser(token));
       }
     });
   }
-  handleOwnerStartConfirmation() {
-    this.setState({ownerStartConfirmationRequired: false});
+  handleItemConfirm() {
+    const {bookingInfo, user} = this.props;
+    const {booking} = bookingInfo;
 
-    // Dispatch to update the booking to know that owner start confirmation is no longer required - confirm
+    this.props.dispatch(confirmItem({
+      bookingId: booking.bookingId,
+      userId: user.userId,
+      confirm: true
+    })).then(({bookingInfo, err}) => {
+      if (bookingInfo) {
+        this.setState({bookingInfo});
+      } else if (err) {
+        console.log(err);
+      }
+    });
   }
-  handleOwnerStartReject() {
-    this.setState({ownerStartConfirmationRequired: false});
+  handleItemReject() {
+    const {bookingInfo, user} = this.props;
+    const {booking} = bookingInfo;
 
-    // Dispatch to update the booking to know that owner start confirmation is no longer required - reject
+    this.props.dispatch(confirmItem({
+      bookingId: booking.bookingId,
+      userId: user.userId,
+      confirm: false
+    })).then(({bookingInfo, err}) => {
+      if (bookingInfo) {
+        this.setState({bookingInfo});
+      } else if (err) {
+        console.log(err);
+      }
+    });
   }
-  handleRenterStartConfirmation() {
-    this.setState({renterStartConfirmationRequired: false});
-
-    // Dispatch to update the booking to know that renter start confirmation is no longer required - confirm
-  }
-  handleRenterStartReject() {
-    this.setState({renterStartConfirmationRequired: false});
-
-    // Dispatch to update the booking to know that renter start confirmation is no longer required - reject
-  }
-  handleOwnerEndConfirmation() {
-    this.setState({ownerEndConfirmationRequired: false});
-
-    // Dispatch to update the booking to know that owner end confirmation is no longer required - confirm
-  }
-  handleOwnerEndReject() {
-    this.setState({ownerEndConfirmationRequired: false});
-
-    // Dispatch to update the booking to know that owner end confirmation is no longer required - reject
-  }
-  handleRenterEndConfirmation() {
-    this.setState({renterEndConfirmationRequired: false});
-
-    // Dispatch to update the booking to know that owner end confirmation is no longer required - confirm
-  }
-  handleRenterEndReject() {
-    this.setState({renterEndConfirmationRequired: false});
-
-    // Dispatch to update the booking to know that owner end confirmation is no longer required - confirm
-  }
-  handleOwnerRatingSubmit(event, data) {
+  handleRatingSubmit(event, data) {
     this.setState({ownerRatingRequired: false});
-    console.log(data.rating);
+    const {bookingInfo, user} = this.props;
+    const {booking} = bookingInfo;
     // Dispatch to update the booking to create a new userReview for this booking
-  }
-  handleRenterRatingSubmit(event, data) {
-    this.setState({renterRatingRequired: false});
-    console.log(data.rating);
-    // Dispatch to update the booking to create a new userReview for this booking
+    this.props.dispatch(createUserReview({
+      bookingId: booking.bookingId,
+      ratingUserId: user.userId,
+      rating: data.rating
+    })).then(({bookingInfo, err}) => {
+      if (bookingInfo) {
+        this.setState({bookingInfo});
+      } else if (err) {
+        console.log(err);
+      }
+    });
   }
   render() {
-    const {bookingInfo, user} = this.props;
+    const {user} = this.props;
+    const {bookingInfo} = this.state;
     return (
       <div style={styles.wrapper}>
         {bookingInfo && user ?
@@ -190,7 +181,7 @@ class Booking extends Component {
                     </Grid.Row>
                   }
                 </Grid>
-                {bookingInfo.booking && bookingInfo.booking.status && bookingInfo.booking.status === 'Booking Complete' &&
+                {bookingInfo.booking && bookingInfo.booking.status && bookingInfo.booking.status === 'Booking Pending' &&
                   <Progress percent={10} size="large" color="blue">
                     <FormattedMessage id="booking.pending"/>
                   </Progress>
@@ -200,79 +191,75 @@ class Booking extends Component {
                     <Progress percent={55} size="large" color="blue">
                       <FormattedMessage id="booking.active"/>
                     </Progress>
-                    {bookingInfo.renter && bookingInfo.renter.userId && user.userId && bookingInfo.renter.userId === user.userId &&
-                      <div style={styles.largePadding}>
+                    {bookingInfo.renter && bookingInfo.renter.userId && user.userId && bookingInfo.renter.userId === user.userId && bookingInfo.booking.renterStartConfirm === null &&
+                      <div style={styles.container}>
                         <Grid verticalAlign="middle" columns={3}>
-                          {bookingInfo.renter.startConfirmationRequired &&
-                            <Grid.Row centered>
-                              <Grid.Column width={10}>
-                                <Header as="h2" size="huge" style={styles.header}>
-                                  <FormattedMessage id="booking.activeResponses.renterReceived"/>
-                                </Header>
-                              </Grid.Column>
-                              <Grid.Column width={6}>
-                                <Button
-                                  content="Confirm"
-                                  icon="checkmark"
-                                  labelPosition="right"
-                                  onClick={this.handleRenterStartConfirmation}
-                                  positive
-                                  />
-                                <Button
-                                  content="Reject"
-                                  icon="delete"
-                                  labelPosition="right"
-                                  onClick={this.handleRenterStartReject}
-                                  negative
-                                  />
-                              </Grid.Column>
-                            </Grid.Row>
-                          }
+                          <Grid.Row centered>
+                            <Grid.Column width={10}>
+                              <Header as="h2" size="huge" style={styles.header}>
+                                <FormattedMessage id="booking.activeResponses.renterReceived"/>
+                              </Header>
+                            </Grid.Column>
+                            <Grid.Column width={6}>
+                              <Button
+                                content="Confirm"
+                                icon="checkmark"
+                                labelPosition="right"
+                                onClick={this.handleItemConfirm}
+                                positive
+                                />
+                              <Button
+                                content="Reject"
+                                icon="delete"
+                                labelPosition="right"
+                                onClick={this.handleItemReject}
+                                negative
+                                />
+                            </Grid.Column>
+                          </Grid.Row>
                         </Grid>
                       </div>
                     }
-                    {bookingInfo.owner && bookingInfo.owner.userId && user.userId && bookingInfo.owner.userId === user.userId &&
-                      <div style={styles.largePadding}>
+                    {bookingInfo.owner && bookingInfo.owner.userId && user.userId && bookingInfo.owner.userId === user.userId && bookingInfo.booking.ownerStartConfirm === null &&
+                      <div style={styles.container}>
                         <Grid verticalAlign="middle" columns={3}>
-                          {bookingInfo.owner.startConfirmationRequired &&
-                            <Grid.Row centered>
-                              <Grid.Column width={10}>
-                                <Header as="h2" size="huge" style={styles.header}>
-                                  <FormattedMessage id="booking.activeResponses.ownerDelivered"/>
-                                </Header>
-                              </Grid.Column>
-                              <Grid.Column width={6}>
-                                <Button
-                                  content="Confirm"
-                                  icon="checkmark"
-                                  labelPosition="right"
-                                  onClick={this.handleOwnerStartConfirmation}
-                                  positive
-                                  />
-                                <Button
-                                  content="Reject"
-                                  icon="delete"
-                                  labelPosition="right"
-                                  onClick={this.handleOwnerStartReject}
-                                  negative
-                                  />
-                              </Grid.Column>
-                            </Grid.Row>
-                          }
+                          <Grid.Row centered>
+                            <Grid.Column width={10}>
+                              <Header as="h2" size="huge" style={styles.header}>
+                                <FormattedMessage id="booking.activeResponses.ownerDelivered"/>
+                              </Header>
+                            </Grid.Column>
+                            <Grid.Column width={6}>
+                              <Button
+                                content="Confirm"
+                                icon="checkmark"
+                                labelPosition="right"
+                                onClick={this.handleItemConfirm}
+                                positive
+                                />
+                              <Button
+                                content="Reject"
+                                icon="delete"
+                                labelPosition="right"
+                                onClick={this.handleItemReject}
+                                negative
+                                />
+                            </Grid.Column>
+                          </Grid.Row>
                         </Grid>
                       </div>
                     }
                   </div>
                 }
-                {bookingInfo.booking && bookingInfo.booking.status && bookingInfo.booking.status === 'Booking Pending' &&
+                {bookingInfo.booking && bookingInfo.booking.status && bookingInfo.booking.status === 'Booking Complete' &&
                   <div>
                     <Progress percent={100} size="large" color="blue">
                       <FormattedMessage id="booking.complete"/>
                     </Progress>
                     {bookingInfo.renter && bookingInfo.renter.userId && user.userId && bookingInfo.renter.userId === user.userId &&
-                      <div style={styles.largePadding}>
+                      <div style={styles.container}>
                         <Grid verticalAlign="middle" columns={3}>
-                          {bookingInfo.renter.endConfirmationRequired &&
+                          {bookingInfo.booking.renterEndConfirm === null &&
                             <Grid.Row centered>
                               <Grid.Column width={10}>
                                 <Header as="h2" size="huge" style={styles.header}>
@@ -284,21 +271,21 @@ class Booking extends Component {
                                   content="Confirm"
                                   icon="checkmark"
                                   labelPosition="right"
-                                  onClick={this.handleRenterEndConfirmation}
+                                  onClick={this.handleItemConfirm}
                                   positive
                                   />
                                 <Button
                                   content="Reject"
                                   icon="delete"
                                   labelPosition="right"
-                                  onClick={this.handleRenterEndReject}
+                                  onClick={this.handleItemReject}
                                   negative
                                   />
                               </Grid.Column>
                             </Grid.Row>
                           }
-                          <Grid.Row centered>
-                            {bookingInfo.renter.rating ?
+                          {bookingInfo.renter.rating ?
+                            <Grid.Row centered>
                               <div>
                                 <Grid.Column width={10}>
                                   <Header as="h1" size="huge" style={styles.header}>
@@ -314,7 +301,9 @@ class Booking extends Component {
                                     disabled
                                     />
                                 </Grid.Column>
-                              </div> :
+                              </div>
+                            </Grid.Row> :
+                            <Grid.Row>
                               <div>
                                 <Grid.Column width={10}>
                                   <Header as="h1" size="huge" style={styles.header}>
@@ -332,19 +321,19 @@ class Booking extends Component {
                                     defaultRating={0}
                                     icon="star"
                                     size="massive"
-                                    onRate={this.handleRenterRatingSubmit}
+                                    onRate={this.handleRatingSubmit}
                                     />
                                 </Grid.Column>
                               </div>
-                            }
-                          </Grid.Row>
+                            </Grid.Row>
+                          }
                         </Grid>
                       </div>
                     }
                     {bookingInfo.owner && bookingInfo.owner.userId && user.userId && bookingInfo.owner.userId === user.userId &&
-                      <div style={styles.largePadding}>
+                      <div style={styles.container}>
                         <Grid verticalAlign="middle" columns={2}>
-                          {bookingInfo.owner.endConfirmationRequired &&
+                          {bookingInfo.booking.ownerEndConfirm === null &&
                             <Grid.Row centered>
                               <Grid.Column width={10}>
                                 <Header as="h2" size="huge" style={styles.header}>
@@ -356,14 +345,14 @@ class Booking extends Component {
                                   content="Confirm"
                                   icon="checkmark"
                                   labelPosition="right"
-                                  onClick={this.handleOwnerEndConfirmation}
+                                  onClick={this.handleItemConfirm}
                                   positive
                                   />
                                 <Button
                                   content="Reject"
                                   icon="delete"
                                   labelPosition="right"
-                                  onClick={this.handleOwnerEndReject}
+                                  onClick={this.handleItemReject}
                                   negative
                                   />
                               </Grid.Column>
@@ -403,7 +392,7 @@ class Booking extends Component {
                                   defaultRating={0}
                                   icon="star"
                                   size="massive"
-                                  onRate={this.handleRenterRatingSubmit}
+                                  onRate={this.handleRatingSubmit}
                                   />
                               </Grid.Column>
                             </Grid.Row>

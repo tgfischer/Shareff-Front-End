@@ -168,6 +168,36 @@ export const reducers = (state = {
         bookingInfo: undefined,
         err: action.err
       });
+    case Actions.CREATE_USER_REVIEW_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        err: undefined
+      });
+    case Actions.CREATE_USER_REVIEW_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: undefined
+      });
+    case Actions.CREATE_USER_REVIEW_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: action.err
+      });
+    case Actions.CONFIRM_ITEM_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        err: undefined
+      });
+    case Actions.CONFIRM_ITEM_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: undefined
+      });
+    case Actions.CONFIRM_ITEM_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: action.err
+      });
     case Actions.GET_RENTAL_ITEM_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
