@@ -4,6 +4,7 @@ import {withRouter} from 'react-router';
 import {
   Button, Form, Grid, Header, Modal, Dropdown, Card
 } from 'semantic-ui-react';
+import moment from 'moment';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {BASE_URL, categories, costPeriods} from '../../constants/constants';
 import {uploadPhotos} from '../../actions/uploadPhotos';
@@ -12,21 +13,32 @@ import UploadFile from '../General/UploadFile';
 import {DraftEditor} from '../General/DraftEditor';
 import {Thumbnail} from '../General/Thumbnail';
 import {getOptions} from '../../utils/Utils';
+import FullCalendar from '../General/FullCalendar';
+import CalendarRange from '../General/CalendarRange';
 
 class UploadItem extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleCloseSuccessModal = this.handleCloseSuccessModal.bind(this);
     this.handlePhotosUpload = this.handlePhotosUpload.bind(this);
+    this.handleDayClick = this.handleDayClick.bind(this);
+    this.handleEventClick = this.handleEventClick.bind(this);
+    this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleAvailabilityRequest = this.handleAvailabilityRequest.bind(this);
+    this.handleCloseAvailabilityModal = this.handleCloseAvailabilityModal.bind(this);
     this.handleBillingClick = this.handleBillingClick.bind(this);
 
     this.state = {
-      openModal: false,
+      openSuccessModal: false,
+      openAvailabilityModal: false,
       modalTitle: 'modal.success',
       modalContent: 'addItem.modal.addItemSuccess',
       photoUrls: null,
-      itemId: null
+      itemId: null,
+      unavailableDays: [],
+      startDate: {},
+      endDate: {}
     };
   }
   handleBillingClick(e) {
@@ -42,6 +54,7 @@ class UploadItem extends Component {
     formData.userId = user.userId;
     formData.addressId = user.addressId;
     formData.photos = this.state.photoUrls;
+    formData.unavailableDays = this.state.unavailableDays;
 
     // Send the new item to the server
     dispatch(addItem(formData)).then(({err, itemId}) => {
@@ -56,13 +69,13 @@ class UploadItem extends Component {
       this.setState({modalContent: formatMessage({id: content})});
 
       // Open the modal
-      this.setState({openModal: true, itemId});
+      this.setState({openSuccessModal: true, itemId});
     });
   }
-  handleCloseModal() {
+  handleCloseSuccessModal() {
     const {itemId} = this.state;
     const {router} = this.props;
-    this.setState({openModal: false});
+    this.setState({openSuccessModal: false});
 
     if (itemId) {
       router.push(`/listings/${itemId}`);
@@ -70,6 +83,36 @@ class UploadItem extends Component {
   }
   handlePhotosUpload(photoUrls) {
     this.setState({photoUrls});
+  }
+  handleDayClick(date, e) {
+    e.preventDefault();
+    this.setState({startDate: date.format()});
+    this.setState({endDate: date.format()});
+    console.log(this.state.startDate);
+    this.setState({openAvailabilityModal: true});
+  }
+  handleEventClick(event, e) {
+    e.preventDefault();
+  }
+  handleOnChange(startDate, endDate) {
+    this.setState({
+      startDate,
+      endDate
+    });
+  }
+  handleAvailabilityRequest(e) {
+    e.preventDefault();
+    this.state.unavailableDays.push({
+      title: 'Unavailable',
+      start: moment(this.state.startDate.date).format(),
+      end: moment(this.state.endDate.date).format(),
+      allDay: false
+    });
+    this.handleCloseAvailabilityModal(e);
+  }
+  handleCloseAvailabilityModal(e) {
+    e.preventDefault();
+    this.setState({openAvailabilityModal: false});
   }
   componentDidMount() {
     const {user, intl} = this.props;
@@ -89,9 +132,9 @@ class UploadItem extends Component {
     }
   }
   render() {
-    const {intl, user} = this.props;
+    const {intl, user, isFetching} = this.props;
     const {
-      openModal, modalTitle, modalContent, photoUrls
+      openSuccessModal, openAvailabilityModal, modalTitle, modalContent, photoUrls, unavailableDays, startDate, endDate
     } = this.state;
     const {formatMessage} = intl;
 
@@ -167,6 +210,18 @@ class UploadItem extends Component {
                   required
                   />
                 <Header as="h1" dividing>
+                  <FormattedMessage id="addItem.itemAvailablitiy"/>
+                </Header>
+                <Header.Subheader as="h3">
+                  <FormattedMessage id="addItem.availabilityDescription"/>
+                </Header.Subheader>
+                <FullCalendar
+                  onDayClick={this.handleDayClick}
+                  onEventClick={this.handleEventClick}
+                  unavailableDays={unavailableDays}
+                  {...this.props}
+                  />
+                <Header as="h1" dividing>
                   <FormattedMessage id="addItem.uploadPhotos"/>
                 </Header>
                 {photoUrls &&
@@ -204,7 +259,7 @@ class UploadItem extends Component {
           </Grid.Row>
         </Grid>
 
-        <Modal size="small" dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
+        <Modal size="small" dimmer="blurring" open={openSuccessModal} onClose={this.handleCloseSuccessModal}>
           <Modal.Header>
             <Header as="h1">
               {modalTitle}
@@ -227,7 +282,7 @@ class UploadItem extends Component {
             {buttonDisabled &&
               <Button
                 content={formatMessage({id: 'addItem.modal.continueAnyways'})}
-                onClick={this.handleCloseModal}
+                onClick={this.handleCloseSuccessModal}
                 size="huge"
                 basic
                 />
@@ -236,10 +291,51 @@ class UploadItem extends Component {
               <Button
                 content={formatMessage({id: 'modal.okay'})}
                 size="huge"
-                onClick={this.handleCloseModal}
+                onClick={this.handleCloseSuccessModal}
                 primary
                 />
             }
+          </Modal.Actions>
+        </Modal>
+
+        <Modal dimmer="blurring" open={openAvailabilityModal} onClose={this.handleCloseAvailabilityModal}>
+          <Modal.Header>
+            <Header as="h1">
+              <FormattedMessage id="addItem.availabilityModal.title"/>
+            </Header>
+          </Modal.Header>
+          <Modal.Content>
+            <Form loading={isFetching} size="huge">
+              <Grid stackable>
+                <Grid.Row columns={1}>
+                  <Grid.Column>
+                    <Header as="h3">
+                      <FormattedMessage id="addItem.availabilityModal.description"/>
+                    </Header>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row columns={1}>
+                  <Grid.Column>
+                    <CalendarRange defaultValues={{startDate, endDate}} onChange={this.handleOnChange}/>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </Form>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button
+              content={formatMessage({id: 'addItem.availabilityModal.markUnavailable'})}
+              onClick={this.handleAvailabilityRequest}
+              size="huge"
+              type="submit"
+              primary
+              />
+            <Button
+              content={formatMessage({id: 'modal.close'})}
+              onClick={this.handleCloseAvailabilityModal}
+              size="huge"
+              basic
+              />
           </Modal.Actions>
         </Modal>
       </div>

@@ -5,7 +5,7 @@ import {
   Button, Container, Form, Grid, Header, Icon, Popup, Segment, Dropdown
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import NavBar from '../General/NavBar';
+import CoreLayout from '../../layouts/CoreLayout';
 import CalendarRange from '../General/CalendarRange';
 import MaxPriceSlider from '../General/Sliders/MaxPriceSlider';
 import MaxDistanceSlider from '../General/Sliders/MaxDistanceSlider';
@@ -102,6 +102,9 @@ class Listings extends Component {
 
     const {router, dispatch} = this.props;
 
+    // Delete this random field thatis added
+    delete formData["category-search"];
+
     // Update the url and add it to the history
     router.push({
       pathname: '/listings',
@@ -122,7 +125,7 @@ class Listings extends Component {
     const {intl, isFetching} = this.props;
     const {listings, numPerPage, totalNumListings, advancedSettings, options} = this.state;
     const {formatMessage} = intl;
-    const {q, startDate, endDate, location, maxPrice, maxDistance, page} = this.props.location.query;
+    const {q, startDate, endDate, category, location, maxPrice, maxDistance, page} = this.props.location.query;
 
     const breadcrumbs = [{
       text: formatMessage({id: 'breadcrumb.home'}),
@@ -134,8 +137,7 @@ class Listings extends Component {
     return (
       <div style={styles.wrapper}>
         {listings ?
-          <div>
-            <NavBar/>
+          <CoreLayout>
             <PageHeaderSegment
               breadcrumbs={breadcrumbs}
               title={formatMessage({id: 'listings.title'}, {q: unescape(q || '')})}
@@ -172,13 +174,6 @@ class Listings extends Component {
                               <FormattedMessage id="masthead.advancedSettings"/>
                             </Header>
                             <Form.Group widths="equal">
-                              <Form.Input
-                                name="location"
-                                placeholder={formatMessage({id: 'masthead.location'})}
-                                defaultValue={unescape(location || '')}
-                                label={formatMessage({id: 'masthead.location'})}
-                                type="text"
-                                />
                               <div className="field">
                                 <label>
                                   <FormattedMessage id="addItem.category"/>
@@ -192,8 +187,16 @@ class Listings extends Component {
                                   selection
                                   search
                                   options={options}
+                                  defaultValue={category}
                                   />
                               </div>
+                              <Form.Input
+                                name="location"
+                                placeholder={formatMessage({id: 'masthead.location'})}
+                                defaultValue={unescape(location || '')}
+                                label={formatMessage({id: 'masthead.location'})}
+                                type="text"
+                                />
                             </Form.Group>
                             <Form.Group widths="equal">
                               <MaxPriceSlider colour="green" defaultValue={unescape(maxPrice || '')}/>
@@ -255,7 +258,7 @@ class Listings extends Component {
                 </Container>
               </Segment>
             }
-          </div> :
+          </CoreLayout> :
           <Loading/>
         }
       </div>

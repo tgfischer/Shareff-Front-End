@@ -2,6 +2,47 @@
   font-weight: 100 !important;
 }
 
+.ui.selection.dropdown > .menu {
+  max-height: 200px;
+}
+
+.ui.button.disabled.tooltip {
+  pointer-events: auto !important;
+}
+
+.ui.button.disabled.tooltip:hover {
+  background: 0 0;
+  color: #FFF;
+  text-shadow: none !important;
+  box-shadow: 0 0 0 1px #FFF inset !important;
+}
+
+.ui.menu .header.item:after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 1px;
+  background: rgba(34,36,38,.1);
+}
+
+.nav-bar .hamburger.item {
+  display: none !important;
+  cursor: pointer
+}
+
+@media only screen and (max-width: 1000px) {
+  .nav-bar .item,
+  .nav-bar .right.menu {
+    display: none !important;
+  }
+
+  .nav-bar .hamburger.item {
+    display: block !important;
+  }
+}
+
 .fc-content {
   cursor: pointer;
 }
@@ -115,6 +156,10 @@ table.hover tbody tr:hover, table thead tr:hover {
 
 .ui.range .inner {
   margin: 0;
+}
+
+.conversation .item .header {
+  font-size: 0.75em;
 }
 
 .ui.message p {

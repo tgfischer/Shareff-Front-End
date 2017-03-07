@@ -9,7 +9,7 @@ import {
   Button, Card, Container, Form, Grid, Header, Icon, Image, Label, Modal,
   Segment, Statistic
 } from 'semantic-ui-react';
-import NavBar from '../General/NavBar';
+import CoreLayout from '../../layouts/CoreLayout';
 import CalendarRange from '../General/CalendarRange';
 import PageHeaderSegment from '../General/PageHeaderSegment';
 import {Loading} from '../General/Loading';
@@ -52,7 +52,6 @@ class RentalItem extends Component {
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleMakeRentRequest = this.handleMakeRentRequest.bind(this);
     this.getCategories = this.getCategories.bind(this);
-    this.handleBillingClick = this.handleBillingClick.bind(this);
 
     this.state = {
       openModal: false,
@@ -70,15 +69,16 @@ class RentalItem extends Component {
     const {itemId} = this.props.params;
 
     this.props.dispatch(getRentalItem(itemId)).then(() => {
-      if (!this.props.user) {
-        // Else if the user is authenticated
-        const token = localStorage.getItem('token');
-        this.props.dispatch(getUser(token));
+      const {user, dispatch, rentalItem, router} = this.props;
+      const token = localStorage.getItem('token');
+
+      if (token && !user) {
+        dispatch(getUser(token));
       }
 
       // If the item is archived, we don't want the user to view this page
-      if (this.props.rentalItem.status === "Archived") {
-        this.props.router.push(ERROR_PAGE);
+      if (rentalItem.status === "Archived") {
+        router.push(ERROR_PAGE);
       }
     });
   }
@@ -164,31 +164,6 @@ class RentalItem extends Component {
       </Label.Group>
     );
   }
-  handleBillingClick(e) {
-    e.preventDefault();
-    this.props.router.push(`/profile/billing`);
-  }
-  componentDidMount() {
-    const {user, intl} = this.props;
-    if (!user.stripeCustomerId) {
-      const {formatMessage} = intl;
-
-      // Set the modal title
-      const title = 'modal.error';
-      this.setState({modalTitle: formatMessage({id: title})});
-
-      // Set the modal content
-      const content = 'addItem.modal.noCreditCard';
-      this.setState({modalContent: formatMessage({id: content})});
-
-      // Open the modal
-      this.setState({
-        openModal: false,
-        openResponseModal: true,
-        isMakeRequestButtonDisabled: true
-      });
-    }
-  }
   render() {
     const {rentalItem, intl, user, isFetching} = this.props;
     const {
@@ -196,12 +171,11 @@ class RentalItem extends Component {
     } = this.state;
     const {unescape} = validator;
     const {formatMessage} = intl;
+    const token = localStorage.getItem('token');
     const breadcrumbs = [{
       text: formatMessage({id: 'breadcrumb.home'}),
       to: '/'
     }];
-
-    const buttonDisabled = user.stripeCustomerId === null;
 
     if (rentalItem) {
       // If the user came from a search, then we want to go back to the place they
@@ -225,10 +199,9 @@ class RentalItem extends Component {
 
     return (
       <div style={styles.wrapper}>
-        {rentalItem && user ?
-          <div>
-            <NavBar/>
-            {user && user.userId === rentalItem.ownerId ?
+        {rentalItem && (!token && !user || token && user) ?
+          <CoreLayout>
+            {user && user.userId === rentalItem.ownerId &&
               <PageHeaderSegment
                 breadcrumbs={breadcrumbs}
                 title={unescape(rentalItem.title)}
@@ -239,7 +212,22 @@ class RentalItem extends Component {
                   buttonText: formatMessage({id: 'rentalItem.requestToEditButton'}),
                   isButtonInverted: true
                 }}
-                /> :
+                />
+            }
+            {user && user.userId !== rentalItem.ownerId && user.stripeCustomerId &&
+              <PageHeaderSegment
+                breadcrumbs={breadcrumbs}
+                title={unescape(rentalItem.title)}
+                subTitle={this.getCategories(rentalItem.category)}
+                colour="blue"
+                action={{
+                  handleButtonClick: this.handleRequestToRentButton,
+                  buttonText: formatMessage({id: 'rentalItem.requestToRentButton'}),
+                  isButtonInverted: true
+                }}
+                />
+            }
+            {!user &&
               <PageHeaderSegment
                 breadcrumbs={breadcrumbs}
                 title={unescape(rentalItem.title)}
@@ -249,7 +237,23 @@ class RentalItem extends Component {
                   handleButtonClick: this.handleRequestToRentButton,
                   buttonText: formatMessage({id: 'rentalItem.requestToRentButton'}),
                   isButtonInverted: true,
-                  disabled: buttonDisabled
+                  disabled: true,
+                  tooltip: formatMessage({id: 'rentalItem.tooltip.notLoggedIn'})
+                }}
+                />
+            }
+            {user && user.userId !== rentalItem.ownerId && !user.stripeCustomerId &&
+              <PageHeaderSegment
+                breadcrumbs={breadcrumbs}
+                title={unescape(rentalItem.title)}
+                subTitle={this.getCategories(rentalItem.category)}
+                colour="blue"
+                action={{
+                  handleButtonClick: this.handleRequestToRentButton,
+                  buttonText: formatMessage({id: 'rentalItem.requestToRentButton'}),
+                  isButtonInverted: true,
+                  disabled: true,
+                  tooltip: formatMessage({id: 'rentalItem.tooltip.noCreditCard'})
                 }}
                 />
             }
@@ -388,7 +392,7 @@ class RentalItem extends Component {
                 </Grid>
               </Container>
             </Segment>
-          </div> :
+          </CoreLayout> :
           <Loading/>
         }
         <Modal className="rent-request-modal" dimmer="blurring" open={openModal} onClose={this.handleCloseModal}>
@@ -452,15 +456,6 @@ class RentalItem extends Component {
             <Header as="h3">
               {modalContent}
             </Header>
-            {buttonDisabled &&
-              <Button
-                content={formatMessage({id: 'addItem.goToBillingButton'})}
-                size="large"
-                onClick={this.handleBillingClick}
-                color="blue"
-                basic
-                />
-            }
           </Modal.Content>
           <Modal.Actions>
             <Button
