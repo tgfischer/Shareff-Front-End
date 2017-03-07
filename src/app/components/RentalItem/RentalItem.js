@@ -7,7 +7,7 @@ import GoogleMap from 'google-map-react';
 import moment from 'moment';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {
-  Button, Card, Container, Form, Grid, Header, Icon, Image, Label, Modal,
+  Button, Card, Container, Form, Grid, Header, Icon, Image, Label, Modal, Rating,
   Segment, Statistic
 } from 'semantic-ui-react';
 import NavBar from '../General/NavBar';
@@ -182,6 +182,8 @@ class RentalItem extends Component {
     if (rentalItem) {
       // If the user came from a search, then we want to go back to the place they
       // were at before. Otherwise, don't add this breadcrumb
+      console.log(rentalItem.owner);
+
       if (this.props.location.query && this.props.location.query.q) {
         const {query} = this.props.location;
 
@@ -198,7 +200,6 @@ class RentalItem extends Component {
         text: unescape(rentalItem.title)
       });
     }
-
     return (
       <div style={styles.wrapper}>
         {rentalItem && user ?
@@ -268,7 +269,14 @@ class RentalItem extends Component {
                         <Header.Content>
                           <FormattedMessage id="rentalItem.ratingTitle"/>
                           <Header.Subheader>
-                            {!rentalItem.rating &&
+                            {rentalItem.owner.avgRating ?
+                              <Rating
+                                maxRating={5}
+                                defaultRating={rentalItem.owner.avgRating}
+                                icon="star"
+                                size="large"
+                                disabled
+                                /> :
                               <FormattedMessage id="rentalItem.noRatings"/>
                             }
                           </Header.Subheader>

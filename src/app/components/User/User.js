@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import validator from 'validator';
-import {Container, Grid, Header, Icon, Image, Segment} from 'semantic-ui-react';
+import {Container, Grid, Header, Icon, Image, Rating, Segment} from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import NavBar from '../General/NavBar';
 import {Loading} from '../General/Loading';
@@ -109,7 +109,14 @@ class User extends Component {
                       <Header.Content>
                         <FormattedMessage id="user.ratingTitle"/>
                         <Header.Subheader>
-                          {!targetUser.avgRating &&
+                          {targetUser.avgRating ?
+                            <Rating
+                              maxRating={5}
+                              defaultRating={targetUser.avgRating}
+                              icon="star"
+                              size="large"
+                              disabled
+                              /> :
                             <i>
                               <FormattedMessage id="user.noAvgRating" values={{firstName: targetUser.firstName}}/>
                             </i>
