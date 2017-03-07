@@ -9,26 +9,28 @@ import '../../../assets/semantic-ui/components/calendar.min.css';
 
 export class Calendar extends Component {
   componentDidMount() {
-    const {type, inline, defaultValue} = this.props;
+    const {type, inline, defaultValue, name} = this.props;
+    const calendarIdentifier = `.ui.calendar.${name}`;
 
-    $(".ui.calendar").calendar({
+    $(calendarIdentifier).calendar({
       type,
       inline
     });
 
     if (defaultValue) {
-      $(".ui.calendar").calendar('set date', defaultValue);
+      $(calendarIdentifier).calendar('set date', defaultValue);
     }
   }
   render() {
     const {required, label, name, placeholder, width} = this.props;
     let classNameBuilder = required ? "required " : "";
     classNameBuilder += `${numberToWord(width)} wide field`;
+    const calendarName = `ui calendar ${name}`;
 
     return (
       <div className={classNameBuilder}>
         <label>{label}</label>
-        <div className="ui calendar">
+        <div className={calendarName}>
           <div className="ui input left icon">
             <Icon name="calendar"/>
             <input name={name} type="text" placeholder={placeholder} required={required}/>

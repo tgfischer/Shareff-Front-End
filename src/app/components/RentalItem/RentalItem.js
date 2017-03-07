@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {withRouter, Link} from 'react-router';
 import validator from 'validator';
 import GoogleMap from 'google-map-react';
-import moment from 'moment';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {
   Button, Card, Container, Form, Grid, Header, Icon, Image, Label, Modal,
@@ -19,6 +18,7 @@ import {Thumbnail} from '../General/Thumbnail';
 import {getRentalItem, makeRentRequest} from '../../actions/rentalItem';
 import {getUser} from '../../actions/auth';
 import {BASE_URL, ERROR_PAGE} from '../../constants/constants';
+import {calculatePrice} from '../../utils/Utils';
 
 const styles = {
   wrapper: {
@@ -52,6 +52,7 @@ class RentalItem extends Component {
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleMakeRentRequest = this.handleMakeRentRequest.bind(this);
     this.getCategories = this.getCategories.bind(this);
+    this.handleBillingClick = this.handleBillingClick.bind(this);
 
     this.state = {
       openModal: false,
@@ -96,11 +97,7 @@ class RentalItem extends Component {
     });
 
     if (this.state.startDate.date && this.state.endDate.date) {
-      const start = moment(this.state.startDate.date);
-      const end = moment(this.state.endDate.date);
-      const duration = moment.duration(end.diff(start)).asDays();
-      const totalPrice = (duration * this.props.rentalItem.price).toFixed(2);
-
+      const totalPrice = calculatePrice(this.state.startDate, this.state.endDate, this.props.rentalItem.price);
       this.setState({totalPrice});
     }
   }
@@ -167,6 +164,31 @@ class RentalItem extends Component {
       </Label.Group>
     );
   }
+  handleBillingClick(e) {
+    e.preventDefault();
+    this.props.router.push(`/profile/billing`);
+  }
+  componentDidMount() {
+    const {user, intl} = this.props;
+    if (!user.stripeCustomerId) {
+      const {formatMessage} = intl;
+
+      // Set the modal title
+      const title = 'modal.error';
+      this.setState({modalTitle: formatMessage({id: title})});
+
+      // Set the modal content
+      const content = 'addItem.modal.noCreditCard';
+      this.setState({modalContent: formatMessage({id: content})});
+
+      // Open the modal
+      this.setState({
+        openModal: false,
+        openResponseModal: true,
+        isMakeRequestButtonDisabled: true
+      });
+    }
+  }
   render() {
     const {rentalItem, intl, user, isFetching} = this.props;
     const {
@@ -178,6 +200,8 @@ class RentalItem extends Component {
       text: formatMessage({id: 'breadcrumb.home'}),
       to: '/'
     }];
+
+    const buttonDisabled = user.stripeCustomerId === null;
 
     if (rentalItem) {
       // If the user came from a search, then we want to go back to the place they
@@ -224,7 +248,8 @@ class RentalItem extends Component {
                 action={{
                   handleButtonClick: this.handleRequestToRentButton,
                   buttonText: formatMessage({id: 'rentalItem.requestToRentButton'}),
-                  isButtonInverted: true
+                  isButtonInverted: true,
+                  disabled: buttonDisabled
                 }}
                 />
             }
@@ -427,6 +452,15 @@ class RentalItem extends Component {
             <Header as="h3">
               {modalContent}
             </Header>
+            {buttonDisabled &&
+              <Button
+                content={formatMessage({id: 'addItem.goToBillingButton'})}
+                size="large"
+                onClick={this.handleBillingClick}
+                color="blue"
+                basic
+                />
+            }
           </Modal.Content>
           <Modal.Actions>
             <Button

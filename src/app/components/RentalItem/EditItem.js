@@ -2,15 +2,18 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import validator from 'validator';
-import {Form, Grid, Image, Label, Segment, Container, Button, Modal, Header} from 'semantic-ui-react';
+import {Form, Grid, Label, Segment, Container, Button, Modal, Header, Card} from 'semantic-ui-react';
 import NavBar from '../General/NavBar';
 import PageHeaderSegment from '../General/PageHeaderSegment';
 import {Loading} from '../General/Loading';
-import {intlShape, injectIntl} from 'react-intl';
+import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {getRentalItem, removeMyItem, updateMyItem} from '../../actions/rentalItem';
 import {getUser} from '../../actions/auth';
 import {getOptions} from '../../utils/Utils';
 import {DraftEditor} from '../General/DraftEditor';
+import {Thumbnail} from '../General/Thumbnail';
+import {uploadPhotos} from '../../actions/uploadPhotos';
+import UploadFile from '../General/UploadFile';
 import {BASE_URL, categories, costPeriods} from '../../constants/constants';
 
 class EditItem extends Component {
@@ -21,13 +24,16 @@ class EditItem extends Component {
     this.handleRequestToSaveButton = this.handleRequestToSaveButton.bind(this);
     this.handleCloseRemoveModal = this.handleCloseRemoveModal.bind(this);
     this.handleCloseUpdateModal = this.handleCloseUpdateModal.bind(this);
+    this.handleRemovePhoto = this.handleRemovePhoto.bind(this);
+    this.handlePhotosUpload = this.handlePhotosUpload.bind(this);
 
     this.state = {
       openRemoveModal: false,
       openUpdateModal: false,
       modalTitle: 'modal.success',
       modalContent: 'editItem.removeModal.success',
-      updateModalContent: 'editItem.updateModal.success'
+      updateModalContent: 'editItem.updateModal.success',
+      photoUrls: null
     };
   }
   componentWillMount() {
@@ -40,6 +46,7 @@ class EditItem extends Component {
         const token = localStorage.getItem('token');
         this.props.dispatch(getUser(token));
       }
+      this.setState({photoUrls: this.props.rentalItem.photos});
     });
   }
   handleRequestToRemoveButton() {
@@ -70,6 +77,8 @@ class EditItem extends Component {
     const {userId} = this.props.user;
     formData.itemId = itemId;
     formData.userId = userId;
+    formData.photos = this.state.photoUrls;
+
     this.props.dispatch(updateMyItem(formData)).then(({err}) => {
       const {formatMessage} = this.props.intl;
 
@@ -93,6 +102,20 @@ class EditItem extends Component {
     this.setState({openUpdateModal: false});
     this.props.router.push(`/profile/my-items`);
   }
+  handleRemovePhoto(selectedPhotoUrl) {
+    const {photoUrls} = this.state;
+    const i = photoUrls.indexOf(selectedPhotoUrl);
+    if (i !== -1) {
+      photoUrls.splice(i, 1);
+      this.setState({photoUrls});
+    }
+  }
+  handlePhotosUpload(newPhotoUrls) {
+    console.log(newPhotoUrls);
+    let {photoUrls} = this.state;
+    photoUrls = photoUrls.concat(newPhotoUrls);
+    this.setState({photoUrls});
+  }
   getCategories(categories) {
     const {formatMessage} = this.props.intl;
 
@@ -110,18 +133,28 @@ class EditItem extends Component {
   }
   render() {
     const {rentalItem, user, intl} = this.props;
-    const {openRemoveModal, openUpdateModal, modalTitle, modalContent, updateModalContent} = this.state;
+    const {openRemoveModal, openUpdateModal, modalTitle, modalContent, updateModalContent, photoUrls} = this.state;
     const {formatMessage} = intl;
     const {unescape} = validator;
+    const styles = {
+      photos: {margin: '0 auto'},
+      child: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+      }
+    };
     const breadcrumbs = [{
       text: formatMessage({id: 'breadcrumb.home'}),
       to: '/'
     }];
 
-    breadcrumbs.push({
-      text: unescape(rentalItem.title)
-    });
-
+    if (rentalItem) {
+      breadcrumbs.push({
+        text: unescape(rentalItem.title)
+      });
+    }
     return (
       <div>
         {rentalItem && user ?
@@ -143,10 +176,7 @@ class EditItem extends Component {
                 <Form size="huge" onSubmit={this.handleRequestToSaveButton}>
                   <Grid verticalAlign="middle">
                     <Grid.Row>
-                      <Grid.Column width={6}>
-                        <Image src={BASE_URL + rentalItem.photos[0]} shape="rounded" bordered/>
-                      </Grid.Column>
-                      <Grid.Column width={10}>
+                      <Grid.Column>
                         <Form.Field>
                           <Form.Input
                             label={formatMessage({id: 'addItem.title'})}
@@ -220,6 +250,37 @@ class EditItem extends Component {
                     </Grid.Row>
                     <Grid.Row>
                       <Grid.Column>
+                        <Header as="h3">
+                          <FormattedMessage id="editItem.photosTitle"/>
+                        </Header>
+                        {photoUrls &&
+                          <Card.Group itemsPerRow={3} style={styles.photos}>
+                            {photoUrls.map((photoUrl, i) => {
+                              return (
+                                <Thumbnail
+                                  key={i}
+                                  src={BASE_URL + photoUrl}
+                                  height={200}
+                                  removeEnable={"true"}
+                                  photoUrl={photoUrl}
+                                  onRemovePhotoRequest={this.handleRemovePhoto}
+                                  />
+                              );
+                            })}
+                          </Card.Group>
+                        }
+                        <UploadFile
+                          uploadAction={uploadPhotos}
+                          uploadRoute="upload_item_photos"
+                          name="uploadPhotos"
+                          fluid
+                          multiple
+                          onPhotosChange={this.handlePhotosUpload}
+                          />
+                      </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                      <Grid.Column>
                         <Button
                           content={formatMessage({id: 'editItem.saveChangesButton'})}
                           size="huge"
@@ -283,7 +344,7 @@ class EditItem extends Component {
               </Modal.Actions>
             </Modal>
           </div> :
-          <Loading/>
+          <div style={styles.child}><Loading/></div>
         }
       </div>
     );

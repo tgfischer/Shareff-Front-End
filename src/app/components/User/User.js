@@ -73,7 +73,7 @@ class User extends Component {
         data: 'price',
         title: formatMessage({id: 'user.columns.price'}),
         render: (data, type, {costPeriod}) => {
-          return `$${data} per ${formatMessage({id: costPeriod})}`;
+          return `$${data} per ${formatMessage({id: costPeriod}).toLowerCase()}`;
         }
       }
     ];

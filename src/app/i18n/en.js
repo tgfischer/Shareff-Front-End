@@ -217,7 +217,11 @@ const en = {
     uploadPhotos: 'Upload Photos of Your Item',
     modal: {
       uploadPhotosSuccess: 'Your photo(s) were successfully uploaded',
-      addItemSuccess: 'Your item was successfully uploaded'
+      addItemSuccess: 'Your item was successfully uploaded',
+      noBankAccount: 'It seems that you have no bank account on file. You must update your banking information on the billing page in order to add items',
+      noCreditCard: 'It seems that you do not have a credit card on file. You must update your credit card information on the billing page in order to request to rent',
+      updateBillingInfo: 'Update Billing Information',
+      continueAnyways: 'Continue Anyways'
     },
     availabilityModal: {
       title: 'Mark Item Unavailable',
@@ -316,6 +320,13 @@ const en = {
 
   request: {
     status: {
+      notificationPending: 'Notification Pending',
+      pending: 'Pending',
+      accepted: 'Accepted',
+      rejected: 'Rejected',
+      cancelled: 'Cancelled'
+    },
+    ownerActions: {
       accept: 'Accept',
       reject: 'Reject'
     }
@@ -326,7 +337,7 @@ const en = {
    */
   myRequests: {
     title: 'My Rent Requests',
-    subTitle: 'Click on a row delete the request, view the item page, or view the owner\'s profile',
+    subTitle: 'Click on a row to cancel the request, view the item page, or view the owner\'s profile',
     columns: {
       itemTitle: 'Requested Item',
       ownersName: 'Owner\'s Name',
@@ -335,11 +346,11 @@ const en = {
       status: 'Status'
     },
     modal: {
-      title: 'Delete Rent Request',
-      content: 'Would you like to delete this rent request?',
+      title: 'Rent Request Actions',
+      content: 'Use the actions below to cancel the rent request, or view details about the request. Note, you cannot cancel a request that has already been accepted, rejected, or cancelled',
       viewItemButton: 'View Rental Item',
       viewOwnersProfileButton: 'View Owner\'s Profile',
-      cancelRequestButton: 'Delete Request'
+      cancelRequestButton: 'Cancel Request'
     }
   },
 
@@ -410,13 +421,29 @@ const en = {
   billing: {
     title: 'Billing Information',
     subTitle: 'Don\'t worry, your information is stored securely!',
+    creditCardInfo: 'Credit Card Information',
+    creditCardInfoSubtitle: 'If you plan on renting items, we\'ll need to know what credit card to charge',
+    bankAccountInfo: 'Bank Account Information',
+    bankAccountInfoSubtitle: 'If you plan on putting items up for rent, we\'ll need to know where to transfer funds',
+    accountHolderName: 'Account Holder Name',
+    accountNumber: 'Account Number',
+    institutionNumber: 'Institution Number',
+    transitNumber: 'Transit Numner',
+    dob: 'Date of Birth',
     month: 'Month',
     year: 'Year',
     expiryDate: 'Expiry Date',
     saveChangesButton: 'Save Changes',
+    noCreditCardTitle: 'No Credit Card',
+    noCreditCardContent: 'You currently do not have a credit card on file',
+    noBankAccountTitle: 'No Bank Account',
+    noBankAccountContent: 'You currently do not have a bank account connected',
     modal: {
       success: 'Your billing information was successfully updated',
-      creditCardError: 'Make sure to properly fill out the CNN and CVN fields'
+      creditCardError: 'The credit card fields are not filled out properly. Make sure the CCN and CVN fields are numbers',
+      bankAccountError: 'The bank details are not filled out properly. Make sure the Account Number, Transit Number, and Institution Number are numbers',
+      noNewValuesError: 'All fields remained the same, nothing was saved',
+      allFieldsAreEmpty: 'All fields are empty, nothing was saved'
     }
   },
 
@@ -437,6 +464,7 @@ const en = {
     saveChangesButton: 'Save Changes',
     removeItemButton: 'Remove Item',
     cancelButton: 'Cancel Changes',
+    photosTitle: 'Photos of Your Item',
     removeModal: {
       success: 'Your rental item has been successfully removed.'
     },

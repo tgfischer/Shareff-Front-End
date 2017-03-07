@@ -27,6 +27,7 @@ class UploadItem extends Component {
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleAvailabilityRequest = this.handleAvailabilityRequest.bind(this);
     this.handleCloseAvailabilityModal = this.handleCloseAvailabilityModal.bind(this);
+    this.handleBillingClick = this.handleBillingClick.bind(this);
 
     this.state = {
       openSuccessModal: false,
@@ -39,6 +40,10 @@ class UploadItem extends Component {
       startDate: {},
       endDate: {}
     };
+  }
+  handleBillingClick(e) {
+    e.preventDefault();
+    this.props.router.push(`/profile/billing`);
   }
   handleSubmit(e, {formData}) {
     e.preventDefault();
@@ -109,12 +114,31 @@ class UploadItem extends Component {
     e.preventDefault();
     this.setState({openAvailabilityModal: false});
   }
+  componentDidMount() {
+    const {user, intl} = this.props;
+    if (!user.stripeAccountId) {
+      const {formatMessage} = intl;
+
+      // Set the modal title
+      const title = 'modal.error';
+      this.setState({modalTitle: formatMessage({id: title})});
+
+      // Set the modal content
+      const content = 'addItem.modal.noBankAccount';
+      this.setState({modalContent: formatMessage({id: content})});
+
+      // Open the modal
+      this.setState({openModal: true});
+    }
+  }
   render() {
-    const {intl, isFetching} = this.props;
+    const {intl, user} = this.props;
     const {
       openSuccessModal, openAvailabilityModal, modalTitle, modalContent, photoUrls, unavailableDays, startDate, endDate
     } = this.state;
     const {formatMessage} = intl;
+
+    const buttonDisabled = user.stripeAccountId === null;
 
     return (
       <div>
@@ -204,7 +228,7 @@ class UploadItem extends Component {
                   <Card.Group itemsPerRow={3}>
                     {photoUrls.map((photoUrl, i) => {
                       return (
-                        <Thumbnail key={i} src={BASE_URL + photoUrl} height={250}/>
+                        <Thumbnail key={i} src={BASE_URL + photoUrl} height={200}/>
                       );
                     })}
                   </Card.Group>
@@ -226,6 +250,7 @@ class UploadItem extends Component {
                       icon="plus"
                       labelPosition="right"
                       primary
+                      disabled={buttonDisabled}
                       />
                   </Grid.Column>
                 </Grid.Row>
@@ -246,12 +271,30 @@ class UploadItem extends Component {
             </Header>
           </Modal.Content>
           <Modal.Actions>
-            <Button
-              content={formatMessage({id: 'modal.okay'})}
-              onClick={this.handleCloseSuccessModal}
-              size="huge"
-              primary
-              />
+            {buttonDisabled &&
+              <Button
+                content={formatMessage({id: 'addItem.modal.updateBillingInfo'})}
+                size="huge"
+                onClick={this.handleBillingClick}
+                primary
+                />
+            }
+            {buttonDisabled &&
+              <Button
+                content={formatMessage({id: 'addItem.modal.continueAnyways'})}
+                onClick={this.handleCloseSuccessModal}
+                size="huge"
+                basic
+                />
+            }
+            {!buttonDisabled &&
+              <Button
+                content={formatMessage({id: 'modal.okay'})}
+                size="huge"
+                onClick={this.handleCloseSuccessModal}
+                primary
+                />
+            }
           </Modal.Actions>
         </Modal>
 
