@@ -111,7 +111,6 @@ class EditItem extends Component {
     }
   }
   handlePhotosUpload(newPhotoUrls) {
-    console.log(newPhotoUrls);
     let {photoUrls} = this.state;
     photoUrls = photoUrls.concat(newPhotoUrls);
     this.setState({photoUrls});
