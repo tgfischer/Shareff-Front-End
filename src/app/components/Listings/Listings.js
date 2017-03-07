@@ -171,13 +171,6 @@ class Listings extends Component {
                               <FormattedMessage id="masthead.advancedSettings"/>
                             </Header>
                             <Form.Group widths="equal">
-                              <Form.Input
-                                name="location"
-                                placeholder={formatMessage({id: 'masthead.location'})}
-                                defaultValue={unescape(location || '')}
-                                label={formatMessage({id: 'masthead.location'})}
-                                type="text"
-                                />
                               <div className="field">
                                 <label>
                                   <FormattedMessage id="addItem.category"/>
@@ -193,6 +186,13 @@ class Listings extends Component {
                                   options={options}
                                   />
                               </div>
+                              <Form.Input
+                                name="location"
+                                placeholder={formatMessage({id: 'masthead.location'})}
+                                defaultValue={unescape(location || '')}
+                                label={formatMessage({id: 'masthead.location'})}
+                                type="text"
+                                />
                             </Form.Group>
                             <Form.Group widths="equal">
                               <MaxPriceSlider colour="green" defaultValue={unescape(maxPrice || '')}/>

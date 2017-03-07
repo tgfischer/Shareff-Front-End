@@ -2,6 +2,10 @@
   font-weight: 100 !important;
 }
 
+.ui.selection.dropdown > .menu {
+  max-height: 200px;
+}
+
 .ui.button.disabled.tooltip {
   pointer-events: auto !important;
 }

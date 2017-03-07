@@ -39,7 +39,7 @@ class Messages extends Component {
 
     return (
       <div>
-        <Grid divided>
+        <Grid stackable divided>
           <Grid.Row className="conversation">
             <Grid.Column width={4}>
               <List selection verticalAlign="middle" size="large">

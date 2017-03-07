@@ -123,6 +123,7 @@ class MessageArea extends Component {
           ${verticalSegmentPadding}px - ${contentColumnPadding}px - \
           ${contentSegmentBorderWidth}px - ${conversationHeaderHeight}px - \
           ${messageInputHeight}px - ${dividerBorderWidth}px)`,
+        minHeight: '300px',
         overflow: 'auto'
       },
       messageGrid: {
@@ -135,8 +136,8 @@ class MessageArea extends Component {
     };
 
     return (
-      <div>
-        <Grid>
+      <div style={styles.container}>
+        <Grid stackable>
           <Grid.Row className="conversation-header" verticalAlign="middle">
             <Grid.Column>
               <Header as="h1">
@@ -155,7 +156,7 @@ class MessageArea extends Component {
           </Grid.Row>
           <Divider style={styles.divider} className="separator"/>
           <Grid.Row style={styles.messageArea} className="message-area">
-            <Grid style={styles.messageGrid}>
+            <Grid stackable style={styles.messageGrid}>
               {messages.map(({senderId, timeSent, content}, i) => {
                 // Check if this message was sent by the logged in user, or the
                 // recipient

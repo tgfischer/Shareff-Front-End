@@ -1,14 +1,22 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
-import {Accordion, Container, Form, Grid, Header, Icon, Segment} from 'semantic-ui-react';
+import {Accordion, Container, Dropdown, Form, Grid, Header, Icon, Segment} from 'semantic-ui-react';
 import CalendarRange from '../General/CalendarRange';
 import MaxPriceSlider from '../General/Sliders/MaxPriceSlider';
 import MaxDistanceSlider from '../General/Sliders/MaxDistanceSlider';
+import {getOptions} from '../../utils/Utils';
+import {categories} from '../../constants/constants';
 
 const styles = {
   masthead: {
-    paddingTop: "8em"
+    display: 'flex',
+    justifyContent: 'center',
+    flex: '1',
+    padding: '1em 0'
+  },
+  grid: {
+    minHeight: '100%'
   },
   header: {
     fontSize: "3em"
@@ -42,40 +50,29 @@ class Masthead extends Component {
   }
   render() {
     const {showAdvancedSettings} = this.state;
-    const {formatMessage} = this.props.intl;
+    const {intl} = this.props;
+    const {formatMessage} = intl;
 
     return (
       <Segment style={styles.masthead} vertical>
         <Container text>
-          <Form size="huge" onSubmit={this.handleOnSubmit}>
-            <Grid verticalAlign="middle" columns={1}>
-              <Grid.Row centered>
-                <Grid.Column>
-                  <Header as="h1" size="huge" className="bold" style={styles.header}>
-                    <FormattedMessage id="masthead.title"/>
-                    <Header.Subheader style={styles.subHeader}>
-                      <FormattedMessage id="masthead.desc"/>
-                    </Header.Subheader>
-                  </Header>
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
+          <Grid verticalAlign="middle" style={styles.grid}>
+            <Grid.Row>
+              <Grid.Column>
+                <Header as="h1" size="huge" className="bold" style={styles.header} textAlign="center">
+                  <FormattedMessage id="masthead.title"/>
+                  <Header.Subheader style={styles.subHeader}>
+                    <FormattedMessage id="masthead.desc"/>
+                  </Header.Subheader>
+                </Header>
+                <Form size="huge" onSubmit={this.handleOnSubmit} style={styles.minHeight}>
                   <Form.Input
                     action={{color: "blue", labelPosition: "right", icon: "search", content: formatMessage({id: 'masthead.search'}), size: "huge"}}
                     name="q"
                     label="Search"
                     type="text"
                     />
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
                   <CalendarRange/>
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
                   <Accordion onTitleClick={this.handleToggleAdvancedSettings} fluid styled>
                     <Accordion.Title>
                       <Icon name="options"/>
@@ -84,7 +81,29 @@ class Masthead extends Component {
                     <Accordion.Content>
                       {showAdvancedSettings &&
                         <div>
-                          <Form.Input name="location" label={formatMessage({id: 'masthead.location'})} type="text"/>
+                          <Form.Group widths="equal">
+                            <div className="field">
+                              <label>
+                                <FormattedMessage id="addItem.category"/>
+                              </label>
+                              <Dropdown
+                                name="category"
+                                placeholder={formatMessage({id: 'addItem.category'})}
+                                fluid
+                                multiple
+                                labeled
+                                selection
+                                search
+                                options={getOptions({values: categories, intl})}
+                                />
+                            </div>
+                            <Form.Input
+                              name="location"
+                              placeholder={formatMessage({id: 'masthead.location'})}
+                              label={formatMessage({id: 'masthead.location'})}
+                              type="text"
+                              />
+                          </Form.Group>
                           <Form.Group widths="equal">
                             <MaxPriceSlider colour="blue"/>
                             <MaxDistanceSlider colour="blue"/>
@@ -93,11 +112,11 @@ class Masthead extends Component {
                       }
                     </Accordion.Content>
                   </Accordion>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-            <input name="page" type="text" defaultValue="0" style={{display: 'none'}}/>
-          </Form>
+                  <input name="page" type="text" defaultValue="0" style={{display: 'none'}}/>
+                </Form>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
         </Container>
       </Segment>
     );
