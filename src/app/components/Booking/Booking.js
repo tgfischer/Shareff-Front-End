@@ -54,9 +54,7 @@ class Booking extends Component {
     this.handleRatingSubmit = this.handleRatingSubmit.bind(this);
 
     this.state = {
-      bookingInfo: null,
-      ownerRatingRequired: true,
-      renterRatingRequired: true
+      bookingInfo: null
     };
   }
   componentWillMount() {
@@ -104,7 +102,6 @@ class Booking extends Component {
     });
   }
   handleRatingSubmit(event, data) {
-    this.setState({ownerRatingRequired: false});
     const {bookingInfo, user} = this.props;
     const {booking} = bookingInfo;
     // Dispatch to update the booking to create a new userReview for this booking
