@@ -290,12 +290,12 @@ class Booking extends Component {
                               <div>
                                 <Grid.Column width={10}>
                                   <Header as="h1" size="huge" style={styles.header}>
-                                  <FormattedMessage
-                                    id="booking.provideRating"
-                                    values={{
-                                      otherUserName: bookingInfo.owner.firstName
-                                    }}
-                                    />
+                                    <FormattedMessage
+                                      id="booking.provideRating"
+                                      values={{
+                                        otherUserName: bookingInfo.owner.firstName
+                                      }}
+                                      />
                                   </Header>
                                 </Grid.Column>
                                 <Grid.Column width={6}>
