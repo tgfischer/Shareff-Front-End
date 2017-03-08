@@ -117,7 +117,6 @@ class UploadItem extends Component {
   componentDidMount() {
     const {user, intl} = this.props;
     if (!user.stripeAccountId) {
-      console.log("here");
       const {formatMessage} = intl;
 
       // Set the modal title
