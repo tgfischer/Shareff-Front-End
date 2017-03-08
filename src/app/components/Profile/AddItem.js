@@ -160,25 +160,20 @@ class UploadItem extends Component {
                   type="text"
                   required
                   />
-                <Form.Group>
-                  <div className="required eight wide field">
-                    <label>
-                      <FormattedMessage id="addItem.category"/>
-                    </label>
-                    <Dropdown
-                      name="category"
-                      placeholder={formatMessage({id: 'addItem.category'})}
-                      fluid
-                      multiple
-                      labeled
-                      selection
-                      search
-                      options={getOptions({values: categories, intl})}
-                      />
-                  </div>
+                <Form.Group widths="equal">
+                  <Form.Dropdown
+                    name="category"
+                    placeholder={formatMessage({id: 'addItem.category'})}
+                    label={formatMessage({id: 'addItem.category'})}
+                    fluid
+                    multiple
+                    labeled
+                    selection
+                    search
+                    options={getOptions({values: categories, intl})}
+                    />
                   <Form.Input
                     icon="dollar"
-                    width={8}
                     iconPosition="left"
                     label={formatMessage({id: 'addItem.price'})}
                     name="price"

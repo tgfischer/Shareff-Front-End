@@ -437,7 +437,7 @@ const en = {
     month: 'Month',
     year: 'Year',
     expiryDate: 'Expiry Date',
-    saveChangesButton: 'Save Changes',
+    saveChangesButton: 'Save All Changes',
     noCreditCardTitle: 'No Credit Card',
     noCreditCardContent: 'You currently do not have a credit card on file',
     noBankAccountTitle: 'No Bank Account',

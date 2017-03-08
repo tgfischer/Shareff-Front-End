@@ -352,7 +352,7 @@ class RentalItem extends Component {
                     </Grid.Row>
                     <Grid.Row columns={1}>
                       <Grid.Column>
-                        <Card.Group itemsPerRow={5}>
+                        <Card.Group itemsPerRow={4} stackable>
                           {rentalItem.photos.map((photo, i) => {
                             return (
                               <Thumbnail key={i} src={BASE_URL + photo} height={250}/>

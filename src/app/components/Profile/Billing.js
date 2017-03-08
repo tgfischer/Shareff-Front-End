@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import {
-  Button, Form, Grid, Header, Message, Modal, Icon
+  Button, Form, Grid, Header, Message, Modal, Icon, Segment
 } from 'semantic-ui-react';
 import {Calendar} from '../General/Calendar';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
@@ -167,124 +167,121 @@ class Billing extends Component {
           <Grid.Row>
             <Grid.Column>
               <Form size="huge" onSubmit={this.handleBillingSubmit}>
-                <Header as="h1" dividing>
-                  <FormattedMessage id="billing.title"/>
-                  <Header.Subheader>
-                    <FormattedMessage id="billing.subTitle"/>
-                  </Header.Subheader>
-                </Header>
+                <Segment size="huge">
+                  <Header as="h2" dividing>
+                    <FormattedMessage id="billing.creditCardInfo"/>
+                    <Header.Subheader>
+                      <FormattedMessage id="billing.creditCardInfoSubtitle"/>
+                    </Header.Subheader>
+                  </Header>
 
-                <Header as="h2">
-                  <FormattedMessage id="billing.creditCardInfo"/>
-                  <Header.Subheader>
-                    <FormattedMessage id="billing.creditCardInfoSubtitle"/>
-                  </Header.Subheader>
-                </Header>
-
-                {!stripeCustomerId &&
-                  <Message
-                    icon="warning"
-                    header={formatMessage({id: 'billing.noCreditCardTitle'})}
-                    content={formatMessage({id: 'billing.noCreditCardContent'})}
-                    warning
-                    visible
-                    />
-                }
-
-                <Form.Group>
-                  <Form.Input
-                    label={formatMessage({id: 'signUp.ccn'})}
-                    name="ccn"
-                    placeholder={formatMessage({id: 'signUp.ccn'})}
-                    defaultValue={unescape(ccn || '')}
-                    type="text"
-                    width={unescape(ccnWidth || '')}
-                    />
-                  {ccBrand &&
-                    <Icon
-                      style={styles.paymentIcon}
-                      name={unescape(ccBrand || '')}
-                      size="big"
-                      width="2"
+                  {!stripeCustomerId &&
+                    <Message
+                      icon="warning"
+                      header={formatMessage({id: 'billing.noCreditCardTitle'})}
+                      content={formatMessage({id: 'billing.noCreditCardContent'})}
+                      warning
+                      visible
                       />
                   }
-                </Form.Group>
 
-                <Form.Group>
+                  <Form.Group>
+                    <Form.Input
+                      label={formatMessage({id: 'signUp.ccn'})}
+                      name="ccn"
+                      placeholder={formatMessage({id: 'signUp.ccn'})}
+                      defaultValue={unescape(ccn || '')}
+                      type="text"
+                      width={unescape(ccnWidth || '')}
+                      />
+                    {ccBrand &&
+                      <Icon
+                        style={styles.paymentIcon}
+                        name={unescape(ccBrand || '')}
+                        size="big"
+                        width="2"
+                        />
+                    }
+                  </Form.Group>
+
+                  <Form.Group>
+                    <Form.Input
+                      label={formatMessage({id: 'signUp.cvn'})}
+                      name="cvn"
+                      placeholder={formatMessage({id: 'signUp.cvn'})}
+                      defaultValue={unescape(cvn || '')}
+                      type="text"
+                      width="6"
+                      />
+                    <Calendar
+                      label={formatMessage({id: 'signUp.expiryDate'})}
+                      name="expiryDate"
+                      placeholder={formatMessage({id: 'signUp.expiryDate'})}
+                      type="month"
+                      defaultValue={unescape(ccExpiryDate || '')}
+                      width={unescape(ccExpiryDateWidth || '')}
+                      />
+                  </Form.Group>
+                </Segment>
+
+                <Segment size="huge">
+                  <Header as="h2" dividing>
+                    <FormattedMessage id="billing.bankAccountInfo"/>
+                    <Header.Subheader>
+                      <FormattedMessage id="billing.bankAccountInfoSubtitle"/>
+                    </Header.Subheader>
+                  </Header>
+
+                  {!stripeAccountId &&
+                    <Message
+                      icon="warning"
+                      header={formatMessage({id: 'billing.noBankAccountTitle'})}
+                      content={formatMessage({id: 'billing.noBankAccountContent'})}
+                      warning
+                      visible
+                      />
+                  }
+
                   <Form.Input
-                    label={formatMessage({id: 'signUp.cvn'})}
-                    name="cvn"
-                    placeholder={formatMessage({id: 'signUp.cvn'})}
-                    defaultValue={unescape(cvn || '')}
+                    label={formatMessage({id: 'billing.accountHolderName'})}
+                    name="accountHolderName"
+                    placeholder={formatMessage({id: 'billing.accountHolderName'})}
+                    defaultValue={unescape(fullName || '')}
                     type="text"
-                    width="6"
                     />
+                  <Form.Input
+                    label={formatMessage({id: 'billing.accountNumber'})}
+                    name="accountNumber"
+                    placeholder={formatMessage({id: 'billing.accountNumber'})}
+                    defaultValue={unescape(accountNumber || '')}
+                    type="text"
+                    />
+                  <Form.Group>
+                    <Form.Input
+                      label={formatMessage({id: 'billing.transitNumber'})}
+                      name="transitNumber"
+                      placeholder={formatMessage({id: 'billing.transitNumber'})}
+                      defaultValue={unescape(transitNumber || '')}
+                      type="text"
+                      width="10"
+                      />
+                    <Form.Input
+                      label={formatMessage({id: 'billing.institutionNumber'})}
+                      name="institutionNumber"
+                      placeholder={formatMessage({id: 'billing.institutionNumber'})}
+                      defaultValue={unescape(institutionNumber || '')}
+                      type="text"
+                      width="6"
+                      />
+                  </Form.Group>
                   <Calendar
-                    label={formatMessage({id: 'signUp.expiryDate'})}
-                    name="expiryDate"
-                    placeholder={formatMessage({id: 'signUp.expiryDate'})}
-                    type="month"
-                    defaultValue={unescape(ccExpiryDate || '')}
-                    width={unescape(ccExpiryDateWidth || '')}
+                    label={formatMessage({id: 'billing.dob'})}
+                    name="dob"
+                    placeholder={formatMessage({id: 'billing.dob'})}
+                    type="date"
+                    defaultValue={unescape(dob || '')}
                     />
-                </Form.Group>
-
-                <Header as="h2">
-                  <FormattedMessage id="billing.bankAccountInfo"/>
-                  <Header.Subheader>
-                    <FormattedMessage id="billing.bankAccountInfoSubtitle"/>
-                  </Header.Subheader>
-                </Header>
-
-                {!stripeAccountId &&
-                  <Message
-                    icon="warning"
-                    header={formatMessage({id: 'billing.noBankAccountTitle'})}
-                    content={formatMessage({id: 'billing.noBankAccountContent'})}
-                    warning
-                    visible
-                    />
-                }
-
-                <Form.Input
-                  label={formatMessage({id: 'billing.accountHolderName'})}
-                  name="accountHolderName"
-                  placeholder={formatMessage({id: 'billing.accountHolderName'})}
-                  defaultValue={unescape(fullName || '')}
-                  type="text"
-                  />
-                <Form.Input
-                  label={formatMessage({id: 'billing.accountNumber'})}
-                  name="accountNumber"
-                  placeholder={formatMessage({id: 'billing.accountNumber'})}
-                  defaultValue={unescape(accountNumber || '')}
-                  type="text"
-                  />
-                <Form.Group>
-                  <Form.Input
-                    label={formatMessage({id: 'billing.transitNumber'})}
-                    name="transitNumber"
-                    placeholder={formatMessage({id: 'billing.transitNumber'})}
-                    defaultValue={unescape(transitNumber || '')}
-                    type="text"
-                    width="10"
-                    />
-                  <Form.Input
-                    label={formatMessage({id: 'billing.institutionNumber'})}
-                    name="institutionNumber"
-                    placeholder={formatMessage({id: 'billing.institutionNumber'})}
-                    defaultValue={unescape(institutionNumber || '')}
-                    type="text"
-                    width="6"
-                    />
-                </Form.Group>
-                <Calendar
-                  label={formatMessage({id: 'billing.dob'})}
-                  name="dob"
-                  placeholder={formatMessage({id: 'billing.dob'})}
-                  type="date"
-                  defaultValue={unescape(dob || '')}
-                  />
+                </Segment>
 
                 <Button
                   content={formatMessage({id: 'billing.saveChangesButton'})}

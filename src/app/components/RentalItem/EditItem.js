@@ -187,29 +187,31 @@ class EditItem extends Component {
                     type="text"
                     required
                     />
-                  <Form.Dropdown
-                    label={formatMessage({id: 'addItem.category'})}
-                    placeholder=""
-                    fluid
-                    multiple
-                    labeled
-                    selection
-                    search
-                    defaultValue={rentalItem.category}
-                    name="category"
-                    options={getOptions({values: categories, intl})}
-                    required
-                    />
-                  <Form.Input
-                    icon="dollar"
-                    iconPosition="left"
-                    label={formatMessage({id: 'addItem.price'})}
-                    name="price"
-                    placeholder=""
-                    defaultValue={rentalItem.price || ''}
-                    type="number"
-                    required
-                    />
+                  <Form.Group widths="equal">
+                    <Form.Dropdown
+                      label={formatMessage({id: 'addItem.category'})}
+                      placeholder=""
+                      fluid
+                      multiple
+                      labeled
+                      selection
+                      search
+                      defaultValue={rentalItem.category}
+                      name="category"
+                      options={getOptions({values: categories, intl})}
+                      required
+                      />
+                    <Form.Input
+                      icon="dollar"
+                      iconPosition="left"
+                      label={formatMessage({id: 'addItem.price'})}
+                      name="price"
+                      placeholder=""
+                      defaultValue={rentalItem.price || ''}
+                      type="number"
+                      required
+                      />
+                  </Form.Group>
                   <DraftEditor
                     label={formatMessage({id: 'addItem.description'})}
                     name="description"
@@ -315,10 +317,10 @@ EditItem.propTypes = {
   isAuthenticated: React.PropTypes.bool.isRequired,
   isFetching: React.PropTypes.bool.isRequired,
   router: React.PropTypes.object.isRequired,
-  rentalItem: React.PropTypes.object.isRequired,
+  rentalItem: React.PropTypes.object,
   err: React.PropTypes.object,
   dispatch: React.PropTypes.func.isRequired,
-  user: React.PropTypes.object.isRequired,
+  user: React.PropTypes.object,
   params: React.PropTypes.object.isRequired
 };
 
