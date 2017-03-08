@@ -160,13 +160,11 @@ class UploadItem extends Component {
                   type="text"
                   required
                   />
-                <div className="required field">
-                  <label>
-                    <FormattedMessage id="addItem.category"/>
-                  </label>
-                  <Dropdown
+                <Form.Group widths="equal">
+                  <Form.Dropdown
                     name="category"
                     placeholder={formatMessage({id: 'addItem.category'})}
+                    label={formatMessage({id: 'addItem.category'})}
                     fluid
                     multiple
                     labeled
@@ -174,10 +172,7 @@ class UploadItem extends Component {
                     search
                     options={getOptions({values: categories, intl})}
                     />
-                </div>
-                <Form.Group>
                   <Form.Input
-                    width="10"
                     icon="dollar"
                     iconPosition="left"
                     label={formatMessage({id: 'addItem.price'})}
@@ -199,10 +194,10 @@ class UploadItem extends Component {
                   />
                 <Header as="h1" dividing>
                   <FormattedMessage id="addItem.itemAvailablitiy"/>
+                  <Header.Subheader>
+                    <FormattedMessage id="addItem.availabilityDescription"/>
+                  </Header.Subheader>
                 </Header>
-                <Header.Subheader as="h3">
-                  <FormattedMessage id="addItem.availabilityDescription"/>
-                </Header.Subheader>
                 <FullCalendar
                   onDayClick={this.handleDayClick}
                   onEventClick={this.handleEventClick}
@@ -213,7 +208,7 @@ class UploadItem extends Component {
                   <FormattedMessage id="addItem.uploadPhotos"/>
                 </Header>
                 {photoUrls &&
-                  <Card.Group itemsPerRow={3}>
+                  <Card.Group itemsPerRow={4} stackable>
                     {photoUrls.map((photoUrl, i) => {
                       return (
                         <Thumbnail key={i} src={BASE_URL + photoUrl} height={200}/>

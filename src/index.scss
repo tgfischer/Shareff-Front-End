@@ -2,6 +2,14 @@
   font-weight: 100 !important;
 }
 
+.thumbnail.image.content {
+  cursor: pointer;
+}
+
+.fc-unthemed td.fc-today {
+  background: #f5f5f5;
+}
+
 .ui.selection.dropdown > .menu {
   max-height: 200px;
 }

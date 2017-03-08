@@ -13,11 +13,6 @@ class FullCalendar extends Component {
   }
   componentDidMount() {
     this.initCalendar(this.props);
-
-    // Add the Semantic UI button classes
-    $('.fc').find('.fc-button-group').addClass('ui buttons');
-    $('.fc').find('.fc-today-button').addClass('ui basic button');
-    $('.fc').find('.fc-button-group').find('button').addClass('ui primary button');
   }
   componentDidUpdate() {
     this.initCalendar(this.props);
@@ -49,6 +44,11 @@ class FullCalendar extends Component {
       }],
       eventClick: props.onEventClick
     });
+
+    // Add the Semantic UI button classes
+    $('.fc').find('.fc-button-group').addClass('ui buttons');
+    $('.fc').find('.fc-today-button').addClass('ui basic button');
+    $('.fc').find('.fc-button-group').find('button').addClass('ui primary button');
   }
   render() {
     return (

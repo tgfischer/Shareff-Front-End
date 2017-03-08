@@ -39,14 +39,36 @@ class Masthead extends Component {
   handleOnSubmit(e, {formData}) {
     e.preventDefault();
 
+    const {showAdvancedSettings} = this.state;
+
     // Delete this random field that is added
     delete formData['category-search'];
 
-    // Transition to the listings page, with the query params
-    this.props.router.push({
-      pathname: '/listings',
-      query: formData
-    });
+    if (showAdvancedSettings) {
+      navigator.geolocation.getCurrentPosition(({coords}) => {
+        // Add the geolocation to the request
+        formData.latitude = coords.latitude;
+        formData.longitude = coords.longitude;
+
+        // Transition to the listings page, with the query params
+        this.props.router.push({
+          pathname: '/listings',
+          query: formData
+        });
+      }, err => {
+        console.error(err);
+      }, {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      });
+    } else {
+      // Transition to the listings page, with the query params
+      this.props.router.push({
+        pathname: '/listings',
+        query: formData
+      });
+    }
   }
   handleToggleAdvancedSettings() {
     this.setState({showAdvancedSettings: !this.state.showAdvancedSettings});
