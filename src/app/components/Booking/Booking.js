@@ -4,13 +4,13 @@ import {connect} from 'react-redux';
 import {withRouter, Link} from 'react-router';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {
-  Button, Container, Grid, Header, Icon, Image, Progress, Rating, Segment
+  Breadcrumb, Button, Container, Grid, Header, Icon, Image, Rating, Segment, Statistic, Step
 } from 'semantic-ui-react';
 import NavBar from '../General/NavBar';
 import {Loading} from '../General/Loading';
 import {getUser} from '../../actions/auth';
 import {getBooking, createUserReview, confirmItem} from '../../actions/booking';
-import {BASE_URL} from '../../constants/constants';
+import {BASE_URL, ERROR_PAGE} from '../../constants/constants';
 
 const styles = {
   wrapper: {
@@ -20,28 +20,14 @@ const styles = {
     padding: '0 2em'
   },
   container: {
-    paddingTop: '2em',
-    paddingBottom: '2em'
-  },
-  header: {
-    fontSize: "2em"
+    padding: '1em 0'
   },
   subHeader: {
-    paddingTop: "0.5em",
-    paddingBottom: "0.5em",
+    paddingTop: "0.25em",
     fontSize: "1.5em"
   },
-  miniHeader: {
-    fontSize: "1.5em"
-  },
-  miniSubHeader: {
-    paddingTop: "0.4em",
-    paddingBottom: "0.4em",
-    fontSize: "1.5em"
-  },
-  largePadding: {
-    paddingTop: "5em",
-    paddingBottom: "5em"
+  breadcrumbWrapper: {
+    display: 'inline-block'
   }
 };
 
@@ -61,19 +47,20 @@ class Booking extends Component {
     const {bookingId} = this.props.params;
 
     this.props.dispatch(getBooking(bookingId)).then(() => {
-      const {bookingInfo} = this.props;
+      const {bookingInfo, user, dispatch} = this.props;
       this.setState({bookingInfo});
-      if (!this.props.user) {
+
+      if (!user) {
         const token = localStorage.getItem('token');
-        this.props.dispatch(getUser(token));
+        dispatch(getUser(token));
       }
     });
   }
   handleItemConfirm() {
-    const {bookingInfo, user} = this.props;
+    const {bookingInfo, user, router, dispatch} = this.props;
     const {booking} = bookingInfo;
 
-    this.props.dispatch(confirmItem({
+    dispatch(confirmItem({
       bookingId: booking.bookingId,
       userId: user.userId,
       confirm: true
@@ -81,15 +68,16 @@ class Booking extends Component {
       if (bookingInfo) {
         this.setState({bookingInfo});
       } else if (err) {
-        console.log(err);
+        router.push(ERROR_PAGE);
+        console.error(err);
       }
     });
   }
   handleItemReject() {
-    const {bookingInfo, user} = this.props;
+    const {bookingInfo, user, dispatch, router} = this.props;
     const {booking} = bookingInfo;
 
-    this.props.dispatch(confirmItem({
+    dispatch(confirmItem({
       bookingId: booking.bookingId,
       userId: user.userId,
       confirm: false
@@ -97,15 +85,16 @@ class Booking extends Component {
       if (bookingInfo) {
         this.setState({bookingInfo});
       } else if (err) {
-        console.log(err);
+        router.push(ERROR_PAGE);
+        console.error(err);
       }
     });
   }
   handleRatingSubmit(event, data) {
-    const {bookingInfo, user} = this.props;
+    const {bookingInfo, user, dispatch, router} = this.props;
     const {booking} = bookingInfo;
     // Dispatch to update the booking to create a new userReview for this booking
-    this.props.dispatch(createUserReview({
+    dispatch(createUserReview({
       bookingId: booking.bookingId,
       ratingUserId: user.userId,
       rating: data.rating
@@ -113,372 +102,384 @@ class Booking extends Component {
       if (bookingInfo) {
         this.setState({bookingInfo});
       } else if (err) {
-        console.log(err);
+        router.push(ERROR_PAGE);
+        console.error(err);
       }
     });
   }
   render() {
-    const {user} = this.props;
+    const {user, intl, isFetching} = this.props;
+    const {formatMessage} = intl;
     const {bookingInfo} = this.state;
+
+    const breadcrumbs = [{
+      text: formatMessage({id: 'breadcrumb.home'}),
+      to: '/'
+    }, {
+      text: formatMessage({id: 'breadcrumb.profile'}),
+      to: '/profile/info'
+    }, {
+      text: formatMessage({id: 'breadcrumb.mySchedule'}),
+      to: '/profile/my-schedule'
+    }, {
+      text: formatMessage({id: 'booking.title'})
+    }];
 
     return (
       <div style={styles.wrapper}>
         {bookingInfo && user ?
           <div>
             <NavBar/>
-            <Segment vertical>
-              <Container style={styles.container}>
-                <Grid verticalAlign="middle" columns={3}>
-                  {bookingInfo.booking && bookingInfo.booking.status &&
-                    <Grid.Row centered>
-                      <Grid.Column width={4}>
-                        <div>
-                          <Header as="h2" size="huge" className="bold" style={styles.miniHeader}>
-                            <FormattedMessage id="booking.totalCostHeader"/>
-                            <Header.Subheader style={styles.miniSubHeader}>
-                              {bookingInfo.booking.totalCost}
-                            </Header.Subheader>
-                          </Header>
-                        </div>
-                      </Grid.Column>
-                      <Grid.Column width={8}>
-                        <div>
-                          <Header as="h1" size="huge" className="bold" style={styles.header}>
-                            <FormattedMessage id="booking.statusHeader"/>
-                            <Header.Subheader style={styles.subHeader}>
-                              {bookingInfo.booking.status}
-                            </Header.Subheader>
-                          </Header>
-                        </div>
-                      </Grid.Column>
-                      <Grid.Column width={4}>
-                        <div>
-                          <Header as="h2" size="huge" className="bold" style={styles.miniHeader}>
-                            <FormattedMessage id="booking.paymentStatusHeader"/>
-                            <Header.Subheader style={styles.miniSubHeader}>
-                              {bookingInfo.booking.paymentStatus}
-                            </Header.Subheader>
-                          </Header>
-                        </div>
-                      </Grid.Column>
-                    </Grid.Row>
-                  }
+            <Segment color="blue" inverted vertical>
+              <Container>
+                <Grid verticalAlign="middle" stackable>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Breadcrumb>
+                        {breadcrumbs.map((breadcrumb, i) => {
+                          const {text, to} = breadcrumb;
+                          const isLast = i === breadcrumbs.length - 1;
+
+                          return (
+                            <div style={styles.breadcrumbWrapper} key={i}>
+                              {!isLast &&
+                                <div style={styles.breadcrumbWrapper}>
+                                  <Breadcrumb.Section as={Link} to={to}>
+                                    {text}
+                                  </Breadcrumb.Section>
+                                  <Breadcrumb.Divider icon="right angle"/>
+                                </div>
+                              }
+                              {isLast &&
+                                <Breadcrumb.Section active>
+                                  {text}
+                                </Breadcrumb.Section>
+                              }
+                            </div>
+                          );
+                        })}
+                      </Breadcrumb>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row columns={3} centered>
+                    <Grid.Column>
+                      <Statistic inverted>
+                        <Statistic.Value>
+                          ${bookingInfo.booking.totalCost}
+                        </Statistic.Value>
+                        <Statistic.Label style={styles.subHeader}>
+                          <FormattedMessage id="booking.totalCostHeader"/>
+                        </Statistic.Label>
+                      </Statistic>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Statistic inverted>
+                        <Statistic.Value>
+                          {bookingInfo.booking.status}
+                        </Statistic.Value>
+                        <Statistic.Label style={styles.subHeader}>
+                          <FormattedMessage id="booking.statusHeader"/>
+                        </Statistic.Label>
+                      </Statistic>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Statistic inverted>
+                        <Statistic.Value>
+                          {bookingInfo.booking.paymentStatus}
+                        </Statistic.Value>
+                        <Statistic.Label style={styles.subHeader}>
+                          <FormattedMessage id="booking.paymentStatusHeader"/>
+                        </Statistic.Label>
+                      </Statistic>
+                    </Grid.Column>
+                  </Grid.Row>
                 </Grid>
-                {bookingInfo.booking && bookingInfo.booking.status && bookingInfo.booking.status === 'Booking Pending' &&
-                  <Progress percent={10} size="large" color="blue">
-                    <FormattedMessage id="booking.pending"/>
-                  </Progress>
-                }
-                {bookingInfo.booking && bookingInfo.booking.status && bookingInfo.booking.status === 'Booking Active' &&
-                  <div>
-                    <Progress percent={55} size="large" color="blue">
-                      <FormattedMessage id="booking.active"/>
-                    </Progress>
-                    {bookingInfo.renter && bookingInfo.renter.userId && user.userId && bookingInfo.renter.userId === user.userId && bookingInfo.booking.renterStartConfirm === null &&
-                      <div style={styles.container}>
-                        <Grid verticalAlign="middle" columns={3}>
-                          <Grid.Row centered>
-                            <Grid.Column width={10}>
-                              <Header as="h2" size="huge" style={styles.header}>
-                                <FormattedMessage id="booking.activeResponses.renterReceived"/>
-                              </Header>
-                            </Grid.Column>
-                            <Grid.Column width={6}>
-                              <Button
-                                content="Confirm"
-                                icon="checkmark"
-                                labelPosition="right"
-                                onClick={this.handleItemConfirm}
-                                positive
-                                />
-                              <Button
-                                content="Reject"
-                                icon="delete"
-                                labelPosition="right"
-                                onClick={this.handleItemReject}
-                                negative
-                                />
-                            </Grid.Column>
-                          </Grid.Row>
-                        </Grid>
-                      </div>
-                    }
-                    {bookingInfo.owner && bookingInfo.owner.userId && user.userId && bookingInfo.owner.userId === user.userId && bookingInfo.booking.ownerStartConfirm === null &&
-                      <div style={styles.container}>
-                        <Grid verticalAlign="middle" columns={3}>
-                          <Grid.Row centered>
-                            <Grid.Column width={10}>
-                              <Header as="h2" size="huge" style={styles.header}>
-                                <FormattedMessage id="booking.activeResponses.ownerDelivered"/>
-                              </Header>
-                            </Grid.Column>
-                            <Grid.Column width={6}>
-                              <Button
-                                content="Confirm"
-                                icon="checkmark"
-                                labelPosition="right"
-                                onClick={this.handleItemConfirm}
-                                positive
-                                />
-                              <Button
-                                content="Reject"
-                                icon="delete"
-                                labelPosition="right"
-                                onClick={this.handleItemReject}
-                                negative
-                                />
-                            </Grid.Column>
-                          </Grid.Row>
-                        </Grid>
-                      </div>
-                    }
-                  </div>
-                }
-                {bookingInfo.booking && bookingInfo.booking.status && bookingInfo.booking.status === 'Booking Complete' &&
-                  <div>
-                    <Progress percent={100} size="large" color="blue">
-                      <FormattedMessage id="booking.complete"/>
-                    </Progress>
-                    {bookingInfo.renter && bookingInfo.renter.userId && user.userId && bookingInfo.renter.userId === user.userId &&
-                      <div style={styles.container}>
-                        <Grid verticalAlign="middle" columns={3}>
-                          {bookingInfo.booking.renterEndConfirm === null &&
-                            <Grid.Row centered>
-                              <Grid.Column width={10}>
-                                <Header as="h2" size="huge" style={styles.header}>
-                                  <FormattedMessage id="booking.activeResponses.renterDelivered"/>
-                                </Header>
-                              </Grid.Column>
-                              <Grid.Column width={6}>
-                                <Button
-                                  content="Confirm"
-                                  icon="checkmark"
-                                  labelPosition="right"
-                                  onClick={this.handleItemConfirm}
-                                  positive
-                                  />
-                                <Button
-                                  content="Reject"
-                                  icon="delete"
-                                  labelPosition="right"
-                                  onClick={this.handleItemReject}
-                                  negative
-                                  />
-                              </Grid.Column>
-                            </Grid.Row>
-                          }
-                          {bookingInfo.renter.rating ?
-                            <Grid.Row centered>
-                              <div>
-                                <Grid.Column width={10}>
-                                  <Header as="h1" size="huge" style={styles.header}>
-                                    <FormattedMessage id="booking.thanksForRating"/>
-                                  </Header>
-                                </Grid.Column>
-                                <Grid.Column width={6}>
-                                  <Rating
-                                    maxRating={5}
-                                    defaultRating={bookingInfo.renter.rating}
-                                    icon="star"
-                                    size="massive"
-                                    disabled
-                                    />
-                                </Grid.Column>
-                              </div>
-                            </Grid.Row> :
-                            <Grid.Row>
-                              <div>
-                                <Grid.Column width={10}>
-                                  <Header as="h1" size="huge" style={styles.header}>
-                                    <FormattedMessage
-                                      id="booking.provideRating"
-                                      values={{
-                                        otherUserName: bookingInfo.owner.firstName
-                                      }}
-                                      />
-                                  </Header>
-                                </Grid.Column>
-                                <Grid.Column width={6}>
-                                  <Rating
-                                    maxRating={5}
-                                    defaultRating={0}
-                                    icon="star"
-                                    size="massive"
-                                    onRate={this.handleRatingSubmit}
-                                    />
-                                </Grid.Column>
-                              </div>
-                            </Grid.Row>
-                          }
-                        </Grid>
-                      </div>
-                    }
-                    {bookingInfo.owner && bookingInfo.owner.userId && user.userId && bookingInfo.owner.userId === user.userId &&
-                      <div style={styles.container}>
-                        <Grid verticalAlign="middle" columns={2}>
-                          {bookingInfo.booking.ownerEndConfirm === null &&
-                            <Grid.Row centered>
-                              <Grid.Column width={10}>
-                                <Header as="h2" size="huge" style={styles.header}>
-                                  <FormattedMessage id="booking.activeResponses.ownerReceived"/>
-                                </Header>
-                              </Grid.Column>
-                              <Grid.Column width={6}>
-                                <Button
-                                  content="Confirm"
-                                  icon="checkmark"
-                                  labelPosition="right"
-                                  onClick={this.handleItemConfirm}
-                                  positive
-                                  />
-                                <Button
-                                  content="Reject"
-                                  icon="delete"
-                                  labelPosition="right"
-                                  onClick={this.handleItemReject}
-                                  negative
-                                  />
-                              </Grid.Column>
-                            </Grid.Row>
-                          }
-                          {bookingInfo.owner.rating ?
-                            <Grid.Row centered>
-                              <Grid.Column width={10}>
-                                <Header as="h1" size="huge" style={styles.header}>
-                                  <FormattedMessage id="booking.thanksForRating"/>
-                                </Header>
-                              </Grid.Column>
-                              <Grid.Column width={6}>
-                                <Rating
-                                  maxRating={5}
-                                  defaultRating={bookingInfo.owner.rating}
-                                  icon="star"
-                                  size="massive"
-                                  disabled
-                                  />
-                              </Grid.Column>
-                            </Grid.Row> :
-                            <Grid.Row centered>
-                              <Grid.Column width={10}>
-                                <Header as="h1" size="huge" style={styles.header}>
-                                  <FormattedMessage
-                                    id="booking.provideRating"
-                                    values={{
-                                      otherUserName: bookingInfo.renter.firstName
-                                    }}
-                                    />
-                                </Header>
-                              </Grid.Column>
-                              <Grid.Column width={6}>
-                                <Rating
-                                  maxRating={5}
-                                  defaultRating={0}
-                                  icon="star"
-                                  size="massive"
-                                  onRate={this.handleRatingSubmit}
-                                  />
-                              </Grid.Column>
-                            </Grid.Row>
-                          }
-                        </Grid>
-                      </div>
-                    }
-                  </div>
-                }
-                <div style={styles.largePadding}>
-                  <Grid verticalAlign="middle">
-                    <Grid.Row centered columns={2}>
-                      <Grid.Column textAlign="center">
-                        {bookingInfo.booking && bookingInfo.booking.startDate &&
-                          <div>
-                            <Header as="h2" size="huge" style={styles.header} icon>
-                              <Icon name="checked calendar"/>
-                              <FormattedMessage id="booking.startDate"/>
-                              <Header.Subheader style={styles.subHeader}>
-                                {moment(bookingInfo.booking.startDate).format('MMM Do YYYY, h:mm a')}
-                              </Header.Subheader>
-                            </Header>
-                          </div>
-                        }
-                      </Grid.Column>
-                      <Grid.Column textAlign="center">
-                        {bookingInfo.booking && bookingInfo.booking.endDate &&
-                          <div>
-                            <Header as="h2" size="huge" style={styles.header} icon>
-                              <Icon name="checked calendar"/>
-                              <FormattedMessage id="booking.endDate"/>
-                              <Header.Subheader style={styles.subHeader}>
-                                {moment(bookingInfo.booking.endDate).format('MMM Do YYYY, h:mm a')}
-                              </Header.Subheader>
-                            </Header>
-                          </div>
-                        }
-                      </Grid.Column>
-                    </Grid.Row>
-                  </Grid>
-                </div>
-                <div style={styles.container}>
-                  <Grid verticalAlign="middle">
-                    <Grid.Row centered columns={5}>
-                      <Grid.Column textAlign="center" width={4}>
-                        {bookingInfo.renter && bookingInfo.renter.photoUrl &&
-                          <div>
-                            <Header as="h2" style={styles.header}>
-                              <FormattedMessage
-                                id="booking.renter"
-                                values={{
-                                  fName: bookingInfo.renter.firstName,
-                                  lName: bookingInfo.renter.lastName
-                                }}
-                                />
-                            </Header>
-                            <Link to={`/user/${bookingInfo.renter.userId}`}>
-                              <Image src={BASE_URL + bookingInfo.renter.photoUrl} shape="rounded" bordered fluid/>
-                            </Link>
-                          </div>
-                        }
-                      </Grid.Column>
-                      <Grid.Column textAlign="center" width={2}>
-                        <Icon name="long arrow left" size="huge"/>
-                      </Grid.Column>
-                      <Grid.Column textAlign="center" width={4}>
-                        {bookingInfo.rentalItem && bookingInfo.rentalItem.photos &&
-                          <div>
-                            <Header as="h3" style={styles.header}>
-                              {bookingInfo.rentalItem.title}
-                            </Header>
-                            <Link to={`/listings/${bookingInfo.rentalItem.itemId}`}>
-                              <Image src={BASE_URL + bookingInfo.rentalItem.photos[0]} shape="rounded" bordered fluid/>
-                            </Link>
-                          </div>
-                        }
-                      </Grid.Column>
-                      <Grid.Column textAlign="center" width={2}>
-                        <Icon name="long arrow left" size="huge"/>
-                      </Grid.Column>
-                      <Grid.Column textAlign="center" width={4}>
-                        {bookingInfo.owner && bookingInfo.owner.photoUrl &&
-                          <div>
-                            <Header as="h2" style={styles.header}>
-                              <FormattedMessage
-                                id="booking.owner"
-                                values={{
-                                  fName: bookingInfo.owner.firstName,
-                                  lName: bookingInfo.owner.lastName
-                                }}
-                                />
-                            </Header>
-                            <Link to={`/user/${bookingInfo.owner.userId}`}>
-                              <Image src={BASE_URL + bookingInfo.owner.photoUrl} shape="rounded" bordered fluid/>
-                            </Link>
-                          </div>
-                        }
-                      </Grid.Column>
-                    </Grid.Row>
-                  </Grid>
-                </div>
               </Container>
             </Segment>
+            <Container style={styles.container}>
+              <Segment size="huge" loading={isFetching}>
+                <Header as="h1" dividing>
+                  <FormattedMessage id="booking.bookingStatusTitle"/>
+                  <Header.Subheader>
+                    <FormattedMessage id="booking.bookingStatusSubTitle"/>
+                  </Header.Subheader>
+                </Header>
+                <Step.Group size="huge" stackable="tablet" fluid ordered>
+                  <Step
+                    active={bookingInfo.booking.status === 'Pending'}
+                    completed={bookingInfo.booking.status !== 'Pending'}
+                    title={formatMessage({id: 'booking.status.pending'})}
+                    description={formatMessage({id: 'booking.status.pendingDescription'})}
+                    />
+                  <Step
+                    active={bookingInfo.booking.status === 'Active'}
+                    completed={bookingInfo.booking.status === 'Complete'}
+                    title={formatMessage({id: 'booking.status.active'})}
+                    description={formatMessage({id: 'booking.status.activeDescription'})}
+                    />
+                </Step.Group>
+                {bookingInfo.booking.status === 'Active' && ((bookingInfo.renter.userId === user.userId && bookingInfo.booking.renterStartConfirm === null) ||
+                  (user.userId && bookingInfo.owner.userId === user.userId && bookingInfo.booking.ownerStartConfirm === null)) &&
+                  <Segment>
+                    <Grid verticalAlign="middle" columns={3} stackable>
+                      <Grid.Row>
+                        <Grid.Column width={10}>
+                          <Header as="h1">
+                            {bookingInfo.renter.userId === user.userId && bookingInfo.booking.renterStartConfirm === null &&
+                              <FormattedMessage id="booking.activeResponses.renterReceived"/>
+                            }
+                            {bookingInfo.owner.userId === user.userId && bookingInfo.booking.ownerStartConfirm === null &&
+                              <FormattedMessage id="booking.activeResponses.ownerDelivered"/>
+                            }
+                          </Header>
+                        </Grid.Column>
+                        <Grid.Column width={6}>
+                          <Button
+                            content={formatMessage({id: 'booking.confirmButton'})}
+                            icon="checkmark"
+                            labelPosition="right"
+                            onClick={this.handleItemConfirm}
+                            size="huge"
+                            positive
+                            />
+                          <Button
+                            content={formatMessage({id: 'booking.rejectButton'})}
+                            icon="delete"
+                            labelPosition="right"
+                            onClick={this.handleItemReject}
+                            size="huge"
+                            negative
+                            />
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
+                  </Segment>
+                }
+                {bookingInfo.booking.status === 'Complete' &&
+                  <Segment size="huge">
+                    {bookingInfo.renter.userId === user.userId &&
+                      <Grid verticalAlign="middle" columns={3} stackable>
+                        {bookingInfo.booking.renterEndConfirm === null &&
+                          <Grid.Row>
+                            <Grid.Column width={10}>
+                              <Header as="h1">
+                                <FormattedMessage id="booking.activeResponses.renterDelivered"/>
+                              </Header>
+                            </Grid.Column>
+                            <Grid.Column width={6}>
+                              <Button
+                                content="Confirm"
+                                icon="checkmark"
+                                labelPosition="right"
+                                onClick={this.handleItemConfirm}
+                                size="huge"
+                                positive
+                                />
+                              <Button
+                                content="Reject"
+                                icon="delete"
+                                labelPosition="right"
+                                onClick={this.handleItemReject}
+                                size="huge"
+                                negative
+                                />
+                            </Grid.Column>
+                          </Grid.Row>
+                        }
+                        {bookingInfo.renter.rating ?
+                          <Grid.Row>
+                            <Grid.Column width={10}>
+                              <Header as="h1">
+                                <FormattedMessage id="booking.thanksForRating"/>
+                              </Header>
+                            </Grid.Column>
+                            <Grid.Column width={6}>
+                              <Rating
+                                maxRating={5}
+                                defaultRating={bookingInfo.renter.rating}
+                                icon="star"
+                                size="massive"
+                                disabled
+                                />
+                            </Grid.Column>
+                          </Grid.Row> :
+                          <Grid.Row>
+                            <Grid.Column width={10}>
+                              <Header as="h1">
+                                <FormattedMessage
+                                  id="booking.provideRating"
+                                  values={{
+                                    otherUserName: bookingInfo.owner.firstName
+                                  }}
+                                  />
+                              </Header>
+                            </Grid.Column>
+                            <Grid.Column width={6}>
+                              <Rating
+                                maxRating={5}
+                                defaultRating={0}
+                                icon="star"
+                                size="massive"
+                                onRate={this.handleRatingSubmit}
+                                />
+                            </Grid.Column>
+                          </Grid.Row>
+                        }
+                      </Grid>
+                    }
+                    {bookingInfo.owner && bookingInfo.owner.userId && user.userId && bookingInfo.owner.userId === user.userId &&
+                      <Grid verticalAlign="middle" columns={2} stackable>
+                        {bookingInfo.booking.ownerEndConfirm === null &&
+                          <Grid.Row>
+                            <Grid.Column width={10}>
+                              <Header as="h1">
+                                <FormattedMessage id="booking.activeResponses.ownerReceived"/>
+                              </Header>
+                            </Grid.Column>
+                            <Grid.Column width={6}>
+                              <Button
+                                content="Confirm"
+                                icon="checkmark"
+                                labelPosition="right"
+                                onClick={this.handleItemConfirm}
+                                size="huge"
+                                positive
+                                />
+                              <Button
+                                content="Reject"
+                                icon="delete"
+                                labelPosition="right"
+                                onClick={this.handleItemReject}
+                                size="huge"
+                                negative
+                                />
+                            </Grid.Column>
+                          </Grid.Row>
+                        }
+                        {bookingInfo.owner.rating ?
+                          <Grid.Row>
+                            <Grid.Column width={10}>
+                              <Header as="h1">
+                                <FormattedMessage id="booking.thanksForRating"/>
+                              </Header>
+                            </Grid.Column>
+                            <Grid.Column width={6}>
+                              <Rating
+                                maxRating={5}
+                                defaultRating={bookingInfo.owner.rating}
+                                icon="star"
+                                size="massive"
+                                disabled
+                                />
+                            </Grid.Column>
+                          </Grid.Row> :
+                          <Grid.Row>
+                            <Grid.Column width={10}>
+                              <Header as="h1">
+                                <FormattedMessage
+                                  id="booking.provideRating"
+                                  values={{
+                                    otherUserName: bookingInfo.renter.firstName
+                                  }}
+                                  />
+                              </Header>
+                            </Grid.Column>
+                            <Grid.Column width={6}>
+                              <Rating
+                                maxRating={5}
+                                defaultRating={0}
+                                icon="star"
+                                size="massive"
+                                onRate={this.handleRatingSubmit}
+                                />
+                            </Grid.Column>
+                          </Grid.Row>
+                        }
+                      </Grid>
+                    }
+                  </Segment>
+                }
+                <Grid verticalAlign="middle" stackable>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Header as="h1" dividing>
+                        <FormattedMessage id="booking.bookingTimeTitle"/>
+                        <Header.Subheader>
+                          <FormattedMessage id="booking.bookingTimeSubTitle"/>
+                        </Header.Subheader>
+                      </Header>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row centered columns={2}>
+                    <Grid.Column textAlign="center">
+                      <Icon name="calendar" size="huge"/>
+                      <Statistic>
+                        <Statistic.Value className="small">
+                          {moment(bookingInfo.booking.startDate).format('MMM Do YYYY, h:mm a')}
+                        </Statistic.Value>
+                        <Statistic.Label style={styles.subHeader}>
+                          <FormattedMessage id="booking.startDate"/>
+                        </Statistic.Label>
+                      </Statistic>
+                    </Grid.Column>
+                    <Grid.Column textAlign="center">
+                      <Icon name="calendar" size="huge"/>
+                      <Statistic>
+                        <Statistic.Value className="small">
+                          {moment(bookingInfo.booking.endDate).format('MMM Do YYYY, h:mm a')}
+                        </Statistic.Value>
+                        <Statistic.Label style={styles.subHeader}>
+                          <FormattedMessage id="booking.endDate"/>
+                        </Statistic.Label>
+                      </Statistic>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+                <Grid style={styles.container} verticalAlign="middle" stackable>
+                  <Grid.Row centered columns={5}>
+                    <Grid.Column textAlign="center" width={4}>
+                      <Header as="h2">
+                        {bookingInfo.renter.firstName} {bookingInfo.renter.lastName}
+                        <Header.Subheader>
+                          <FormattedMessage id="booking.renter"/>
+                        </Header.Subheader>
+                      </Header>
+                      <Link to={`/user/${bookingInfo.renter.userId}`}>
+                        <Image src={BASE_URL + bookingInfo.renter.photoUrl} shape="rounded" bordered fluid/>
+                      </Link>
+                    </Grid.Column>
+                    <Grid.Column textAlign="center" width={2}>
+                      <Icon name="long arrow left" size="huge"/>
+                    </Grid.Column>
+                    <Grid.Column textAlign="center" width={4}>
+                      <Header as="h3">
+                        {bookingInfo.rentalItem.title}
+                        <Header.Subheader>
+                          <FormattedMessage id="booking.item"/>
+                        </Header.Subheader>
+                      </Header>
+                      <Link to={`/listings/${bookingInfo.rentalItem.itemId}`}>
+                        <Image src={BASE_URL + bookingInfo.rentalItem.photos[0]} shape="rounded" bordered fluid/>
+                      </Link>
+                    </Grid.Column>
+                    <Grid.Column textAlign="center" width={2}>
+                      <Icon name="long arrow left" size="huge"/>
+                    </Grid.Column>
+                    <Grid.Column textAlign="center" width={4}>
+                      <Header as="h2">
+                        {bookingInfo.owner.firstName} {bookingInfo.owner.lastName}
+                        <Header.Subheader>
+                          <FormattedMessage id="booking.owner"/>
+                        </Header.Subheader>
+                      </Header>
+                      <Link to={`/user/${bookingInfo.owner.userId}`}>
+                        <Image src={BASE_URL + bookingInfo.owner.photoUrl} shape="rounded" bordered fluid/>
+                      </Link>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              </Segment>
+            </Container>
           </div> :
           <Loading/>
         }

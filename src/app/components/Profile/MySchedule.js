@@ -15,6 +15,9 @@ const styles = {
   extpadding: {
     paddingTop: '2em',
     paddingBottom: '2em'
+  },
+  subHeader: {
+    fontSize: '1em'
   }
 };
 class MySchedule extends Component {
@@ -101,7 +104,7 @@ class MySchedule extends Component {
               rentedItems={rentedItems} myItems={myItems}
               {...this.props}
               />
-            <Modal dimmer="blurring" open={modalOpen} onClose={this.handleCloseModal}>
+            <Modal dimmer="blurring" open={modalOpen} onClose={this.handleCloseModal} size="small">
               <Modal.Header>
                 <Header as="h1">
                   <FormattedMessage id="mySchedule.modal.title" values={{itemName: modalTitle}}/>
@@ -112,16 +115,20 @@ class MySchedule extends Component {
                   <Grid stackable verticalAlign="middle">
                     <Grid.Row columns={2}>
                       <Grid.Column textAlign="center">
-                        <Header as="h3" display="inline">
+                        <Header as="h1" display="inline">
                           <FormattedMessage id="mySchedule.modal.startDate"/>
+                          <Header.Subheader style={styles.subHeader}>
+                            {modalStart}
+                          </Header.Subheader>
                         </Header>
-                        <Header as="h1" display="inline">{modalStart}</Header>
                       </Grid.Column>
                       <Grid.Column textAlign="center">
-                        <Header as="h3" display="inline">
+                        <Header as="h1" display="inline">
                           <FormattedMessage id="mySchedule.modal.endDate"/>
+                          <Header.Subheader style={styles.subHeader}>
+                            {modalEnd}
+                          </Header.Subheader>
                         </Header>
-                        <Header as="h1" display="inline">{modalEnd}</Header>
                       </Grid.Column>
                     </Grid.Row>
                   </Grid>
