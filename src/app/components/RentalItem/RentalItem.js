@@ -182,8 +182,6 @@ class RentalItem extends Component {
     if (rentalItem) {
       // If the user came from a search, then we want to go back to the place they
       // were at before. Otherwise, don't add this breadcrumb
-      console.log(rentalItem.owner);
-
       if (this.props.location.query && this.props.location.query.q) {
         const {query} = this.props.location;
 
