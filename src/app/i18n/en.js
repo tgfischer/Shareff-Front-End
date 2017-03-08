@@ -483,19 +483,14 @@ const en = {
    */
   booking: {
     statusHeader: 'BOOKING STATUS',
-    status: '{status}',
     startDate: 'Start Date',
     endDate: 'End Date',
-    startDateVal: '{startDate}',
-    endDateVal: '{endDate}',
     pending: 'Pending',
     active: 'Active',
     complete: 'Complete',
     owner: '{fName} {lName}',
     renter: '{fName} {lName}',
-    item: '{item}',
     totalCostHeader: 'TOTAL RENTAL COST',
-    totalCost: '$ {cost}',
     paymentStatusHeader: 'PAYMENT STATUS',
     paymentStatus: 'Pending',
     activeResponses: {

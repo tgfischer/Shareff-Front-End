@@ -120,6 +120,7 @@ class Booking extends Component {
   render() {
     const {user} = this.props;
     const {bookingInfo} = this.state;
+
     return (
       <div style={styles.wrapper}>
         {bookingInfo && user ?
@@ -135,12 +136,7 @@ class Booking extends Component {
                           <Header as="h2" size="huge" className="bold" style={styles.miniHeader}>
                             <FormattedMessage id="booking.totalCostHeader"/>
                             <Header.Subheader style={styles.miniSubHeader}>
-                              <FormattedMessage
-                                id="booking.totalCost"
-                                values={{
-                                  cost: bookingInfo.booking.totalCost
-                                }}
-                                />
+                              {bookingInfo.booking.totalCost}
                             </Header.Subheader>
                           </Header>
                         </div>
@@ -150,12 +146,7 @@ class Booking extends Component {
                           <Header as="h1" size="huge" className="bold" style={styles.header}>
                             <FormattedMessage id="booking.statusHeader"/>
                             <Header.Subheader style={styles.subHeader}>
-                              <FormattedMessage
-                                id="booking.status"
-                                values={{
-                                  status: bookingInfo.booking.status
-                                }}
-                                />
+                              {bookingInfo.booking.status}
                             </Header.Subheader>
                           </Header>
                         </div>
@@ -165,12 +156,7 @@ class Booking extends Component {
                           <Header as="h2" size="huge" className="bold" style={styles.miniHeader}>
                             <FormattedMessage id="booking.paymentStatusHeader"/>
                             <Header.Subheader style={styles.miniSubHeader}>
-                              <FormattedMessage
-                                id="booking.paymentStatus"
-                                values={{
-                                  status: bookingInfo.booking.totalCost
-                                }}
-                                />
+                              {bookingInfo.booking.paymentStatus}
                             </Header.Subheader>
                           </Header>
                         </div>
@@ -409,12 +395,7 @@ class Booking extends Component {
                               <Icon name="checked calendar"/>
                               <FormattedMessage id="booking.startDate"/>
                               <Header.Subheader style={styles.subHeader}>
-                                <FormattedMessage
-                                  id="booking.startDateVal"
-                                  values={{
-                                    startDate: moment(bookingInfo.booking.startDate).format('MMM Do YYYY, h:mm a')
-                                  }}
-                                  />
+                                {moment(bookingInfo.booking.startDate).format('MMM Do YYYY, h:mm a')}
                               </Header.Subheader>
                             </Header>
                           </div>
@@ -427,12 +408,7 @@ class Booking extends Component {
                               <Icon name="checked calendar"/>
                               <FormattedMessage id="booking.endDate"/>
                               <Header.Subheader style={styles.subHeader}>
-                                <FormattedMessage
-                                  id="booking.endDateVal"
-                                  values={{
-                                    endDate: moment(bookingInfo.booking.endDate).format('MMM Do YYYY, h:mm a')
-                                  }}
-                                  />
+                                {moment(bookingInfo.booking.endDate).format('MMM Do YYYY, h:mm a')}
                               </Header.Subheader>
                             </Header>
                           </div>
@@ -469,12 +445,7 @@ class Booking extends Component {
                         {bookingInfo.rentalItem && bookingInfo.rentalItem.photos &&
                           <div>
                             <Header as="h3" style={styles.header}>
-                              <FormattedMessage
-                                id="booking.item"
-                                values={{
-                                  item: bookingInfo.rentalItem.title
-                                }}
-                                />
+                              {bookingInfo.rentalItem.title}
                             </Header>
                             <Link to={`/listings/${bookingInfo.rentalItem.itemId}`}>
                               <Image src={BASE_URL + bookingInfo.rentalItem.photos[0]} shape="rounded" bordered fluid/>
