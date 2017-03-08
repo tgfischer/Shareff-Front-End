@@ -465,6 +465,7 @@ const en = {
    * Edit Item
    */
   editItem: {
+    title: 'Editing \'{itemTitle}\'',
     saveChangesButton: 'Save Changes',
     removeItemButton: 'Remove Item',
     cancelButton: 'Cancel Changes',

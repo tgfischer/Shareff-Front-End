@@ -46,28 +46,28 @@ export class Thumbnail extends Component {
     };
 
     return (
-      <div>
-        <Card style={styles.card}>
-          <Card.Content className="ui thumbnail image" onClick={this.handleClick} style={styles.thumbnail}/>
-          {removeEnable &&
-            <Card.Content style={styles.center} extra>
-              <Button content="Remove Image" icon="trash" labelPosition="left" size="large" color="red" onClick={this.handleDeleteButton}/>
-            </Card.Content>
-          }
-        </Card>
-        <Modal
-          className="rent-request-modal"
-          dimmer="blurring"
-          open={openModal}
-          onClose={this.handleCloseModal}
-          closeIcon={<Button icon="remove" floated="right" inverted circular/>}
-          basic
-          >
-          <Modal.Content>
-            <Image src={src.replace('_thumbnail', '')} style={styles.image} shape="rounded"/>
-          </Modal.Content>
-        </Modal>
-      </div>
+      <Modal
+        trigger={
+          <Card style={styles.card}>
+            <Card.Content className="ui thumbnail image" onClick={this.handleClick} style={styles.thumbnail}/>
+            {removeEnable &&
+              <Card.Content style={styles.center} extra>
+                <Button content="Remove Image" icon="trash" labelPosition="left" size="large" color="red" onClick={this.handleDeleteButton}/>
+              </Card.Content>
+            }
+          </Card>
+        }
+        className="rent-request-modal"
+        dimmer="blurring"
+        open={openModal}
+        onClose={this.handleCloseModal}
+        closeIcon={<Button icon="remove" floated="right" inverted circular/>}
+        basic
+        >
+        <Modal.Content>
+          <Image src={src.replace('_thumbnail', '')} style={styles.image} shape="rounded"/>
+        </Modal.Content>
+      </Modal>
     );
   }
 }

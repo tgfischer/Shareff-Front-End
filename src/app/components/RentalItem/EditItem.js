@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import validator from 'validator';
-import {Form, Grid, Label, Segment, Container, Button, Modal, Header, Card} from 'semantic-ui-react';
+import {Form, Label, Segment, Container, Button, Modal, Header, Card} from 'semantic-ui-react';
 import CoreLayout from '../../layouts/CoreLayout';
 import PageHeaderSegment from '../General/PageHeaderSegment';
 import {Loading} from '../General/Loading';
@@ -100,8 +100,10 @@ class EditItem extends Component {
     this.props.router.push(`/profile/my-items`);
   }
   handleCloseUpdateModal() {
+    const {rentalItem} = this.props;
+
     this.setState({openUpdateModal: false});
-    this.props.router.push(`/profile/my-items`);
+    this.props.router.push(`/listings/${rentalItem.itemId}`);
   }
   handleRemovePhoto(selectedPhotoUrl) {
     const {photoUrls} = this.state;
@@ -132,12 +134,17 @@ class EditItem extends Component {
     );
   }
   render() {
-    const {rentalItem, user, intl} = this.props;
+    const {rentalItem, user, intl, isFetching} = this.props;
     const {openRemoveModal, openUpdateModal, modalTitle, modalContent, updateModalContent, photoUrls} = this.state;
     const {formatMessage} = intl;
     const {unescape} = validator;
     const styles = {
-      photos: {margin: '0 auto'},
+      container: {
+        padding: '1em 0'
+      },
+      photos: {
+        margin: '0 auto'
+      },
       child: {
         position: 'absolute',
         top: '50%',
@@ -152,7 +159,7 @@ class EditItem extends Component {
 
     if (rentalItem) {
       breadcrumbs.push({
-        text: unescape(rentalItem.title)
+        text: formatMessage({id: 'editItem.title'}, {itemTitle: unescape(rentalItem.title)})
       });
     }
     return (
@@ -161,8 +168,7 @@ class EditItem extends Component {
           <CoreLayout>
             <PageHeaderSegment
               breadcrumbs={breadcrumbs}
-              title={unescape(rentalItem.title)}
-              subTitle={this.getCategories(rentalItem.category)}
+              title={formatMessage({id: 'editItem.title'}, {itemTitle: unescape(rentalItem.title)})}
               colour="blue"
               action={{
                 handleButtonClick: this.handleRequestToRemoveButton,
@@ -170,120 +176,90 @@ class EditItem extends Component {
                 isButtonInverted: true
               }}
               />
-            <Segment>
-              <Container>
+            <Container style={styles.container}>
+              <Segment loading={isFetching}>
                 <Form size="huge" onSubmit={this.handleRequestToSaveButton}>
-                  <Grid verticalAlign="middle">
-                    <Grid.Row>
-                      <Grid.Column>
-                        <Form.Input
-                          label={formatMessage({id: 'addItem.title'})}
-                          name="title"
-                          placeholder=""
-                          defaultValue={rentalItem.title || ''}
-                          type="text"
-                          required
-                          />
-                        <Form.Dropdown
-                          label={formatMessage({id: 'addItem.category'})}
-                          placeholder=""
-                          fluid
-                          multiple
-                          labeled
-                          selection
-                          search
-                          defaultValue={rentalItem.category}
-                          name="category"
-                          options={getOptions({values: categories, intl})}
-                          required
-                          />
-                        <Form.Input
-                          icon="dollar"
-                          iconPosition="left"
-                          label={formatMessage({id: 'addItem.price'})}
-                          name="price"
-                          placeholder=""
-                          defaultValue={rentalItem.price || ''}
-                          type="number"
-                          required
-                          />
-                      </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row>
-                      <Grid.Column>
-                        <DraftEditor
-                          label={formatMessage({id: 'addItem.description'})}
-                          name="description"
-                          defaultValue={rentalItem.description}
-                          required
-                          />
-                      </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row>
-                      <Grid.Column>
-                        <DraftEditor
-                          label={formatMessage({id: 'addItem.terms'})}
-                          name="terms"
-                          defaultValue={rentalItem.termsOfUse}
-                          required
-                          />
-                      </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row>
-                      <Grid.Column>
-                        <Header as="h3">
-                          <FormattedMessage id="editItem.photosTitle"/>
-                        </Header>
-                        {photoUrls &&
-                          <Card.Group itemsPerRow={3} style={styles.photos}>
-                            {photoUrls.map((photoUrl, i) => {
-                              return (
-                                <Thumbnail
-                                  key={i}
-                                  src={BASE_URL + photoUrl}
-                                  height={200}
-                                  removeEnable={"true"}
-                                  photoUrl={photoUrl}
-                                  onRemovePhotoRequest={this.handleRemovePhoto}
-                                  />
-                              );
-                            })}
-                          </Card.Group>
-                        }
-                        <UploadFile
-                          uploadAction={uploadPhotos}
-                          uploadRoute="upload_item_photos"
-                          name="uploadPhotos"
-                          fluid
-                          multiple
-                          onPhotosChange={this.handlePhotosUpload}
-                          />
-                      </Grid.Column>
-                    </Grid.Row>
-                    <Grid.Row>
-                      <Grid.Column>
-                        <Button
-                          content={formatMessage({id: 'editItem.saveChangesButton'})}
-                          size="huge"
-                          type="submit"
-                          icon="save"
-                          labelPosition="right"
-                          primary
-                          />
-                        <Button
-                          content={formatMessage({id: 'editItem.cancelButton'})}
-                          size="huge"
-                          onClick={this.handleRequestToRemoveButton}
-                          icon="remove"
-                          labelPosition="right"
-                          primary
-                          />
-                      </Grid.Column>
-                    </Grid.Row>
-                  </Grid>
+                  <Form.Input
+                    label={formatMessage({id: 'addItem.title'})}
+                    name="title"
+                    placeholder=""
+                    defaultValue={rentalItem.title || ''}
+                    type="text"
+                    required
+                    />
+                  <Form.Dropdown
+                    label={formatMessage({id: 'addItem.category'})}
+                    placeholder=""
+                    fluid
+                    multiple
+                    labeled
+                    selection
+                    search
+                    defaultValue={rentalItem.category}
+                    name="category"
+                    options={getOptions({values: categories, intl})}
+                    required
+                    />
+                  <Form.Input
+                    icon="dollar"
+                    iconPosition="left"
+                    label={formatMessage({id: 'addItem.price'})}
+                    name="price"
+                    placeholder=""
+                    defaultValue={rentalItem.price || ''}
+                    type="number"
+                    required
+                    />
+                  <DraftEditor
+                    label={formatMessage({id: 'addItem.description'})}
+                    name="description"
+                    defaultValue={rentalItem.description}
+                    required
+                    />
+                  <DraftEditor
+                    label={formatMessage({id: 'addItem.terms'})}
+                    name="terms"
+                    defaultValue={rentalItem.termsOfUse}
+                    required
+                    />
+                  <Header as="h3">
+                    <FormattedMessage id="editItem.photosTitle"/>
+                  </Header>
+                  {photoUrls &&
+                    <Card.Group itemsPerRow={4} style={styles.photos} stackable>
+                      {photoUrls.map((photoUrl, i) => {
+                        return (
+                          <Thumbnail
+                            key={i}
+                            src={BASE_URL + photoUrl}
+                            height={200}
+                            removeEnable={"true"}
+                            photoUrl={photoUrl}
+                            onRemovePhotoRequest={this.handleRemovePhoto}
+                            />
+                        );
+                      })}
+                    </Card.Group>
+                  }
+                  <UploadFile
+                    uploadAction={uploadPhotos}
+                    uploadRoute="upload_item_photos"
+                    name="uploadPhotos"
+                    fluid
+                    multiple
+                    onPhotosChange={this.handlePhotosUpload}
+                    />
+                  <Button
+                    content={formatMessage({id: 'editItem.saveChangesButton'})}
+                    size="huge"
+                    type="submit"
+                    icon="save"
+                    labelPosition="right"
+                    primary
+                    />
                 </Form>
-              </Container>
-            </Segment>
+              </Segment>
+            </Container>
             <Modal size="small" dimmer="blurring" open={openRemoveModal} onClose={this.handleCloseRemoveModal}>
               <Modal.Header>
                 <Header as="h1">
@@ -336,13 +312,13 @@ class EditItem extends Component {
 
 EditItem.propTypes = {
   intl: intlShape.isRequired,
-  isAuthenticated: React.PropTypes.bool,
-  isFetching: React.PropTypes.bool,
-  router: React.PropTypes.object,
-  rentalItem: React.PropTypes.object,
+  isAuthenticated: React.PropTypes.bool.isRequired,
+  isFetching: React.PropTypes.bool.isRequired,
+  router: React.PropTypes.object.isRequired,
+  rentalItem: React.PropTypes.object.isRequired,
   err: React.PropTypes.object,
   dispatch: React.PropTypes.func.isRequired,
-  user: React.PropTypes.object,
+  user: React.PropTypes.object.isRequired,
   params: React.PropTypes.object.isRequired
 };
 

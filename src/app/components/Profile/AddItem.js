@@ -160,25 +160,25 @@ class UploadItem extends Component {
                   type="text"
                   required
                   />
-                <div className="required field">
-                  <label>
-                    <FormattedMessage id="addItem.category"/>
-                  </label>
-                  <Dropdown
-                    name="category"
-                    placeholder={formatMessage({id: 'addItem.category'})}
-                    fluid
-                    multiple
-                    labeled
-                    selection
-                    search
-                    options={getOptions({values: categories, intl})}
-                    />
-                </div>
                 <Form.Group>
+                  <div className="required eight wide field">
+                    <label>
+                      <FormattedMessage id="addItem.category"/>
+                    </label>
+                    <Dropdown
+                      name="category"
+                      placeholder={formatMessage({id: 'addItem.category'})}
+                      fluid
+                      multiple
+                      labeled
+                      selection
+                      search
+                      options={getOptions({values: categories, intl})}
+                      />
+                  </div>
                   <Form.Input
-                    width="10"
                     icon="dollar"
+                    width={8}
                     iconPosition="left"
                     label={formatMessage({id: 'addItem.price'})}
                     name="price"
@@ -199,10 +199,10 @@ class UploadItem extends Component {
                   />
                 <Header as="h1" dividing>
                   <FormattedMessage id="addItem.itemAvailablitiy"/>
+                  <Header.Subheader>
+                    <FormattedMessage id="addItem.availabilityDescription"/>
+                  </Header.Subheader>
                 </Header>
-                <Header.Subheader as="h3">
-                  <FormattedMessage id="addItem.availabilityDescription"/>
-                </Header.Subheader>
                 <FullCalendar
                   onDayClick={this.handleDayClick}
                   onEventClick={this.handleEventClick}
@@ -213,7 +213,7 @@ class UploadItem extends Component {
                   <FormattedMessage id="addItem.uploadPhotos"/>
                 </Header>
                 {photoUrls &&
-                  <Card.Group itemsPerRow={3}>
+                  <Card.Group itemsPerRow={4} stackable>
                     {photoUrls.map((photoUrl, i) => {
                       return (
                         <Thumbnail key={i} src={BASE_URL + photoUrl} height={200}/>
