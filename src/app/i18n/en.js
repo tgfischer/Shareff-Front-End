@@ -54,6 +54,7 @@ const en = {
   breadcrumb: {
     home: 'Home',
     profile: 'Profile',
+    mySchedule: 'My Schedule',
     listings: 'Rental Listings'
   },
 
@@ -482,17 +483,31 @@ const en = {
    * Booking Page
    */
   booking: {
+    title: 'Booking Information',
     statusHeader: 'BOOKING STATUS',
     startDate: 'Start Date',
     endDate: 'End Date',
     pending: 'Pending',
     active: 'Active',
     complete: 'Complete',
-    owner: '{fName} {lName}',
-    renter: '{fName} {lName}',
+    owner: 'Owner',
+    renter: 'Renter',
+    item: 'Item',
     totalCostHeader: 'TOTAL RENTAL COST',
     paymentStatusHeader: 'PAYMENT STATUS',
-    paymentStatus: 'Pending',
+    bookingStatusTitle: 'Booking Status',
+    bookingStatusSubTitle: 'The current status of the booking process is shown below',
+    bookingTimeTitle: 'Booking Times',
+    bookingTimeSubTitle: 'These are the times that the item is scheduled to be rented out',
+    rejectButton: 'Reject',
+    confirmButton: 'Confirm',
+    status: {
+      pending: 'Pending',
+      pendingDescription: 'Please wait for the scheduled time that this item is to be rented',
+      active: 'Active',
+      activeDescription: 'The item is currently being rented',
+      completed: 'Completed'
+    },
     activeResponses: {
       ownerDelivered: 'Did you deliver this rental item to the renter?',
       renterReceived: 'Did you receive your rental item from the owner?',
