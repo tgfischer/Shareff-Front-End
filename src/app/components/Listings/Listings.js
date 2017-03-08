@@ -37,7 +37,6 @@ class Listings extends Component {
     this.handlePrevClick = this.handlePrevClick.bind(this);
     this.handleNextClick = this.handleNextClick.bind(this);
     this.navigateToPage = this.navigateToPage.bind(this);
-    this.handleInputOnChange = this.handleInputOnChange.bind(this);
     this.handleCloseErrorModal = this.handleCloseErrorModal.bind(this);
     this.handlePositionError = this.handlePositionError.bind(this);
     this.getListings = this.getListings.bind(this);
@@ -48,17 +47,12 @@ class Listings extends Component {
       numPerPage: 0,
       totalNumListings: 0,
       options: [],
-      openErrorModal: false,
-      searchQuery: ''
+      openErrorModal: false
     };
   }
   componentWillMount() {
     const {intl, location} = this.props;
     const {query} = location;
-
-    this.setState({
-      searchQuery: query.q
-    });
 
     this.props.dispatch(getListings(query)).then(({listings, numPerPage, totalNumListings}) => this.setState({
       listings,
@@ -84,9 +78,6 @@ class Listings extends Component {
     this.navigateToPage(e, {
       formData
     });
-  }
-  handleInputOnChange({target}) {
-    this.setState({searchQuery: target.value});
   }
   handlePrevClick(e) {
     const {query} = this.props.location;
@@ -155,7 +146,7 @@ class Listings extends Component {
     const {intl, isFetching} = this.props;
     const {
       listings, numPerPage, totalNumListings, advancedSettings, options,
-      openErrorModal, searchQuery
+      openErrorModal
     } = this.state;
     const {formatMessage} = intl;
     const {q, startDate, endDate, category, location, maxPrice, maxDistance, page} = this.props.location.query;
@@ -183,7 +174,7 @@ class Listings extends Component {
                     <Grid.Row>
                       <Grid.Column>
                         <Form.Input name="q" type="text" action fluid>
-                          <input onChange={this.handleInputOnChange} value={unescape(searchQuery || '')}/>
+                          <input defaultValue={unescape(q || '')}/>
                           <Popup
                             trigger={
                               <Button onClick={this.handleToggleAdvancedSettings} size="huge" type="button" icon inverted>
