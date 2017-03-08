@@ -115,7 +115,7 @@ const en = {
     search: 'Search',
     advancedSettings: 'Advanced Settings',
     location: 'Location',
-    maxPriceLabel: 'Maximum Price: ${price}',
+    maxPriceLabel: 'Maximum Price: ${price} per Hour',
     maxDistanceLabel: 'Maximum Distance: {distance}km'
   },
 
@@ -363,7 +363,7 @@ const en = {
    */
   mySchedule: {
     modal: {
-      title: 'Rental Item: {itemName}',
+      title: 'Booking for \'{itemName}\'',
       startDate: 'Start Date:',
       endDate: 'End Date:',
       viewBookingButton: 'View Booking Information',
@@ -476,6 +476,36 @@ const en = {
     updateModal: {
       success: 'Your rental item was successfully updated.'
     }
+  },
+
+  /**
+   * Booking Page
+   */
+  booking: {
+    statusHeader: 'BOOKING STATUS',
+    status: '{status}',
+    startDate: 'Start Date',
+    endDate: 'End Date',
+    startDateVal: '{startDate}',
+    endDateVal: '{endDate}',
+    pending: 'Pending',
+    active: 'Active',
+    complete: 'Complete',
+    owner: '{fName} {lName}',
+    renter: '{fName} {lName}',
+    item: '{item}',
+    totalCostHeader: 'TOTAL RENTAL COST',
+    totalCost: '$ {cost}',
+    paymentStatusHeader: 'PAYMENT STATUS',
+    paymentStatus: 'Pending',
+    activeResponses: {
+      ownerDelivered: 'Did you deliver this rental item to the renter?',
+      renterReceived: 'Did you receive your rental item from the owner?',
+      ownerReceived: 'Did you receive your rental item back from the renter?',
+      renterDelivered: 'Did you return this rental item to the owner?'
+    },
+    provideRating: 'Please rate your experience with {otherUserName}:',
+    thanksForRating: 'Thank you for your feedback!'
   }
 };
 
