@@ -185,12 +185,7 @@ class Booking extends Component {
                     <Grid.Column>
                       <Statistic inverted>
                         <Statistic.Value>
-                          <FormattedMessage
-                            id="booking.paymentStatus"
-                            values={{
-                              status: bookingInfo.booking.totalCost
-                            }}
-                            />
+                          {bookingInfo.booking.paymentStatus}
                         </Statistic.Value>
                         <Statistic.Label style={styles.subHeader}>
                           <FormattedMessage id="booking.paymentStatusHeader"/>
@@ -226,7 +221,7 @@ class Booking extends Component {
                 {bookingInfo.booking.status === 'Active' && ((bookingInfo.renter.userId === user.userId && bookingInfo.booking.renterStartConfirm === null) ||
                   (user.userId && bookingInfo.owner.userId === user.userId && bookingInfo.booking.ownerStartConfirm === null)) &&
                   <Segment>
-                    <Grid verticalAlign="middle" columns={3}>
+                    <Grid verticalAlign="middle" columns={3} stackable>
                       <Grid.Row>
                         <Grid.Column width={10}>
                           <Header as="h1">
@@ -263,7 +258,7 @@ class Booking extends Component {
                 {bookingInfo.booking.status === 'Complete' &&
                   <Segment size="huge">
                     {bookingInfo.renter.userId === user.userId &&
-                      <Grid verticalAlign="middle" columns={3}>
+                      <Grid verticalAlign="middle" columns={3} stackable>
                         {bookingInfo.booking.renterEndConfirm === null &&
                           <Grid.Row>
                             <Grid.Column width={10}>
@@ -333,7 +328,7 @@ class Booking extends Component {
                       </Grid>
                     }
                     {bookingInfo.owner && bookingInfo.owner.userId && user.userId && bookingInfo.owner.userId === user.userId &&
-                      <Grid verticalAlign="middle" columns={2}>
+                      <Grid verticalAlign="middle" columns={2} stackable>
                         {bookingInfo.booking.ownerEndConfirm === null &&
                           <Grid.Row>
                             <Grid.Column width={10}>
@@ -404,7 +399,7 @@ class Booking extends Component {
                     }
                   </Segment>
                 }
-                <Grid verticalAlign="middle">
+                <Grid verticalAlign="middle" stackable>
                   <Grid.Row>
                     <Grid.Column>
                       <Header as="h1" dividing>
@@ -440,7 +435,7 @@ class Booking extends Component {
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
-                <Grid style={styles.container} verticalAlign="middle">
+                <Grid style={styles.container} verticalAlign="middle" stackable>
                   <Grid.Row centered columns={5}>
                     <Grid.Column textAlign="center" width={4}>
                       <Header as="h2">

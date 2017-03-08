@@ -495,7 +495,6 @@ const en = {
     item: 'Item',
     totalCostHeader: 'TOTAL RENTAL COST',
     paymentStatusHeader: 'PAYMENT STATUS',
-    paymentStatus: 'Pending',
     bookingStatusTitle: 'Booking Status',
     bookingStatusSubTitle: 'The current status of the booking process is shown below',
     bookingTimeTitle: 'Booking Times',
