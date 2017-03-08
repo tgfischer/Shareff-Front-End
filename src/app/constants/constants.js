@@ -29,6 +29,11 @@ export const GOOGLE_MAPS_MARKER_URL = `${PHOTOS_URL}/marker.png`;
 export const UPLOADS_FOLDER_URL = `${BASE_URL}/uploads`;
 
 /**
+ * The path to default photo url
+ */
+export const PLACEHOLDER_PHOTO_URL = '/photos/white-image.png';
+
+/**
  * The maximum price in the maxPrice input, which is located in the Advanced
  * Settings when you search
  */

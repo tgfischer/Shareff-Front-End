@@ -14,7 +14,7 @@ import {DraftEditor} from '../General/DraftEditor';
 import {Thumbnail} from '../General/Thumbnail';
 import {uploadPhotos} from '../../actions/uploadPhotos';
 import UploadFile from '../General/UploadFile';
-import {BASE_URL, categories, costPeriods} from '../../constants/constants';
+import {BASE_URL, PLACEHOLDER_PHOTO_URL, categories, costPeriods} from '../../constants/constants';
 
 class EditItem extends Component {
   constructor(props) {
@@ -47,6 +47,11 @@ class EditItem extends Component {
         this.props.dispatch(getUser(token));
       }
       this.setState({photoUrls: this.props.rentalItem.photos});
+
+      // Check if the item has own photos
+      if (this.state.photoUrls[0] === PLACEHOLDER_PHOTO_URL) {
+        this.handleRemovePhoto(PLACEHOLDER_PHOTO_URL);
+      }
     });
   }
   handleRequestToRemoveButton() {
@@ -116,7 +121,7 @@ class EditItem extends Component {
   handlePhotosUpload(newPhotoUrls) {
     let {photoUrls} = this.state;
     photoUrls = photoUrls.concat(newPhotoUrls);
-    this.setState({photoUrls});
+    this.setState({photoUrls, displayItemPhoto: true});
   }
   getCategories(categories) {
     const {formatMessage} = this.props.intl;
