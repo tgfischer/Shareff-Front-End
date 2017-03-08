@@ -49,7 +49,7 @@ class MySchedule extends Component {
     e.preventDefault();
 
     // populate the modal with the booking information if it exists
-    if (event.id) {
+    if (event && event.id) {
       this.setState({
         modalTitle: event.title,
         modalBookingId: event.id,
