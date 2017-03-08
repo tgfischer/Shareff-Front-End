@@ -30,7 +30,7 @@ class UploadItem extends Component {
     this.handleBillingClick = this.handleBillingClick.bind(this);
 
     this.state = {
-      openSuccessModal: false,
+      openDefaultModal: false,
       openAvailabilityModal: false,
       modalTitle: 'modal.success',
       modalContent: 'addItem.modal.addItemSuccess',
@@ -70,13 +70,13 @@ class UploadItem extends Component {
       this.setState({modalContent: formatMessage({id: content})});
 
       // Open the modal
-      this.setState({openSuccessModal: true, itemId});
+      this.setState({openDefaultModal: true, itemId});
     });
   }
   handleCloseSuccessModal() {
     const {itemId} = this.state;
     const {router} = this.props;
-    this.setState({openSuccessModal: false});
+    this.setState({openDefaultModal: false});
 
     if (itemId) {
       router.push(`/listings/${itemId}`);
@@ -117,6 +117,7 @@ class UploadItem extends Component {
   componentDidMount() {
     const {user, intl} = this.props;
     if (!user.stripeAccountId) {
+      console.log("here");
       const {formatMessage} = intl;
 
       // Set the modal title
@@ -128,13 +129,13 @@ class UploadItem extends Component {
       this.setState({modalContent: formatMessage({id: content})});
 
       // Open the modal
-      this.setState({openModal: true});
+      this.setState({openDefaultModal: true});
     }
   }
   render() {
     const {intl, user, isFetching} = this.props;
     const {
-      openSuccessModal, openAvailabilityModal, modalTitle, modalContent, photoUrls, unavailableDays, startDate, endDate
+      openDefaultModal, openAvailabilityModal, modalTitle, modalContent, photoUrls, unavailableDays, startDate, endDate
     } = this.state;
     const {formatMessage} = intl;
 
@@ -247,7 +248,7 @@ class UploadItem extends Component {
           </Grid.Row>
         </Grid>
 
-        <Modal size="small" dimmer="blurring" open={openSuccessModal} onClose={this.handleCloseSuccessModal}>
+        <Modal size="small" dimmer="blurring" open={openDefaultModal} onClose={this.handleCloseSuccessModal}>
           <Modal.Header>
             <Header as="h1">
               {modalTitle}
