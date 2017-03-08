@@ -24,6 +24,7 @@ class FullCalendar extends Component {
     // Initialize the calendar
     $(".full-calendar").fullCalendar({
       dayClick: props.onDayClick,
+      timezone: 'local',
       buttonText: {
         today: formatMessage({id: 'fullCalendar.today'})
       },
