@@ -6,7 +6,7 @@ import validator from 'validator';
 import GoogleMap from 'google-map-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import {
-  Button, Card, Container, Form, Grid, Header, Icon, Image, Label, Modal,
+  Button, Card, Container, Form, Grid, Header, Icon, Image, Label, Modal, Rating,
   Segment, Statistic
 } from 'semantic-ui-react';
 import CoreLayout from '../../layouts/CoreLayout';
@@ -196,7 +196,6 @@ class RentalItem extends Component {
         text: unescape(rentalItem.title)
       });
     }
-
     return (
       <div style={styles.wrapper}>
         {rentalItem && (!token && !user || token && user) ?
@@ -297,7 +296,14 @@ class RentalItem extends Component {
                         <Header.Content>
                           <FormattedMessage id="rentalItem.ratingTitle"/>
                           <Header.Subheader>
-                            {!rentalItem.rating &&
+                            {rentalItem.owner.avgRating ?
+                              <Rating
+                                maxRating={5}
+                                defaultRating={rentalItem.owner.avgRating}
+                                icon="star"
+                                size="large"
+                                disabled
+                                /> :
                               <FormattedMessage id="rentalItem.noRatings"/>
                             }
                           </Header.Subheader>
