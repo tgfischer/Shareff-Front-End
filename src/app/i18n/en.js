@@ -115,7 +115,7 @@ const en = {
     search: 'Search',
     advancedSettings: 'Advanced Settings',
     location: 'Location',
-    maxPriceLabel: 'Maximum Price: ${price}',
+    maxPriceLabel: 'Maximum Price: ${price} per Hour',
     maxDistanceLabel: 'Maximum Distance: {distance}km'
   },
 
