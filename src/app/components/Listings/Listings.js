@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {
-  Button, Container, Form, Grid, Header, Icon, Popup, Segment, Dropdown
+  Button, Container, Form, Grid, Header, Icon, Popup, Segment, Dropdown, Modal
 } from 'semantic-ui-react';
 import {intlShape, injectIntl, FormattedMessage} from 'react-intl';
 import CoreLayout from '../../layouts/CoreLayout';
@@ -38,20 +38,27 @@ class Listings extends Component {
     this.handleNextClick = this.handleNextClick.bind(this);
     this.navigateToPage = this.navigateToPage.bind(this);
     this.handleInputOnChange = this.handleInputOnChange.bind(this);
+    this.handleCloseErrorModal = this.handleCloseErrorModal.bind(this);
+    this.handlePositionError = this.handlePositionError.bind(this);
     this.getListings = this.getListings.bind(this);
-    this.getInputRef = this.getInputRef.bind(this);
 
     this.state = {
       listings: null,
       advancedSettings: 'hidden',
       numPerPage: 0,
       totalNumListings: 0,
-      options: []
+      options: [],
+      openErrorModal: false,
+      searchQuery: ''
     };
   }
   componentWillMount() {
     const {intl, location} = this.props;
     const {query} = location;
+
+    this.setState({
+      searchQuery: query.q
+    });
 
     this.props.dispatch(getListings(query)).then(({listings, numPerPage, totalNumListings}) => this.setState({
       listings,
@@ -59,6 +66,9 @@ class Listings extends Component {
       totalNumListings,
       options: getOptions({values: categories, intl})
     }));
+  }
+  handleCloseErrorModal() {
+    this.setState({openErrorModal: false});
   }
   handleToggleAdvancedSettings() {
     // Get the class name
@@ -75,8 +85,8 @@ class Listings extends Component {
       formData
     });
   }
-  handleInputOnChange(e, {value}) {
-    this.input.value = value;
+  handleInputOnChange({target}) {
+    this.setState({searchQuery: target.value});
   }
   handlePrevClick(e) {
     const {query} = this.props.location;
@@ -116,14 +126,16 @@ class Listings extends Component {
         formData.longitude = coords.longitude;
 
         this.getListings({router, dispatch, formData});
-      }, err => {
-        console.error(err);
-      }, {
+      }, this.handlePositionError, {
         enableHighAccuracy: true,
         timeout: 5000,
         maximumAge: 0
       });
     }
+  }
+  handlePositionError(err) {
+    this.setState({openErrorModal: true});
+    console.error(err);
   }
   getListings({router, dispatch, formData}) {
     // Transition to the listings page, with the query params
@@ -139,12 +151,12 @@ class Listings extends Component {
       totalNumListings
     }));
   }
-  getInputRef(input) {
-    this.input = input;
-  }
   render() {
     const {intl, isFetching} = this.props;
-    const {listings, numPerPage, totalNumListings, advancedSettings, options} = this.state;
+    const {
+      listings, numPerPage, totalNumListings, advancedSettings, options,
+      openErrorModal, searchQuery
+    } = this.state;
     const {formatMessage} = intl;
     const {q, startDate, endDate, category, location, maxPrice, maxDistance, page} = this.props.location.query;
 
@@ -171,7 +183,7 @@ class Listings extends Component {
                     <Grid.Row>
                       <Grid.Column>
                         <Form.Input name="q" type="text" action fluid>
-                          <input onChange={this.handleInputOnChange} value={unescape(q || '')} ref={this.getInputRef}/>
+                          <input onChange={this.handleInputOnChange} value={unescape(searchQuery || '')}/>
                           <Popup
                             trigger={
                               <Button onClick={this.handleToggleAdvancedSettings} size="huge" type="button" icon inverted>
@@ -282,6 +294,26 @@ class Listings extends Component {
           </CoreLayout> :
           <Loading/>
         }
+        <Modal size="small" dimmer="blurring" open={openErrorModal} onClose={this.handleCloseErrorModal}>
+          <Modal.Header>
+            <Header as="h1">
+              <FormattedMessage id="error.error"/>
+            </Header>
+          </Modal.Header>
+          <Modal.Content>
+            <Header as="h3">
+              <FormattedMessage id="error.general"/>
+            </Header>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button
+              content={formatMessage({id: 'modal.okay'})}
+              onClick={this.handleCloseErrorModal}
+              size="huge"
+              primary
+              />
+          </Modal.Actions>
+        </Modal>
       </div>
     );
   }
