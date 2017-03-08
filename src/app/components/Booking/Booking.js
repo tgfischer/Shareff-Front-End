@@ -165,12 +165,7 @@ class Booking extends Component {
                     <Grid.Column>
                       <Statistic inverted>
                         <Statistic.Value>
-                          <FormattedMessage
-                            id="booking.totalCost"
-                            values={{
-                              cost: bookingInfo.booking.totalCost
-                            }}
-                            />
+                          ${bookingInfo.booking.totalCost}
                         </Statistic.Value>
                         <Statistic.Label style={styles.subHeader}>
                           <FormattedMessage id="booking.totalCostHeader"/>
@@ -425,12 +420,7 @@ class Booking extends Component {
                       <Icon name="calendar" size="huge"/>
                       <Statistic>
                         <Statistic.Value className="small">
-                          <FormattedMessage
-                            id="booking.startDateVal"
-                            values={{
-                              startDate: moment(bookingInfo.booking.startDate).format('MMM Do YYYY, h:mm a')
-                            }}
-                            />
+                          {moment(bookingInfo.booking.startDate).format('MMM Do YYYY, h:mm a')}
                         </Statistic.Value>
                         <Statistic.Label style={styles.subHeader}>
                           <FormattedMessage id="booking.startDate"/>
@@ -441,12 +431,7 @@ class Booking extends Component {
                       <Icon name="calendar" size="huge"/>
                       <Statistic>
                         <Statistic.Value className="small">
-                          <FormattedMessage
-                            id="booking.endDateVal"
-                            values={{
-                              endDate: moment(bookingInfo.booking.endDate).format('MMM Do YYYY, h:mm a')
-                            }}
-                            />
+                          {moment(bookingInfo.booking.endDate).format('MMM Do YYYY, h:mm a')}
                         </Statistic.Value>
                         <Statistic.Label style={styles.subHeader}>
                           <FormattedMessage id="booking.endDate"/>
