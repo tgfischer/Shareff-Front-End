@@ -176,43 +176,37 @@ class EditItem extends Component {
                   <Grid verticalAlign="middle">
                     <Grid.Row>
                       <Grid.Column>
-                        <Form.Field>
-                          <Form.Input
-                            label={formatMessage({id: 'addItem.title'})}
-                            name="title"
-                            placeholder=""
-                            defaultValue={rentalItem.title || ''}
-                            type="text"
-                            required
-                            />
-                        </Form.Field>
-                        <Form.Field>
-                          <Form.Dropdown
-                            label={formatMessage({id: 'addItem.category'})}
-                            placeholder=""
-                            fluid
-                            multiple
-                            labeled
-                            selection
-                            search
-                            defaultValue={rentalItem.category}
-                            name="category"
-                            options={getOptions({values: categories, intl})}
-                            required
-                            />
-                        </Form.Field>
-                        <Form.Field>
-                          <Form.Input
-                            icon="dollar"
-                            iconPosition="left"
-                            label={formatMessage({id: 'addItem.price'})}
-                            name="price"
-                            placeholder=""
-                            defaultValue={rentalItem.price || ''}
-                            type="number"
-                            required
-                            />
-                        </Form.Field>
+                        <Form.Input
+                          label={formatMessage({id: 'addItem.title'})}
+                          name="title"
+                          placeholder=""
+                          defaultValue={rentalItem.title || ''}
+                          type="text"
+                          required
+                          />
+                        <Form.Dropdown
+                          label={formatMessage({id: 'addItem.category'})}
+                          placeholder=""
+                          fluid
+                          multiple
+                          labeled
+                          selection
+                          search
+                          defaultValue={rentalItem.category}
+                          name="category"
+                          options={getOptions({values: categories, intl})}
+                          required
+                          />
+                        <Form.Input
+                          icon="dollar"
+                          iconPosition="left"
+                          label={formatMessage({id: 'addItem.price'})}
+                          name="price"
+                          placeholder=""
+                          defaultValue={rentalItem.price || ''}
+                          type="number"
+                          required
+                          />
                       </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
