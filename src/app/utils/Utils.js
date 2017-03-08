@@ -37,7 +37,7 @@ export const getOptions = ({values, intl}) => {
 export const calculatePrice = (startDate, endDate, price) => {
   const start = moment(startDate.date);
   const end = moment(endDate.date);
-  const duration = moment.duration(end.diff(start)).asDays();
+  const duration = moment.duration(end.diff(start)).asHours();
   const totalPrice = (duration * price).toFixed(2);
   return totalPrice;
 };

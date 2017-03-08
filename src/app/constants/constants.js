@@ -78,10 +78,10 @@ export const categories = [
  * Cost period messages
  */
 export const costPeriods = [
-  'costPeriod.hour',
-  'costPeriod.day',
+  'costPeriod.hour'
+/*  'costPeriod.day',
   'costPeriod.week',
-  'costPeriod.month'
+  'costPeriod.month' */
 ];
 
 /**

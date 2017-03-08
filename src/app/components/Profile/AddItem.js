@@ -54,6 +54,7 @@ class UploadItem extends Component {
     formData.userId = user.userId;
     formData.addressId = user.addressId;
     formData.photos = this.state.photoUrls;
+    formData.costPeriod = costPeriods[0];
     formData.unavailableDays = this.state.unavailableDays;
 
     // Send the new item to the server
@@ -88,7 +89,6 @@ class UploadItem extends Component {
     e.preventDefault();
     this.setState({startDate: date.format()});
     this.setState({endDate: date.format()});
-    console.log(this.state.startDate);
     this.setState({openAvailabilityModal: true});
   }
   handleEventClick(event, e) {
@@ -186,18 +186,6 @@ class UploadItem extends Component {
                     type="number"
                     required
                     />
-                  <div className="required six wide field">
-                    <label> {formatMessage({id: 'addItem.per'})} </label>
-                    <Dropdown
-                      name="costPeriod"
-                      placeholder={formatMessage({id: 'addItem.costPeriod'})}
-                      fluid
-                      search
-                      labeled
-                      selection
-                      options={getOptions({values: costPeriods, intl})}
-                      />
-                  </div>
                 </Form.Group>
                 <DraftEditor
                   label={formatMessage({id: 'addItem.description'})}
