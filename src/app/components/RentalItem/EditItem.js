@@ -78,6 +78,7 @@ class EditItem extends Component {
     formData.itemId = itemId;
     formData.userId = userId;
     formData.photos = this.state.photoUrls;
+    formData.costPeriod = costPeriods[0];
 
     this.props.dispatch(updateMyItem(formData)).then(({err}) => {
       const {formatMessage} = this.props.intl;
@@ -200,30 +201,18 @@ class EditItem extends Component {
                             required
                             />
                         </Form.Field>
-                        <Form.Group widths="equal">
-                          <Form.Field>
-                            <Form.Input
-                              icon="dollar"
-                              iconPosition="left"
-                              label={formatMessage({id: 'addItem.price'})}
-                              name="price"
-                              placeholder=""
-                              defaultValue={rentalItem.price || ''}
-                              type="number"
-                              required
-                              />
-                          </Form.Field>
-                          <Form.Field>
-                            <Form.Select
-                              name="costPeriod"
-                              label={formatMessage({id: 'addItem.costPeriod'})}
-                              placeholder=""
-                              defaultValue={rentalItem.costPeriod}
-                              options={getOptions({values: costPeriods, intl})}
-                              required
-                              />
-                          </Form.Field>
-                        </Form.Group>
+                        <Form.Field>
+                          <Form.Input
+                            icon="dollar"
+                            iconPosition="left"
+                            label={formatMessage({id: 'addItem.price'})}
+                            name="price"
+                            placeholder=""
+                            defaultValue={rentalItem.price || ''}
+                            type="number"
+                            required
+                            />
+                        </Form.Field>
                       </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
