@@ -50,12 +50,14 @@ class MySchedule extends Component {
 
     // populate the modal with the booking information if it exists
     if (event.id) {
-      this.setState({modalTitle: event.title});
-      this.setState({modalBookingId: event.id});
-      this.setState({modalItemId: event.itemId});
-      this.setState({modalStart: moment(event.start).format('MMM Do YYYY, h:mm a')});
-      this.setState({modalEnd: moment(event.end).format('MMM Do YYYY, h:mm a')});
-      this.setState({modalOpen: true});
+      this.setState({
+        modalTitle: event.title,
+        modalBookingId: event.id,
+        modalItemId: event.itemId,
+        modalStart: moment(event.start).format('MMM Do YYYY, h:mm a'),
+        modalEnd: moment(event.end).format('MMM Do YYYY, h:mm a'),
+        modalOpen: true
+      });
     }
   }
   handleViewBooking(e) {
