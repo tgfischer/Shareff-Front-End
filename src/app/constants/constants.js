@@ -43,7 +43,7 @@ export const ADVANCED_SETTINGS_MAX_PRICE = 2000;
  * The maximum distance in the maxDistance input, which is located in the Advanced
  * Settings when you search
  */
-export const ADVANCED_SETTINGS_MAX_DISTANCE = 100;
+export const ADVANCED_SETTINGS_MAX_DISTANCE = 500;
 
 export const ACCEPT_RENT_REQUEST = 'RRS_REQUEST_ACCEPTED';
 export const REJECT_RENT_REQUEST = 'RRS_REQUEST_REJECTED';

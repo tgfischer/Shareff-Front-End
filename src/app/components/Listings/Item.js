@@ -27,7 +27,7 @@ class Item extends Component {
 
     // This is horrifying, but I tried for half a day to get it to work using
     // better methods...
-    let description = convertFromHTML(unescape(item.description).replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#x2F;/, '/')).getPlainText();
+    let description = convertFromHTML(unescape(item.description).replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#x2F;/, '/')).getPlainText();
 
     if (description.length >= 250) {
       description = `${description.substring(0, 250)}...`;
