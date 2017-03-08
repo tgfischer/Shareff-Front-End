@@ -150,6 +150,54 @@ export const reducers = (state = {
         isFetching: false,
         err: action.err
       });
+    case Actions.GET_BOOKING_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        bookingInfo: undefined,
+        err: undefined
+      });
+    case Actions.GET_BOOKING_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: undefined,
+        bookingInfo: action.bookingInfo
+      });
+    case Actions.GET_BOOKING_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        bookingInfo: undefined,
+        err: action.err
+      });
+    case Actions.CREATE_USER_REVIEW_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        err: undefined
+      });
+    case Actions.CREATE_USER_REVIEW_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: undefined
+      });
+    case Actions.CREATE_USER_REVIEW_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: action.err
+      });
+    case Actions.CONFIRM_ITEM_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        err: undefined
+      });
+    case Actions.CONFIRM_ITEM_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: undefined
+      });
+    case Actions.CONFIRM_ITEM_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        err: action.err
+      });
     case Actions.GET_RENTAL_ITEM_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
